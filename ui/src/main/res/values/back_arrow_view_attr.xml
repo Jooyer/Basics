@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="BackArrowView">
+        <!-- 箭头颜色 -->
+        <attr name="bav_arrow_color" format="color" />
+        <!-- 箭头线宽 -->
+        <attr name="bav_stroke_width" format="integer|float|dimension" />
+        <!--  padding 使得里面 × 变小  -->
+        <attr name="bav_arrow_padding" format="dimension|integer|integer"/>
+        <!-- 模式 -->
+        <attr name="bav_arrow_style" format="enum">
+            <!-- Google Material Design -->
+            <enum name="material_design" value="1" />
+            <!-- 微信风格 -->
+            <enum name="wechat_design" value="2" />
+        </attr>
+    </declare-styleable>
+</resources>

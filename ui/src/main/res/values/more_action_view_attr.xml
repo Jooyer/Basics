@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="MoreActionView">
+        <!-- 点的颜色 -->
+        <attr name="mav_color" format="color" />
+        <!-- 点大小 -->
+        <attr name="mav_dot_radius" format="integer|float|dimension" />
+        <!-- 排列方向，水平或垂直 -->
+        <attr name="mav_orientation" format="enum">
+            <enum name="horizontal" value="1" />
+            <enum name="vertical" value="2" />
+        </attr>
+    </declare-styleable>
+</resources>

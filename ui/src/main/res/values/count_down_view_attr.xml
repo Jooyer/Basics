@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CountDownView">
+        <attr name="cdv_ring_color" format="color|reference"/>
+        <attr name="cdv_ring_width" format="integer|dimension"/>
+
+        <attr name="cdv_circle_color" format="color|reference"/>
+
+        <attr name="cdv_text_color" format="color|reference"/>
+        <attr name="cdv_text_size" format="integer|dimension"/>
+
+    </declare-styleable>
+
+</resources>

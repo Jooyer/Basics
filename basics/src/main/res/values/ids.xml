@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="banner_view" type="id"/>
+    <item name="ll_indicator_container" type="id"/>
+
+</resources>

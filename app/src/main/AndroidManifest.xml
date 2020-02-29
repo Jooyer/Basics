@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="cn.lvsong.lib.demo">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+<!-- not permitted by network security policy -->
+<!--  解法 https://www.jianshu.com/p/02956bdddd2d  -->
+    <application
+        android:name="cn.lvsong.lib.demo.App"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/library_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:targetApi="m">
+        <activity android:name=".EncodeOrDecodeActivity"/>
+        <activity android:name=".BannerActivity" />
+        <activity android:name=".StatusActivity" />
+        <activity android:name=".LazyLoadActivity" />
+        <activity android:name=".NestedScrollRefreshActivity" />
+        <activity android:name=".NormalRefreshActivity" />
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

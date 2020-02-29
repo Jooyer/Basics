@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CloseView">
+        <!-- 线的颜色 -->
+        <attr name="cv_color" format="color" />
+        <!--  padding 使得里面 × 变小  -->
+        <attr name="cv_padding" format="dimension|integer|integer"/>
+        <!-- 线高 -->
+        <attr name="cv_line_width" format="integer|float|dimension" />
+        <!-- 模式，普通模式、圆边模式 -->
+        <attr name="cv_mode" format="enum">
+            <enum name="normal" value="1" />
+            <enum name="circle" value="2" />
+        </attr>
+        <!-- 圆的边颜色 -->
+        <attr name="cv_circle_color" format="color" />
+        <!-- 圆的边线宽 -->
+        <attr name="cv_circle_line_width" format="integer|float|dimension" />
+    </declare-styleable>
+</resources>

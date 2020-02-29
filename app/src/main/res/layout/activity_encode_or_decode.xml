@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".EncodeOrDecodeActivity">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_40"
+        android:layout_margin="@dimen/padding_5"
+        android:background="@color/main_theme_color"
+        android:onClick="onEncode"
+        android:text="请求加密返回解密"
+        android:textAllCaps="false"
+        android:textColor="@color/color_FFFFFF"
+        android:textSize="@dimen/text_size_16" />
+
+
+
+</LinearLayout>

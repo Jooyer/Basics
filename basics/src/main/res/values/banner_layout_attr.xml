@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="BannerLayout">
+        <!-- 指示器高度 -->
+        <attr name="banner_indicator_height" format="reference|dimension"/>
+        <!-- 指示器内部 View  左右Margin -->
+        <attr name="banner_indicator_margin" format="reference|dimension"/>
+        <!-- 是否显示指示器 -->
+        <attr name="banner_show_indicator" format="boolean"/>
+        <!-- 轮播时间间隔 -->
+        <attr name="banner_loop_time" format="integer"/>
+        <!-- 指示器选中状态图片 -->
+        <attr name="banner_select_indicator_drawable" format="reference"/>
+        <!-- 指示器默认状态图片 -->
+        <attr name="banner_normal_indicator_drawable" format="reference"/>
+    </declare-styleable>
+
+</resources>

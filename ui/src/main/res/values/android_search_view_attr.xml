@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AndroidSearchView">
+        <!-- 线的颜色 -->
+        <attr name="asv_color" format="color" />
+        <!-- 线宽 -->
+        <attr name="asv_line_width" format="integer|float|dimension" />
+    </declare-styleable>
+</resources>

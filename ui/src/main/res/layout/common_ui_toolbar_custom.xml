@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/height_48">
+
+    <cn.lvsong.lib.ui.define.BackArrowView
+        android:id="@+id/iv_left_icon_menu"
+        android:layout_width="@dimen/width_40"
+        android:layout_height="0dp"
+        android:src="@mipmap/ic_launcher"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_left_name_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/padding_20"
+        android:gravity="center_vertical"
+        android:textColor="@color/color_333333"
+        android:textSize="@dimen/text_size_15"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_goneMarginStart="@dimen/padding_20"
+        tools:text="宝贝头像" />
+
+    <TextView
+        android:id="@+id/tv_center_title_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/color_333333"
+        android:textSize="@dimen/text_size_18"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="请填写" />
+
+    <TextView
+        android:id="@+id/tv_right_name_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="@dimen/padding_20"
+        android:gravity="center_vertical"
+        android:textColor="@color/color_333333"
+        android:textSize="@dimen/text_size_14"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="请填写"
+        tools:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/iv_right_icon_menu"
+        android:layout_width="@dimen/width_22"
+        android:layout_height="@dimen/height_22"
+        android:layout_marginEnd="@dimen/padding_20"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@mipmap/ic_launcher"
+        tools:visibility="gone" />
+
+    <!--  倒数第二个图标  -->
+    <ImageView
+        android:id="@+id/iv_right_icon_menu2"
+        android:layout_width="@dimen/width_22"
+        android:layout_height="@dimen/height_22"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/iv_right_icon_menu"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_goneMarginEnd="@dimen/padding_5"
+        tools:src="@mipmap/ic_launcher"
+        tools:visibility="gone" />
+
+    <!-- 更多按钮 -->
+    <cn.lvsong.lib.ui.define.MoreActionView
+        android:id="@+id/mav_right_icon_menu"
+        android:layout_width="@dimen/width_40"
+        android:layout_height="@dimen/height_40"
+        android:layout_marginEnd="@dimen/padding_10"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:mav_color="@color/color_2878FF"
+        app:mav_dot_radius="@dimen/padding_2"
+        app:mav_orientation="horizontal"
+        tools:visibility="visible" />
+
+
+    <View
+        android:id="@+id/view_bottom_divider_menu"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_2"
+        android:background="@color/color_EEEEEE"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

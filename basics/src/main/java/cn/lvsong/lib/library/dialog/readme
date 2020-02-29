@@ -1,0 +1,13 @@
+          val mDialog = JAlertDialog.Builder(this@ADActivity)
+                            .setCancelable(false)
+                            .setContentView(R.layout.item)
+                            .setHasAnimation(true)
+                            .setFromBottom()
+                            .setOnJAlertDialogCLickListener(object : OnJAlertDialogCLickListener {
+                                override fun onClick(view: View, position: Int) {
+
+                                }
+                            }).show()
+
+
+// 也可以 把 .create()  换成  .show(),则直接显示 ...

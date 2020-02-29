@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BannerActivity">
+
+    <cn.lvsong.lib.library.banner.BannerLayout
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        app:banner_indicator_height="10dp"
+        app:banner_indicator_margin="3dp"
+        app:banner_normal_indicator_drawable="@drawable/normal"
+        app:banner_select_indicator_drawable="@drawable/select"
+        app:banner_loop_time="5000"
+        app:banner_show_indicator="true"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <cn.lvsong.lib.library.banner.BannerLayout
+        android:id="@+id/banner2"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginTop="50dp"
+        app:banner_indicator_height="10dp"
+        app:banner_indicator_margin="3dp"
+        app:banner_normal_indicator_drawable="@drawable/normal"
+        app:banner_select_indicator_drawable="@drawable/select"
+        app:banner_loop_time="4000"
+        app:banner_show_indicator="false"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/banner"
+        />
+
+    <cn.lvsong.lib.library.banner.BannerLayout
+        android:id="@+id/banner3"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginTop="50dp"
+        app:banner_indicator_height="10dp"
+        app:banner_indicator_margin="3dp"
+        app:banner_normal_indicator_drawable="@drawable/normal"
+        app:banner_select_indicator_drawable="@drawable/select"
+        app:banner_loop_time="3000"
+        app:banner_show_indicator="false"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/banner2"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:background="#7C000000"
+        android:text="双十一活动报名现在开始..."
+        android:layout_alignParentBottom="true"
+        android:textSize="14sp"
+        android:textColor="#fff"
+        app:layout_constraintEnd_toEndOf="@+id/banner3"
+        app:layout_constraintBottom_toBottomOf="@+id/banner3"
+        />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

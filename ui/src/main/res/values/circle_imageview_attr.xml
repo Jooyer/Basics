@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <declare-styleable name="CircleImageView">
+
+        <!-- 边框的宽度 -->
+        <attr name="circle_imageview_board_width" format="dimension|integer"/>
+        <!-- 边框的颜色 -->
+        <attr name="circle_imageview_board_color" format="color|reference"/>
+        <!-- 边框是否覆盖图片上,默认false -->
+        <attr name="circle_imageview_board_overlay" format="boolean"/>
+        
+    </declare-styleable>
+    
+</resources>

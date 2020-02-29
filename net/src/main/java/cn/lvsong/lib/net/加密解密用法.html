@@ -1,0 +1,92 @@
+// 对称加密操作
+val key = AESUtil.generateSecretKey("Molue", 128)
+println("AESUtil=============key: $key")
+val encrypt = AESUtil.encrypt(adPlaceId, key)
+println("AESUtil=============encrypt: $encrypt")
+val decrypt = AESUtil.decrypt(encrypt, key)
+println("AESUtil=============decrypt: $decrypt")
+===================================================================================================================
+
+// 非对称加密 ,记得必须使用 Base64进行编码,否则会出异常
+
+PS: 经过测试,如果没有加密,用RSA解密会报错(BadPaddingException)!
+
+val pair = RSAUtil.generateRSAKeyPair("Molue")
+// 公钥
+val publicKey: RSAPublicKey = pair.public as RSAPublicKey
+println("RSAUtil(公钥)=============: ${Base64Util.encode(publicKey.encoded)}")
+// 私钥
+val privateKey: RSAPrivateKey = pair.private as RSAPrivateKey
+println("RSAUtil(私钥)=============: ${Base64Util.encode(privateKey.encoded)}")
+// 公钥加密
+var encryptBytes = ByteArray(0)
+encryptBytes = RSAUtil.encryptByPublicKeyForSpilt(adPlaceId.toByteArray(),publicKey.encoded)
+println("RSAUtil(公钥加密)=============encryptBytes: ${String(encryptBytes)}")
+// 私钥解密
+var decryptBytes = ByteArray(0)
+decryptBytes = RSAUtil.decryptByPrivateKeyForSpilt(encryptBytes,privateKey.encoded)
+println("RSAUtil(私钥解密)=============decryptBytes: ${String(decryptBytes)}")
+// 私钥加密
+encryptBytes = RSAUtil.encryptByPrivateKeyForSpilt(adPlaceId.toByteArray(),privateKey.encoded)
+println("RSAUtil(私钥加密)=============encryptBytes: ${String(encryptBytes)}")
+// 公钥解密
+decryptBytes = RSAUtil.decryptByPublicKeyForSpilt(encryptBytes,publicKey.encoded)
+println("RSAUtil(公钥解密)=============decryptBytes: ${String(decryptBytes)}")
+
+
+===================================================================================================================
+RSA +  AES 实现网络传输
+
+Android端(client)
+服务器端(server)分别生成自己的RSA密钥对,并提供接口给Android客户端获取RSA公钥(rsaPublicKey)
+client生成AES密钥(aesKey)
+client使用自己的AES密钥(aesKey)对转换为json格式的请求明文数据(data)进行加密，得到加密后的请求数据encryptData
+client使用server提供的接口获取RSA公钥(rsaPublicKey)
+client使用获取RSA公钥(rsaPublicKey)对AES密钥(aesKey)进行加密，得到encryptAesKey
+client将encryptAesKey作为http请求头参数，将加密后的请求数据encryptData作为请求体一起传输给服务器端
+
+服务器端(server)
+server响应client的http请求，读取http请求头(header)。获得client传过来的加密后的AES密钥(encryptAesKey)，
+读取http请求体，获得client传过来的加密后的请求数据(encryptData)。
+server使用自己的RSA私钥(rsaPrivateKey)对加密后的AES密钥(encryptAesKey)进行RSA解密，得到AES密钥(aesKey)
+使用解密后的AES密钥(aesKey)对加密后的请求数据(encryptData),进行AES解密操作，得到解密后的请求数据(data)，该数据为json格式
+对解密后的请求数据(data)进行json解析，然后做相关的响应操作。
+
+
+===================================================================================================================
+一般默认的公钥格式是这样的:
+
+-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCiwMSxbRias7DmFkp6V0Qx2nMG+"/n
+AuhhR7H/wj62aufaDlUwhzaWQOKXHi+SBVcTM0n+qzhtt4Kmr44MHAqW8NE9Pgzx
+UY8S7WVLn9wEGKGpZKlSHlZUdOKUabBFbS7dyBoVTYTkhrfXnOvtJJz5KGeYPT2x
+dEwA78dYEmHxvmwhrwIDAQAB
+-----END PUBLIC KEY-----
+
+一般默认的私钥格式是这样的:
+
+-----BEGIN PRIVATE KEY-----
+MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAKLAxLFtGJqzsOYW
+SnpXRDHacwYC6GFHsf/CPrZq59oOVTCHNpZA4pceL5IFVxMzSf6rOG23gqavjgwc
+Cpbw0T0+DPFRjxLtZUuf3AQYoalkqVIeVlR04pRpsEVtLt3IGhVNhOSGt9ec6+0k
+nPkoZ5g9PbF0TADvx1gSYfG+bCGvAgMBAAECgYAXWeceudNs5tk7ufkHopuzN2+H
+bkVfJ8U/N+R9kcsgOyw34T6QwlCAdCFJJyD+LT6xnmljPJAvUELmM+PFElpC34e5
+cJUFGhwjDax18tb3LW7/MBB/XH1W+9KS5ninn3Homan1x8VIE9104QMLmj2HwDCH
+nI9HMXmYVhmzylNFIQJBANgvsTWq3Rw8UOXTY9uMR65Ia4Rz4fr0jyD9UIhF7j5+
+dEycncrI9d7XjxgEObcegR8eoCGCALMzEmXyjcDbov8CQQDAuemo/OmHLqpA8tQm
+MHhvSdLxV0lruez3ok1gFuqwTtMxBsipLFVkTZMnMqnKY/ZDqFDrXOpom7yvEy5p
+BXFRAkAxDTEyMiCVRYI9g2dG619gRgJPPVPq8w5+t7tMEEHsYBjXQTn0RwCynUpU
+crD9wagefX5r2+l4v3/PLefH+I3VAkBvcpLmP+qjW57klAeOVfUvFde/7CPvAcNA
+qEBqUpZAgjSqYyvieFqg+CMiRa/d89RS56BzmnWLLJP+Ae+Sl60hAkEAuhheSdjL
+vaVUq5UZPEtqZAuIRbQHETU7/INSViJeKvaSg9MuXJUG0f98HweMRLxHr1TjcX1c
+MGojP9s2ME7b3A==
+-----END PRIVATE KEY-----
+
+
+PS: 可以看到都有一个头部和尾部用来表示是公私钥。但是java中用收到的用于生成加密的对象接收的公钥字符串
+是要把头和尾去掉的也就是这样去掉头和尾 , 注意去掉公钥的就可以了!
+
+public static final String publickkey =MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCiwMSxbRias7DmFkp6V0Qx2nMG+
+AuhhR7H/wj62aufaDlUwhzaWQOKXHi+SBVcTM0n+qzhtt4Kmr44MHAqW8NE9Pgzx
+UY8S7WVLn9wEGKGpZKlSHlZUdOKUabBFbS7dyBoVTYTkhrfXnOvtJJz5KGeYPT2x
+dEwA78dYEmHxvmwhrwIDAQAB

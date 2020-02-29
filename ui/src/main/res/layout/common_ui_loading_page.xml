@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:background="#C9E7E7E7">
+
+
+    <cn.lvsong.lib.ui.define.ChrysanthemumView
+        android:id="@+id/wlp_cv_loading"
+        android:layout_width="@dimen/width_100"
+        android:layout_height="@dimen/height_100"
+        android:padding="@dimen/padding_20"
+        app:chrysanthemum_view_color="@color/main_theme_color"
+        app:chrysanthemum_view_radius="@dimen/padding_14"
+        />
+
+</LinearLayout>

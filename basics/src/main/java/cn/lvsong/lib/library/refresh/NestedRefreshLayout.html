@@ -1,0 +1,1497 @@
+package com.example.refersh.refresh;
+
+import android.content.Context;
+import android.content.res.TypedArray;
+import android.util.AttributeSet;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewConfiguration;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Transformation;
+
+import androidx.annotation.Nullable;
+import androidx.core.view.NestedScrollingChildHelper;
+import androidx.core.view.NestedScrollingParentHelper;
+import androidx.core.view.ViewCompat;
+import androidx.recyclerview.widget.RecyclerView;
+
+import static androidx.customview.widget.ViewDragHelper.INVALID_POINTER;
+
+/**
+* https://www.jianshu.com/p/56cb68ec4eee
+* https://www.jianshu.com/p/b96d6538d086
+* https://blog.csdn.net/swt369/article/details/78191435
+* https://www.jianshu.com/p/7f811c0ae4ab
+* https://www.jianshu.com/p/9cd6813c9e99
+* https://blog.csdn.net/u011443509/article/details/52025019 --> 高仿微信朋友圈下拉刷新
+* <p>
+    * https://blog.csdn.net/u010257120/article/details/82192563 --> 下拉刷新上拉加载
+    * https://github.com/SIdQi/PullRefreshLayout
+    * https://github.com/nuptboyzhb/SuperSwipeRefreshLayout/blob/master/SuperSwipeRefreshLayout-Demo-AS/lib/src/main/java/com/github/nuptboyzhb/lib/SuperSwipeRefreshLayout.java  --> 自定义刷新头
+    * <p>
+    * https://www.jianshu.com/p/d9f9ad2f2a07 --> 滑动效果
+    * Desc:
+    * Author: Jooyer
+    * Date: 2019-09-28
+    * Time: 16:40
+    */
+    public class NestedRefreshLayout extends ViewGroup {
+    private static final int[] LAYOUT_ATTRS = new int[]{android.R.attr.enabled};
+
+    private NestedScrollingParentHelper mNestedScrollingParentHelper;
+    private NestedScrollingChildHelper mNestedScrollingChildHelper;
+
+    private static final float DRAG_RATE = 0.5f;
+
+    // 下拉过程中,圆圈缩放过程执行时间
+    private static final int SCALE_DOWN_DURATION = 300;
+    // 回到初始位置的动画执行时间
+    private static final int ANIMATE_TO_START_DURATION = 500;
+    // 触发刷新后回到刷新位置的执行时间(可能拖拽超过刷新触发位置)
+    private static final int ANIMATE_TO_TRIGGER_DURATION = 500;
+
+    //利用ViewConfiguration获取滑动阈值（即判定为滑动所需的距离）
+    private int mTouchSlop;
+    //动画持续时间
+    private int mMediumAnimationDuration;
+    //动画插值器
+    private DecelerateInterpolator mDecelerateInterpolator;
+    // 插值器比率值
+    private static final float DECELERATE_INTERPOLATION_FACTOR = 2f;
+    // 下拉刷新可以触发的最小距离,刷新view触发刷新的阈值 , 改变此值可以改变刷新时 View 停留位置
+    private int mSpinnerOffsetEnd;
+
+    // 拖拽滑动的距离 (当进度显示100%时的位移)
+    private float mTotalDragDistance = -1;
+    // 原始偏移尺寸 (固定值),刷新view最初的top值
+    private int mOriginalOffsetTop;
+    // 当前目标View距离顶部的距离(每次 setHeaderViewOffsetTopAndBottom() 后都会变化),刷新view实时的top值
+    private int mCurrentTargetOffsetTop = 0;
+
+    private int mCurrentTargetOffsetBottom = 0;
+
+    private int mHeaderViewIndex = -1;
+    private int mFooterViewIndex = -1;
+    // TODO
+    protected int mFrom;
+    // 内部除了 CircleView 的另一个 child
+    private View mTarget;
+    // 总的剩余未消耗滑动距离 (记录SRL一共使用了多少y值得量)
+    private float mTotalUnconsumed = 0F;
+    // 返回初始位置
+    private boolean mReturningToStart;
+    private final int[] mParentScrollConsumed = new int[2];
+    private final int[] mParentOffsetInWindow = new int[2];
+    // 正在刷新
+    private boolean mRefreshing = false;
+    // 正在加载
+    private boolean mLoading = false;
+    // 是否支持嵌套滑动
+    private boolean mNestedScrollInProgress;
+    // 多指触控时记录第一个手指按下的位置
+    private int mActivePointerId = INVALID_POINTER;
+    // 是否开始拖拽了
+    private boolean mIsBeingDragged;
+    // 手指按下时 Y轴坐标
+    private float mInitialDownY;
+    // 移动后的 Y轴坐标
+    private float mInitialMotionY;
+    // 是否通知刷新回调
+    private boolean mNotify;
+
+
+    /**
+    * 0 --> 未滑动
+    * -1 --> 向下
+    * 1 --> 向上
+    */
+    private int mScrollDown = 0;
+    private int mLastedScrollDown = 0;
+    // 最近一次触摸位置
+    private float mLastedTouchY;
+    private boolean mTouchDown = false;
+
+    private Animation mLoadFinishAnimation;
+
+    // 刷新视图
+    private IHeaderWrapper mHeaderWrapper;
+    // 刷新视图高度
+    private int mHeaderHeight;
+    // 加载更多视图
+    private IFooterWrapper mFooterWrapper;
+    // 更多视图高度
+    private int mFooterHeight;
+
+    // 最近一次通过插值器和偏移总量计算的偏移量
+    private int mLastedCalculateOffsetLoadPosition = 0;
+
+    private OnRefreshAndLoadListener mListener;
+
+    // HeaderView 回到初始位置的动画
+    private final Animation mMoveHeaderViewToStartAnimation = new Animation() {
+    @Override
+    public void applyTransformation(float interpolatedTime, Transformation t) {
+    Log.e("moveHeaderViewToStart", "applyTransformation===========");
+    moveHeaderViewToStart(interpolatedTime);
+    }
+    };
+
+    // FooterView 回到初始位置的动画
+    private final Animation mMoveFooterViewToStartAnimation = new Animation() {
+    @Override
+    public void applyTransformation(float interpolatedTime, Transformation t) {
+    moveFooterViewToStart(interpolatedTime);
+    }
+    };
+
+    // HeaderView 达到刷新位置的动画(可能拖拽超过刷新触发位置)
+    private final Animation mMoveHeaderViewToRefreshPositionAnimation = new Animation() {
+    @Override
+    public void applyTransformation(float interpolatedTime, Transformation t) {
+    Log.e("RefreshPosition", "===========mSpinnerOffsetEnd: " + mSpinnerOffsetEnd + " ====mOriginalOffsetTop: " + mOriginalOffsetTop + " ===interpolatedTime: " + interpolatedTime);
+    int targetTop = 0;
+    int endTarget = 0;
+    endTarget = mSpinnerOffsetEnd - Math.abs(mOriginalOffsetTop);
+    targetTop = (mFrom + (int) ((endTarget - mFrom) * interpolatedTime));
+    int offset = targetTop - mHeaderWrapper.getHeaderView().getTop();
+    //            Log.e("RefreshPosition", "1===========targetTop: " + targetTop + " =====top: " + mHeaderWrapper.getHeaderView().getTop());
+    setHeaderViewOffsetTopAndBottom(offset);
+    }
+    };
+
+    // FooterView 达到刷新位置的动画(可能拖拽超过刷新触发位置)
+    private final Animation mMoveFooterViewToLoadPositionAnimation = new Animation() {
+    @Override
+    public void applyTransformation(float interpolatedTime, Transformation t) {
+    Log.e("LoadPosition", "===========mFrom: " + mFrom + " ====mTotalDragDistance: " + mTotalDragDistance + " ===interpolatedTime: " + interpolatedTime);
+    int endTarget = (int) mTotalDragDistance;
+    //            if (!mUsingCustomStart) {
+    //                endTarget = mSpinnerOffsetEnd - Math.abs(mOriginalOffsetTop);
+    //            } else {
+    //                endTarget = mSpinnerOffsetEnd;
+    //            }
+    int calculateOffset = (int) ((mFrom - mTotalDragDistance) * interpolatedTime);
+    int offset = calculateOffset - mLastedCalculateOffsetLoadPosition;
+    mLastedCalculateOffsetLoadPosition = calculateOffset;
+    mCurrentTargetOffsetBottom -= offset;
+
+    Log.e("LoadPosition", "1=======offset: " + offset + " ====mCurrentTargetOffsetBottom: " + mCurrentTargetOffsetBottom);
+    setFooterViewOffsetTopAndBottom(offset);
+    }
+    };
+
+    private Animation.AnimationListener mRefreshListener = new AdapterAnimationListener() {
+    @Override
+    public void onAnimationEnd(Animation animation) {
+    mHeaderOrFooterMoveToCorrectPosition = false;
+    if (mRefreshing) {
+    // Make sure the progress view is fully visible
+    //                mProgress.setAlpha(MAX_ALPHA);
+    //                mProgress.start();
+    if (mNotify) {
+    if (mListener != null) {
+    mListener.onRefresh(NestedRefreshLayout.this);
+    }
+    }
+    mCurrentTargetOffsetTop = mHeaderWrapper.getHeaderView().getTop();
+    Log.e("RefreshListener", "============mCurrentTargetOffsetTop: " + mCurrentTargetOffsetTop);
+    } else {
+    resetHeaderView();
+    }
+    }
+    };
+
+    private Animation.AnimationListener mLoadListener = new AdapterAnimationListener() {
+    @Override
+    public void onAnimationEnd(Animation animation) {
+    mHeaderOrFooterMoveToCorrectPosition = false;
+    if (mLoading) {
+    // Make sure the progress view is fully visible
+    //                mProgress.setAlpha(MAX_ALPHA);
+    //                mProgress.start();
+    if (mNotify) {
+    mNotify = false;
+    if (mListener != null) {
+    mListener.onLoad(NestedRefreshLayout.this);
+    }
+    }
+    mCurrentTargetOffsetBottom = (int) mTotalDragDistance;
+    Log.e("mLoadListener", "============mCurrentTargetOffsetBottom: " + mCurrentTargetOffsetBottom);
+    } else {
+    resetFooterView();
+    }
+    }
+    };
+
+    public NestedRefreshLayout(Context context) {
+    this(context, null, 0);
+    }
+
+    public NestedRefreshLayout(Context context, AttributeSet attrs) {
+    this(context, attrs, 0);
+    }
+
+    public NestedRefreshLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    super(context, attrs, defStyleAttr);
+    init(context, attrs);
+    }
+
+    private void init(Context context, AttributeSet attrs) {
+    // 设置一个 Tag 防止 mCurrentTargetOffsetTop 被初始化多次
+    setTag(0);
+    // 辅助实现嵌套滑动
+    mNestedScrollingParentHelper = new NestedScrollingParentHelper(this);
+    mNestedScrollingChildHelper = new NestedScrollingChildHelper(this);
+    setNestedScrollingEnabled(true);
+
+    mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
+    mMediumAnimationDuration = getResources().getInteger(android.R.integer.config_mediumAnimTime);
+    //允许该ViewGroup绘制自身
+    setWillNotDraw(false);
+    mDecelerateInterpolator = new DecelerateInterpolator(DECELERATE_INTERPOLATION_FACTOR);
+
+    // 根据设备分辨率确定下拉球直径
+    final DisplayMetrics metrics = getResources().getDisplayMetrics();
+
+    // 确定正在刷新时下拉球相对View顶部的距离，也就是启动下拉刷新的最小下拉距离
+    //        mSpinnerOffsetEnd = (int) (metrics.density * DEFAULT_CIRCLE_TARGET);
+    //        mTotalDragDistance = mSpinnerOffsetEnd;
+
+    // 用于启用/关闭子View绘制顺序调整,实际调整顺序的方法是getChildDrawingOrder(int childCount, int i)
+    setChildrenDrawingOrderEnabled(true);
+
+
+    // 生成圆球
+    //        createProgressView();
+    //        mOriginalOffsetTop = mCurrentTargetOffsetTop = -mCircleDiameter;
+    //        moveHeaderViewToStart(1.0F);
+
+    //获取唯一的一个自定义属性enabled并设置
+    final TypedArray a = context.obtainStyledAttributes(attrs, LAYOUT_ATTRS);
+    setEnabled(a.getBoolean(0, true));
+    a.recycle();
+
+    mMoveHeaderViewToRefreshPositionAnimation.setAnimationListener(mRefreshListener);
+    mMoveFooterViewToLoadPositionAnimation.setAnimationListener(mLoadListener);
+
+    post(new Runnable() {
+    @Override
+    public void run() {
+    int[] outLocation2 = new int[2];
+    // 计算该视图在全局坐标系中的x，y值，（注意这个值是要从屏幕顶端算起，也就是包括了通知栏的高度）//获取在当前屏幕内的绝对坐标
+    getLocationOnScreen(outLocation2);
+    mNestedRefreshLayoutTop = outLocation2[1];
+    Log.e("onAttachedToWindow", "==========outLocation2[y]: " + mNestedRefreshLayoutTop);
+    }
+    });
+    }
+
+    private int mNestedRefreshLayoutTop = 0;
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    // 以默认方式测量自身尺寸
+    super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    // 确保目标view（需要实现下拉刷新的view）存在
+    if (null == mTarget) {
+    ensureTarget();
+    }
+
+    if (null == mTarget) {
+    return;
+    }
+
+    // TODO 是否跟随
+
+    // 测量目标View的尺寸
+    mTarget.measure(MeasureSpec.makeMeasureSpec(getMeasuredWidth() - getPaddingLeft() - getPaddingRight(), MeasureSpec.EXACTLY),
+    MeasureSpec.makeMeasureSpec(getMeasuredHeight() - getPaddingTop() - getPaddingBottom(), MeasureSpec.EXACTLY));
+
+    // 测量下拉球的尺寸，宽高均为mCircleDiameter，即直径长
+    //        mCircleView.measure(MeasureSpec.makeMeasureSpec(mCircleDiameter, MeasureSpec.EXACTLY),
+    //                MeasureSpec.makeMeasureSpec(mCircleDiameter, MeasureSpec.EXACTLY));
+    // 测量 HeaderView
+    mHeaderWrapper.getHeaderView().measure(MeasureSpec.makeMeasureSpec(getMeasuredWidth() - getPaddingLeft() - getPaddingRight(),
+    MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(mHeaderHeight, MeasureSpec.EXACTLY));
+
+    // 测量 FooterView
+    mFooterWrapper.getFooterView().measure(MeasureSpec.makeMeasureSpec(getMeasuredWidth() - getPaddingLeft() - getPaddingRight(),
+    MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(mFooterHeight, MeasureSpec.EXACTLY));
+
+    if (0 == ((int) getTag())) { // 防止多次赋值
+    setTag(1);
+    mOriginalOffsetTop = mCurrentTargetOffsetTop = -mHeaderWrapper.getHeaderView().getMeasuredHeight();
+    mSpinnerOffsetEnd = mHeaderWrapper.getHeaderView().getMeasuredHeight();
+    mTotalDragDistance = mSpinnerOffsetEnd;
+    }
+    //        Log.e("onMeasure", "===========mCurrentTargetOffsetTop: " + mCurrentTargetOffsetTop);
+
+    // 确定 HeaderView 索引值,-1代表未找到
+    //        mCircleViewIndex = -1;
+    mHeaderViewIndex = -1;
+    for (int index = 0; index < getChildCount(); index++) {
+    if (getChildAt(index) == mHeaderWrapper.getHeaderView()) {
+    mHeaderViewIndex = index;
+    } else if (getChildAt(index) == mFooterWrapper.getFooterView()) {
+    mFooterViewIndex = index;
+    }
+    }
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+    final int width = getMeasuredWidth();
+    final int height = getMeasuredHeight();
+
+    // 确保目标view（需要实现下拉刷新的view）存在
+    if (getChildCount() == 0) {
+    return;
+    }
+    if (mTarget == null) {
+    ensureTarget();
+    }
+    if (mTarget == null) {
+    return;
+    }
+
+    // HeaderView
+    final int headerWidth = mHeaderWrapper.getHeaderView().getMeasuredWidth();
+    final int headerHeight = mHeaderWrapper.getHeaderView().getMeasuredHeight();
+
+    // FooterView
+    final int footerWidth = mFooterWrapper.getFooterView().getMeasuredWidth();
+    final int footerHeight = mFooterWrapper.getFooterView().getMeasuredHeight();
+
+    // 布局目标View
+    final View child = mTarget;
+    final int childLeft = getPaddingLeft();
+    final int childTop = mCurrentTargetOffsetTop + headerHeight;
+    //        Log.e("onLayout", "===========TargetTop: " + childTop + " ====mCurrentTargetOffsetTop: " + mCurrentTargetOffsetTop + " ====mCurrentTargetOffsetBottom: " + mCurrentTargetOffsetBottom);
+    final int childWidth = width - childLeft - getPaddingRight();
+    final int childHeight = height - childTop - getPaddingBottom();
+
+    mHeaderWrapper.getHeaderView().layout(childLeft, mCurrentTargetOffsetTop,
+    childLeft + headerWidth, mCurrentTargetOffsetTop + headerHeight);
+
+
+    //        mFooterWrapper.getFooterView().layout(childLeft, height - mCurrentTargetOffsetBottom,
+    //                childLeft + footerWidth, height + footerHeight - mCurrentTargetOffsetBottom);
+
+    //        Log.e("onLayout", "===========FooterView: " +  (height - mCurrentTargetOffsetBottom) + " ====: " + (height + footerHeight - mCurrentTargetOffsetBottom));
+
+    child.layout(childLeft, childTop, childLeft + childWidth, childTop + childHeight - mCurrentTargetOffsetBottom);
+    //        Log.e("onLayout", "===========childTop: " +  childTop + " ====childBottom: " + (childTop + childHeight - mCurrentTargetOffsetBottom));
+    Log.e("onLayout", "===========childTop: " +  (mFooterWrapper.getFooterView().getTop() == child.getBottom()));
+    }
+
+    /**
+    * 回到初始位置
+    */
+    private void moveHeaderViewToStart(float interpolateTime) {
+    int targetTop = mFrom + (int) ((mOriginalOffsetTop - mFrom) * interpolateTime);
+    int offset = targetTop - mHeaderWrapper.getHeaderView().getTop();
+    Log.e("moveHeaderViewToStart", "1===========interpolateTime: " + interpolateTime + " ====offset: " + offset + " ===top: " + mHeaderWrapper.getHeaderView().getTop());
+    setHeaderViewOffsetTopAndBottom(offset);
+
+    if (0 == offset && mRefreshing && mTarget instanceof RecyclerView) {
+    ((RecyclerView) mTarget).smoothScrollToPosition(0);
+    }
+    }
+
+    /**
+    * 回到初始位置
+    */
+    // 最近一次通过插值器和偏移总量计算的偏移量
+    private int mLastedCalculateOffsetToStartPosition = 0;
+
+    private void moveFooterViewToStart(float interpolateTime) {
+    int calculateOffset = (int) (mFrom * interpolateTime);
+    int offset = calculateOffset - mLastedCalculateOffsetToStartPosition;
+    mLastedCalculateOffsetToStartPosition = calculateOffset;
+    mCurrentTargetOffsetBottom -= offset;
+    Log.e("moveFooterViewToStart", "===========calculateOffset: " + calculateOffset + " ====offset: " + offset + " ===mCurrentTargetOffsetBottom: " + mCurrentTargetOffsetBottom);
+    setFooterViewOffsetTopAndBottom(offset);
+    }
+
+    /**
+    * 设置mCircleView的偏移量
+    * 同时更新mCurrentTargetOffsetTop
+    *
+    * @param offset 偏移量，可正可负
+    */
+    private void setHeaderViewOffsetTopAndBottom(int offset) {
+    // 确保下拉球在所有子view顶部
+    mHeaderWrapper.getHeaderView().bringToFront();
+
+    // 根据offset的值竖直移动下拉球
+    // offsetTopAndBottom()本质上是调用layout(getLeft(),getTop()+offsetY,getRight(),getBottom()+offsetY)
+    ViewCompat.offsetTopAndBottom(mHeaderWrapper.getHeaderView(), offset);
+    mCurrentTargetOffsetTop = mHeaderWrapper.getHeaderView().getTop();
+    if (mCurrentTargetOffsetTop <= mOriginalOffsetTop / 3 && !mRefreshing) {
+    updateStatus(State.HEADER_DRAG);
+    } else if (mCurrentTargetOffsetTop >= 0 && !mRefreshing) {
+    updateStatus(State.HEADER_RELEASE);
+    } else if (mCurrentTargetOffsetTop > 0) {
+    updateStatus(State.HEADER_REFRESHING);
+    }
+    //        Log.e("OffsetTopAndBottom", "===========offset: " + offset + " =====mCurrentTargetOffsetTop: " + mCurrentTargetOffsetTop);
+    }
+
+
+    private void setFooterViewOffsetTopAndBottom(float offset) {
+    mFooterWrapper.getFooterView().bringToFront();
+    ViewCompat.offsetTopAndBottom(mFooterWrapper.getFooterView(), (int) offset);
+    if (mCurrentTargetOffsetBottom <= mTotalDragDistance * 2 / 3 && !mLoading) {
+    updateStatus(State.FOOTER_PULL);
+    } else if (mCurrentTargetOffsetBottom >= mTotalDragDistance && !mLoading) {
+    updateStatus(State.FOOTER_RELEASE);
+    } else if (mCurrentTargetOffsetBottom > mTotalDragDistance) {
+    updateStatus(State.FOOTER_LOADING);
+    }
+    //        Log.e("FooterViewTopAndBottom", "===========offset: " + offset + " =====mCurrentTargetOffsetBottom: " + mCurrentTargetOffsetBottom);
+    }
+
+    @Override
+    protected int getChildDrawingOrder(int childCount, int i) {
+    //        Log.e("getChildDrawingOrder", "===========mHeaderViewIndex: " + mHeaderViewIndex + " ====mFooterViewIndex: " + mFooterViewIndex + " ===i: " + i);
+
+    if (mHeaderViewIndex < 0 && mFooterViewIndex < 0) { //  如果 HeaderView/FooterView 的index小于0则直接返回i，不进行调整
+    return i;
+    }
+    if (i == childCount - 2) { // 如果是倒数第二轮，则绘制 HeaderView
+    return mHeaderViewIndex;
+    }
+    if (i == childCount - 1) { // 如果是最后一轮，则绘制 FooterView
+    return mFooterViewIndex;
+    }
+
+    int bigIndex = mFooterViewIndex > mHeaderViewIndex ? mFooterViewIndex : mHeaderViewIndex;
+    int smallIndex = mFooterViewIndex < mHeaderViewIndex ? mFooterViewIndex : mHeaderViewIndex;
+    // 对于索引值大于 HeaderView/FooterView，将它们提前一轮绘制（第i轮就绘制索引值为i+1的的子view）
+    if (i >= smallIndex && i <= bigIndex - 1) {
+    return i + 1;
+    }
+    if (i >= bigIndex || i == bigIndex - 1) {
+    return i + 2;
+    }
+    // 对于索引值小于 HeaderView/FooterView 的子view，按照原顺序绘制
+    return i;
+    }
+
+    /**
+    * 查找嵌套滑动的目标
+    */
+    private void ensureTarget() {
+    if (mTarget == null) {
+    for (int i = 0; i < getChildCount(); i++) {
+    View child = getChildAt(i);
+    if (!child.equals(mHeaderWrapper.getHeaderView())) {
+    mTarget = child;
+    break;
+    }
+    }
+    }
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+    //        Log.e("dispatchTouchEvent", "===========");
+    mTouchDown = MotionEvent.ACTION_DOWN == ev.getActionMasked();
+    if (0 == mScrollDown && mTouchDown) {
+    mLastedTouchY = ev.getY();
+    }
+
+    if (ev.getY() - mLastedTouchY > 0) {
+    mScrollDown = -1;
+    } else if (ev.getY() - mLastedTouchY < 0) {
+    mScrollDown = 1;
+    } else {
+    mScrollDown = 0;
+    }
+
+    mLastedTouchY = ev.getY();
+
+    if (MotionEvent.ACTION_UP == ev.getActionMasked() || MotionEvent.ACTION_CANCEL == ev.getActionMasked()) {
+    mScrollDown = 0;
+    }
+
+    if (mLastedScrollDown != mScrollDown) {
+    mLastedScrollDown = mScrollDown;
+    if (mRefreshing) {
+    getLocationOnScreen(outLocation);
+    }
+    }
+
+    if (mHeaderOrFooterMoveToCorrectPosition) {
+    return true; // 当移动到刷新/加载位置时,不能用户迅速滑动,因为动画未执行完成,会有bug
+    }
+
+    return super.dispatchTouchEvent(ev);
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+    ensureTarget();
+
+    final int action = ev.getActionMasked();
+    int pointerIndex;
+
+    // 如果下拉拉球正在返回途中，并且当前事件是ACTION_DOWN，那么就清除正在返回状态
+    if (mReturningToStart && action == MotionEvent.ACTION_DOWN) {
+    mReturningToStart = false;
+    }
+
+    //        Log.e("onInterceptTouchEvent", "0===========mScrollDown: " + mScrollDown+ " ==== " + ev.getActionMasked());
+
+    if (!isEnabled() // 判断 NestedRefreshLayout 是否可用
+    || mReturningToStart // 下拉球是否正在返回原位的途中
+    || canChildScrollUp() // 在顶部时判断是否可以下滑,反之相反
+    || canChildScrollDown() // 在底部是判断是否可以上滑,反之相反
+    || mNestedScrollInProgress) { // 是否正在进行嵌套滑动
+    return false;
+    }
+    Log.e("onInterceptTouchEvent", "1===========");
+    switch (action) {
+    case MotionEvent.ACTION_DOWN:
+    Log.e("onInterceptTouchEvent", "2=========== " + (mOriginalOffsetTop - mHeaderWrapper.getHeaderView().getTop()));
+    // HeaderView 回到初始化位置
+    //                setHeaderViewOffsetTopAndBottom(mOriginalOffsetTop - mHeaderWrapper.getHeaderView().getTop());
+    mActivePointerId = ev.getPointerId(0);
+    // 按下时清除拖拽状态
+    mIsBeingDragged = false;
+    pointerIndex = ev.findPointerIndex(mActivePointerId);
+    if (pointerIndex < 0) {
+    return false;
+    }
+    // 记录手指按下时的 Y轴坐标
+    mInitialDownY = ev.getY(pointerIndex);
+    Log.e("onInterceptTouchEvent", "3===========");
+    break;
+    case MotionEvent.ACTION_MOVE:
+    if (INVALID_POINTER == mActivePointerId) {
+    return false;
+    }
+    pointerIndex = ev.findPointerIndex(mActivePointerId);
+    if (pointerIndex < 0) {
+    return false;
+    }
+
+    float y = ev.getY(pointerIndex);
+    startDragging(y);
+    Log.e("onInterceptTouchEvent", "4===========");
+    break;
+    case MotionEvent.ACTION_POINTER_UP:
+    onSecondaryPointerUp(ev);
+    break;
+    //手指松开，将标志复位
+    case MotionEvent.ACTION_UP:
+    case MotionEvent.ACTION_CANCEL:
+    mIsBeingDragged = false;
+    mActivePointerId = INVALID_POINTER;
+    break;
+    }
+    //如果正在被拖拽，拦截该系列的点击事件，并调用自己的onTouchEvent()来处理
+    Log.e("onInterceptTouchEvent", "5===========mIsBeingDragged: " + mIsBeingDragged);
+    return mIsBeingDragged;
+    }
+
+    /**
+    * 可以看到onTouchEvent()的很多代码和onInterceptTouchEvent()相同，这是因为有的子view可能根本不响应触摸事件。
+    * 当没有找到能处理触摸事件的子view时，ViewGroup会跳过onInterceptTouchEvent()的判断，直接拦截下所有后续的触摸事件。
+    * 此时，实现下拉刷新的全部职责就交付给了onTouchEvent()
+    */
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+    final int action = event.getActionMasked();
+    int pointerIndex = -1;
+
+    if (mReturningToStart && MotionEvent.ACTION_DOWN == action) {
+    mReturningToStart = false;
+    }
+    //        Log.e("onTouchEvent", "0===========");
+    if (isEnabled()
+    || mReturningToStart
+    || canChildScrollUp()
+    || canChildScrollDown() // 在底部是判断是否可以上滑,反之相反
+    || mNestedScrollInProgress) {
+    return false;
+    }
+    Log.e("onTouchEvent", "1===========");
+    switch (action) {
+    case MotionEvent.ACTION_DOWN:
+    mActivePointerId = event.getPointerId(0);
+    mIsBeingDragged = false;
+    Log.e("onTouchEvent", "2===========");
+    break;
+    case MotionEvent.ACTION_POINTER_DOWN: {
+    pointerIndex = event.getActionIndex();
+    if (pointerIndex < 0) {
+    return false;
+    }
+    mActivePointerId = event.getPointerId(pointerIndex);
+    break;
+    }
+    case MotionEvent.ACTION_MOVE:
+    pointerIndex = event.findPointerIndex(mActivePointerId);
+    if (pointerIndex < 0) {
+    return false;
+    }
+    float y = event.getY(pointerIndex);
+    Log.e("onTouchEvent", "3===========y: " + y);
+    startDragging(y);
+    if (mIsBeingDragged) {
+    // 用滑动距离（当前位置 - 起始位置） 乘上了一个系数DRAG_RATE
+    float overScrollTop = (y - mInitialMotionY) * DRAG_RATE;
+    if (overScrollTop > 0) {
+    Log.e("onTouchEvent", "4===========overScrollTop: " + overScrollTop);
+    moveSpinner(overScrollTop);
+    } else {
+    return false;
+    }
+    }
+    break;
+    case MotionEvent.ACTION_POINTER_UP:
+    onSecondaryPointerUp(event);
+    break;
+    case MotionEvent.ACTION_UP:
+    pointerIndex = event.findPointerIndex(mActivePointerId);
+    if (pointerIndex < 0) {
+    return false;
+    }
+    if (mIsBeingDragged) {
+    float eventY = event.getY(pointerIndex);
+    float overScrollTop = (eventY - mInitialMotionY) * DRAG_RATE;
+    mIsBeingDragged = false;
+    finishSpinner(overScrollTop);
+    }
+    mActivePointerId = INVALID_POINTER;
+    Log.e("onTouchEvent", "5===========");
+    return false;
+    case MotionEvent.ACTION_CANCEL:
+    return false;
+
+    }
+
+    return true;
+    }
+
+    /**
+    * 获取有效的手指
+    */
+    private void onSecondaryPointerUp(MotionEvent ev) {
+    final int pointerIndex = ev.getActionIndex();
+    final int pointerId = ev.getPointerId(pointerIndex);
+    if (pointerId == mActivePointerId) {
+    // This was our active pointer going up. Choose a new
+    // active pointer and adjust accordingly.
+    final int newPointerIndex = pointerIndex == 0 ? 1 : 0;
+    mActivePointerId = ev.getPointerId(newPointerIndex);
+    }
+    }
+
+    private void startDragging(float y) {
+    // 首先根据当前y坐标和按下时的y坐标计算出一个差值yDiff（下拉时必然大于0）
+    final float yDiff = y - mInitialDownY;
+    Log.e("startDragging", "===========mInitialMotionY: " + mInitialMotionY + " ====yDiff: " + yDiff);
+    // 如果大于滑动阈值则认为用户进行了滑动 并且 当前还未开始下拉
+    if (yDiff > mTouchSlop && !mIsBeingDragged) {
+    // 记录下下拉开始时触摸点的y坐标
+    mInitialMotionY = mInitialDownY + mTouchSlop;
+
+    mIsBeingDragged = true;
+    //            mProgress.setAlpha(STARTING_PROGRESS_ALPHA);
+    }
+    }
+
+    /**
+    * I. 传入 -1 ,判断可以下滑
+    * II. 传入 1, 判断可以上滑
+    * {@link androidx.swiperefreshlayout.widget.SwipeRefreshLayout#canChildScrollUp()}
+    */
+    private boolean canChildScrollUp() {
+    return mTarget.canScrollVertically(-1);
+    }
+
+    private boolean canChildScrollDown() {
+    return mTarget.canScrollVertically(1);
+    }
+
+
+    /**
+    * 通过调用setTargetOffsetTopAndBottom()方法移动下拉组件Spinner（mCircleView）
+    * 同时更新mProgress（一个drawable）的绘制进度
+    *
+    * @param overScrollTop 下拉高度
+    */
+    private void moveSpinner(float overScrollTop) {
+    Log.e("moveSpinner", "===========overScrollTop: " + overScrollTop);
+    // 拖拽弹力效果原理: https://www.cnblogs.com/woaixingxing/p/6905163.html
+    // originalDragPercent --> 根据scrollTop与mTotalDragDistance的比值
+    float originalDragPercent = overScrollTop / mTotalDragDistance;
+    //        Log.e("moveSpinner", "===========originalDragPercent: " + originalDragPercent);
+    // 由于originalDragPercent可能大于1，所以 dragPercent 才是拖动的百分比
+    float dragPercent = Math.min(1f, Math.abs(originalDragPercent));
+    //        Log.e("moveSpinner", "===========dragPercent: " + dragPercent);
+    float slingshotDist = mSpinnerOffsetEnd;
+    //        Log.e("moveSpinner", "===========slingshotDist: " + slingshotDist);
+    // 最大值为 1F, 从 0F 到 1F
+    float adjustedPercent = Math.max(dragPercent - 0.4f, 0) * 5 / 3;
+    //        Log.e("moveSpinner", "===========adjustedPercent: " + adjustedPercent);
+    // 在 overScrollTop >= 0时，是从-mTotalDragDistance开始线性递增的，在 overScrollTop = mTotalDragDistance时，extraOS = 0
+    float extraOS = Math.abs(overScrollTop) - mTotalDragDistance;
+    //        Log.e("moveSpinner", "===========extraOS: " + extraOS);
+    // 在 overScrollTop 从 0到 mTotalDragDistance 阶段，始终为0，再从 mTotalDragDistance到 3*mTotalDragDistance阶段，线性递增，之后一直为2
+    float tensionSlingshotPercent = Math.max(0, Math.min(extraOS, slingshotDist * 2) / slingshotDist);
+    //        Log.e("moveSpinner", "===========tensionSlingshotPercent: " + tensionSlingshotPercent);
+    // 在scrollTop从 0 到 mTotalDragDistance 阶段，始终为0，
+    // 在 mTotalDragDistance 到 3*mTotalDragDistance 阶段，二次函数递增，在 3*mTotalDragDistance之后恒为 0.5
+    // 使用Math.pow(a,3)即可，即等于求a的3次方
+    float tensionPercent = (float) ((tensionSlingshotPercent / 4) - Math.pow((tensionSlingshotPercent / 4), 2)) * 2f;
+    //        Log.e("moveSpinner", "===========tensionPercent: " + tensionPercent);
+    // 弹力距离,在 overScrollTop 从 0 到 mTotalDragDistance阶段，
+    // 也就是 mDragPercent 从 0 到 1，extraMove始终为 0，然后递增，最后在 overScrollTop > 3*mTotalDragDistance 变为恒值 slingshotDist
+    float extraMove = slingshotDist * tensionPercent * 2;
+    //        Log.e("moveSpinner", "===========extraMove: " + extraMove);
+
+    //计算spinner将要（target）被移动到的位置对应的Y坐标,当 targetY 为 0 时，小圆圈刚好全部露出来
+    // targetY 下拉时从 负值 线性递增到一个到一个固定值,然后就不会变化了!下拉也拉不动了
+    // 后期 (slingshotDist * dragPercent) + extraMove 是一个固定值,而 mOriginalOffsetTop 就是一个固定值
+    int targetY = mOriginalOffsetTop + (int) ((slingshotDist * dragPercent) + extraMove);
+    //        Log.e("moveSpinner", "===========targetY: " + targetY + " =====mOriginalOffsetTop: " + mOriginalOffsetTop + " ====mCurrentTargetOffsetTop: " + mCurrentTargetOffsetTop);
+
+    //以下这对if-else主要是在通过下拉进度，对mProgress在下拉过程设置颜色透明度，箭头旋转角度，缩放大小的控制
+    if (overScrollTop < mTotalDragDistance) { //如果下拉高度小于mTotalDragDistance（一个触发下拉刷新的高度）
+
+    } else {  //下拉高度达到了触发刷新的高度
+
+    }
+    float strokeStart = adjustedPercent * 0.8f;
+    //        mProgress.setStartEndTrim(0f, Math.min(MAX_PROGRESS_ANGLE, strokeStart));
+    //        mProgress.setArrowScale(Math.min(1f, adjustedPercent));
+    // adjustedPercent 取值 [0,1] , tensionPercent 取值 [0,0.5]
+    float rotation = (-0.25f + 0.4f * adjustedPercent + tensionPercent * 2) * 0.5f;
+    //        mProgress.setProgressRotation(rotation);
+    Log.e("moveSpinner", "4===========overScrollTop: " + overScrollTop
+    + " =====mTotalDragDistance: " + mTotalDragDistance + " ====offset: " + (targetY - mCurrentTargetOffsetTop));
+    setHeaderViewOffsetTopAndBottom(targetY - mCurrentTargetOffsetTop);
+    }
+
+    private void moveFooterViewSpinner(float overScrollTop) {
+    float slingshotDist = mSpinnerOffsetEnd;
+    //        Log.e("FooterViewSpinner", "===========slingshotDist: " + slingshotDist);
+
+    mCurrentTargetOffsetBottom = (int) Math.min(overScrollTop, 2 * slingshotDist);
+    //        Log.e("FooterViewSpinner", "===========overScrollTop: " + overScrollTop);
+    // 拖拽弹力效果原理: https://www.cnblogs.com/woaixingxing/p/6905163.html
+    // originalDragPercent --> 根据scrollTop与mTotalDragDistance的比值
+    float originalDragPercent = mCurrentTargetOffsetBottom / mTotalDragDistance;
+    //        Log.e("FooterViewSpinner", "===========originalDragPercent: " + originalDragPercent);
+    // 由于originalDragPercent可能大于1，所以 dragPercent 才是拖动的百分比
+    float dragPercent = Math.min(1f, Math.abs(originalDragPercent));
+    //        Log.e("FooterViewSpinner", "===========dragPercent: " + dragPercent);
+
+    // 最大值为 1F, 从 0F 到 1F
+    float adjustedPercent = Math.max(dragPercent - 0.4f, 0) * 5 / 3;
+    //        Log.e("FooterViewSpinner", "===========adjustedPercent: " + adjustedPercent);
+    // 在 overScrollTop >= 0时，是从-mTotalDragDistance开始线性递增的，在 overScrollTop = mTotalDragDistance时，extraOS = 0
+    float extraOS = Math.abs(mCurrentTargetOffsetBottom) - mTotalDragDistance;
+    //        Log.e("FooterViewSpinner", "===========extraOS: " + extraOS);
+    // 在 overScrollTop 从 0到 mTotalDragDistance 阶段，始终为0，再从 mTotalDragDistance到 3*mTotalDragDistance阶段，线性递增，之后一直为2
+    float tensionSlingshotPercent = Math.max(0, Math.min(extraOS, slingshotDist * 2) / slingshotDist);
+    //        Log.e("FooterViewSpinner", "===========tensionSlingshotPercent: " + tensionSlingshotPercent);
+    // 在scrollTop从 0 到 mTotalDragDistance 阶段，始终为0，
+    // 在 mTotalDragDistance 到 3*mTotalDragDistance 阶段，二次函数递增，在 3*mTotalDragDistance之后恒为 0.5
+    // 使用Math.pow(a,3)即可，即等于求a的3次方
+    float tensionPercent = (float) ((tensionSlingshotPercent / 4) - Math.pow((tensionSlingshotPercent / 4), 2)) * 2f;
+    //        Log.e("FooterViewSpinner", "===========tensionPercent: " + tensionPercent);
+    // 弹力距离,在 overScrollTop 从 0 到 mTotalDragDistance阶段，
+    // 也就是 mDragPercent 从 0 到 1，extraMove始终为 0，然后递增，最后在 overScrollTop > 3*mTotalDragDistance 变为恒值 slingshotDist
+    float extraMove = slingshotDist * tensionPercent * 2;
+    //        Log.e("FooterViewSpinner", "===========extraMove: " + extraMove);
+
+    //计算spinner将要（target）被移动到的位置对应的Y坐标,当 targetY 为 0 时，小圆圈刚好全部露出来
+    // targetY 下拉时从 负值 线性递增到一个到一个固定值,然后就不会变化了!下拉也拉不动了
+    // 后期 (slingshotDist * dragPercent) + extraMove 是一个固定值,而 mOriginalOffsetTop 就是一个固定值
+    int targetY = (int) ((slingshotDist * dragPercent) + extraMove);
+    //        Log.e("FooterViewSpinner", "===========targetY: " + targetY + " =====mOriginalOffsetTop: " + mOriginalOffsetTop + " ====mCurrentTargetOffsetBottom: " + mCurrentTargetOffsetBottom);
+
+    //        Log.e("FooterViewSpinner", "4===========overScrollTop: " + overScrollTop
+    //                + " =====mTotalDragDistance: " + mTotalDragDistance + " ====offset: " + (targetY - mCurrentTargetOffsetBottom));
+    setFooterViewOffsetTopAndBottom(targetY);
+    }
+
+    /**
+    * 手指松开后，处理下拉组件Spinner
+    * 设置开始刷新的动画，或者 将下拉组件Spinner回滚隐藏
+    *
+    * @param overScrollTop 下拉距离
+    */
+    private void finishSpinner(float overScrollTop) {
+    Log.e("finishSpinner", "===========overScrollTop: " + overScrollTop + " ====mRefreshing: " + mRefreshing + " ===mCurrentTargetOffsetTop: " + mCurrentTargetOffsetTop);
+
+    // 参数 overScrollTop 与 mTotalDragDistance（启动下拉刷新的最小下拉距离）进行比较，
+    // 如果超过的话就调用setRefreshing()启动刷新，否则让下拉球返回原位
+    if (overScrollTop > mTotalDragDistance) {
+    if (mRefreshing) {
+    Log.e("finishSpinner", "===========1");
+    mNotify = false;
+    moveHeaderViewToRefreshPositionAnimation(mCurrentTargetOffsetTop);
+    } else {
+    Log.e("finishSpinner", "===========2");
+    // 传入的两个参数都是true，因此如果当前还未进入刷新状态，就会设置刷新状态为true，并调用animateOffsetToCorrectPosition()方法
+    setRefreshing(true, true /* notify */);
+    }
+    } else { //下拉距离还未达到了可触发刷新的高度，做一些复位的操作
+    Log.e("finishSpinner", "===========3 ");
+    //            Animation.AnimationListener listener = new AdapterAnimationListener() {
+    //                @Override
+    //                public void onAnimationEnd(Animation animation) {
+    //                    Log.e("finishSpinner", "onAnimationEnd===========");
+    //                    refreshFinishAnimation(null);
+    //                }
+    //            };
+    //开始回滚动画
+    //这是一个比较复杂的方法，也是比较有用的方法
+    //其实这个本质上不是开启一个动画，而是一个数值产生器
+    //通过监听数值变化，
+    //从mCurrentTargetOffsetTop这个高度开始，
+    //调用setTargetOffsetTopAndBottom()慢慢回滚到mOriginalOffsetTop
+    moveHeaderViewToStartAnimation(mCurrentTargetOffsetTop, null);
+    }
+    }
+
+    private void finishFooterViewSpinner(float overScrollTop) {
+    Log.e("finishFooterViewSpinner", "===========overScrollTop: " + overScrollTop + " ====mLoading: " + mLoading + " ===mCurrentTargetOffsetBottom: " + mCurrentTargetOffsetBottom);
+    // 修正数据和刷新位置
+    if (mLoading && overScrollTop > mTotalDragDistance) {
+    Log.e("finishFooterViewSpinner", "===========1");
+    setFooterViewOffsetTopAndBottom(mCurrentTargetOffsetBottom);
+    }
+    // 参数 overScrollTop 与 mTotalDragDistance（启动下拉刷新的最小下拉距离）进行比较，
+    // 如果超过的话就调用setRefreshing()启动刷新，否则让下拉球返回原位
+    if (overScrollTop > mTotalDragDistance) {
+    Log.e("finishFooterViewSpinner", "===========2");
+    if (mLoading) {
+    moveFooterViewToLoadPositionAnimation(mCurrentTargetOffsetBottom);
+    } else {
+    Log.e("finishFooterViewSpinner", "===========3");
+    setLoading(true);
+    }
+    } else { //下拉距离还未达到了可触发刷新的高度，做一些复位的操作
+    moveFooterViewToStartAnimation(mCurrentTargetOffsetBottom, null);
+    }
+    }
+
+    private void setRefreshing(boolean refreshing, final boolean notify) {
+    if (mRefreshing != refreshing) {
+    mNotify = notify;
+    ensureTarget();
+    if (refreshing) {
+    mRefreshing = true;
+    Log.e("setRefreshing", "===========1");
+    moveHeaderViewToRefreshPositionAnimation(mCurrentTargetOffsetTop);
+    } else {
+    Log.e("setRefreshing", "===========2");
+    refreshFinishAnimation();
+    }
+    } else { // 正在刷新又下拉了,此时停留在刷新位置
+    Log.e("setRefreshing", "===========3");
+    moveHeaderViewToRefreshPositionAnimation(mCurrentTargetOffsetTop);
+    }
+    }
+
+    /**
+    * 在刷新逻辑结束时应手动调用调用SwipeRefreshLayout的setRefreshing(false)方法
+    * 分两种情况：
+    * （1）传入值为true：会直接将下拉球放置到刷新位置，并调用startScaleUpAnimation(mRefreshListener)让下拉球以变大的方式出现。
+    * 注意这里将mNotify设置为false，因此不会调用mListener.onRefresh()方法（看上面mRefreshListener的实现），
+    * 仅仅是让下拉球出现而已。之所以设置这么一个机制，是为了让开发者制作刷新按钮，这样即便不知道可以用下拉的方式刷新内容的用户也能够操作
+    * （2）传入值为false：最终会调用到startScaleDownAnimation(mRefreshListener)，这个方法是让下拉球以变小的方式消失。
+    * mRefreshListener会调用一个reset()方法让动画在结束时将下拉球移回原位。本质上讲，这个方法是用来结束刷新的
+    */
+    public void setRefreshing(boolean refreshing) {
+    if (refreshing && mRefreshing != refreshing) {
+    mRefreshing = refreshing;
+    int endTarget = 0;
+    endTarget = mSpinnerOffsetEnd + mOriginalOffsetTop;
+    Log.e("setRefreshing", "5===========");
+    setHeaderViewOffsetTopAndBottom(endTarget - mCurrentTargetOffsetTop);
+    mNotify = false;
+    startScaleUpAnimation(mRefreshListener);
+    } else {
+    Log.e("setRefreshing", "6===========");
+    updateStatus(State.HEADER_COMPLETED);
+    setRefreshing(refreshing, false /* notify */);
+    }
+    }
+
+    public void setLoadingComplete() {
+    setLoading(false);
+    }
+
+
+    private void setLoading(boolean loading) {
+    if (loading) {
+    mLoading = true;
+    mNotify = true;
+    Log.e("setLoading", "===========1");
+    if (null != mLoadFinishAnimation) {
+    mLoadFinishAnimation.cancel();
+    }
+    moveFooterViewToLoadPositionAnimation(mCurrentTargetOffsetBottom);
+    } else {
+    updateStatus(State.FOOTER_COMPLETED);
+    Log.e("setLoading", "===========2");
+    loadFinishAnimation();
+    }
+    }
+
+    /**
+    * 重置 HeaderView,即回到初始化状态
+    */
+    private void resetHeaderView() {
+    mHeaderWrapper.getHeaderView().clearAnimation();
+    Log.e("resetHeaderView", "===========");
+    setHeaderViewOffsetTopAndBottom(mOriginalOffsetTop - mCurrentTargetOffsetTop);
+    }
+
+    /**
+    * 重置 HeaderView,即回到初始化状态
+    */
+    private void resetFooterView() {
+    mFooterWrapper.getFooterView().clearAnimation();
+    Log.e("resetFooterView", "===========");
+    mCurrentTargetOffsetBottom = 0;
+    setFooterViewOffsetTopAndBottom(mCurrentTargetOffsetBottom);
+    }
+
+    /**
+    * 刷新完成执行此动画
+    */
+    private void refreshFinishAnimation() {
+    mHeaderOrFooterMoveToCorrectPosition = true;
+    mFrom = mCurrentTargetOffsetTop;
+    //
+    Animation refreshFinishAnimation = new Animation() {
+    @Override
+    public void applyTransformation(float interpolatedTime, Transformation t) {
+    Log.e("moveHeaderViewToStart", "refreshFinishAnimation===========interpolatedTime: " + interpolatedTime);
+    moveHeaderViewToStart(interpolatedTime);
+    }
+    };
+    refreshFinishAnimation.setDuration(SCALE_DOWN_DURATION);
+    refreshFinishAnimation.setAnimationListener(new AdapterAnimationListener() {
+    @Override
+    public void onAnimationEnd(Animation animation) {
+    mRefreshing = false;
+    mHeaderOrFooterMoveToCorrectPosition = false;
+    }
+    });
+    mHeaderWrapper.getHeaderView().clearAnimation();
+    mHeaderWrapper.getHeaderView().startAnimation(refreshFinishAnimation);
+    }
+
+    // 加载完成动画...
+    private void loadFinishAnimation() {
+    mHeaderOrFooterMoveToCorrectPosition = true;
+    mFrom = mCurrentTargetOffsetBottom;
+    mLastedCalculateOffsetToStartPosition = 0;
+    mLoadFinishAnimation = new Animation() {
+    @Override
+    public void applyTransformation(float interpolatedTime, Transformation t) {
+    Log.e("loadFinishAnimation", "loadFinishAnimation===========interpolatedTime: " + interpolatedTime + " ====mFrom: " + mFrom);
+    moveFooterViewToStart(interpolatedTime);
+    }
+    };
+    mLoadFinishAnimation.setDuration(SCALE_DOWN_DURATION);
+    mLoadFinishAnimation.setAnimationListener(new AdapterAnimationListener() {
+    @Override
+    public void onAnimationEnd(Animation animation) {
+    mLoading = false;
+    mNotify = false;
+    mHeaderOrFooterMoveToCorrectPosition = false;
+    }
+    });
+    mFooterWrapper.getFooterView().clearAnimation();
+    mFooterWrapper.getFooterView().startAnimation(mLoadFinishAnimation);
+    }
+
+    /**
+    * HeaderView 回到初始位置动画
+    */
+    private void moveHeaderViewToStartAnimation(int from, Animation.AnimationListener listener) {
+    Log.e("moveHeaderViewToStart", "moveHeaderViewToStartAnimation===========");
+    mFrom = from;
+    mMoveHeaderViewToStartAnimation.reset();
+    mMoveHeaderViewToStartAnimation.setDuration(ANIMATE_TO_START_DURATION);
+    mMoveHeaderViewToStartAnimation.setInterpolator(mDecelerateInterpolator);
+    if (null != listener) {
+    mMoveHeaderViewToStartAnimation.setAnimationListener(listener);
+    }
+    //            if (listener != null) {
+    //                mCircleView.setAnimationListener(listener);
+    //            }
+    //            mCircleView.clearAnimation();
+    mHeaderWrapper.getHeaderView().startAnimation(mMoveHeaderViewToStartAnimation);
+    }
+
+    /**
+    * FooterView 回到初始位置动画
+    */
+    private void moveFooterViewToStartAnimation(int from, Animation.AnimationListener listener) {
+    Log.e("OffsetToStartBottom", "moveFooterViewToStartAnimation===========from: " + from);
+    mFrom = from;
+    mLastedCalculateOffsetToStartPosition = 0;
+    mMoveFooterViewToStartAnimation.reset();
+    mMoveFooterViewToStartAnimation.setDuration(ANIMATE_TO_START_DURATION);
+    mMoveFooterViewToStartAnimation.setInterpolator(mDecelerateInterpolator);
+    if (null != listener) {
+    mMoveFooterViewToStartAnimation.setAnimationListener(listener);
+    }
+    mFooterWrapper.getFooterView().startAnimation(mMoveFooterViewToStartAnimation);
+    }
+
+    /**
+    * 当刷新成功触发时,执行此方法移动的真正刷新位置
+    */
+    private void moveHeaderViewToRefreshPositionAnimation(int from) {
+    // 下面代码方式下拉刷新动画正在执行返回到正确的刷新位置时用户猛然上滑/下滑
+    mHeaderOrFooterMoveToCorrectPosition = true;
+
+    Log.e("OffsetToCorrectPosition", "===========from: " + from);
+    mFrom = from;
+    mMoveHeaderViewToRefreshPositionAnimation.cancel();
+    mMoveHeaderViewToRefreshPositionAnimation.reset();
+    mMoveHeaderViewToRefreshPositionAnimation.setDuration(ANIMATE_TO_TRIGGER_DURATION);
+    mMoveHeaderViewToRefreshPositionAnimation.setInterpolator(mDecelerateInterpolator);
+
+    mHeaderWrapper.getHeaderView().clearAnimation();
+    mHeaderWrapper.getHeaderView().startAnimation(mMoveHeaderViewToRefreshPositionAnimation);
+    }
+
+    /**
+    * HeaderView / FooterView 移动到刷新/加载位置
+    */
+    private boolean mHeaderOrFooterMoveToCorrectPosition = false;
+
+    /**
+    * 当加载成功触发时,执行此方法移动的真正加载位置
+    */
+    private void moveFooterViewToLoadPositionAnimation(int from) {
+    // 下面代码方式下拉刷新动画正在执行返回到正确的刷新位置时用户猛然上滑/下滑
+    mHeaderOrFooterMoveToCorrectPosition = true;
+    mLastedCalculateOffsetLoadPosition = 0;
+    Log.e("LoadPositionAnimation", "===========from: " + from);
+    mFrom = from;
+    mMoveFooterViewToLoadPositionAnimation.cancel();
+    mMoveFooterViewToLoadPositionAnimation.reset();
+    mMoveFooterViewToLoadPositionAnimation.setDuration(ANIMATE_TO_TRIGGER_DURATION);
+    mMoveFooterViewToLoadPositionAnimation.setInterpolator(mDecelerateInterpolator);
+
+    mFooterWrapper.getFooterView().clearAnimation();
+    mFooterWrapper.getFooterView().startAnimation(mMoveFooterViewToLoadPositionAnimation);
+    }
+
+    /**
+    * 当调用 {@link #setRefreshing(boolean) } 参数为 true 时,则执行下面方法,即将圆圈和箭头都动画移动到刷新位置
+    */
+    private void startScaleUpAnimation(Animation.AnimationListener listener) {
+    //        mProgress.setAlpha(MAX_ALPHA);
+    //                setAnimationProgress(interpolatedTime); // TODO
+    // 直接从0-1的缩放
+    Animation mScaleAnimation = new Animation() {
+    @Override
+    public void applyTransformation(float interpolatedTime, Transformation t) {
+    //                setAnimationProgress(interpolatedTime); // TODO
+    }
+    };
+    mScaleAnimation.setDuration(mMediumAnimationDuration);
+    //        if (listener != null) {
+    //            mCircleView.setAnimationListener(listener);
+    //        }
+    mHeaderWrapper.getHeaderView().clearAnimation();
+    mHeaderWrapper.getHeaderView().startAnimation(mScaleAnimation);
+    }
+
+
+    private void updateStatus(int state) {
+    switch (state) {
+    case State.HEADER_DRAG: //下拉刷新
+    mHeaderWrapper.pullDown();
+    break;
+    case State.HEADER_RELEASE: //释放立即刷新
+    mHeaderWrapper.pullDownAndReleasable();
+    break;
+    case State.HEADER_REFRESHING: //正在刷新
+    mHeaderWrapper.pullDownAndRefreshing();
+    break;
+    case State.HEADER_COMPLETED: //刷新完成
+    mHeaderWrapper.pullDownAndRefreshed();
+    break;
+    case State.FOOTER_PULL: //加载更多
+    mFooterWrapper.pullUp();
+    break;
+    case State.FOOTER_RELEASE: //释放加载更多
+    mFooterWrapper.pullUpAndReleasable();
+    break;
+    case State.FOOTER_LOADING: //正在加载
+    mFooterWrapper.pullUpAndLoading();
+    break;
+    case State.FOOTER_COMPLETED: //加载完成
+    mFooterWrapper.pullUpAndLoaded();
+    break;
+    case State.FOOTER_NO_MORE: //没有更多数据
+    default:
+    mFooterWrapper.pullUpAndNoMore();
+    break;
+    }
+    }
+
+
+    /////////////////////////////////  NestedScrollingParent  ////////////////////////////////////////
+    private int[] outLocation = new int[2];
+
+    /**
+    * 开始NestedScroll时调用，返回true就意味着后面可以接受到NestedScroll事件，否则就无法接收。
+    *
+    * @param child            该view的直接子view
+    * @param target           发出NestedScroll事件的子view，和child不一定是同一个
+    * @param nestedScrollAxes 滑动的方向，为ViewCompat#SCROLL_AXIS_HORIZONTAL或者ViewCompat#SCROLL_AXIS_VERTICAL，亦或两者都有。
+    * @return 返回true代表要消耗这个NestedScroll事件，否则就是false。
+    */
+    @Override
+    public boolean onStartNestedScroll(View child, View target, int nestedScrollAxes) {
+    getLocationOnScreen(outLocation);
+    Log.e("onStartNestedScroll", "==========isEnabled(): " + isEnabled() + " ====mRefreshing: " + mRefreshing + " ====mLoading: " + mLoading);
+
+    if (isEnabled() && !mReturningToStart && 0 != (nestedScrollAxes & ViewCompat.SCROLL_AXIS_VERTICAL)) {
+    if (mRefreshing && canChildScrollDown()) { // 正在刷新可以上滑
+    Log.e("onStartNestedScroll", "1===========mCurrentTargetOffsetTop: " + mCurrentTargetOffsetTop + " ====mCurrentTargetOffsetBottom: " + mCurrentTargetOffsetBottom);
+    return true;
+    } else if (mLoading && canChildScrollUp()) { // 正在加载并且可以下拉
+    Log.e("onStartNestedScroll", "2===========mCurrentTargetOffsetTop: " + mCurrentTargetOffsetTop + " ====mCurrentTargetOffsetBottom: " + mCurrentTargetOffsetBottom);
+    return true;
+    } else {
+    Log.e("onStartNestedScroll", "3=========== " + ((!mRefreshing && !canChildScrollUp()) || (!mLoading && !canChildScrollDown())));
+    return (!mRefreshing && !canChildScrollUp()) || (!mLoading && !canChildScrollDown());
+    }
+    } else {
+    Log.e("onStartNestedScroll", "4===========mCurrentTargetOffsetTop: " + mCurrentTargetOffsetTop + " ====mCurrentTargetOffsetBottom: " + mCurrentTargetOffsetBottom);
+    return false;
+    }
+    }
+
+    /**
+    * 在onStartNestedScroll之后调用，参数意义同上，可什么都不做, 也可以初始化一些自己需要的数据
+    */
+    @Override
+    public void onNestedScrollAccepted(View child, View target, int axes) {
+    onNestedPreScrollOrNestedScrolled = false;
+    // 重置需要消耗多少剩余滑动距离
+    mNestedScrollingParentHelper.onNestedScrollAccepted(child, target, axes);
+    // 分派到嵌套的父级
+    startNestedScroll(axes & ViewCompat.SCROLL_AXIS_VERTICAL);
+    //做一些字段的初始化
+    if (mRefreshing && 0 >= mTotalUnconsumed && 0 == mHeaderWrapper.getHeaderView().getTop()) { // 正在刷新并且向上滑动
+    Log.e("onNestedScrollAccepted", "1==========");
+    mTotalUnconsumed = mHeaderWrapper.getHeaderView().getMeasuredHeight() * 1F;
+    } else if (mLoading && mTotalDragDistance == mCurrentTargetOffsetBottom) {
+    Log.e("onNestedScrollAccepted", "2==========" + mCurrentTargetOffsetBottom);
+    mTotalUnconsumed = mCurrentTargetOffsetBottom;
+    }
+    Log.e("onNestedScrollAccepted", "===========mTotalUnconsumed: " + mTotalUnconsumed + " ===mScrollDown: " + mScrollDown + " ===mTouchDown: " + mTouchDown);
+    mNestedScrollInProgress = true; //标记嵌套滑动开始此时传统触摸事件模式失效
+    }
+
+    /**
+    * 在target每次滑动之前会调用这个方法。
+    *
+    * @param target   发出NestedScroll事件的子view
+    * @param dx       这次滑动事件在x方向上滑动的距离
+    * @param dy       这次滑动事件在y方向上滑动的距离, dy > 0 向上滑动
+    * @param consumed 一个长度为2的数组。第0位时我们在x方向消耗的滑动距离，第1位是我们在y方向上消耗的滑动距离。子view会根据这个和dx/dy来计算余下的滑动量，
+    *                 来决定自己是否还要进行剩下的滑动。比如我们使consumed[1] = dy，那么子view在y方向上就不会滑动。
+    */
+    @Override
+    public void onNestedPreScroll(View target, int dx, int dy, int[] consumed) {
+    if (0 == mScrollDown) {
+    return;
+    }
+    onNestedPreScrollOrNestedScrolled = true;
+    Log.e("onNestedPreScroll", "===========mScrollDown: " + mScrollDown + " ====mNestedRefreshLayoutTop: " + mNestedRefreshLayoutTop + " ====outLocation[1]: " + outLocation[1] + " ====mCurrentTargetOffsetTop: " + mCurrentTargetOffsetTop);
+    Log.e("onNestedPreScroll", "===========dy: " + dy + " ====mRefreshing: " + mRefreshing + " ====mLoading: " + mLoading + " ====mScrollDown: " + mScrollDown + " ====canChildScrollUp: " + canChildScrollUp() + " ====canChildScrollDown: " + canChildScrollDown());
+    //执行该代码的情况是你往下拖拽然后往上拖拽，此时需要优先于RV的滚动以便恢复刷新View的状态
+    // dy>0 为向上滑动产生，而mTotalUnconsumed大于0说明SRL已经有消耗过y值了
+    if (dy > 0 && mTotalUnconsumed > 0 && !mRefreshing && 1 == mScrollDown && 0 == mCurrentTargetOffsetBottom) {
+    if (dy > mTotalUnconsumed) {
+    consumed[1] = dy - (int) mTotalUnconsumed;
+    mTotalUnconsumed = 0F;
+    } else {
+    mTotalUnconsumed -= dy;
+    consumed[1] = dy;
+    }
+    //将刷新view移动回mTotalUnconsumed值对应 的位置，正值view向下移动，负值向上移动 mNestedRefreshLayoutTop == outLocation[1]
+    Log.e("onNestedPreScroll", "1===========mTotalUnconsumed: " + mTotalUnconsumed);
+    moveSpinner(mTotalUnconsumed);
+    } else if (!mRefreshing && 0 == mCurrentTargetOffsetBottom && mTotalUnconsumed > 0 && ((dy < 0 && 1 == mScrollDown) || (dy > 0 && -1 == mScrollDown))) { // 修正在上拉隐藏 HeaderView 时 dy > 0 界面跳动
+    mTotalUnconsumed -= -dy;
+    if (mTotalUnconsumed < 1) {
+    mTotalUnconsumed = 0F;
+    }
+    consumed[1] = dy;
+    Log.e("onNestedPreScroll", "2===========mTotalUnconsumed: " + mTotalUnconsumed + " ====dy: " + dy);
+    moveSpinner(mTotalUnconsumed);
+    } else if (mRefreshing && !canChildScrollUp() && 0 != mTotalUnconsumed
+    && ((dy > 0 && 1 == mScrollDown) || dy < 0 && -1 == mScrollDown)) { // 刷新且 向上滑动 \ 向下滑动
+    Log.e("onNestedPreScroll", "3===========mTotalUnconsumed: " + mTotalUnconsumed);
+    mTotalUnconsumed -= dy;
+    if (mTotalUnconsumed < 1) {
+    mTotalUnconsumed = 0F;
+    }
+    consumed[1] = dy;
+    moveSpinner(mTotalUnconsumed);
+    } else if (!mLoading && dy < 0 && mTotalUnconsumed > 0 && -1 == mScrollDown && mOriginalOffsetTop == mCurrentTargetOffsetTop) { // 向下滑动
+    Log.e("onNestedPreScroll", "4===========mTotalUnconsumed: " + mTotalUnconsumed);
+    mTotalUnconsumed += dy;
+    if (mTotalUnconsumed < 1) {
+    mTotalUnconsumed = 0F;
+    }
+    consumed[1] = dy;
+    moveFooterViewSpinner(mTotalUnconsumed);
+    } else if (mLoading && !canChildScrollDown() && ((dy > 0 && 1 == mScrollDown) || dy < 0 && -1 == mScrollDown)) { // 加载且 向上滑动 \ 向下滑动
+    Log.e("onNestedPreScroll", "5===========mTotalUnconsumed: " + mTotalUnconsumed);
+    mTotalUnconsumed += dy;
+    consumed[1] = dy;
+    if (dy < 0 && Math.abs(dy) > mTotalUnconsumed) {
+    mTotalUnconsumed = 0F;
+    }
+    moveFooterViewSpinner(mTotalUnconsumed);
+    } else if (mRefreshing && ((!canChildScrollUp() && -1 == mScrollDown && dy < 0 && mNestedRefreshLayoutTop == outLocation[1])
+    || (1 == mScrollDown && dy > 0))) {
+    Log.e("onNestedPreScroll", "6===========mTotalUnconsumed: " + mTotalUnconsumed);
+    mTotalUnconsumed -= dy;
+    if (mTotalUnconsumed < 1) {
+    mTotalUnconsumed = 0F;
+    }
+    consumed[1] = dy;
+    moveSpinner(mTotalUnconsumed);
+    }
+
+    Log.e("onNestedPreScroll", "7===========mTotalUnconsumed: " + mTotalUnconsumed);
+
+    //        if ((!mRefreshing && !canChildScrollUp()) || (mRefreshing && mTotalUnconsumed > 0)) { // 向下滑动且没有刷新则不向上传递
+    //            return;
+    //        }
+    //
+    //        if ((!mLoading && !canChildScrollDown()) || (mLoading && mTotalUnconsumed > 0)){
+    //            return;
+    //        }
+
+    Log.e("onNestedPreScroll", "8===========dy: " + dy + " ====consumed[1]: " + consumed[1]);
+
+    //同样，将嵌套滑动向上传递
+    final int[] parentConsumed = mParentScrollConsumed;
+    if (dispatchNestedPreScroll(dx - consumed[0], dy - consumed[1], parentConsumed, null)) {
+    Log.e("onNestedPreScroll", "9===========parentConsumed[1]: " + parentConsumed[1]);
+    consumed[0] += parentConsumed[0];
+    consumed[1] += parentConsumed[1];
+    }
+    }
+
+    /**
+    * 在进行嵌套滑动
+    */
+    private boolean onNestedPreScrollOrNestedScrolled = false;
+
+    /**
+    * 在target滑不动的时候会调用这个方法，这时就通知本view可以进行滑动。如果目标view可以一直滑动，那么这个方法就不会被调用
+    *
+    * @param target       发出NestedScroll事件的子view
+    * @param dxConsumed   target在x方向上已经消耗的滑动距离
+    * @param dxUnconsumed 这次滑动事件在x方向除去target已经消耗的还剩下的距离，通常如果我们需要滑动的话就使用这个值。
+    * @param dyConsumed   同上
+    * @param dyUnconsumed 同上
+    */
+    @Override
+    public void onNestedScroll(View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {
+    onNestedPreScrollOrNestedScrolled = true;
+    // Dispatch up to the nested parent first
+    //同样，消费嵌套滑动数据前先向上传递，让parent先消费
+    dispatchNestedScroll(dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed,
+    mParentOffsetInWindow);
+    //当parent有消费时，SRL相对于Parent的位置可能会改变，所以要结合mParentOffsetInWindow[1]的值来做处理
+    final int dy = dyUnconsumed + mParentOffsetInWindow[1];
+    Log.e("onNestedScroll", "1===========dy: " + dy + " ====dyUnconsumed: " + dyUnconsumed + " ====dyConsumed: " + dyConsumed + " ====mParentOffsetInWindow[1]: " + mParentOffsetInWindow[1]);
+    // dy<0 为从上向下滑动
+    if (dy < 0 && !canChildScrollUp() && !mRefreshing && !mLoading) {
+    //如果 canChildScrollUp() 为false，及RV已经滑到顶部了，不能再下拉了，此时自然是SRL的刷新View要出现了
+    mTotalUnconsumed += Math.abs(dy);
+    Log.e("onNestedScroll", "2==========mTotalUnconsumed: " + mTotalUnconsumed);
+    //调用moveSpinner来控制SRL刷新View的移动
+    moveSpinner(mTotalUnconsumed);
+    } else if (dy > 0 && !canChildScrollDown() && !mLoading && !mRefreshing) {
+    //如果 canChildScrollDown 为false，及RV已经滑到底部了，不能再上拉了，此时自然是SRL的加载 View 要出现了
+    mTotalUnconsumed += dy;
+    Log.e("onNestedScroll", "3==========mTotalUnconsumed: " + mTotalUnconsumed);
+    //调用 moveSpinner来控制SRL加载 View 的移动
+    moveFooterViewSpinner(mTotalUnconsumed);
+    } else {
+    Log.e("onNestedScroll", "4==========dy: " + dy);
+    }
+    }
+
+    /**
+    * 结束NestedScroll事件时调用，可什么都不做
+    */
+    @Override
+    public void onStopNestedScroll(View target) {
+    Log.e("onStopNestedScroll", "===========mScrollDown: " + mScrollDown + " ====onNestedScrolled: " + onNestedPreScrollOrNestedScrolled);
+    if (!onNestedPreScrollOrNestedScrolled) {
+    return;
+    }
+
+    mNestedScrollingParentHelper.onStopNestedScroll(target);
+    //重置变量为false
+    mNestedScrollInProgress = false;
+    Log.e("onStopNestedScroll", "===========mTotalUnconsumed: " + mTotalUnconsumed);
+    // Finish the spinner for nested scrolling if we ever consumed any
+    // unconsumed nested scroll
+    if (mTotalUnconsumed > 0) {  //类似于手势操作up的处理，结束时判断刷新View此时的状态是应该进入刷新状态还是回复到默认位置，代码看下面
+    if (mCurrentTargetOffsetBottom > 0 && mOriginalOffsetTop == mCurrentTargetOffsetTop) { // 加载时嵌套滑动结束
+    finishFooterViewSpinner(mTotalUnconsumed);
+    } else { // 刷新时嵌套滑动结束
+    finishSpinner(mTotalUnconsumed);
+    }
+    mTotalUnconsumed = 0F;
+    }
+    onNestedPreScrollOrNestedScrolled = false;
+    // Dispatch up our nested parent
+    stopNestedScroll();
+    }
+
+    @Override
+    public int getNestedScrollAxes() {
+    Log.e("getNestedScrollAxes", "=========== ");
+    return mNestedScrollingParentHelper.getNestedScrollAxes();
+    }
+
+
+    /////////////////////////////////  NestedScrollingParent  ////////////////////////////////////////
+
+
+    /////////////////////////////////  NestedScrollingChild  ////////////////////////////////////////
+
+    @Override
+    public void setNestedScrollingEnabled(boolean enabled) {
+    mNestedScrollingChildHelper.setNestedScrollingEnabled(enabled);
+    }
+
+    @Override
+    public boolean isNestedScrollingEnabled() {
+    return mNestedScrollingChildHelper.isNestedScrollingEnabled();
+    }
+
+    @Override
+    public boolean startNestedScroll(int axes) {
+    return mNestedScrollingChildHelper.startNestedScroll(axes);
+    }
+
+    @Override
+    public void stopNestedScroll() {
+    mNestedScrollingChildHelper.stopNestedScroll();
+    }
+
+    @Override
+    public boolean hasNestedScrollingParent() {
+    return mNestedScrollingChildHelper.hasNestedScrollingParent();
+    }
+
+    @Override
+    public boolean dispatchNestedScroll(int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed, @Nullable int[] offsetInWindow) {
+    return mNestedScrollingChildHelper.dispatchNestedScroll(dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, offsetInWindow);
+    }
+
+    @Override
+    public boolean dispatchNestedPreScroll(int dx, int dy, @Nullable int[] consumed, @Nullable int[] offsetInWindow) {
+    return mNestedScrollingChildHelper.dispatchNestedPreScroll(dx, dy, consumed, offsetInWindow);
+    }
+
+
+    /**
+    * 在target判断为fling并且执行fling之前调用，我们可以通过返回true来拦截目标的fling，这样它就不会执行滑动。
+    *
+    * @param target    目标view
+    * @param velocityX 在x方向的起始速度
+    * @param velocityY 在y方向的起始速度
+    * @return 我们是否消耗此次fling，返回true代表拦截，返回false，目标view就进行正常的fling
+    */
+    @Override
+    public boolean onNestedPreFling(View target, float velocityX, float velocityY) {
+    return dispatchNestedPreFling(velocityX, velocityY);
+    }
+
+    /**
+    * 在target进行fling后调用。注意这个方法并不是像onNestedScroll在子view滑不动之后调用，而是紧跟着onNestedPreFling后会被调用。因此对于它的使用场景一般比较少。
+    *
+    * @param target    目标view
+    * @param velocityX 在x方向的速度，注意这是fling的起始速度，并不是目标在滑不动时停止时刻的速度，它和onNestedPreFling中的velocityX是一样的。
+    * @param velocityY 在y方向的速度，注意这是fling的起始速度，并不是目标在滑不动时停止时刻的速度，它和onNestedPreFling中的velocityY是一样的。
+    * @param consumed  目标view是否消耗了此次fling
+    * @return 本view是否消耗了这次fling
+    */
+    @Override
+    public boolean onNestedFling(View target, float velocityX, float velocityY, boolean consumed) {
+    return dispatchNestedFling(velocityX, velocityY, consumed);
+    }
+
+    @Override
+    public boolean dispatchNestedPreFling(float velocityX, float velocityY) {
+    return mNestedScrollingChildHelper.dispatchNestedPreFling(velocityX, velocityY);
+    }
+
+    @Override
+    public boolean dispatchNestedFling(float velocityX, float velocityY, boolean consumed) {
+    return mNestedScrollingChildHelper.dispatchNestedPreFling(velocityX, velocityY);
+    }
+
+
+    /////////////////////////////////  NestedScrollingChild  ////////////////////////////////////////
+
+
+    /////////////////////////////////    ////////////////////////////////////////
+    /////////////////////////////////    ////////////////////////////////////////
+    /////////////////////////////////    ////////////////////////////////////////
+    /////////////////////////////////    ////////////////////////////////////////
+
+
+    public void setOnRefreshAndLoadListener(@Nullable OnRefreshAndLoadListener listener) {
+    mListener = listener;
+    }
+
+    public void setDistanceToTriggerSync(int distance) {
+    mTotalDragDistance = distance;
+    }
+
+    public void setHeaderView(IHeaderWrapper header, int headerHeight) {
+    setTag(0);
+    mHeaderWrapper = header;
+    mHeaderHeight = headerHeight;
+    addView(header.getHeaderView());
+    }
+
+    public void setFooterView(IFooterWrapper footer, int footerHeight) {
+    setTag(0);
+    mFooterWrapper = footer;
+    mFooterHeight = footerHeight;
+    addView(footer.getFooterView());
+    }
+
+    public void setNoMoreData() {
+    updateStatus(State.FOOTER_NO_MORE);
+    }
+
+    }

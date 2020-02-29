@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="JDialogStyle" parent="@android:style/Theme.Dialog">
+
+        <!-- 背景透明 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <!-- 浮于Activity之上 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 边框 -->
+        <item name="android:windowFrame">@null</item>
+        <!-- Dialog以外的区域模糊效果 -->
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.5</item>
+        <!-- 无标题 -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 半透明 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- Dialog进入及退出动画 -->
+        <!--<item name="android:windowAnimationStyle">@style/JDialogAnimation</item>-->
+    </style>
+
+    <!-- 自定义动画,可以使用系统的,即把parent= 后面的直接 name="android:windowAnimationStyle"> 后面  -->
+    <style name="JDialogAnimation" parent="@android:style/Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/jdialog_enter</item>
+        <item name="android:windowExitAnimation">@anim/jdialog_exit</item>
+    </style>
+
+    <style name="SignDialogAnimation" parent="@android:style/Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/jdialog_scale_in</item>
+        <item name="android:windowExitAnimation">@anim/jdialog_scale_out</item>
+    </style>
+
+
+</resources>

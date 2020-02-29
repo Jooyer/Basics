@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <size
+        android:width="2dp" />
+    <solid android:color="#F00" />
+<!--  EditText gravity="end" 光标很细,下面设置可以解决  -->
+    <padding android:left="1dp"/>
+
+</shape>
