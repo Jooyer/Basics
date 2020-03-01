@@ -6,7 +6,6 @@ import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -24,6 +23,7 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * 参考 https://github.com/lovejjfg/PowerRefresh
+ * https://www.jianshu.com/u/921c778fb5e1
  */
 @SuppressWarnings("unused")
 public class PowerRefreshLayout extends ViewGroup implements NestedScrollingParent, NestedScrollingChild {
@@ -356,10 +356,8 @@ public class PowerRefreshLayout extends ViewGroup implements NestedScrollingPare
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-//        Log.e("PowerRefresh", "onTouchEvent========= ");
         final int action = ev.getActionMasked();
         int pointerIndex;
-
 
         if (!isEnabled() || canChildScrollUp()
                 || isLoading || isRefreshing || mNestedScrollInProgress) {
@@ -478,14 +476,6 @@ public class PowerRefreshLayout extends ViewGroup implements NestedScrollingPare
     }
 
     @Override
-    public boolean onNestedPreFling(@NotNull View target, float velocityX,
-                                    float velocityY) {
-
-        return dispatchNestedPreFling(velocityX, velocityY);
-    }
-
-
-    @Override
     public boolean dispatchNestedFling(float velocityX, float velocityY, boolean consumed) {
         return mNestedScrollingChildHelper.dispatchNestedFling(velocityX, velocityY, consumed);
     }
@@ -544,7 +534,7 @@ public class PowerRefreshLayout extends ViewGroup implements NestedScrollingPare
             }
             goToRefresh(-dy);
             consumed[1] = dy;
-//            Log.e("PowerRefresh", "onNestedPreScroll========= 2 --->dy: " + dy);
+//            Log.e("PowerRefresh", "onNestedPreScroll========= 2 --->dy: " + dy + " =====mTotalUnconsumed: " + mTotalUnconsumed + "=====getScrollY: " + getScrollY());
         } else if (refreshEnable && mHeaderView != null && isRefreshing && mTotalUnconsumed == 0 && dy > 0 && getScrollY() < 0) { // 正在刷新时,向上滑动
 //            Log.e("PowerRefresh", "onNestedPreScroll========= 3 --->dy: " + dy + "=====getScrollY: " + getScrollY());
             if (dy + getScrollY() > 0) { // 此时 performScrollByQuickly(-dy), 则滑动多了,会使底部加载更多布局显示
@@ -619,16 +609,14 @@ public class PowerRefreshLayout extends ViewGroup implements NestedScrollingPare
 
         final int dy = dyUnconsumed + mParentOffsetInWindow[1];
 //        Log.e("PowerRefresh", "onNestedScroll========= 1 --->dy: " + dy + " ====dyConsumed: " + dyConsumed + " =====dyUnconsumed: " + dyUnconsumed + " ====mParentOffsetInWindow[1]: " + mParentOffsetInWindow[1] + "=====getScrollY: " + getScrollY());
-        if (0 == dy) {
-            return;
-        }
+
         if (!isLoading && refreshEnable && mHeaderView != null && dy < 0 && !isRefreshing && !canChildScrollUp() && mTotalUnconsumed <= 4 * mHeaderViewHeight) {
             mTotalUnconsumed += Math.abs(dy);
             if (currentStatus == STATE_DEFAULT || mTotalUnconsumed != 0) {
                 currentStatus = STATE_REFRESH;
             }
             goToRefresh(Math.abs(dy));
-            Log.e("PowerRefresh", "onNestedScroll========= 2 --->dy: " + dy + " =====mTotalUnconsumed: " + mTotalUnconsumed + " ======getScrollY: " + getScrollY());
+//            Log.e("PowerRefresh", "onNestedScroll========= 2 --->dy: " + dy + " =====mTotalUnconsumed: " + mTotalUnconsumed + " ======getScrollY: " + getScrollY());
         } else if (refreshEnable && mHeaderView != null && dy < 0 && isRefreshing && !canChildScrollUp() && mHeaderViewHeight > Math.abs(getScrollY())) {
             if (Math.abs(getScrollY()) + Math.abs(dy) <= mHeaderViewHeight) {
                 performScroll(-dy);
@@ -661,28 +649,42 @@ public class PowerRefreshLayout extends ViewGroup implements NestedScrollingPare
         }
     }
 
-
-    @Override
-    public boolean onNestedFling(@NotNull View target, float velocityX, float velocityY, boolean consumed) {
-//        Log.e("PowerRefresh", "onNestedFling=========consumed: " + consumed);
-        return dispatchNestedFling(velocityX, velocityY, consumed);
-    }
-
-
     @Override
     public void onStopNestedScroll(@NotNull View target) {
         mNestedScrollingParentHelper.onStopNestedScroll(target);
         mNestedScrollInProgress = false;
-//        Log.e("PowerRefresh", "onStopNestedScroll========= 1 --->mStatus: " + mStatus + " ====headerHeight: " + mHeaderViewHeight);
-        resetScroll();
+//        Log.e("PowerRefresh", "onStopNestedScroll========= 1 --->mStatus: " + mStatus + " ====mTotalUnconsumed: " + mTotalUnconsumed + "=====getScrollY: " + getScrollY() + " ====mTotalUnconsumedLoadMore: " + mTotalUnconsumedLoadMore);
         stopNestedScroll();
-        if (null != mHeaderListener){
+        resetScroll();
+        if (null != mHeaderListener) {
             mHeaderListener.onMoveDistance(Math.abs(getScrollY()));
         }
-        if (null != mFooterListener){
+        if (null != mFooterListener) {
             mFooterListener.onMoveDistance(Math.abs(getScrollY()));
         }
     }
+
+    @Override
+    public boolean onNestedPreFling(@NotNull View target, float velocityX,
+                                    float velocityY) {
+        boolean preFling = dispatchNestedPreFling(velocityX, velocityY);
+        if (getScrollY() < 0 && -getScrollY() >= mHeaderViewHeight) { // 滑动超过 Header 高度
+            preFling = true;
+        }else  if ( getScrollY() > 0 && getScrollY() >= mFooterViewHeight) { // 滑动超过 Footer 高度
+            preFling = true;
+        }
+//        Log.e("PowerRefresh", "onNestedPreFling=========preFling: " + preFling + "=====getScrollY: " + getScrollY());
+        return preFling;
+    }
+
+
+    @Override
+    public boolean onNestedFling(@NotNull View target, float velocityX, float velocityY, boolean consumed) {
+//        boolean fling = dispatchNestedFling(velocityX, velocityY, consumed);
+//        Log.e("PowerRefresh", "onNestedFling=========fling: " + fling + "=====getScrollY: " + getScrollY());
+        return dispatchNestedFling(velocityX, velocityY, consumed);
+    }
+
 
     //////////////////////////////////////                         ////////////////////////////////////////
     //////////////////////////////////////  NestedScrollingParent  ////////////////////////////////////////
@@ -694,10 +696,10 @@ public class PowerRefreshLayout extends ViewGroup implements NestedScrollingPare
     private void performScroll(int dy) {
         int ddy = (int) (-dy * DRAG_RATE);
         scrollBy(0, ddy);
-        if (null != mHeaderListener){
+        if (null != mHeaderListener) {
             mHeaderListener.onMoveDistance(Math.abs(getScrollY()));
         }
-        if (null != mFooterListener){
+        if (null != mFooterListener) {
             mFooterListener.onMoveDistance(Math.abs(getScrollY()));
         }
     }
@@ -707,10 +709,10 @@ public class PowerRefreshLayout extends ViewGroup implements NestedScrollingPare
      */
     private void performScrollByQuickly(int dy) {
         scrollBy(0, -dy);
-        if (null != mHeaderListener){
+        if (null != mHeaderListener) {
             mHeaderListener.onMoveDistance(Math.abs(getScrollY()));
         }
-        if (null != mFooterListener){
+        if (null != mFooterListener) {
             mFooterListener.onMoveDistance(Math.abs(getScrollY()));
         }
     }
@@ -730,10 +732,10 @@ public class PowerRefreshLayout extends ViewGroup implements NestedScrollingPare
             public void onAnimationUpdate(ValueAnimator animation) {
                 int value = (int) animation.getAnimatedValue();
                 scrollTo(0, value);
-                if (null != mHeaderListener){
+                if (null != mHeaderListener) {
                     mHeaderListener.onMoveDistance(Math.abs(getScrollY()));
                 }
-                if (null != mFooterListener){
+                if (null != mFooterListener) {
                     mFooterListener.onMoveDistance(Math.abs(getScrollY()));
                 }
                 postInvalidate();
@@ -765,7 +767,11 @@ public class PowerRefreshLayout extends ViewGroup implements NestedScrollingPare
                 break;
             // 释放刷新
             case RefreshState.HEADER_RELEASE:
-                scrollToRefreshStatus(true);
+                if (Math.abs(getScrollY()) >= mHeaderViewHeight) { // 滑动 > Header高度
+                    scrollToRefreshStatus(true);
+                } else { // 滑动 < Header高度
+                    scrollToDefaultStatus(RefreshState.HEADER_CANCEL);
+                }
                 break;
             // 正在刷新
             case RefreshState.HEADER_REFRESHING:
@@ -780,10 +786,15 @@ public class PowerRefreshLayout extends ViewGroup implements NestedScrollingPare
                 loadEnable = false;
                 scrollToDefaultStatus(RefreshState.FOOTER_CANCEL);
                 break;
-            // 正在加载
+            // 释放加载更多
             case RefreshState.FOOTER_RELEASE:
-                scrollToLoadStatus(true);
+                if (Math.abs(getScrollY()) >= mFooterViewHeight) { // 滑动 > Footer高度
+                    scrollToLoadStatus(true);
+                } else { // 滑动 < Footer高度
+                    scrollToDefaultStatus(RefreshState.FOOTER_CANCEL);
+                }
                 break;
+            // 正在加载
             case RefreshState.FOOTER_LOADING:
                 if (Math.abs(getScrollY()) >= mFooterViewHeight) { // 滑动超过 Footer 高度
                     scrollToLoadStatus(false);
@@ -907,7 +918,7 @@ public class PowerRefreshLayout extends ViewGroup implements NestedScrollingPare
                 break;
             case RefreshState.HEADER_COMPLETED:
                 if (mHeaderListener != null) {
-                    mHeaderListener.onRefreshComplete( isRefreshSuccess);
+                    mHeaderListener.onRefreshComplete(isRefreshSuccess);
                 }
                 break;
             case RefreshState.HEADER_CANCEL:
@@ -939,7 +950,7 @@ public class PowerRefreshLayout extends ViewGroup implements NestedScrollingPare
                 break;
             case RefreshState.FOOTER_COMPLETED:
                 if (mFooterListener != null) {
-                    mFooterListener.onLoadComplete( isLoadSuccess);
+                    mFooterListener.onLoadComplete(isLoadSuccess);
                 }
                 break;
             case RefreshState.FOOTER_CANCEL:
