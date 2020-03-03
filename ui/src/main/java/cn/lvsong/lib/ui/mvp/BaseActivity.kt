@@ -21,7 +21,7 @@ import io.reactivex.disposables.CompositeDisposable
  * Time: 12:49
  */
 abstract class BaseActivity<T : IBasePresenter> : AppCompatActivity(),
-    BaseView, OnRetryListener, RxView.OnFilterClickAction<View> {
+    BaseView, OnRetryListener, RxView.OnFilterClick {
 
     /**
      *  装载 RxBus,防止内存泄漏

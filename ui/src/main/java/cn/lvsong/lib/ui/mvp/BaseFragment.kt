@@ -24,7 +24,7 @@ import io.reactivex.disposables.CompositeDisposable
  * Time: 11:16
  */
 abstract class BaseFragment<T : IBasePresenter> : Fragment(), BaseView,
-    RxView.OnFilterClickAction<View>, OnRetryListener {
+    RxView.OnFilterClick, OnRetryListener {
     private val mCompositeDisposable = CompositeDisposable()
     open  lateinit var mPresenter: T
 
