@@ -15,6 +15,8 @@
         android:background="@color/colorPrimary"
         app:tabMode="scrollable"
         app:tabGravity="center"
+        app:tabTextColor="@color/color_DDDDDD"
+        app:tabSelectedTextColor="@color/color_FFFFFF"
         />
 
     <androidx.viewpager.widget.ViewPager
