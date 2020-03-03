@@ -14,4 +14,14 @@ public abstract class OnRefreshAndLoadListener {
 
     }
 
+    /**
+     * 当用户拖动时,对拖动距离进行回调
+     * @param distance > 0 向上滑动(加载操作) , distance < 0 向下滑动(刷新操作)
+     * @param headerMaxDistance  --> HeaderView 最大移动距离
+     * @param footerMaxDistance  --> FooterView 最大移动距离
+     */
+    public void onMoveDistance(PowerRefreshLayout refreshLayout, int headerMaxDistance,int footerMaxDistance,int distance){
+
+    }
+
 }

@@ -2,6 +2,7 @@ package cn.lvsong.lib.demo
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import cn.lvsong.lib.library.adapter.CommonAdapter
 import cn.lvsong.lib.library.adapter.ViewHolder
@@ -9,6 +10,7 @@ import cn.lvsong.lib.library.refresh.DefaultFooterView
 import cn.lvsong.lib.library.refresh.DefaultHeaderView
 import cn.lvsong.lib.library.refresh.OnRefreshAndLoadListener
 import cn.lvsong.lib.library.refresh.PowerRefreshLayout
+import cn.lvsong.lib.library.rxbind.RxView
 import kotlinx.android.synthetic.main.activity_normal_refresh.*
 
 /**
@@ -34,7 +36,7 @@ class NormalRefreshActivity : AppCompatActivity() {
 
                 refreshLayout.postDelayed({
                     rv_list.adapter?.notifyDataSetChanged()
-                    prl_container.stopRefresh(true)
+                    prl_container.setFinishRefresh(true)
                 }, 3000)
             }
 
@@ -45,7 +47,7 @@ class NormalRefreshActivity : AppCompatActivity() {
                 }
                 refreshLayout.postDelayed({
                     rv_list.adapter?.notifyDataSetChanged()
-                    prl_container.stopLoadMore(true)
+                    prl_container.setFinishLoad(true)
                 }, 3000)
             }
         })
@@ -55,7 +57,7 @@ class NormalRefreshActivity : AppCompatActivity() {
 
         prl_container.postDelayed({
             // 自动刷新
-            prl_container.setAutoRefresh(true)
+            prl_container.setAutoRefresh()
         }, 300)
 
 
@@ -64,6 +66,13 @@ class NormalRefreshActivity : AppCompatActivity() {
                 holder.setText(R.id.tv_name, bean)
             }
         }
+
+        RxView.setOnClickListeners(object :RxView.OnFilterClick{
+            override fun onClick(view: View) {
+
+            }
+
+        },rv_list)
 
     }
 }

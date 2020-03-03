@@ -29,10 +29,7 @@ object RxView {
      */
     @SuppressLint("CheckResult")
     fun setOnClickListeners(
-        skipDuration: Long = 1000,
-        action: OnFilterClickAction<View>,
-        vararg targets: View
-    ) {
+        action: OnFilterClick, vararg targets: View,skipDuration: Long = 1000) {
         for (view in targets) {
             onClick(view)
                 .throttleFirst(skipDuration, TimeUnit.MILLISECONDS)
@@ -76,8 +73,8 @@ object RxView {
      *
      * @param <T> View 类型参数
     </T> */
-    interface OnFilterClickAction<T> {
-        fun onClick(view: T)
+    interface OnFilterClick {
+        fun onClick(view: View)
     }
 
 

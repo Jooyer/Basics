@@ -10,8 +10,6 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cn.lvsong.lib.demo.presenter.LazyPresenter
-import cn.lvsong.lib.library.refresh.DefaultFooterView
-import cn.lvsong.lib.library.refresh.DefaultHeaderView
 import cn.lvsong.lib.library.refresh.OnRefreshAndLoadListener
 import cn.lvsong.lib.library.refresh.PowerRefreshLayout
 import cn.lvsong.lib.ui.mvp.BaseFragment
@@ -31,8 +29,8 @@ class LazyFragment : BaseFragment<LazyPresenter>() {
         }
 
 
-        snl_container.addHeader(DefaultHeaderView(mActivity))
-        snl_container.addFooter(DefaultFooterView(mActivity))
+//        snl_container.addHeader(DefaultHeaderView(mActivity))
+//        snl_container.addFooter(DefaultFooterView(mActivity))
 
         snl_container.setOnRefreshAndLoadListener(object : OnRefreshAndLoadListener() {
             override fun onRefresh(refreshLayout: PowerRefreshLayout) {
@@ -45,7 +43,7 @@ class LazyFragment : BaseFragment<LazyPresenter>() {
 
                 refreshLayout.postDelayed({
                     rv_list.adapter?.notifyDataSetChanged()
-                    snl_container.stopRefresh(true)
+                    snl_container.setFinishRefresh(true)
                 }, 3000)
             }
 
@@ -56,7 +54,7 @@ class LazyFragment : BaseFragment<LazyPresenter>() {
                 }
                 refreshLayout.postDelayed({
                     rv_list.adapter?.notifyDataSetChanged()
-                    snl_container.stopLoadMore(true)
+                    snl_container.setFinishLoad(true)
                 }, 3000)
             }
         })
@@ -89,7 +87,10 @@ class LazyFragment : BaseFragment<LazyPresenter>() {
 
     override fun onFirstUserVisible() {
         Log.e("Test", "onFirstUserVisible==============")
-        snl_container.setAutoRefresh(true)
+        snl_container.postDelayed({
+//            snl_container.setAutoRefresh()
+        }, 600)
+
     }
 
     inner class Holder(val view: View) : RecyclerView.ViewHolder(view) {

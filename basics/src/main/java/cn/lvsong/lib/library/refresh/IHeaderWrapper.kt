@@ -23,11 +23,6 @@ interface IHeaderWrapper {
     fun onPullDownAndReleasable()
 
     /**
-     * 准备刷新
-     */
-    fun onRefreshReady()
-
-    /**
      * 刷新中
      */
     fun onRefreshing()
@@ -37,10 +32,11 @@ interface IHeaderWrapper {
      */
     fun onRefreshComplete( isRefreshSuccess: Boolean)
 
+
     /**
-     * 取消刷新
+     * 刷新失败
      */
-    fun onRefreshCancel()
+    fun onRefreshFailure( )
 
     /**
      * 获取刷视图高度

@@ -1,16 +1,14 @@
 package cn.lvsong.lib.library.refresh
 
 import android.content.Context
-import android.graphics.Color
-import android.util.Log
+import android.content.res.Resources
 import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import cn.lvsong.lib.library.R
-import cn.lvsong.lib.library.utils.DensityUtils
 
 /**
  * Desc:
@@ -18,10 +16,10 @@ import cn.lvsong.lib.library.utils.DensityUtils
  * Date: 2019-08-06
  * Time: 17:34
  */
-class DefaultHeaderView(context: Context) : LinearLayout(context), IHeaderWrapper {
+open class DefaultHeaderView(context: Context) : LinearLayout(context), IHeaderWrapper {
 
     private var tvHeaderTip: TextView? = null
-    private var ivHeaderTip: ImageView? = null
+    private var cvLoading: ChrysanthemumView? = null
 
     init {
         initView()
@@ -29,18 +27,17 @@ class DefaultHeaderView(context: Context) : LinearLayout(context), IHeaderWrappe
 
     private fun initView() {
         val view = LayoutInflater.from(context).inflate(R.layout.header_default, this, false)
-        ivHeaderTip = view.findViewById<ImageView>(R.id.iv_tip)
+        cvLoading = view.findViewById<ChrysanthemumView>(R.id.cv_loading)
         tvHeaderTip = view.findViewById<TextView>(R.id.tv_tip)
         val params = LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT)
         params.gravity = Gravity.CENTER_VERTICAL
-        setBackgroundColor(Color.WHITE)
         addView(view, params)
     }
 
     override fun onMoveDistance(distance: Int) {
-        Log.e("DefaultHeaderView","onMoveDistance========distance: $distance")
+
     }
 
 
@@ -52,24 +49,33 @@ class DefaultHeaderView(context: Context) : LinearLayout(context), IHeaderWrappe
         tvHeaderTip?.text = "松手可刷新"
     }
 
-    override fun onRefreshReady() {
-
-    }
 
     override fun onRefreshing() {
+        cvLoading?.visibility = View.VISIBLE
         tvHeaderTip?.text = "正在刷新"
     }
 
     override fun onRefreshComplete(isRefreshSuccess: Boolean) {
+        cvLoading?.visibility = View.GONE
         tvHeaderTip?.text = "刷新完成"
     }
 
-    override fun onRefreshCancel() {
-
+    override fun onRefreshFailure() {
+        cvLoading?.visibility = View.GONE
+        tvHeaderTip?.text = "刷新失败"
     }
+
 
     override fun getRefreshHeight(): Int {
-        return DensityUtils.dpToPx(60)
+        return dpToPx(50)
     }
 
+    /**
+     * dp -> px
+     * @param dp
+     * @return
+     */
+    fun dpToPx(dp: Int): Int {
+        return (dp * Resources.getSystem().displayMetrics.density).toInt()
+    }
 }

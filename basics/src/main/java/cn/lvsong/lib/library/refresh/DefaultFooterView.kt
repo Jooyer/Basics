@@ -1,14 +1,13 @@
 package cn.lvsong.lib.library.refresh
 
 import android.content.Context
-import android.graphics.Color
+import android.content.res.Resources
 import android.view.Gravity
 import android.view.LayoutInflater
-import android.widget.ImageView
+import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import cn.lvsong.lib.library.R
-import cn.lvsong.lib.library.utils.DensityUtils
 
 /**
  * Desc:
@@ -16,10 +15,10 @@ import cn.lvsong.lib.library.utils.DensityUtils
  * Date: 2019-08-06
  * Time: 17:34
  */
-class DefaultFooterView(context: Context) : LinearLayout(context), IFooterWrapper {
+open class DefaultFooterView(context: Context) : LinearLayout(context), IFooterWrapper {
 
     private var tvHeaderTip: TextView? = null
-    private var ivHeaderTip: ImageView? = null
+    private var cvLoading: ChrysanthemumView? = null
 
     init {
         initView()
@@ -27,11 +26,10 @@ class DefaultFooterView(context: Context) : LinearLayout(context), IFooterWrappe
 
     private fun initView() {
         val view = LayoutInflater.from(context).inflate(R.layout.footer_default, this, false)
-        ivHeaderTip = view.findViewById<ImageView>(R.id.iv_tip)
+        cvLoading = view.findViewById<ChrysanthemumView>(R.id.cv_loading)
         tvHeaderTip = view.findViewById<TextView>(R.id.tv_tip)
         val params = LinearLayout.LayoutParams(-1, -2)
         params.gravity = Gravity.CENTER_VERTICAL
-        setBackgroundColor(Color.WHITE)
         addView(view, params)
     }
 
@@ -48,28 +46,37 @@ class DefaultFooterView(context: Context) : LinearLayout(context), IFooterWrappe
         tvHeaderTip?.text = "松手可加载"
     }
 
-    override fun onLoadReady() {
-
-    }
 
     override fun onLoading() {
+        cvLoading?.visibility = View.VISIBLE
         tvHeaderTip?.text = "正在加载"
     }
 
     override fun onLoadComplete(isLoadSuccess: Boolean) {
+        cvLoading?.visibility = View.GONE
         tvHeaderTip?.text = "加载完成"
     }
 
-    override fun onLoadCancel() {
-
+    override fun onLoadFailure() {
+        cvLoading?.visibility = View.GONE
+        tvHeaderTip?.text = "加载失败"
     }
 
     override fun onNoMore() {
+        cvLoading?.visibility = View.GONE
         tvHeaderTip?.text = "没有更多数据"
     }
 
     override fun getLoadHeight(): Int {
-      return  DensityUtils.dpToPx(50)
+      return  dpToPx(50)
     }
 
+    /**
+     * dp -> px
+     * @param dp
+     * @return
+     */
+    fun dpToPx(dp: Int): Int {
+        return (dp * Resources.getSystem().displayMetrics.density).toInt()
+    }
 }

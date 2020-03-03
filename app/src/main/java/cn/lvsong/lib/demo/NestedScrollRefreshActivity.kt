@@ -16,7 +16,7 @@ class NestedScrollRefreshActivity : AppCompatActivity() {
         setContentView(R.layout.activity_nested_scroll_refresh)
 
 
-        val title = arrayListOf<String>("语文", "数学", "英语")
+        val title = arrayListOf<String>("政治", "历史", "地理")
 
         val fragments = ArrayList<LazyFragment>()
         for (i in 0..2) {

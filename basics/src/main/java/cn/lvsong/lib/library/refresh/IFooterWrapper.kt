@@ -24,24 +24,19 @@ interface IFooterWrapper {
     fun onPullUpAndReleasable()
 
     /**
-     * 准备加载
-     */
-    fun onLoadReady()
-
-    /**
      * 加载中
      */
     fun onLoading()
 
     /**
-     * 刷新完成
+     * 加载完成
      */
     fun onLoadComplete(isLoadSuccess: Boolean)
 
     /**
-     * 加载取消
+     * 加载失败
      */
-    fun onLoadCancel()
+    fun onLoadFailure( )
 
     /**
      * 没有数据

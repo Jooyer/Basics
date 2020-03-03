@@ -1,30 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="@dimen/height_50"
-             tools:ignore="MissingDefaultResource">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/height_50"
+    >
 
-    <ProgressBar
-        android:id="@+id/pb_loading"
-        android:layout_width="@dimen/width_24"
-        android:layout_height="@dimen/height_24"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="@dimen/padding_64"
-        android:indeterminateDuration="900"
-        android:visibility="gone"/>
-
-    <ImageView
-        android:id="@+id/iv_tip"
-        android:layout_width="@dimen/width_24"
-        android:layout_height="@dimen/height_24"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="@dimen/padding_64"
-        android:background="@color/main_theme_color"
+    <cn.lvsong.lib.library.refresh.ChrysanthemumView
+        android:id="@+id/cv_loading"
+        android:layout_width="@dimen/width_30"
+        android:layout_height="@dimen/height_30"
+        android:layout_marginStart="@dimen/padding_50"
         android:visibility="gone"
+        app:chrysanthemum_view_color="@color/main_theme_color"
+        app:chrysanthemum_view_width="@dimen/padding_10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_tip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,6 +28,12 @@
         android:text="@string/common_library_load_more"
         android:textColor="@color/color_333333"
         android:textSize="@dimen/text_size_14"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         />
 
-</FrameLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -66,11 +66,22 @@ public class StatusBarUtil {
         }
     }
 
-
+    /**
+     * 设置状态栏颜色
+     */
     public static void setStatusBarColor(Activity activity, int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            activity.getWindow().setStatusBarColor(color);
+        }
+    }
+
+    /**
+     * 设置底部虚拟导航栏颜色
+     */
+    public static void setNavigationBarColor(Activity activity, int color) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             activity.getWindow().setStatusBarColor(color);
         }
     }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="ChrysanthemumView">
+
+        <!-- 每一片花瓣的长度,也决定了菊花半径 -->
+        <attr name="chrysanthemum_view_width" format="dimension|integer"/>
+        <!-- 每一片花瓣的高度,菊花花瓣厚度 -->
+        <attr name="chrysanthemum_view_height" format="dimension|integer"/>
+        <!-- 花瓣的颜色 -->
+        <attr name="chrysanthemum_view_color" format="color|reference"/>
+
+    </declare-styleable>
+
+</resources>
