@@ -2,8 +2,6 @@
 <resources>
 
     <declare-styleable name="CustomToolbar">
-        <!-- 背景色颜色 -->
-        <attr name="ct_view_background_color" format="color|reference"/>
         <!-- 左侧文本是否显示 -->
         <attr name="ct_left_text_visible" format="boolean"/>
         <!-- 左侧文本 -->

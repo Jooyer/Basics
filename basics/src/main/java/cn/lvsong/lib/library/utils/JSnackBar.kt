@@ -27,13 +27,13 @@ import com.google.android.material.snackbar.Snackbar
                 .message("收藏成功")
                 .textColor(Color.GREEN)
                 .textGravity(Gravity.CENTER)
-//                        .backgroundRadius(DensityUtils.dpToPx(5).toFloat())
+//                        .backgroundRadius(DensityUtils.dp2pxRtInt(5).toFloat())
                 .build()
                 .leftDrawable(ContextCompat.getDrawable(this@BookDetailActivity, R.drawable.city_book_flex_layout_bg)!!,
-                        DensityUtils.dpToPx(20), DensityUtils.dpToPx(20))
+                        DensityUtils.dp2pxRtInt(20), DensityUtils.dp2pxRtInt(20))
                 .frameLayout(Gravity.CENTER)
-                .strokeAndColorWithRadius(DensityUtils.dpToPx(5).toFloat(), DensityUtils.dpToPx(1), Color.BLACK) // 会覆盖  backgroundRadius()
-                .margin(DensityUtils.dpToPx(20)) // 这个必须放在  frameLayout() 后面,否则无效
+                .strokeAndColorWithRadius(DensityUtils.dp2pxRtInt(5).toFloat(), DensityUtils.dp2pxRtInt(1), Color.BLACK) // 会覆盖  backgroundRadius()
+                .margin(DensityUtils.dp2pxRtInt(20)) // 这个必须放在  frameLayout() 后面,否则无效
                 .show()
 
  */
@@ -126,8 +126,8 @@ class JSnackBar private constructor(builder: Builder) {
 
     fun default(): JSnackBar {
         frameLayout(Gravity.CENTER)
-//                .strokeAndColorWithRadius(DensityUtils.dpToPx(5).toFloat(), DensityUtils.dpToPx(1), Color.BLACK) // 会覆盖  backgroundRadius()
-                .margin(DensityUtils.dpToPx(20)) // 这个必须放在  frameLayout() 后面,否则无效
+//                .strokeAndColorWithRadius(DensityUtils.dp2pxRtInt(5).toFloat(), DensityUtils.dp2pxRtInt(1), Color.BLACK) // 会覆盖  backgroundRadius()
+                .margin(DensityUtil.dp2pxRtInt(20)) // 这个必须放在  frameLayout() 后面,否则无效
         return this
     }
 
@@ -192,7 +192,7 @@ class JSnackBar private constructor(builder: Builder) {
         private var mTextGravity: Int = Gravity.CENTER
         private var mBackgroundColor: Int = 0
         private var mTextColor: Int = 0
-        private var mBackgroundRadius: Float = DensityUtils.dpToPx(5).toFloat()
+        private var mBackgroundRadius: Float = DensityUtil.dp2pxRtInt(5).toFloat()
         private var mBackgroundAlpha: Float = 1F
         private var mMessage: String = ""
 

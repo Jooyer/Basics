@@ -68,7 +68,7 @@ open class DefaultFooterView(context: Context) : LinearLayout(context), IFooterW
     }
 
     override fun getLoadHeight(): Int {
-      return  dpToPx(50)
+      return  dp2pxRtInt(50)
     }
 
     /**
@@ -76,7 +76,7 @@ open class DefaultFooterView(context: Context) : LinearLayout(context), IFooterW
      * @param dp
      * @return
      */
-    fun dpToPx(dp: Int): Int {
+    fun dp2pxRtInt(dp: Int): Int {
         return (dp * Resources.getSystem().displayMetrics.density).toInt()
     }
 }

@@ -5,7 +5,7 @@
     android:id="@+id/cl_menu_container"
     android:layout_width="match_parent"
     android:layout_height="@dimen/height_48"
-    android:background="@android:color/white">
+    >
 
     <ImageView
         android:id="@+id/iv_left_icon_menu"

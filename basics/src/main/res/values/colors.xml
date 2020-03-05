@@ -6,7 +6,7 @@
     <color name="colorAccent">@color/main_theme_color</color>
 
     <!-- 主色 -->
-    <color name="main_theme_color">#31c27c</color>
+    <color name="main_theme_color">#FFFFFF</color>
 
     <color name="color_FFFFFF">#FFFFFF</color>
     <color name="color_EEEEEE">#EEEEEE</color>

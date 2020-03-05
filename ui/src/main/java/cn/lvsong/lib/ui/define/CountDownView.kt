@@ -12,7 +12,7 @@ import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.LinearInterpolator
-import cn.lvsong.lib.library.utils.DensityUtils
+import cn.lvsong.lib.library.utils.DensityUtil
 import cn.lvsong.lib.ui.R
 
 /**
@@ -44,13 +44,13 @@ class CountDownView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
         attrs?.let {
             val arr = context.obtainStyledAttributes(attrs, R.styleable.CountDownView)
             mRingPaint.color = arr.getColor(R.styleable.CountDownView_cdv_ring_color, Color.RED)
-            mRingWidth = arr.getDimension(R.styleable.CountDownView_cdv_ring_width, DensityUtils.dpToPx(2).toFloat())
+            mRingWidth = arr.getDimension(R.styleable.CountDownView_cdv_ring_width, DensityUtil.dp2pxRtInt(2).toFloat())
             mRingPaint.strokeWidth = mRingWidth
 
             mCirclePaint.color = arr.getColor(R.styleable.CountDownView_cdv_circle_color, Color.BLUE)
 
             mTextPaint.color = arr.getColor(R.styleable.CountDownView_cdv_text_color, Color.WHITE)
-            mTextPaint.textSize = arr.getDimension(R.styleable.CountDownView_cdv_text_size, DensityUtils.dpToPx(24).toFloat())
+            mTextPaint.textSize = arr.getDimension(R.styleable.CountDownView_cdv_text_size, DensityUtil.dp2pxRtInt(24).toFloat())
 
             arr.recycle()
         }

@@ -5,7 +5,7 @@
     private val privateKeyStr =
         "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDOcoxM8Uz/ QxQnov8yY5a5vTkv8H+uy9MT/v6Xzl1HnDDGZYhhujrQ2QE+meYggP6GU03J 1ewoa8ulTD8Gco13KEhW/ku0qGbAA/nNCbsdBQqdOSJSHzTU393F5A/kxrbF kfweiss4QCWeJbDAC3tqnjpLSNsN6MRGv/BH2TdOqpDLbxSEBMHL5hqQKcmD 67cSevaNJiYRYnYwgxn8nnUfqn9NkFQD0ddWUyPRZjm6WL0Qtlrw6sLLaKxB hsbMWP2bKzKSBm2Q8YVPYm81SghJsrSMZTOFuMVfhJfwnO2YRh1h3y0zmmne XvM4L0kkRFlhRkuNmhknT2NRQacVoa6VAgMBAAECggEAIv2/UftENa/E5sL1 xjCjB3BPFRUKTzI04JrDxC8yGEUc70OeThImjed6EoY7Px8eBN5xvNgJYwCC T84QkKMx3xRwzm3jnwc8AyepW1te35hPKD7a1lh7t+kJydTR7NDRgcMwnGyh 7TLSLW/t+V742CVhdAkxN7ZQLj2yGDt06Fwqkxu/KGLx6UtZ2T9wZgp0BVfu WHfzEfMdO9tMxfp6bbDZ0uKhpr+UPB/94XSjFssGsSRpVjVKVwpta96aZFhh 1P2tAjM9PfEkrQ9yAEe6Mxe5sw2vhUcBUfgVgI8qVGBPkOwZIXX7ltvN51qj a6vZXTsrHWSM3Cph/PjNuvx9sQKBgQDwti+cz58MzXt3NwysnwufobUJPw9V E5ByZGiLr8+JH9IxXnA3ivl+3S3M4oyPx3xmBkKdUfZnhBRB0kNUw+SzrYI5 7OiwrpZNH06+t1Vj1h/u1rYcSZpoyhsvHxJ3t0R/JvfJcoo+QBQcBaUa0JO6 BeHpwzzryLLwAGq7jw5xcwKBgQDbjz+ZiKcbIVNtUDv1CSF++EmTUo2njmjZ gflavRuccGug6EsOtF5oPmsT+QZchpX3zxronH9El+HpC4SRlbYPLKJhR1uD 4tq+iz7yOhEpr+kh1NtfcLLQKYWhZ+Fq08NNQzVU4FWnfyXDrGWchyV9f/pE pZbtAePArK83xKg91wKBgAk70+O+CyngkAXotLHCgB2lhF5QbvQihf39YA1L tzhZYiTGrKNUz3FQZrtfTWkOi/UV9GQ4iq054dUMjcyonxNNaptyPRLZ/6YB t3GVcs8bnan5zo6TPDsc1aIfHQQ+oYAHLKYroKX2q07P4J+AtMoEA8CF3sZk soiGW5HKURGFAoGBALDs5zhGuToQidTdweL8P6S8WTXBYWrzRCR6K0DmgLh4 kxJv/gPUbvsbyVen5Wtr/K9bkfh+G8Rfi+kqoeJbPQFPW25+fQ1zIghH1yqE hk4MdhYQG9L10vIRc6CUQD7AdHHvRaumtv8pY3ohkyQmd5yBI2Br+4nzat9Z iDytWVGzAoGAC/DsNrg+EnqgmTgChhvguhyc8l88USIWwdBQ4MDMR/lE4LxE 6RJozgX0gkx3HPJWywwLj3c71qIkenkDu6h3vnbbL+NjrdtbzXejNkI0615j zKt1xj7G7X/L10jmeoMyiqKkHA3NC52PC5HTe3bkPQgW2bowbxZoySPCREZl a/I="
 
-    override fun needUseImmersive() = true
+    override fun needUseImmersive() = 1
 
     override fun requestWindowFeature() {
         StatusBarUtil.setStatusBarColor(this, ContextCompat.getColor(this, R.color.main_theme_color))
@@ -18,7 +18,7 @@
         btn_submit_feedback.background = SelectorFactory.newShapeSelector()
             .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
             .setPressedBgColor(ContextCompat.getColor(this, R.color.main_theme_color))
-            .setCornerRadius(DensityUtils.dpToPx(5))
+            .setCornerRadius(DensityUtils.dp2pxRtInt(5))
             .create()
     }
 

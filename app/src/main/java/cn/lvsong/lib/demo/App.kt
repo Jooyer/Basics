@@ -17,7 +17,7 @@ class App :LSApp() {
         /**
          * 根据需要初始化,默认有平移尺寸和 StatusBarColor
          */
-//        StatusConfig.INSTANCE.setTranslateY(DensityUtils.dpToPx(48))
+//        StatusConfig.INSTANCE.setTranslateY(DensityUtils.dp2pxRtInt(48))
     }
 
 }

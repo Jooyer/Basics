@@ -24,7 +24,7 @@ import androidx.core.content.ContextCompat;
   Button.background = SelectorFactory.newShapeSelector()
             .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
             .setPressedBgColor(ContextCompat.getColor(this, R.color.main_theme_color))
-            .setCornerRadius(DensityUtils.dpToPx(5))
+            .setCornerRadius(DensityUtils.dp2pxRtInt(5))
             .create()
 
  */

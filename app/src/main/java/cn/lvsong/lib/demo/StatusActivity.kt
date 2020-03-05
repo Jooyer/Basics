@@ -13,9 +13,11 @@ class StatusActivity : BaseActivity<StatusPresenter>() {
     override fun getLayoutId() = R.layout.activity_status
 
     /**
-     *  可以自行测试  true/false 效果
+     *  可以自行测试  1/0 效果
      */
-    override fun needUseImmersive() = true
+    override fun needUseImmersive() = 1
+
+    override fun getDarkModel() = 1
 
     override fun useStatusManager() = true
 
@@ -28,7 +30,7 @@ class StatusActivity : BaseActivity<StatusPresenter>() {
     // 根据需要重写
     override fun getStatusBarColor() = R.color.main_theme_color
     // 根据需要重写
-//    override fun getTransY() = DensityUtils.dpToPx(50)
+//    override fun getTransY() = DensityUtils.dp2pxRtInt(50)
 
     override fun bindEvent() {
         mPresenter?.test()

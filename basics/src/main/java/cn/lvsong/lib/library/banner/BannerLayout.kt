@@ -3,7 +3,6 @@ package cn.lvsong.lib.library.banner
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -11,7 +10,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import cn.lvsong.lib.library.R
-import cn.lvsong.lib.library.utils.DensityUtils
+import cn.lvsong.lib.library.utils.DensityUtil
 
 /**
  * Desc: Banner 容器
@@ -29,11 +28,11 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
     /**
      * 指示器高度,默认 20dp
      */
-    private var mIndicatorContainerHeight = DensityUtils.dpToPx(20)
+    private var mIndicatorContainerHeight = DensityUtil.dp2pxRtInt(20)
     /**
      * 指示器内部 View 的 margin,默认 5dp
      */
-    private var mIndicatorMargin = DensityUtils.dpToPx(5)
+    private var mIndicatorMargin = DensityUtil.dp2pxRtInt(5)
     /**
      * 轮询播放时间间隔,默认3秒,单位是毫秒
      */
@@ -137,7 +136,7 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
         mIndicatorContainerLp.startToStart = 0
         mIndicatorContainerLp.endToEnd = 0
         mIndicatorContainerLp.bottomToBottom = 0
-        mIndicatorContainerLp.bottomMargin = DensityUtils.dpToPx(5)
+        mIndicatorContainerLp.bottomMargin = DensityUtil.dp2pxRtInt(5)
         mIndicatorContainer.layoutParams = mIndicatorContainerLp
         addView(mIndicatorContainer)
 
@@ -145,10 +144,6 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
         mBanner.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 if (RecyclerView.SCROLL_STATE_IDLE == newState) { // 滑动停止
-                    Log.e(
-                        "Banner",
-                        "==============newState: $newState ====mCurrentPos: $mCurrentPos"
-                    )
                     mPositionChangeListener?.onPositionChange(mCurrentPos)
                     if (mShowIndicatorView) { // 指示器
                         changeIndicatorState()

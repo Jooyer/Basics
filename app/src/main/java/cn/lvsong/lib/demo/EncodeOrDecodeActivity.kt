@@ -25,7 +25,7 @@ class EncodeOrDecodeActivity : BaseActivity<EncodeOrDecodePresenter>() {
     private val key = AESUtil.generateSecretKey("Common")
 
 
-    override fun needUseImmersive() = true
+    override fun needUseImmersive() = 1
     // 根据需要重写
     override fun getStatusBarColor() = android.R.color.holo_green_light
 

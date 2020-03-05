@@ -67,7 +67,7 @@ open class DefaultHeaderView(context: Context) : LinearLayout(context), IHeaderW
 
 
     override fun getRefreshHeight(): Int {
-        return dpToPx(50)
+        return dp2pxRtInt(50)
     }
 
     /**
@@ -75,7 +75,7 @@ open class DefaultHeaderView(context: Context) : LinearLayout(context), IHeaderW
      * @param dp
      * @return
      */
-    fun dpToPx(dp: Int): Int {
+    fun dp2pxRtInt(dp: Int): Int {
         return (dp * Resources.getSystem().displayMetrics.density).toInt()
     }
 }

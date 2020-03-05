@@ -69,7 +69,11 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
      */
     private val ORIENTATION_VERTICAL = 2
 
-    lateinit var parent: View
+    /**
+     * 自定义布局父容器
+     */
+    lateinit var cl_toolbar_container: ConstraintLayout
+
     /**
      * 最左侧图标,默认显示
      */
@@ -112,33 +116,28 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
     }
 
     private fun initView() {
-        parent = LayoutInflater.from(context).inflate(R.layout.common_ui_toolbar_custom, this, true)
-        iv_left_icon_menu = parent.findViewById(R.id.iv_left_icon_menu)
-        tv_left_name_menu = parent.findViewById(R.id.tv_left_name_menu)
-        tv_center_title_menu = parent.findViewById(R.id.tv_center_title_menu)
-        tv_right_name_menu = parent.findViewById(R.id.tv_right_name_menu)
-        iv_right_icon_menu = parent.findViewById(R.id.iv_right_icon_menu)
-        iv_right_icon_menu2 = parent.findViewById(R.id.iv_right_icon_menu2)
-        mav_right_icon_menu = parent.findViewById(R.id.mav_right_icon_menu)
-        view_bottom_divider_menu = parent.findViewById(R.id.view_bottom_divider_menu)
+        LayoutInflater.from(context).inflate(R.layout.common_ui_toolbar_custom, this, true)
+        iv_left_icon_menu = findViewById(R.id.iv_left_icon_menu)
+        tv_left_name_menu = findViewById(R.id.tv_left_name_menu)
+        tv_center_title_menu = findViewById(R.id.tv_center_title_menu)
+        tv_right_name_menu = findViewById(R.id.tv_right_name_menu)
+        iv_right_icon_menu = findViewById(R.id.iv_right_icon_menu)
+        iv_right_icon_menu2 = findViewById(R.id.iv_right_icon_menu2)
+        mav_right_icon_menu = findViewById(R.id.mav_right_icon_menu)
+        view_bottom_divider_menu = findViewById(R.id.view_bottom_divider_menu)
 
+        cl_toolbar_container = findViewById<ConstraintLayout>(R.id.cl_toolbar_container)
     }
 
     private fun parseAttrs(context: Context, attr: AttributeSet) {
         val arr = context.obtainStyledAttributes(attr, R.styleable.CustomToolbar)
-
-        val background = arr.getColor(
-            R.styleable.CustomToolbar_ct_view_background_color,
-            ContextCompat.getColor(context, R.color.color_FFFFFF)
-        )
-
         val leftArrowVisible = arr.getBoolean(R.styleable.CustomToolbar_ct_left_arrow_visible, true)
         val leftArrowWidth =
-            arr.getDimension(R.styleable.CustomToolbar_ct_left_arrow_width, dp2px(45F)).toInt()
+            arr.getDimension(R.styleable.CustomToolbar_ct_left_arrow_width, dp2px(40F)).toInt()
         val leftArrowHeight =
             arr.getDimension(R.styleable.CustomToolbar_ct_left_arrow_height, dp2px(50F)).toInt()
         val leftArrowPadding =
-            arr.getDimension(R.styleable.CustomToolbar_ct_left_arrow_padding, dp2px(1F))
+            arr.getDimension(R.styleable.CustomToolbar_ct_left_arrow_padding, dp2px(3F))
         val leftArrowLeftMargin =
             arr.getDimension(R.styleable.CustomToolbar_ct_left_arrow_left_margin, 0F).toInt()
 
@@ -173,7 +172,7 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
 
 
         val rightImageVisible =
-            arr.getBoolean(R.styleable.CustomToolbar_ct_right_image_visible, true)
+            arr.getBoolean(R.styleable.CustomToolbar_ct_right_image_visible, false)
         val rightImageDrawable = arr.getDrawable(R.styleable.CustomToolbar_ct_right_image_drawable)
         val rightImageWidth =
             arr.getDimension(R.styleable.CustomToolbar_ct_right_image_width, dp2px(20F)).toInt()
@@ -212,7 +211,7 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
             MoreActionView.dip2px(context, 2F).toFloat()
         )
         val mavVisible =
-            arr.getBoolean(R.styleable.CustomToolbar_ct_right_mav_visible, false)
+            arr.getBoolean(R.styleable.CustomToolbar_ct_right_mav_visible, true)
         val mavWidth =
             arr.getDimension(R.styleable.CustomToolbar_ct_right_mav_width, dp2px(40F)).toInt()
         val mavHeight =
@@ -234,14 +233,11 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         )
 
         val bottomDividerVisible =
-            arr.getBoolean(R.styleable.CustomToolbar_ct_bottom_divider_visible, false)
+            arr.getBoolean(R.styleable.CustomToolbar_ct_bottom_divider_visible, true)
         val bottomDividerColor = arr.getColor(
             R.styleable.CustomToolbar_ct_bottom_divider_color,
             ContextCompat.getColor(context, R.color.color_EEEEEE)
         )
-
-        parent.setBackgroundColor(background)
-
         iv_left_icon_menu.visibility = if (leftArrowVisible) View.VISIBLE else View.GONE
         iv_left_icon_menu.setArrowColor(leftArrowColor)
         iv_left_icon_menu.setArrowStyle(leftArrowStyle)
@@ -345,7 +341,7 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         )
         iv_right_icon_menu2.layoutParams = rightImageLp2
 
-        if (mavVisible){
+        if (mavVisible) {
             mav_right_icon_menu.visibility = View.VISIBLE
             tv_right_name_menu.visibility = View.GONE
             iv_right_icon_menu.visibility = View.GONE
@@ -360,7 +356,7 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
             mav_right_icon_menu.setColor(mavColor)
             mav_right_icon_menu.setOrientation(mavOrientation)
             mav_right_icon_menu.setDotRadius(mavDotRadius)
-        }else{
+        } else {
             mav_right_icon_menu.visibility = View.GONE
         }
 
@@ -381,6 +377,13 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         view_bottom_divider_menu.setBackgroundColor(bottomDividerColor)
 
         arr.recycle()
+    }
+
+    override fun onFinishInflate() {
+        super.onFinishInflate()
+        val lp = cl_toolbar_container.layoutParams as ConstraintLayout.LayoutParams
+        lp.height = height
+        cl_toolbar_container.layoutParams = lp
     }
 
     fun setRightImageListener(listener: View.OnClickListener) {

@@ -10,9 +10,9 @@ class MainActivity : BaseActivity<BasePresenter<*, *>>() {
     override fun getLayoutId() = R.layout.activity_main
 
     /**
-     *  可以自行测试  true/false 效果
+     *  可以自行测试  1/0 效果
      */
-    override fun needUseImmersive() = true
+    override fun needUseImmersive() = 1
 
     override fun getStatusBarColor() = R.color.main_theme_color
 

@@ -3,13 +3,13 @@ package cn.lvsong.lib.ui.define;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
 import android.view.View;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import cn.lvsong.lib.ui.R;
 
@@ -132,7 +132,7 @@ public class BackArrowView extends View {
     private void initAttr(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.BackArrowView, defStyleAttr, 0);
         mPadding = array.getDimension(R.styleable.BackArrowView_bav_arrow_padding,dip2px(context, 1f));
-        mArrowColor = array.getColor(R.styleable.BackArrowView_bav_arrow_color, Color.argb(255, 0, 0, 0));
+        mArrowColor = array.getColor(R.styleable.BackArrowView_bav_arrow_color, ContextCompat.getColor(context,R.color.color_333333));
         mArrowStrokeWidth = array.getDimension(R.styleable.BackArrowView_bav_stroke_width, dip2px(context, 2f));
         mArrowStyle = array.getInt(R.styleable.BackArrowView_bav_arrow_style, ARROW_STYLE_MATERIAL_DESIGN);
         array.recycle();

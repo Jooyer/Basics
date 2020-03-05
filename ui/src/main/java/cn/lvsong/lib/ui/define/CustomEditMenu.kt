@@ -96,13 +96,13 @@ class CustomEditMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
     }
 
     private fun initView() {
-        val root = LayoutInflater.from(context).inflate(R.layout.common_ui_image_text_edit_image, this, true)
-        cl_menu_container = root.findViewById(R.id.cl_menu_container)
-        iv_left_icon_menu = root.findViewById(R.id.iv_left_icon_menu)
-        tv_left_name_menu = root.findViewById(R.id.tv_left_name_menu)
-        et_right_name_menu = root.findViewById(R.id.et_right_name_menu)
-        iv_right_arrow_menu = root.findViewById(R.id.iv_right_arrow_menu)
-        view_bottom_divider_menu = root.findViewById(R.id.view_bottom_divider_menu)
+        LayoutInflater.from(context).inflate(R.layout.common_ui_image_text_edit_image, this, true)
+        cl_menu_container = findViewById(R.id.cl_menu_container)
+        iv_left_icon_menu = findViewById(R.id.iv_left_icon_menu)
+        tv_left_name_menu = findViewById(R.id.tv_left_name_menu)
+        et_right_name_menu = findViewById(R.id.et_right_name_menu)
+        iv_right_arrow_menu = findViewById(R.id.iv_right_arrow_menu)
+        view_bottom_divider_menu = findViewById(R.id.view_bottom_divider_menu)
     }
 
     private fun parseAttrs(context: Context, attr: AttributeSet) {

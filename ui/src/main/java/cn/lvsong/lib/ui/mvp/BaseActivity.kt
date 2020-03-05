@@ -39,8 +39,15 @@ abstract class BaseActivity<T : IBasePresenter> : AppCompatActivity(),
         StatusBarUtil.transparentStatusBar(
             this,
             if (-1 == getStatusBarColor()) StatusConfig.INSTANCE.getStatusBarColor() else getStatusBarColor(),
-            needUseImmersive()
+            if (-1 == needUseImmersive()) 1 == StatusConfig.INSTANCE.needUseImmersive() else 1 == needUseImmersive()
         )
+
+        if (-1 == getDarkModel()){
+            StatusBarUtil.changeState(this,1 == StatusConfig.INSTANCE.getDarkModel())
+        }else{
+            StatusBarUtil.changeState(this,1 == getDarkModel())
+        }
+
         requestWindowFeature()
         super.onCreate(savedInstanceState)
 
@@ -60,6 +67,14 @@ abstract class BaseActivity<T : IBasePresenter> : AppCompatActivity(),
             setContentView(initStatusManager(savedInstanceState))
         }
 
+    }
+
+    /**
+     * 1 --> 状态栏文本是黑色, 2 --> 状态栏文本是白色
+     * 默认是黑色
+     */
+    open fun getDarkModel():Int {
+        return -1
     }
 
     override fun onAttachedToWindow() {
@@ -129,9 +144,10 @@ abstract class BaseActivity<T : IBasePresenter> : AppCompatActivity(),
 
     /**
      * 是否 fitsSystemWindows, 即在顶部加入一个padding,默认不加入
+     * 0 --> 不加, 1 --> 加上
      */
-    open fun needUseImmersive(): Boolean {
-        return false
+    open fun needUseImmersive(): Int {
+        return -1
     }
 
     /**
@@ -280,6 +296,7 @@ abstract class BaseActivity<T : IBasePresenter> : AppCompatActivity(),
         window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
         window.attributes = attr
     }
+
     fun lightOff(alpha: Float = 0.4f) {
         val attr = window.attributes
         window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
