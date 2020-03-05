@@ -28,10 +28,24 @@
         <attr name="fsv_search_btn_text_size" format="dimension|reference" />
         <!--搜索按钮文本颜色-->
         <attr name="fsv_search_btn_text_color" format="color|reference" />
+        <!--搜索按钮背景颜色-->
+        <attr name="fsv_search_btn_bg_color" format="color|reference" />
+        <!-- 搜索按钮宽度 -->
+        <attr name="fsv_search_btn_width" format="dimension|reference" />
+        <!-- 搜索按钮高度 -->
+        <attr name="fsv_search_btn_height" format="dimension|reference" />
+        <!-- 搜索按钮宽度的左侧margin -->
+        <attr name="fsv_search_btn_margin_left" format="dimension|reference" />
+        <!-- 搜索按钮宽度右侧margin -->
+        <attr name="fsv_search_btn_margin_right" format="dimension|reference" />
         <!--默认的搜索文本-->
         <attr name="fsv_default_search_text" format="string|reference" />
         <!-- 中间搜索输入框的高度 -->
         <attr name="fsv_input_container_height" format="dimension|reference" />
+        <!-- 中间搜索输入框的左侧margin -->
+        <attr name="fsv_input_container_margin_left" format="dimension|reference" />
+        <!-- 中间搜索输入框的右侧margin -->
+        <attr name="fsv_input_container_margin_right" format="dimension|reference" />
         <!--中间搜索输入框文本大小-->
         <attr name="fsv_input_et_text_size" format="dimension|reference" />
         <!--中间搜索输入框左侧padding-->
@@ -48,6 +62,8 @@
         <attr name="fsv_root_clickable" format="boolean" />
         <!-- 底部分割线 -->
         <attr name="fsv_bottom_divider_visible" format="boolean" />
+        <!-- 底部分割线颜色 -->
+        <attr name="fsv_bottom_divider_color" format="color|reference"/>
 
     </declare-styleable>
 

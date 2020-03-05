@@ -17,7 +17,7 @@
             android:background="@color/main_theme_color"
             android:onClick="onNormalRefresh"
             android:text="普通刷新加载"
-            android:textColor="@color/color_FFFFFF"
+            android:textColor="@color/color_333333"
             android:textSize="@dimen/text_size_16" />
 
         <Button
@@ -28,7 +28,7 @@
             android:onClick="onNestedScrollRefresh"
             android:text="NestedScroll嵌套滑动刷新加载"
             android:textAllCaps="false"
-            android:textColor="@color/color_FFFFFF"
+            android:textColor="@color/color_333333"
             android:textSize="@dimen/text_size_16" />
 
         <Button
@@ -38,7 +38,7 @@
             android:background="@color/main_theme_color"
             android:onClick="onLazyLoad"
             android:text="懒加载"
-            android:textColor="@color/color_FFFFFF"
+            android:textColor="@color/color_333333"
             android:textSize="@dimen/text_size_16" />
 
         <Button
@@ -49,7 +49,7 @@
             android:onClick="onUserStatusManager"
             android:text="使用StatusManager"
             android:textAllCaps="false"
-            android:textColor="@color/color_FFFFFF"
+            android:textColor="@color/color_333333"
             android:textSize="@dimen/text_size_16" />
 
         <Button
@@ -60,7 +60,7 @@
             android:onClick="onUseBanner"
             android:text="Banner"
             android:textAllCaps="false"
-            android:textColor="@color/color_FFFFFF"
+            android:textColor="@color/color_333333"
             android:textSize="@dimen/text_size_16" />
 
 
@@ -72,7 +72,7 @@
             android:onClick="onEncodeOrDecode"
             android:text="请求接口加密解密"
             android:textAllCaps="false"
-            android:textColor="@color/color_FFFFFF"
+            android:textColor="@color/color_333333"
             android:textSize="@dimen/text_size_16" />
     </LinearLayout>
 

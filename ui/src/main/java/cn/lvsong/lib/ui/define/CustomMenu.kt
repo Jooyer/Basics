@@ -215,10 +215,6 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         val bottomDividerRightMargin =
             arr.getDimension(R.styleable.CustomMenu_cm_bottom_divider_right_margin, 0F).toInt()
 
-        val rootLp: ConstraintLayout.LayoutParams = cl_menu_container.layoutParams as LayoutParams
-        rootLp.height = height
-        cl_menu_container.layoutParams = rootLp
-
         iv_left_icon_menu.visibility = if (leftImageVisible) View.VISIBLE else View.GONE
         if (null != leftImageDrawable) {
             iv_left_icon_menu.setImageDrawable(leftImageDrawable)
@@ -320,6 +316,13 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         view_bottom_divider_menu.layoutParams = bottomDividerLp
 
         arr.recycle()
+    }
+
+    override fun onFinishInflate() {
+        super.onFinishInflate()
+        val rootLp: ConstraintLayout.LayoutParams = cl_menu_container.layoutParams as LayoutParams
+        rootLp.height = height
+        cl_menu_container.layoutParams = rootLp
     }
 
     fun setRightTextVisible(isVisible: Boolean) {

@@ -64,7 +64,9 @@ public class FairySearchView extends ConstraintLayout {
     private String searchBtnText = getResources().getString(R.string.common_ui_search);
     private int searchBtnTextSize = getResources().getDimensionPixelSize(R.dimen.text_size_18);
     private int searchBtnTextColor = getResources().getColor(R.color.color_333333);
+    private int searchBtnBgColor = getResources().getColor(R.color.color_FFFFFF);
     private int searchIconColor = getResources().getColor(R.color.color_333333);
+    private int bottomDivideColor = getResources().getColor(R.color.color_EEEEEE);
 
     private float arrowPadding = 0F;
     private int arrowColor = 0;
@@ -78,8 +80,14 @@ public class FairySearchView extends ConstraintLayout {
     private int inputEtColor = getResources().getColor(R.color.color_333333);
     private String inputEtHint = getResources().getString(R.string.common_ui_search_hint);
     private int inputEtHintColor = getResources().getColor(R.color.color_B1B6D1);
-    private int inputEtContainer = getResources().getDimensionPixelSize(R.dimen.height_40);
+    private int inputEtContainerHeight = getResources().getDimensionPixelSize(R.dimen.height_40);
     private int inputEtPaddingLeft = getResources().getDimensionPixelSize(R.dimen.padding_30);//输入框左侧内边距
+    private int inputEtContainerLeftMargin = 0;//输入框左侧外边距
+    private int inputEtContainerRightMargin = 0;//输入框右侧外边距
+    private int searchBtnWidth = getResources().getDimensionPixelSize(R.dimen.width_45);//搜索按钮宽度
+    private int searchBtnHeight = getResources().getDimensionPixelSize(R.dimen.width_50);//搜索按钮宽度
+    private int searchBtnWidthLeftMargin = 0;//搜索按钮左侧外边距
+    private int searchBtnWidthRightMargin = 0;//搜索按钮右侧外边距
 
     private int maxSearchLength = -1;//输入内容最大长度（默认不设限制）
 
@@ -88,7 +96,7 @@ public class FairySearchView extends ConstraintLayout {
     // 监听用户点击了虚拟键盘中右下角的回车/搜索键
     private OnEnterClickListener onEnterClickListener;
 
-    //    private View searchRoot;//主体View
+    private View clSearchContainer;//主体View
     private View flowSearchView;//浮层View
     private View btmDivider;//底部分割线
     private AndroidSearchView searchViewIcon;
@@ -113,6 +121,15 @@ public class FairySearchView extends ConstraintLayout {
         initViews(context);
     }
 
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        ConstraintLayout.LayoutParams lp = (LayoutParams) clSearchContainer.getLayoutParams();
+        lp.height = getHeight();
+        clSearchContainer.setLayoutParams(lp);
+    }
+
+
     //初始化属性
     private void initAttrs(Context context, AttributeSet attrs) {
         if (attrs != null) {
@@ -130,18 +147,27 @@ public class FairySearchView extends ConstraintLayout {
             showClearButton = typedArray.getBoolean(R.styleable.FairySearchView_fsv_show_clear_icon, showClearButton);
             rootClickable = typedArray.getBoolean(R.styleable.FairySearchView_fsv_root_clickable, false);
             bottomDividerVisible = typedArray.getBoolean(R.styleable.FairySearchView_fsv_bottom_divider_visible, false);
+            bottomDivideColor = typedArray.getColor(R.styleable.FairySearchView_fsv_bottom_divider_color,bottomDivideColor);
 
             searchBtnText = getOrDefault(typedArray.getString(R.styleable.FairySearchView_fsv_search_btn_text), resources.getString(R.string.common_ui_search));
             searchBtnTextSize = typedArray.getDimensionPixelSize(R.styleable.FairySearchView_fsv_search_btn_text_size, resources.getDimensionPixelSize(R.dimen.text_size_14));
             searchBtnTextColor = typedArray.getColor(R.styleable.FairySearchView_fsv_search_btn_text_color, resources.getColor(R.color.color_333333));
+            searchBtnBgColor = typedArray.getColor(R.styleable.FairySearchView_fsv_search_btn_bg_color, searchBtnBgColor);
+            searchBtnWidth = typedArray.getDimensionPixelSize(R.styleable.FairySearchView_fsv_search_btn_width, searchBtnWidth);
+            searchBtnHeight = typedArray.getDimensionPixelSize(R.styleable.FairySearchView_fsv_search_btn_height, searchBtnHeight);
+            searchBtnWidthLeftMargin = typedArray.getDimensionPixelSize(R.styleable.FairySearchView_fsv_search_btn_margin_left, 0);
+            searchBtnWidthRightMargin = typedArray.getDimensionPixelSize(R.styleable.FairySearchView_fsv_search_btn_margin_right, 0);
 
             searchText = typedArray.getString(R.styleable.FairySearchView_fsv_default_search_text);
             inputEtSize = typedArray.getDimensionPixelSize(R.styleable.FairySearchView_fsv_input_et_text_size, resources.getDimensionPixelSize(R.dimen.text_size_15));
             inputEtColor = typedArray.getColor(R.styleable.FairySearchView_fsv_input_et_text_color, resources.getColor(R.color.color_333333));
             inputEtHint = getOrDefault(typedArray.getString(R.styleable.FairySearchView_fsv_input_et_hint_text), resources.getString(R.string.common_ui_search_hint));
             inputEtHintColor = typedArray.getColor(R.styleable.FairySearchView_fsv_input_et_hint_color, resources.getColor(R.color.color_B1B6D1));
-            inputEtContainer = typedArray.getDimensionPixelSize(R.styleable.FairySearchView_fsv_input_container_height, resources.getDimensionPixelSize(R.dimen.height_36));
+
+            inputEtContainerHeight = typedArray.getDimensionPixelSize(R.styleable.FairySearchView_fsv_input_container_height, resources.getDimensionPixelSize(R.dimen.height_36));
             inputEtPaddingLeft = typedArray.getDimensionPixelSize(R.styleable.FairySearchView_fsv_input_et_left_padding, inputEtPaddingLeft);
+            inputEtContainerLeftMargin = typedArray.getDimensionPixelSize(R.styleable.FairySearchView_fsv_input_container_margin_left, 0);
+            inputEtContainerRightMargin = typedArray.getDimensionPixelSize(R.styleable.FairySearchView_fsv_input_container_margin_right, 0);
 
             maxSearchLength = typedArray.getInteger(R.styleable.FairySearchView_fsv_input_et_max_length, -1);//默认不限制
 
@@ -152,7 +178,7 @@ public class FairySearchView extends ConstraintLayout {
     //初始化Views
     private void initViews(Context context) {
         LayoutInflater.from(context).inflate(R.layout.common_ui_fairy_search_view, this, true);
-//        searchRoot = findViewById(R.id.layout_search_view);
+        clSearchContainer = findViewById(R.id.cl_search_container);
         inputContainer = findViewById(R.id.cl_search_view_container);
         flowSearchView = findViewById(R.id.view_flow_search_view);
         searchViewIcon = findViewById(R.id.asv_search_view_icon);
@@ -169,7 +195,15 @@ public class FairySearchView extends ConstraintLayout {
     private void setAttr() {
         searchBtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, searchBtnTextSize);
         searchBtn.setTextColor(searchBtnTextColor);
+        searchBtn.setBackgroundColor(searchBtnBgColor);
         searchBtn.setText(searchBtnText);
+        ConstraintLayout.LayoutParams params = (LayoutParams) searchBtn.getLayoutParams();
+        params.width = searchBtnWidth;
+        params.height = searchBtnHeight;
+        params.leftMargin = searchBtnWidthLeftMargin;
+        params.rightMargin = searchBtnWidthRightMargin;
+        searchBtn.setLayoutParams(params);
+
 
         inputEt.setTextColor(inputEtColor);
         inputEt.setTextSize(TypedValue.COMPLEX_UNIT_PX, inputEtSize);
@@ -177,8 +211,12 @@ public class FairySearchView extends ConstraintLayout {
         inputEt.setHintTextColor(inputEtHintColor);
         inputEt.setHint(inputEtHint);
 
-        limitEditLength(maxSearchLength);//限制输入内容最大长度（默认不限制）
-        limitSearchViewHeight(inputEtContainer);//设置输入框外层容器高度
+        //限制输入内容最大长度（默认不限制）
+        limitEditLength(maxSearchLength);
+        //设置输入框外层容器高度
+        limitSearchViewHeight();
+
+
 
         // 是否整个搜索自定义控件可以点击
         flowSearchView.setVisibility(rootClickable ? View.VISIBLE : View.GONE);
@@ -192,14 +230,18 @@ public class FairySearchView extends ConstraintLayout {
         backBtn.setArrowColor(arrowColor);
         backBtn.setArrowStyle(arrowStyle);
         backBtn.setPadding(arrowPadding);
+
         // 底部分割线
         btmDivider.setVisibility(bottomDividerVisible ? VISIBLE : GONE);
+        if (bottomDividerVisible) {
+            btmDivider.setBackgroundColor(bottomDivideColor);
+        }
 
         // 设置输入框左侧 Padding
         // 注意: 如果隐藏输入框左侧的搜索图标,则必须重置 inputEtPaddingLeft
-        if (showSearchIcon){
+        if (showSearchIcon) {
             inputEt.setPadding(inputEtPaddingLeft + dp2px(30), 0, dp2px(2F), 0);
-        }else {
+        } else {
             inputEt.setPadding(inputEtPaddingLeft, 0, dp2px(2F), 0);
         }
 
@@ -287,9 +329,11 @@ public class FairySearchView extends ConstraintLayout {
     }
 
     //设置输入框外层容器高度
-    private void limitSearchViewHeight(int searchViewHeight) {
+    private void limitSearchViewHeight() {
         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) inputContainer.getLayoutParams();
-        layoutParams.height = searchViewHeight;
+        layoutParams.height = inputEtContainerHeight;
+        layoutParams.leftMargin = inputEtContainerLeftMargin;
+        layoutParams.rightMargin = inputEtContainerRightMargin;
         inputContainer.setLayoutParams(layoutParams);
     }
 

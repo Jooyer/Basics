@@ -17,7 +17,6 @@ class StatusActivity : BaseActivity<StatusPresenter>() {
      */
     override fun needUseImmersive() = 1
 
-    override fun getDarkModel() = 1
 
     override fun useStatusManager() = true
 
