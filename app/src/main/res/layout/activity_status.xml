@@ -205,6 +205,19 @@
         app:layout_constraintTop_toBottomOf="@id/tool2" />
 
 
+    <cn.lvsong.lib.library.refresh.ChrysanthemumView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_30"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fsv_search_view_help"
+        app:chrysanthemum_view_color="@color/color_E95C5B5B"
+        app:chrysanthemum_view_radius="@dimen/padding_10"
+        app:chrysanthemum_view_width="@dimen/padding_6"
+        app:chrysanthemum_view_height="@dimen/padding_2"
+        app:chrysanthemum_flower_count="10"
+        />
 
 
 

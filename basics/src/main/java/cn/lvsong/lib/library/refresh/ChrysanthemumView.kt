@@ -18,17 +18,21 @@ import cn.lvsong.lib.library.R
  */
 
 /* 用法:
-<cn.lvsong.lib.library.refresh.ChrysanthemumView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
-    app:chrysanthemum_view_color="@color/color_333333"
-    app:chrysanthemum_view_width="@dimen/padding_10"
-    app:chrysanthemum_view_height="@dimen/padding_6"
-    app:layout_constraintLeft_toLeftOf="parent"
-    app:layout_constraintRight_toRightOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    />
+
+    <cn.lvsong.lib.library.refresh.ChrysanthemumView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_30"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fsv_search_view_help"
+        app:chrysanthemum_view_color="@color/color_E95C5B5B"
+        app:chrysanthemum_view_radius="@dimen/padding_10"
+        app:chrysanthemum_view_width="@dimen/padding_6"
+        app:chrysanthemum_view_height="@dimen/padding_2"
+        app:chrysanthemum_flower_count="10"
+        />
+
 
  */
 
@@ -39,7 +43,9 @@ class ChrysanthemumView(context: Context, attrs: AttributeSet) : View(context, a
     private var paint = Paint()
 
     private var flowerRadius = 0 //半径,花瓣长度
-    private var flowerHeight = 0 // 花瓣厚度
+    private var flowerWidth = 0F // 花瓣宽度
+    private var flowerHeight = 0F // 花瓣厚度
+    private var flowerCount = 12 // 花瓣数量
 
     private var count = 0
 
@@ -54,20 +60,29 @@ class ChrysanthemumView(context: Context, attrs: AttributeSet) : View(context, a
         paint.isAntiAlias = true
         val array = context.obtainStyledAttributes(attrs, R.styleable.ChrysanthemumView)
         flowerRadius = array.getDimensionPixelOffset(
-            R.styleable.ChrysanthemumView_chrysanthemum_view_width,
+            R.styleable.ChrysanthemumView_chrysanthemum_view_radius,
             dp2px(15F).toInt()
         )
+        flowerWidth = array.getDimensionPixelOffset(
+            R.styleable.ChrysanthemumView_chrysanthemum_view_width,
+            dp2px(6F).toInt()
+        ).toFloat()
+
         flowerHeight = array.getDimensionPixelOffset(
             R.styleable.ChrysanthemumView_chrysanthemum_view_height,
             dp2px(6F).toInt()
-        )
+        ).toFloat()
+
+        flowerCount =
+            array.getInt(R.styleable.ChrysanthemumView_chrysanthemum_flower_count, flowerCount)
+
         paint.color = array.getColor(
             R.styleable.ChrysanthemumView_chrysanthemum_view_color,
             ContextCompat.getColor(context, R.color.color_FFFFFF)
         )
         array.recycle()
-
-        rectF = RectF((flowerRadius - dp2px(1F)), 0F, (flowerRadius + dp2px(1F)), flowerHeight * 1F)
+        rectF =
+            RectF(flowerRadius - flowerHeight / 2, 0F, flowerRadius + flowerHeight / 2, flowerWidth)
     }
 
 
@@ -79,11 +94,15 @@ class ChrysanthemumView(context: Context, attrs: AttributeSet) : View(context, a
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        canvas.rotate((count * 30).toFloat(), flowerRadius.toFloat(), flowerRadius.toFloat())
-        for (i in 0 until 12) {
+        canvas.rotate(
+            count * 360F / flowerCount,
+            flowerRadius.toFloat(),
+            flowerRadius.toFloat()
+        )
+        for (i in 0 until flowerCount) {
             paint.alpha = 255 - i * 20
-            canvas.drawRoundRect(rectF, 10f, 10f, paint)
-            canvas.rotate(30f, flowerRadius.toFloat(), flowerRadius.toFloat())
+            canvas.drawRoundRect(rectF, flowerHeight / 2, flowerHeight / 2, paint)
+            canvas.rotate(360F / flowerCount, flowerRadius.toFloat(), flowerRadius.toFloat())
         }
         count++
         if (run) {

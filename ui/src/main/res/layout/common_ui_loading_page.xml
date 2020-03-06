@@ -12,11 +12,14 @@
 
     <cn.lvsong.lib.library.refresh.ChrysanthemumView
         android:id="@+id/wlp_cv_loading"
-        android:layout_width="@dimen/width_100"
-        android:layout_height="@dimen/height_100"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:padding="@dimen/padding_20"
-        app:chrysanthemum_view_color="@color/main_theme_color"
-        app:chrysanthemum_view_width="@dimen/padding_14"
+        app:chrysanthemum_view_color="@color/color_E95C5B5B"
+        app:chrysanthemum_view_radius="@dimen/padding_10"
+        app:chrysanthemum_view_width="@dimen/padding_6"
+        app:chrysanthemum_view_height="@dimen/padding_2"
+        app:chrysanthemum_flower_count="10"
         />
 
 </LinearLayout>

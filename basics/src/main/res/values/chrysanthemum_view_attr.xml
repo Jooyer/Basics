@@ -2,10 +2,13 @@
 <resources>
 
     <declare-styleable name="ChrysanthemumView">
-
+        <!-- 花瓣的数量,一般去偶数 8,10,12 -->
+        <attr name="chrysanthemum_flower_count" format="integer"/>
         <!-- 每一片花瓣的长度,也决定了菊花半径 -->
+        <attr name="chrysanthemum_view_radius" format="dimension|integer"/>
+        <!-- 每一片花瓣的长度-->
         <attr name="chrysanthemum_view_width" format="dimension|integer"/>
-        <!-- 每一片花瓣的高度,菊花花瓣厚度 -->
+        <!-- 每一片花瓣的厚度 -->
         <attr name="chrysanthemum_view_height" format="dimension|integer"/>
         <!-- 花瓣的颜色 -->
         <attr name="chrysanthemum_view_color" format="color|reference"/>
