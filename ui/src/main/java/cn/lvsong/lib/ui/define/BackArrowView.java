@@ -231,7 +231,7 @@ public class BackArrowView extends View {
     }
 
 
-    public void setPadding(float padding) {
+    public void setArrowPadding(float padding) {
         if (padding != mPadding) {
             this.mPadding = padding;
             postInvalidate();

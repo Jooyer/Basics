@@ -3,7 +3,7 @@
 
     <declare-styleable name="CustomMenu">
         <!-- 总高 -->
-        <attr name="cm_height" format="dimension|integer"/>
+
         <!-- 最左侧图标是否可见 -->
         <attr name="cm_left_image_visible" format="boolean"/>
         <!-- 最左侧图标的 drawable -->

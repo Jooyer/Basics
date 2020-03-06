@@ -211,6 +211,13 @@ public class CloseView extends View {
         return result;
     }
 
+
+    public void setColor(int color) {
+        this.mColor = color;
+        mPaint.setColor(mColor);
+        postInvalidate();
+    }
+
     public static int dip2px(Context context, float dipValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dipValue * scale + 0.5f);

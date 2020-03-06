@@ -241,7 +241,7 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         iv_left_icon_menu.visibility = if (leftArrowVisible) View.VISIBLE else View.GONE
         iv_left_icon_menu.setArrowColor(leftArrowColor)
         iv_left_icon_menu.setArrowStyle(leftArrowStyle)
-        iv_left_icon_menu.setPadding(leftArrowPadding)
+        iv_left_icon_menu.setArrowPadding(leftArrowPadding)
 
         if (leftArrowVisible) {
             iv_left_icon_menu.setOnClickListener {

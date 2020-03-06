@@ -11,12 +11,13 @@
     <color name="color_FFFFFF">#FFFFFF</color>
     <color name="color_EEEEEE">#EEEEEE</color>
     <color name="color_DDDDDD">#DDDDDD</color>
-    <color name="color_29b1b6d1">#29b1b6d1</color>
+    <color name="color_29b1b6d1">#b1b6d1</color>
     <color name="color_2878FF">#2878FF</color>
     <color name="color_E95C5B5B">#E95C5B5B</color>
 
     <color name="color_333333">#333333</color>
     <color name="color_444444">#444444</color>
+    <color name="color_666666">#666666</color>
     <color name="color_999999">#999999</color>
     <color name="color_8A8EA3">#8A8EA3</color>
     <color name="color_B1B6D1">#B1B6D1</color>

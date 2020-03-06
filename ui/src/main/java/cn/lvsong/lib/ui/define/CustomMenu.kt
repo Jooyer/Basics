@@ -128,8 +128,6 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
 
     private fun parseAttrs(context: Context, attr: AttributeSet) {
         val arr = context.obtainStyledAttributes(attr, R.styleable.CustomMenu)
-        val height = arr.getDimension(R.styleable.CustomMenu_cm_height, dp2px(50F)).toInt()
-
         val leftImageVisible = arr.getBoolean(R.styleable.CustomMenu_cm_left_image_visible, true)
         val leftImageDrawable = arr.getDrawable(R.styleable.CustomMenu_cm_left_image_drawable)
         val leftImageWidth =
@@ -300,7 +298,7 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
             iv_right_arrow_menu.rotation = 0F
         }
         iv_right_arrow_menu.setArrowStyle(rightArrowStyle)
-        iv_right_arrow_menu.setPadding(rightArrowPadding)
+        iv_right_arrow_menu.setArrowPadding(rightArrowPadding)
 
         rightImageLp.marginEnd = rightImageRightMargin
         rightImageLp.width = rightImageWidth

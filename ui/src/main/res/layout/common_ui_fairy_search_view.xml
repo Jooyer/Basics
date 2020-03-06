@@ -1,34 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cl_search_container"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/height_50"
-    android:orientation="horizontal"
-    tools:background="@android:color/holo_blue_dark">
+    android:layout_height="@dimen/height_48">
+
 
     <cn.lvsong.lib.ui.define.BackArrowView
-        android:id="@+id/iv_search_view_back"
+        android:id="@+id/ab_search_left_back"
         android:layout_width="@dimen/width_40"
         android:layout_height="0dp"
-        app:bav_arrow_style="wechat_design"
         app:bav_arrow_padding="@dimen/padding_2"
+        app:bav_arrow_style="wechat_design"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_search_view_container"
+        android:id="@+id/cl_search_input_container"
         android:layout_width="0dp"
         android:layout_height="@dimen/height_40"
-        android:layout_marginEnd="@dimen/padding_5"
         android:background="@drawable/ic_gray_solid_rectangle_r5"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/tv_search_view_search"
-        app:layout_constraintStart_toEndOf="@id/iv_search_view_back"
+        app:layout_constraintEnd_toStartOf="@id/acb_search_right_btn"
+        app:layout_constraintStart_toEndOf="@id/ab_search_left_back"
         app:layout_constraintTop_toTopOf="parent">
 
         <cn.lvsong.lib.ui.define.AndroidSearchView
@@ -43,56 +40,47 @@
             android:id="@+id/et_search_view_search"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginEnd="@dimen/padding_8"
-            android:layout_toStartOf="@id/iv_search_view_clean"
             android:background="@null"
             android:gravity="center_vertical"
             android:hint="@string/common_ui_search_hint"
             android:imeOptions="actionSearch"
             android:inputType="text"
             android:maxLines="1"
-            android:paddingStart="@dimen/padding_30"
-            android:paddingEnd="@dimen/padding_2"
             android:textColor="@color/color_333333"
-            android:textColorHint="@color/color_999999"
+            android:textColorHint="@color/color_666666"
             android:textCursorDrawable="@drawable/ic_edit_text_cursor_bg"
             android:textSize="@dimen/text_size_14"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/iv_search_view_clean"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
         <cn.lvsong.lib.ui.define.CloseView
-            android:id="@+id/iv_search_view_clean"
+            android:id="@+id/cv_search_view_clean"
             android:layout_width="@dimen/width_36"
             android:layout_height="match_parent"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="visible"
-            />
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_search_view_search"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/acb_search_right_btn"
         android:layout_width="@dimen/width_40"
-        android:layout_height="match_parent"
-        android:layout_marginEnd="@dimen/padding_5"
+        android:layout_height="@dimen/height_40"
         android:gravity="center"
-        android:text="@string/common_ui_search"
-        android:textAllCaps="false"
         android:textColor="@color/color_333333"
         android:textSize="@dimen/text_size_14"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/common_ui_search" />
 
     <View
-        android:id="@+id/view_bottom_divider"
+        android:id="@+id/view_search_bottom_divider"
         android:layout_width="match_parent"
         android:layout_height="@dimen/divider_2"
         android:background="@color/color_EEEEEE"
@@ -101,7 +89,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <View
-        android:id="@+id/view_flow_search_view"
+        android:id="@+id/view_search_view_flow"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
@@ -110,4 +98,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</merge>

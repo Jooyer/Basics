@@ -1,7 +1,11 @@
 package cn.lvsong.lib.demo
 
+import android.util.Log
+import android.view.View
 import cn.lvsong.lib.demo.presenter.StatusPresenter
+import cn.lvsong.lib.ui.define.CustomSearchView
 import cn.lvsong.lib.ui.mvp.BaseActivity
+import kotlinx.android.synthetic.main.activity_status.*
 
 /**
  * https://segmentfault.com/q/1010000013729036
@@ -18,12 +22,13 @@ class StatusActivity : BaseActivity<StatusPresenter>() {
     override fun needUseImmersive() = 1
 
 
-    override fun useStatusManager() = true
+    override fun useStatusManager() = false
 
     override fun setLogic() {
         // 如果不调用 显示内容/显示错误等,一直会显示 loading
 //        mStatusManager?.showContent() // 默认1200毫秒延时,其实一般网络请求成功差不多
         mStatusManager?.delayShowContent(3000)
+
     }
 
     // 根据需要重写
@@ -33,6 +38,23 @@ class StatusActivity : BaseActivity<StatusPresenter>() {
 
     override fun bindEvent() {
         mPresenter?.test()
+
+        csv_test.setOnSearchListener(object :CustomSearchView.OnSearchListener{
+            override fun onChanged(text: String) {
+                Log.e("CustomSearchView","onChanged============text: $text")
+            }
+            override fun onClear() {
+                Log.e("CustomSearchView","onClear============")
+            }
+
+            override fun onJump(view: View) {
+                Log.e("CustomSearchView","onJump============")
+            }
+
+            override fun onSearch(text: String) {
+                Log.e("CustomSearchView","onSearch============text: $text")
+            }
+        })
     }
 
 }

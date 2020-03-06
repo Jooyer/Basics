@@ -6,11 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".StatusActivity">
 
+
     <cn.lvsong.lib.ui.define.CustomToolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:ct_bottom_divider_color="#DEDEDE"
+        app:ct_bottom_divider_visible="true"
         app:ct_center_text_color="@color/color_333333"
         app:ct_center_text_info="Status使用"
         app:ct_center_text_size="@dimen/text_size_16"
@@ -22,7 +24,6 @@
         app:ct_left_text_left_margin="@dimen/padding_32"
         app:ct_left_text_size="@dimen/text_size_14"
         app:ct_left_text_visible="true"
-        app:ct_bottom_divider_visible="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -75,11 +76,10 @@
         app:cm_bottom_divider_color="@color/color_8A8EA3"
         app:cm_bottom_divider_left_margin="@dimen/padding_20"
         app:cm_bottom_divider_visible="true"
-        app:cm_height="@dimen/height_48"
         app:cm_left_image_drawable="@mipmap/ic_launcher"
+        app:cm_left_image_height="@dimen/height_40"
         app:cm_left_image_visible="true"
         app:cm_left_image_width="@dimen/width_40"
-        app:cm_left_image_height="@dimen/height_40"
         app:cm_left_text_color="@color/color_333333"
         app:cm_left_text_info="个人认证"
         app:cm_left_text_left_margin="@dimen/padding_5"
@@ -166,10 +166,10 @@
         app:ct_right_image_right_margin="@dimen/padding_10"
         app:ct_right_image_visible="true"
         app:ct_right_image_width="@dimen/width_40"
-        app:ct_right_mav_visible="true"
         app:ct_right_mav_color="@color/color_2878FF"
-        app:ct_right_mav_orientation="vertical"
         app:ct_right_mav_dot_radius="@dimen/padding_2"
+        app:ct_right_mav_orientation="vertical"
+        app:ct_right_mav_visible="true"
         app:ct_right_text_color="@color/color_2878FF"
         app:ct_right_text_info="保存"
         app:ct_right_text_right_margin="@dimen/padding_10"
@@ -178,47 +178,36 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tool" />
 
-<!--  fsv_show_search_icon="true" 则 fsv_input_et_left_padding="0dp" 或者给较小值  -->
-    <cn.lvsong.lib.ui.define.FairySearchView
-        android:id="@+id/fsv_search_view_help"
-        android:layout_width="0dp"
+<!--    <cn.lvsong.lib.library.refresh.ChrysanthemumView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="@dimen/padding_30"-->
+<!--        app:chrysanthemum_flower_count="10"-->
+<!--        app:chrysanthemum_view_color="@color/color_E95C5B5B"-->
+<!--        app:chrysanthemum_view_height="@dimen/padding_2"-->
+<!--        app:chrysanthemum_view_radius="@dimen/padding_10"-->
+<!--        app:chrysanthemum_view_width="@dimen/padding_6"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/fsv_search_view_help" />-->
+
+
+    <cn.lvsong.lib.ui.define.CustomSearchView
+        android:id="@+id/csv_test"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/height_48"
-        app:fsv_bottom_divider_visible="true"
-        app:fsv_bottom_divider_color="@color/color_333333"
-        app:fsv_search_btn_width="@dimen/width_40"
-        app:fsv_search_btn_height="@dimen/width_40"
-        app:fsv_search_btn_margin_left="@dimen/padding_10"
-        app:fsv_search_btn_margin_right="@dimen/padding_10"
-        app:fsv_search_btn_bg_color="#f00"
-        app:fsv_input_et_hint_text="Android"
-        app:fsv_input_et_left_padding="0dp"
-        app:fsv_left_arrow_color="@color/color_2878FF"
-        app:fsv_left_arrow_style="wechat_design"
-        app:fsv_left_arrow_padding="@dimen/padding_4"
-        app:fsv_show_back_icon="false"
-        app:fsv_show_search_icon="true"
-        app:fsv_input_container_margin_left="@dimen/padding_5"
-        app:fsv_input_container_margin_right="@dimen/padding_5"
-        app:fsv_input_container_height="@dimen/height_40"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tool2" />
-
-
-    <cn.lvsong.lib.library.refresh.ChrysanthemumView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/padding_30"
+        app:csv_input_container_height="@dimen/height_30"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fsv_search_view_help"
-        app:chrysanthemum_view_color="@color/color_E95C5B5B"
-        app:chrysanthemum_view_radius="@dimen/padding_10"
-        app:chrysanthemum_view_width="@dimen/padding_6"
-        app:chrysanthemum_view_height="@dimen/padding_2"
-        app:chrysanthemum_flower_count="10"
+        app:layout_constraintTop_toBottomOf="@id/tool2"
+        app:csv_show_search_icon="true"
+        app:csv_show_clear_icon="false"
+        app:csv_input_hint_text="@string/common_ui_search"
+        app:csv_bottom_divider_color="@color/color_2878FF"
+        app:csv_bottom_divider_visible="true"
+        app:csv_need_jump="true"
         />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

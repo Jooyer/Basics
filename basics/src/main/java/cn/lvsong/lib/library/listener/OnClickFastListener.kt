@@ -8,9 +8,9 @@ import android.view.View
  * Date: 2018-08-19
  * Time: 22:30
  */
-abstract class OnClickFastListener : View.OnClickListener {
+abstract class OnClickFastListener(private val delay:Long = 900) : View.OnClickListener {
     // 防止快速点击默认等待时长为900ms
-    private var DELAY_TIME: Long = 900
+    private var DELAY_TIME: Long = delay
     private var lastClickTime: Long = 0
 
     private fun isFastDoubleClick(): Boolean {
