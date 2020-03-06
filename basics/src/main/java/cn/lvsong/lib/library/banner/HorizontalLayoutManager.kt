@@ -1,30 +1,34 @@
 package cn.lvsong.lib.library.banner
 
+import android.content.res.Resources
 import android.graphics.PointF
+import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 
 /**
+ * https://www.jianshu.com/p/3994bbdcc624  --> 滑动大小渐变
  * https://blog.csdn.net/myself0719/article/details/79795624  --> 分析透彻
- *
  * https://blog.csdn.net/ww897532167/article/details/86585214
  * Desc: 无限循环 , 和上一个思路一致
  * Author: Jooyer
  * Date: 2019-08-28
  * Time: 18:25
  */
-class HorizontalLayoutManager : RecyclerView.LayoutManager(),
+class HorizontalLayoutManager(private val spaceWidth: Int) : RecyclerView.LayoutManager(),
     RecyclerView.SmoothScroller.ScrollVectorProvider {
-
     /**
      * 记录 onLayoutChildren 次数,因为首次手动滑动时,会在抬起手来,还会回调一次 onLayoutChildren()
      * 如果有小伙伴知道更优解决方法,记得提 issue , 先谢过!!!
      */
     private var mLayoutCount = 1
+    private var mSpaceWidth = spaceWidth
 
-    override fun computeScrollVectorForPosition(targetPosition: Int): PointF? {
+
+    override
+    fun computeScrollVectorForPosition(targetPosition: Int): PointF? {
         if (childCount == 0) {
             return null
         }
@@ -71,8 +75,9 @@ class HorizontalLayoutManager : RecyclerView.LayoutManager(),
             measureChildWithMargins(view, 0, 0)
             val viewWidth = getDecoratedMeasuredWidth(view)
             val viewHeight = getDecoratedMeasuredHeight(view)
+
             layoutDecorated(view, offsetX, 0, offsetX + viewWidth, viewHeight)
-            offsetX += viewWidth
+            offsetX += viewWidth + mSpaceWidth
 
             if (offsetX > width) {
                 break
@@ -83,7 +88,11 @@ class HorizontalLayoutManager : RecyclerView.LayoutManager(),
     //是否可横向滑动
     override fun canScrollHorizontally() = true
 
-    override fun smoothScrollToPosition(recyclerView: RecyclerView, state: RecyclerView.State, position: Int) {
+    override fun smoothScrollToPosition(
+        recyclerView: RecyclerView,
+        state: RecyclerView.State,
+        position: Int
+    ) {
         val linearSmoothScroller = LinearSmoothScroller(recyclerView.context)
         linearSmoothScroller.targetPosition = position
         startSmoothScroll(linearSmoothScroller)
@@ -132,7 +141,7 @@ class HorizontalLayoutManager : RecyclerView.LayoutManager(),
                 measureChildWithMargins(nextView, 0, 0)
                 val viewWidth = getDecoratedMeasuredWidth(nextView)
                 val viewHeight = getDecoratedMeasuredHeight(nextView)
-                val offsetX = lastVisibleView.right
+                val offsetX = lastVisibleView.right + mSpaceWidth
                 layoutDecorated(nextView, offsetX, 0, offsetX + viewWidth, viewHeight)
                 break
             }
@@ -155,7 +164,7 @@ class HorizontalLayoutManager : RecyclerView.LayoutManager(),
                 measureChildWithMargins(nextView, 0, 0)
                 val viewWidth = getDecoratedMeasuredWidth(nextView)
                 val viewHeight = getDecoratedMeasuredHeight(nextView)
-                val offsetX = firstVisibleView.left
+                val offsetX = firstVisibleView.left - mSpaceWidth
                 layoutDecorated(nextView, offsetX - viewWidth, 0, offsetX, viewHeight)
                 break
             }
@@ -178,6 +187,13 @@ class HorizontalLayoutManager : RecyclerView.LayoutManager(),
                 }
             }
         }
+    }
+
+    private fun dp2px(def: Float): Int {
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            def, Resources.getSystem().displayMetrics
+        ).toInt()
     }
 
 }

@@ -242,11 +242,30 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
 
 /////////////////////////////////////////////////// 对外提供的方法  ////////////////////////////////////////////////////////
 
+
     /**
      * 提供 RecyclerView, 方便用户绑定数据
+     * @param spaceWidth --> Item 间隔
      */
-    fun setBannerAdapter(type: TYPE, adapter: RecyclerView.Adapter<out RecyclerView.ViewHolder>) {
-        mLayoutManager = HorizontalLayoutManager()
+    fun setBannerAdapter(
+        adapter: RecyclerView.Adapter<out RecyclerView.ViewHolder>,
+        spaceWidth: Int = 0
+    ) {
+        setBannerAdapter(TYPE.NORMAL, adapter, spaceWidth)
+    }
+
+
+    /**
+     * 提供 RecyclerView, 方便用户绑定数据
+     * @param spaceWidth --> Item 间隔
+     * @param type --> 多种展示模式
+     */
+    fun setBannerAdapter(
+        type: TYPE,
+        adapter: RecyclerView.Adapter<out RecyclerView.ViewHolder>,
+        spaceWidth: Int = 0
+    ) {
+        mLayoutManager = HorizontalLayoutManager(spaceWidth)
         mBanner.layoutManager = mLayoutManager
         mBanner.adapter = adapter
         setBannerSize(adapter.itemCount)

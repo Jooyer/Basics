@@ -14,7 +14,7 @@
         app:banner_indicator_margin="3dp"
         app:banner_normal_indicator_drawable="@drawable/normal"
         app:banner_select_indicator_drawable="@drawable/select"
-        app:banner_loop_time="5000"
+        app:banner_loop_time="3000"
         app:banner_show_indicator="true"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
