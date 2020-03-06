@@ -6,7 +6,6 @@ import android.text.Editable
 import android.text.InputFilter
 import android.text.TextUtils
 import android.util.AttributeSet
-import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -60,7 +59,6 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
      */
     private val ARROW_STYLE_MATERIAL_DESIGN = 1
 
-    //    private lateinit var cl_search_container: ConstraintLayout
     private lateinit var ab_search_left_back: BackArrowView
     private lateinit var cl_search_input_container: ConstraintLayout
     private lateinit var asv_search_view_icon: AndroidSearchView
@@ -77,8 +75,7 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
     }
 
     private fun initView() {
-        LayoutInflater.from(context).inflate(R.layout.common_ui_fairy_search_view, this, true)
-//        cl_search_container = findViewById(R.id.cl_search_container)
+        LayoutInflater.from(context).inflate(R.layout.common_ui_search_view, this, true)
         ab_search_left_back = findViewById(R.id.ab_search_left_back)
         cl_search_input_container = findViewById(R.id.cl_search_input_container)
         asv_search_view_icon = findViewById(R.id.asv_search_view_icon)
@@ -91,7 +88,7 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
 
     private fun parseAttrs(context: Context, attr: AttributeSet) {
         val arr = context.obtainStyledAttributes(attr, R.styleable.CustomSearchView)
-        val showLeftArrow = arr.getBoolean(R.styleable.CustomSearchView_csv_show_back_icon, true)
+        val showLeftArrow = arr.getBoolean(R.styleable.CustomSearchView_csv_show_left_arrow, true)
         val leftArrowColor = arr.getColor(
             R.styleable.CustomSearchView_csv_left_arrow_color,
             ContextCompat.getColor(context, R.color.color_666666)
@@ -185,7 +182,7 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
             ContextCompat.getColor(context, R.color.color_EEEEEE)
         )
 
-        val needSkip = arr.getBoolean(R.styleable.CustomSearchView_csv_need_jump, true)
+        val needSkip = arr.getBoolean(R.styleable.CustomSearchView_csv_need_jump, false)
 
         arr.recycle()
 
@@ -320,16 +317,6 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
             false
         }
     }
-
-
-    override fun onFinishInflate() {
-        super.onFinishInflate()
-//        val rootLp: ConstraintLayout.LayoutParams = cl_search_container.layoutParams as LayoutParams
-//        rootLp.height = height
-//        cl_search_container.layoutParams = rootLp
-        Log.e("CustomSearchView", "onFinishInflate============height: $height")
-    }
-
 
     private fun dp2px(def: Float): Float {
         return TypedValue.applyDimension(
