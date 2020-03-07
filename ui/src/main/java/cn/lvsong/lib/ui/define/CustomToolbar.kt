@@ -69,6 +69,7 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
      */
     private val ORIENTATION_VERTICAL = 2
 
+
     /**
      * 自定义布局父容器
      */
@@ -402,7 +403,7 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         tv_right_name_menu.visibility = visable
     }
 
-    fun setcenterText(text: String) {
+    fun setCenterText(text: String) {
         tv_center_title_menu.text = text
     }
 
@@ -414,12 +415,21 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         iv_right_icon_menu2.setImageResource(resource)
     }
 
-    fun setleftArrowVisible(visible: Int) {
+    fun setLeftArrowVisible(visible: Int) {
         iv_left_icon_menu.visibility = visible
     }
 
     fun setRightImage2Visible(visible: Int) {
         iv_right_icon_menu2.visibility = visible
+    }
+
+    fun setLeftArrowClickListener(listener: OnClickListener){
+        iv_left_icon_menu.setOnClickListener(listener)
+    }
+
+
+    fun setLeftTextViewClickListener(listener: OnClickListener){
+        tv_left_name_menu.setOnClickListener(listener)
     }
 
 

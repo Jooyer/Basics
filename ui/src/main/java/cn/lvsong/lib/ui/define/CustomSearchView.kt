@@ -332,9 +332,13 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
     }
 
     interface OnSearchListener {
-        fun onChanged(text: String)
+        fun onChanged(text: String){
 
-        fun onClear()
+        }
+
+        fun onClear(){
+
+        }
 
         fun onJump(view: View) {
 
