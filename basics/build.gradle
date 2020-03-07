@@ -61,6 +61,7 @@ dependencies {
 
     api rootProject.ext.dependencies.rxandroid
     api rootProject.ext.dependencies.rxjava
+    api rootProject.ext.dependencies.rxrelay2
     api rootProject.ext.dependencies.retrofit
     api rootProject.ext.dependencies.adapter_rxjava
     api rootProject.ext.dependencies.converter_scalars

@@ -150,7 +150,7 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
             ContextCompat.getColor(context, R.color.color_666666)
         )
 
-
+        val showBtn = arr.getBoolean(R.styleable.CustomSearchView_csv_show_search_btn, true)
         val btnText = arr.getString(R.styleable.CustomSearchView_csv_search_btn_text)
         val btnTextSize = arr.getDimensionPixelSize(
             R.styleable.CustomSearchView_csv_search_btn_text_size,
@@ -252,14 +252,19 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
             acb_search_right_btn.text = btnText
         }
 
-        acb_search_right_btn.setTextSize(TypedValue.COMPLEX_UNIT_PX, btnTextSize.toFloat())
-        acb_search_right_btn.setTextColor(btnTextColor)
-        acb_search_right_btn.setBackgroundColor(btnBgColor)
-        val searchBtnLp = acb_search_right_btn.layoutParams as LayoutParams
-        searchBtnLp.width = btnWidth
-        searchBtnLp.height = btnHeight
-        searchBtnLp.rightMargin = btnRightMargin
-        acb_search_right_btn.layoutParams = searchBtnLp
+        if (showBtn) {
+            acb_search_right_btn.setTextSize(TypedValue.COMPLEX_UNIT_PX, btnTextSize.toFloat())
+            acb_search_right_btn.setTextColor(btnTextColor)
+            acb_search_right_btn.setBackgroundColor(btnBgColor)
+            val searchBtnLp = acb_search_right_btn.layoutParams as LayoutParams
+            searchBtnLp.width = btnWidth
+            searchBtnLp.height = btnHeight
+            searchBtnLp.rightMargin = btnRightMargin
+            acb_search_right_btn.layoutParams = searchBtnLp
+            acb_search_right_btn.visibility = View.VISIBLE
+        } else {
+            acb_search_right_btn.visibility = View.GONE
+        }
 
         view_search_bottom_divider.visibility = if (showBottomDivider) View.VISIBLE else View.GONE
         view_search_bottom_divider.setBackgroundColor(bottomDividerColor)
@@ -331,7 +336,7 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
 
         fun onClear()
 
-        fun onJump(view:View){
+        fun onJump(view: View) {
 
         }
 

@@ -41,6 +41,7 @@
     <dimen name="padding_12">12dp</dimen>
     <dimen name="padding_14">14dp</dimen>
     <dimen name="padding_15">15dp</dimen>
+    <dimen name="padding_16">16dp</dimen>
     <dimen name="padding_18">18dp</dimen>
     <dimen name="padding_20">20dp</dimen>
     <dimen name="padding_22">22dp</dimen>
@@ -69,6 +70,10 @@
     <dimen name="padding_64">64dp</dimen>
     <dimen name="padding_65">65dp</dimen>
     <dimen name="padding_66">66dp</dimen>
+    <dimen name="padding_68">68dp</dimen>
+    <dimen name="padding_70">70dp</dimen>
+    <dimen name="padding_72">72dp</dimen>
+    <dimen name="padding_74">74dp</dimen>
     <dimen name="padding_76">76dp</dimen>
     <dimen name="padding_78">78dp</dimen>
     <dimen name="padding_80">80dp</dimen>
@@ -142,6 +147,7 @@
     <dimen name="width_12">12dp</dimen>
     <dimen name="width_14">14dp</dimen>
     <dimen name="width_15">15dp</dimen>
+    <dimen name="width_16">16dp</dimen>
     <dimen name="width_18">18dp</dimen>
     <dimen name="width_20">20dp</dimen>
     <dimen name="width_22">22dp</dimen>
@@ -172,6 +178,10 @@
     <dimen name="width_64">64dp</dimen>
     <dimen name="width_65">65dp</dimen>
     <dimen name="width_66">66dp</dimen>
+    <dimen name="width_68">68dp</dimen>
+    <dimen name="width_70">70dp</dimen>
+    <dimen name="width_72">72dp</dimen>
+    <dimen name="width_74">74dp</dimen>
     <dimen name="width_76">76dp</dimen>
     <dimen name="width_78">78dp</dimen>
     <dimen name="width_80">80dp</dimen>
@@ -194,6 +204,7 @@
     <dimen name="width_110">100dp</dimen>
     <dimen name="width_112">112dp</dimen>
     <dimen name="width_115">115dp</dimen>
+    <dimen name="width_116">116dp</dimen>
     <dimen name="width_118">118dp</dimen>
     <dimen name="width_120">120dp</dimen>
     <dimen name="width_122">122dp</dimen>
@@ -224,6 +235,10 @@
     <dimen name="width_164">164dp</dimen>
     <dimen name="width_165">165dp</dimen>
     <dimen name="width_166">166dp</dimen>
+    <dimen name="width_168">168dp</dimen>
+    <dimen name="width_170">170dp</dimen>
+    <dimen name="width_172">172dp</dimen>
+    <dimen name="width_174">174dp</dimen>
     <dimen name="width_176">176dp</dimen>
     <dimen name="width_178">178dp</dimen>
     <dimen name="width_180">180dp</dimen>
@@ -246,6 +261,7 @@
     <dimen name="width_210">200dp</dimen>
     <dimen name="width_212">212dp</dimen>
     <dimen name="width_215">215dp</dimen>
+    <dimen name="width_216">216dp</dimen>
     <dimen name="width_218">218dp</dimen>
     <dimen name="width_220">220dp</dimen>
     <dimen name="width_222">222dp</dimen>
@@ -276,6 +292,10 @@
     <dimen name="width_264">264dp</dimen>
     <dimen name="width_265">265dp</dimen>
     <dimen name="width_266">266dp</dimen>
+    <dimen name="width_268">268dp</dimen>
+    <dimen name="width_270">270dp</dimen>
+    <dimen name="width_272">272dp</dimen>
+    <dimen name="width_274">274dp</dimen>
     <dimen name="width_276">276dp</dimen>
     <dimen name="width_278">278dp</dimen>
     <dimen name="width_280">280dp</dimen>
@@ -298,6 +318,7 @@
     <dimen name="width_310">300dp</dimen>
     <dimen name="width_312">312dp</dimen>
     <dimen name="width_315">315dp</dimen>
+    <dimen name="width_316">316dp</dimen>
     <dimen name="width_318">318dp</dimen>
     <dimen name="width_320">320dp</dimen>
     <dimen name="width_322">322dp</dimen>
@@ -328,6 +349,10 @@
     <dimen name="width_364">364dp</dimen>
     <dimen name="width_365">365dp</dimen>
     <dimen name="width_366">366dp</dimen>
+    <dimen name="width_368">368dp</dimen>
+    <dimen name="width_370">370dp</dimen>
+    <dimen name="width_372">372dp</dimen>
+    <dimen name="width_374">374dp</dimen>
     <dimen name="width_376">376dp</dimen>
     <dimen name="width_378">378dp</dimen>
     <dimen name="width_380">380dp</dimen>
@@ -350,6 +375,7 @@
     <dimen name="width_410">400dp</dimen>
     <dimen name="width_412">412dp</dimen>
     <dimen name="width_415">415dp</dimen>
+    <dimen name="width_416">416dp</dimen>
     <dimen name="width_418">418dp</dimen>
     <dimen name="width_420">420dp</dimen>
     <dimen name="width_422">422dp</dimen>
@@ -380,6 +406,10 @@
     <dimen name="width_464">464dp</dimen>
     <dimen name="width_465">465dp</dimen>
     <dimen name="width_466">466dp</dimen>
+    <dimen name="width_468">468dp</dimen>
+    <dimen name="width_470">470dp</dimen>
+    <dimen name="width_472">472dp</dimen>
+    <dimen name="width_474">474dp</dimen>
     <dimen name="width_476">476dp</dimen>
     <dimen name="width_478">478dp</dimen>
     <dimen name="width_480">480dp</dimen>
@@ -402,6 +432,7 @@
     <dimen name="width_510">500dp</dimen>
     <dimen name="width_512">512dp</dimen>
     <dimen name="width_515">515dp</dimen>
+    <dimen name="width_516">516dp</dimen>
     <dimen name="width_518">518dp</dimen>
     <dimen name="width_520">520dp</dimen>
     <dimen name="width_522">522dp</dimen>
@@ -432,6 +463,10 @@
     <dimen name="width_564">564dp</dimen>
     <dimen name="width_565">565dp</dimen>
     <dimen name="width_566">566dp</dimen>
+    <dimen name="width_568">568dp</dimen>
+    <dimen name="width_570">570dp</dimen>
+    <dimen name="width_572">572dp</dimen>
+    <dimen name="width_574">574dp</dimen>
     <dimen name="width_576">576dp</dimen>
     <dimen name="width_578">578dp</dimen>
     <dimen name="width_580">580dp</dimen>
@@ -454,6 +489,7 @@
     <dimen name="width_610">600dp</dimen>
     <dimen name="width_612">612dp</dimen>
     <dimen name="width_615">615dp</dimen>
+    <dimen name="width_616">616dp</dimen>
     <dimen name="width_618">618dp</dimen>
     <dimen name="width_620">620dp</dimen>
     <dimen name="width_622">622dp</dimen>
@@ -484,6 +520,10 @@
     <dimen name="width_664">664dp</dimen>
     <dimen name="width_665">665dp</dimen>
     <dimen name="width_666">666dp</dimen>
+    <dimen name="width_668">668dp</dimen>
+    <dimen name="width_670">670dp</dimen>
+    <dimen name="width_672">672dp</dimen>
+    <dimen name="width_674">674dp</dimen>
     <dimen name="width_676">676dp</dimen>
     <dimen name="width_678">678dp</dimen>
     <dimen name="width_680">680dp</dimen>
@@ -507,6 +547,7 @@
     <dimen name="width_710">700dp</dimen>
     <dimen name="width_712">712dp</dimen>
     <dimen name="width_715">715dp</dimen>
+    <dimen name="width_716">716dp</dimen>
     <dimen name="width_718">718dp</dimen>
     <dimen name="width_720">720dp</dimen>
     <dimen name="width_722">722dp</dimen>
@@ -537,6 +578,10 @@
     <dimen name="width_764">764dp</dimen>
     <dimen name="width_765">765dp</dimen>
     <dimen name="width_766">766dp</dimen>
+    <dimen name="width_768">768dp</dimen>
+    <dimen name="width_770">770dp</dimen>
+    <dimen name="width_772">772dp</dimen>
+    <dimen name="width_774">774dp</dimen>
     <dimen name="width_776">776dp</dimen>
     <dimen name="width_778">778dp</dimen>
     <dimen name="width_780">780dp</dimen>
@@ -561,6 +606,7 @@
     <dimen name="height_12">12dp</dimen>
     <dimen name="height_14">14dp</dimen>
     <dimen name="height_15">15dp</dimen>
+    <dimen name="height_16">16dp</dimen>
     <dimen name="height_18">18dp</dimen>
     <dimen name="height_20">20dp</dimen>
     <dimen name="height_22">22dp</dimen>
@@ -591,6 +637,10 @@
     <dimen name="height_64">64dp</dimen>
     <dimen name="height_65">65dp</dimen>
     <dimen name="height_66">66dp</dimen>
+    <dimen name="height_68">68dp</dimen>
+    <dimen name="height_70">70dp</dimen>
+    <dimen name="height_72">72dp</dimen>
+    <dimen name="height_74">74dp</dimen>
     <dimen name="height_76">76dp</dimen>
     <dimen name="height_78">78dp</dimen>
     <dimen name="height_80">80dp</dimen>
@@ -614,6 +664,7 @@
     <dimen name="height_110">100dp</dimen>
     <dimen name="height_112">112dp</dimen>
     <dimen name="height_115">115dp</dimen>
+    <dimen name="height_116">116dp</dimen>
     <dimen name="height_118">118dp</dimen>
     <dimen name="height_120">120dp</dimen>
     <dimen name="height_122">122dp</dimen>
@@ -644,6 +695,10 @@
     <dimen name="height_164">164dp</dimen>
     <dimen name="height_165">165dp</dimen>
     <dimen name="height_166">166dp</dimen>
+    <dimen name="height_168">168dp</dimen>
+    <dimen name="height_170">170dp</dimen>
+    <dimen name="height_172">172dp</dimen>
+    <dimen name="height_174">174dp</dimen>
     <dimen name="height_176">176dp</dimen>
     <dimen name="height_178">178dp</dimen>
     <dimen name="height_180">180dp</dimen>
@@ -667,6 +722,7 @@
     <dimen name="height_210">200dp</dimen>
     <dimen name="height_212">212dp</dimen>
     <dimen name="height_215">215dp</dimen>
+    <dimen name="height_216">216dp</dimen>
     <dimen name="height_218">218dp</dimen>
     <dimen name="height_220">220dp</dimen>
     <dimen name="height_222">222dp</dimen>
@@ -697,6 +753,10 @@
     <dimen name="height_264">264dp</dimen>
     <dimen name="height_265">265dp</dimen>
     <dimen name="height_266">266dp</dimen>
+    <dimen name="height_268">268dp</dimen>
+    <dimen name="height_270">270dp</dimen>
+    <dimen name="height_272">272dp</dimen>
+    <dimen name="height_274">274dp</dimen>
     <dimen name="height_276">276dp</dimen>
     <dimen name="height_278">278dp</dimen>
     <dimen name="height_280">280dp</dimen>
@@ -720,6 +780,7 @@
     <dimen name="height_310">300dp</dimen>
     <dimen name="height_312">312dp</dimen>
     <dimen name="height_315">315dp</dimen>
+    <dimen name="height_316">316dp</dimen>
     <dimen name="height_318">318dp</dimen>
     <dimen name="height_320">320dp</dimen>
     <dimen name="height_322">322dp</dimen>
@@ -750,6 +811,10 @@
     <dimen name="height_364">364dp</dimen>
     <dimen name="height_365">365dp</dimen>
     <dimen name="height_366">366dp</dimen>
+    <dimen name="height_368">368dp</dimen>
+    <dimen name="height_370">370dp</dimen>
+    <dimen name="height_372">372dp</dimen>
+    <dimen name="height_374">374dp</dimen>
     <dimen name="height_376">376dp</dimen>
     <dimen name="height_378">378dp</dimen>
     <dimen name="height_380">380dp</dimen>
@@ -773,6 +838,7 @@
     <dimen name="height_410">400dp</dimen>
     <dimen name="height_412">412dp</dimen>
     <dimen name="height_415">415dp</dimen>
+    <dimen name="height_416">416dp</dimen>
     <dimen name="height_418">418dp</dimen>
     <dimen name="height_420">420dp</dimen>
     <dimen name="height_422">422dp</dimen>
@@ -803,6 +869,10 @@
     <dimen name="height_464">464dp</dimen>
     <dimen name="height_465">465dp</dimen>
     <dimen name="height_466">466dp</dimen>
+    <dimen name="height_468">468dp</dimen>
+    <dimen name="height_470">470dp</dimen>
+    <dimen name="height_472">472dp</dimen>
+    <dimen name="height_474">474dp</dimen>
     <dimen name="height_476">476dp</dimen>
     <dimen name="height_478">478dp</dimen>
     <dimen name="height_480">480dp</dimen>
@@ -826,6 +896,7 @@
     <dimen name="height_510">500dp</dimen>
     <dimen name="height_512">512dp</dimen>
     <dimen name="height_515">515dp</dimen>
+    <dimen name="height_516">516dp</dimen>
     <dimen name="height_518">518dp</dimen>
     <dimen name="height_520">520dp</dimen>
     <dimen name="height_522">522dp</dimen>
@@ -856,6 +927,10 @@
     <dimen name="height_564">564dp</dimen>
     <dimen name="height_565">565dp</dimen>
     <dimen name="height_566">566dp</dimen>
+    <dimen name="height_568">568dp</dimen>
+    <dimen name="height_570">570dp</dimen>
+    <dimen name="height_572">572dp</dimen>
+    <dimen name="height_574">574dp</dimen>
     <dimen name="height_576">576dp</dimen>
     <dimen name="height_578">578dp</dimen>
     <dimen name="height_580">580dp</dimen>
@@ -879,6 +954,7 @@
     <dimen name="height_610">600dp</dimen>
     <dimen name="height_612">612dp</dimen>
     <dimen name="height_615">615dp</dimen>
+    <dimen name="height_616">616dp</dimen>
     <dimen name="height_618">618dp</dimen>
     <dimen name="height_620">620dp</dimen>
     <dimen name="height_622">622dp</dimen>
@@ -909,6 +985,10 @@
     <dimen name="height_664">664dp</dimen>
     <dimen name="height_665">665dp</dimen>
     <dimen name="height_666">666dp</dimen>
+    <dimen name="height_668">668dp</dimen>
+    <dimen name="height_670">670dp</dimen>
+    <dimen name="height_672">672dp</dimen>
+    <dimen name="height_674">674dp</dimen>
     <dimen name="height_676">676dp</dimen>
     <dimen name="height_678">678dp</dimen>
     <dimen name="height_680">680dp</dimen>
@@ -932,6 +1012,7 @@
     <dimen name="height_710">700dp</dimen>
     <dimen name="height_712">712dp</dimen>
     <dimen name="height_715">715dp</dimen>
+    <dimen name="height_716">716dp</dimen>
     <dimen name="height_718">718dp</dimen>
     <dimen name="height_720">720dp</dimen>
     <dimen name="height_722">722dp</dimen>
@@ -962,6 +1043,10 @@
     <dimen name="height_764">764dp</dimen>
     <dimen name="height_765">765dp</dimen>
     <dimen name="height_766">766dp</dimen>
+    <dimen name="height_768">768dp</dimen>
+    <dimen name="height_770">770dp</dimen>
+    <dimen name="height_772">772dp</dimen>
+    <dimen name="height_774">774dp</dimen>
     <dimen name="height_776">776dp</dimen>
     <dimen name="height_778">778dp</dimen>
     <dimen name="height_780">780dp</dimen>
@@ -985,6 +1070,7 @@
     <dimen name="height_810">800dp</dimen>
     <dimen name="height_812">812dp</dimen>
     <dimen name="height_815">815dp</dimen>
+    <dimen name="height_816">816dp</dimen>
     <dimen name="height_818">818dp</dimen>
     <dimen name="height_820">820dp</dimen>
     <dimen name="height_822">822dp</dimen>
@@ -1015,6 +1101,10 @@
     <dimen name="height_864">864dp</dimen>
     <dimen name="height_865">865dp</dimen>
     <dimen name="height_866">866dp</dimen>
+    <dimen name="height_868">868dp</dimen>
+    <dimen name="height_870">870dp</dimen>
+    <dimen name="height_872">872dp</dimen>
+    <dimen name="height_874">874dp</dimen>
     <dimen name="height_876">876dp</dimen>
     <dimen name="height_878">878dp</dimen>
     <dimen name="height_880">880dp</dimen>
@@ -1038,6 +1128,7 @@
     <dimen name="height_910">900dp</dimen>
     <dimen name="height_912">912dp</dimen>
     <dimen name="height_915">915dp</dimen>
+    <dimen name="height_916">916dp</dimen>
     <dimen name="height_918">918dp</dimen>
     <dimen name="height_920">920dp</dimen>
     <dimen name="height_922">922dp</dimen>
@@ -1068,6 +1159,10 @@
     <dimen name="height_964">964dp</dimen>
     <dimen name="height_965">965dp</dimen>
     <dimen name="height_966">966dp</dimen>
+    <dimen name="height_968">968dp</dimen>
+    <dimen name="height_970">970dp</dimen>
+    <dimen name="height_972">972dp</dimen>
+    <dimen name="height_974">974dp</dimen>
     <dimen name="height_976">976dp</dimen>
     <dimen name="height_978">978dp</dimen>
     <dimen name="height_980">980dp</dimen>

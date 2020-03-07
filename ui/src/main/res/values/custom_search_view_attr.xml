@@ -56,6 +56,8 @@
         <!-- 点击整个搜索控件,此时如果需要跳转,则设置为true -->
         <attr name="csv_need_jump" format="boolean" />
 
+        <!--是否显示搜索按钮,默认显示-->
+        <attr name="csv_show_search_btn" format="boolean" />
         <!--搜索按钮显示文本-->
         <attr name="csv_search_btn_text" format="string|reference" />
         <!--搜索按钮文本大小-->
