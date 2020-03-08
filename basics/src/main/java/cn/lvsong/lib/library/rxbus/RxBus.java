@@ -1,4 +1,5 @@
 package cn.lvsong.lib.library.rxbus;
+
 import com.jakewharton.rxrelay2.PublishRelay;
 import com.jakewharton.rxrelay2.Relay;
 
@@ -14,12 +15,13 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
 
-/** https://github.com/JakeWharton/RxRelay
- *  事件总线核心类
- *
- *  https://www.jianshu.com/p/b5339f7bdfb3?utm_campaign=haruki&utm_content=note&utm_medium=reader_share&utm_source=qq
- *    ---> 可以参考大佬的
- *
+/**
+ * https://github.com/JakeWharton/RxRelay
+ * 事件总线核心类
+ * <p>
+ * https://www.jianshu.com/p/b5339f7bdfb3?utm_campaign=haruki&utm_content=note&utm_medium=reader_share&utm_source=qq
+ * ---> 可以参考大佬的
+ * <p>
  * Created by Jooyer on 2017/2/13
  */
 public class RxBus {
@@ -29,16 +31,15 @@ public class RxBus {
     private Relay<Object> bus = null;
 
 
-
     //禁用构造方法
     private RxBus() {
         bus = PublishRelay.create().toSerialized();
     }
 
-    public static RxBus getDefault(){
-        if (null == mDefaultInstance){
-            synchronized (RxBus.class){
-                if (null == mDefaultInstance){
+    public static RxBus getDefault() {
+        if (null == mDefaultInstance) {
+            synchronized (RxBus.class) {
+                if (null == mDefaultInstance) {
                     mDefaultInstance = new RxBus();
                 }
             }
@@ -50,8 +51,6 @@ public class RxBus {
     public void send(RxMessage event) {
         bus.accept(event);
     }
-
-
 
 
     public Disposable register(Class<RxMessage> eventType, final int code,
@@ -132,7 +131,7 @@ public class RxBus {
                 .subscribe(onNext);
     }
 
-    public Disposable register(Class<RxMessage> eventType, final int code,int delay,
+    public Disposable register(Class<RxMessage> eventType, final int code, int delay,
                                Consumer<RxMessage> onNext) {
         return toObservable(eventType)
                 .filter(new Predicate<RxMessage>() {
@@ -178,8 +177,17 @@ public class RxBus {
                 .subscribe(onNext, onError, onComplete, onSubscribe);
     }
 
-    /*---------------------------------------------------------------------------------------------------------------------*/
 
+    /**
+     * 同时监听多个 Code
+     */
+    public Disposable register(Class<RxMessage> eventType, Consumer<RxMessage> onNext) {
+        return toObservable(eventType)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(onNext);
+    }
+
+    /*---------------------------------------------------------------------------------------------------------------------*/
 
 
     public void unregister(Disposable disposable) {

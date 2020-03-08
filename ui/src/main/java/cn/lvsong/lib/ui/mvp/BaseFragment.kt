@@ -26,7 +26,8 @@ import io.reactivex.disposables.CompositeDisposable
 abstract class BaseFragment<T : IBasePresenter> : Fragment(), BaseView,
     RxView.OnFilterClick, OnRetryListener {
     private val mCompositeDisposable = CompositeDisposable()
-    open  lateinit var mPresenter: T
+
+    var mPresenter: T? = null
 
     open lateinit var mActivity: FragmentActivity
     /**
@@ -62,7 +63,9 @@ abstract class BaseFragment<T : IBasePresenter> : Fragment(), BaseView,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mPresenter = createPresenter()
-        lifecycle.addObserver(mPresenter)
+        mPresenter?.let {
+            lifecycle.addObserver(it)
+        }
     }
 
     override fun onCreateView(
@@ -70,16 +73,21 @@ abstract class BaseFragment<T : IBasePresenter> : Fragment(), BaseView,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return initStatusManager(inflater, container, savedInstanceState)
+        // 解决Android jetpack导航组件Navigation返回Fragment重走onCreateView方法刷新视图的问题 步骤1
+        return if (null == mRoot) { // 缓存已经创建的视图
+            mRoot = initStatusManager(inflater, container, savedInstanceState)
+            mRoot
+        } else {
+            mRoot
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        if (null == mRoot) {
-            mRoot = view
+        // 解决Android jetpack导航组件Navigation返回Fragment重走onCreateView方法刷新视图的问题 步骤2
+        if (isFirstResume) { // 如果有做相关处理则不再进行
+            setLogic()
+            bindEvent()
         }
-        super.onViewCreated(view, savedInstanceState)
-        setLogic()
-        bindEvent()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -102,9 +110,9 @@ abstract class BaseFragment<T : IBasePresenter> : Fragment(), BaseView,
         super.onResume()
         if (isFirstResume) {
             isFirstResume = false
-           // 懒加载,处理数据
+            // 懒加载,处理数据
             onFirstUserVisible()
-        }else{
+        } else {
             onUserVisible()
         }
 
@@ -163,12 +171,14 @@ abstract class BaseFragment<T : IBasePresenter> : Fragment(), BaseView,
     /**
      *   获取 Presenter 对象
      */
-    abstract fun createPresenter(): T
+    open fun createPresenter(): T? {
+        return null
+    }
 
     abstract fun getLayoutId(): Int
 
     // 在 Kotlin 中这个方法就没有必要重写了
-    fun initializedViews(savedInstanceState: Bundle?, contentView: View) {
+   open fun initializedViews(savedInstanceState: Bundle?, contentView: View) {
 
     }
 
@@ -241,7 +251,6 @@ abstract class BaseFragment<T : IBasePresenter> : Fragment(), BaseView,
                 contentView.visibility = View.VISIBLE
                 contentView
             }
-
         }
         throw IllegalStateException("getLayoutId() 必须调用,且返回正常的布局ID")
     }
