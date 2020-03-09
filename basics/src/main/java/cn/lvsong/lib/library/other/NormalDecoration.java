@@ -25,16 +25,20 @@ public class NormalDecoration extends RecyclerView.ItemDecoration {
     //
     private int mTotalItems;//总Item数
     private int mSpanCount;//总列数
-    private  boolean mGridLayout = false;
+    private boolean mGridLayout = false;
+    /**
+     * 是否需要最后一行的分割线
+     */
+    private boolean mHasLastRowLine = false;
 
     public NormalDecoration(int dividerHeight, @ColorInt int dividerColor) {
-        this.mDrawable = getItemDividerDrawable(dividerHeight,dividerColor);
+        this.mDrawable = getItemDividerDrawable(dividerHeight, dividerColor);
     }
 
     private GradientDrawable getItemDividerDrawable(int dividerHeight, @ColorInt int drawableColor) {
         GradientDrawable drawable = new GradientDrawable();
         drawable.setShape(GradientDrawable.RECTANGLE);
-        drawable.setSize(0,dividerHeight);
+        drawable.setSize(0, dividerHeight);
         drawable.setColor(drawableColor);
         return drawable;
     }
@@ -48,7 +52,7 @@ public class NormalDecoration extends RecyclerView.ItemDecoration {
     @Override
     public void getItemOffsets(@NotNull Rect outRect, @NotNull View view, RecyclerView parent, RecyclerView.State state) {
         //notification的时候要获取
-        if (null == parent.getAdapter()){
+        if (null == parent.getAdapter()) {
             return;
         }
         mTotalItems = parent.getAdapter().getItemCount();
@@ -67,10 +71,10 @@ public class NormalDecoration extends RecyclerView.ItemDecoration {
         //在源码中有一个过时的方法，里面有获取当前ItemPosition
         int currentItemPosition = ((RecyclerView.LayoutParams) view.getLayoutParams()).getViewLayoutPosition();
         //
-        if (!isLastRow(currentItemPosition, mTotalItems, mSpanCount)) {
-            if (mGridLayout){
+        if (!isLastRow(currentItemPosition, mTotalItems, mSpanCount) || mHasLastRowLine) {
+            if (mGridLayout) {
                 outRect.bottom = mDrawable.getIntrinsicWidth();
-            }else {
+            } else {
                 outRect.bottom = mDrawable.getIntrinsicHeight();
             }
         } else {
@@ -101,16 +105,16 @@ public class NormalDecoration extends RecyclerView.ItemDecoration {
 
     private void drawHorizontalDecoration(Canvas canvas, View childView) {
         int currentItemPosition = ((RecyclerView.LayoutParams) childView.getLayoutParams()).getViewLayoutPosition();
-        if (isLastRow(currentItemPosition, mTotalItems, mSpanCount)) {
+        if (isLastRow(currentItemPosition, mTotalItems, mSpanCount) && !mHasLastRowLine) {
             return;
         }
         //
         Rect rect = new Rect(0, 0, 0, 0);
 
         rect.top = childView.getBottom();
-        if (mGridLayout){
+        if (mGridLayout) {
             rect.bottom = rect.top + mDrawable.getIntrinsicWidth();
-        }else {
+        } else {
             rect.bottom = rect.top + mDrawable.getIntrinsicHeight();
         }
         rect.left = childView.getLeft();
