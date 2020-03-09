@@ -93,4 +93,12 @@ class BubbleLinearLayout(context: Context, attrs: AttributeSet) : LinearLayout(c
         post { setUp(width, height) }
     }
 
+    /**
+     * 动态设置箭头距离左边的距离
+     */
+    fun setArrowLeftMargin(arrowPosition:Int){
+        mArrowPosition = arrowPosition.toFloat()
+        invalidate()
+    }
+
 }
