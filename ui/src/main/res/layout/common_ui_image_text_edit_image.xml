@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cl_menu_container"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/height_45"
+    android:layout_height="match_parent"
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical">
@@ -52,13 +51,8 @@
         android:layout_height="match_parent"
         android:background="@android:color/transparent"
         android:contentDescription="@null"
-        android:drawablePadding="@dimen/padding_10"
         android:gravity="center_vertical|end"
-        android:maxWidth="@dimen/width_200"
         android:maxLines="1"
-        android:minWidth="@dimen/width_150"
-        android:paddingStart="@dimen/padding_2"
-        android:paddingEnd="@dimen/padding_12"
         android:textColor="@color/color_333333"
         android:textCursorDrawable="@drawable/ic_fixed_edit_cursor_bg"
         android:textSize="@dimen/text_size_14"
@@ -77,4 +71,4 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+</merge>

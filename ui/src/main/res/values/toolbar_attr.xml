@@ -77,7 +77,7 @@
         <!-- 右侧图片2右侧 Margin -->
         <attr name="ct_right_image2_right_margin" format="dimension|integer"/>
 
-        <!-- 右侧更多按钮是否可见 -->
+        <!-- 右侧更多按钮是否可见,默认不可见 -->
         <attr name="ct_right_mav_visible" format="boolean"/>
         <!-- 右侧更多按钮宽度 -->
         <attr name="ct_right_mav_width" format="dimension|integer"/>

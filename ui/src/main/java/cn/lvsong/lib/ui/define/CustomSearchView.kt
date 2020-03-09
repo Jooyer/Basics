@@ -200,7 +200,7 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
 
         val inputContainerLp = cl_search_input_container.layoutParams as LayoutParams
         val height = dp2px(30F).toInt()
-        if (inputContainerHeight < height) {
+        if (inputContainerHeight < height && showClearIcon) { // 如果需要显示右侧清除按钮,则必须对输入框高度进行限制
             inputContainerHeight = height
         }
         inputContainerLp.height = inputContainerHeight

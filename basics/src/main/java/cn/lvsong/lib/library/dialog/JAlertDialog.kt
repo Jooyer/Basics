@@ -15,6 +15,24 @@ import cn.lvsong.lib.library.R
  * Created by Jooyer on 2017/7/22
  */
 
+/*
+
+          val mDialog = JAlertDialog.Builder(this@ADActivity)
+                            .setCancelable(false)
+                            .setContentView(R.layout.item)
+                            .setHasAnimation(true)
+                            .setFromBottom()
+                            .setOnJAlertDialogCLickListener(object : OnJAlertDialogCLickListener {
+                                override fun onClick(view: View, position: Int) {
+
+                                }
+                            }).show()
+
+
+// 也可以 把 .create()  换成  .show(),则直接显示 ...
+
+ */
+
 class JAlertDialog(context: Context, themeResId: Int) : Dialog(context, themeResId) {
 
     private val mAlert: JAlertController = JAlertController(this, window!!)
