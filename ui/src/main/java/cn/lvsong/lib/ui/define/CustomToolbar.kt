@@ -69,12 +69,6 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
      */
     private val ORIENTATION_VERTICAL = 2
 
-
-    /**
-     * 自定义布局父容器
-     */
-    lateinit var cl_toolbar_container: ConstraintLayout
-
     /**
      * 最左侧图标,默认显示
      */
@@ -126,8 +120,6 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         iv_right_icon_menu2 = findViewById(R.id.iv_right_icon_menu2)
         mav_right_icon_menu = findViewById(R.id.mav_right_icon_menu)
         view_bottom_divider_menu = findViewById(R.id.view_bottom_divider_menu)
-
-        cl_toolbar_container = findViewById<ConstraintLayout>(R.id.cl_toolbar_container)
     }
 
     private fun parseAttrs(context: Context, attr: AttributeSet) {
@@ -212,7 +204,7 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
             MoreActionView.dip2px(context, 2F).toFloat()
         )
         val mavVisible =
-            arr.getBoolean(R.styleable.CustomToolbar_ct_right_mav_visible, true)
+            arr.getBoolean(R.styleable.CustomToolbar_ct_right_mav_visible, false)
         val mavWidth =
             arr.getDimension(R.styleable.CustomToolbar_ct_right_mav_width, dp2px(40F)).toInt()
         val mavHeight =
@@ -378,13 +370,6 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         view_bottom_divider_menu.setBackgroundColor(bottomDividerColor)
 
         arr.recycle()
-    }
-
-    override fun onFinishInflate() {
-        super.onFinishInflate()
-        val lp = cl_toolbar_container.layoutParams as ConstraintLayout.LayoutParams
-        lp.height = height
-        cl_toolbar_container.layoutParams = lp
     }
 
     fun setRightImageListener(listener: View.OnClickListener) {

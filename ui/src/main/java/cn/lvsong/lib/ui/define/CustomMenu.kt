@@ -26,7 +26,6 @@ import cn.lvsong.lib.ui.R
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:cm_height="@dimen/height_60"
             app:cm_left_image_visible="false"
             app:cm_left_text_info="个人认证"
             app:cm_left_text_size="14"
@@ -72,7 +71,7 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
     /**
      * 自定义布局
      */
-    private lateinit var cl_menu_container: View
+//    private lateinit var cl_menu_container: View
     /**
      * 最左侧图标
      */
@@ -117,7 +116,7 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
     private fun initView() {
         LayoutInflater.from(context)
             .inflate(R.layout.common_ui_image_text_text_image, this, true)
-        cl_menu_container = findViewById(R.id.cl_menu_container)
+//        cl_menu_container = findViewById(R.id.cl_menu_container)
         iv_left_icon_menu = findViewById(R.id.iv_left_icon_menu)
         tv_left_name_menu = findViewById(R.id.tv_left_name_menu)
         tv_right_name_menu = findViewById(R.id.tv_right_name_menu)
@@ -179,7 +178,7 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         val rightNearImageTopMargin =
             arr.getDimension(R.styleable.CustomMenu_cm_right_near_image_top_margin, 0F).toInt()
 
-        val rightDrawableVisible =
+        val rightArrowVisible =
             arr.getBoolean(R.styleable.CustomMenu_cm_right_arrow_visible, true)
 
         val rightArrowColor = arr.getColor(
@@ -256,9 +255,7 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
 
         val rightTextLp: ConstraintLayout.LayoutParams =
             tv_right_name_menu.layoutParams as LayoutParams
-        if (rightDrawableVisible) {
-            rightTextLp.marginEnd = rightTextRightMargin
-        }
+        rightTextLp.marginEnd = rightTextRightMargin
         tv_right_name_menu.layoutParams = rightTextLp
 
 
@@ -279,7 +276,7 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
 //            rightNearImageLp.removeRule(ConstraintLayout.CENTER_VERTICAL)
 //        }
 
-        if (rightDrawableVisible) {
+        if (rightArrowVisible) {
             rightNearImageLp.marginEnd = rightNearImageRightMargin
         } else {
             rightNearImageLp.goneEndMargin = rightNearImageRightMargin
@@ -288,7 +285,7 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         iv_near_right_icon_menu.layoutParams = rightNearImageLp
 
 
-        iv_right_arrow_menu.visibility = if (rightDrawableVisible) View.VISIBLE else View.GONE
+        iv_right_arrow_menu.visibility = if (rightArrowVisible) View.VISIBLE else View.GONE
         val rightImageLp: ConstraintLayout.LayoutParams =
             iv_right_arrow_menu.layoutParams as LayoutParams
         iv_right_arrow_menu.setArrowColor(rightArrowColor)
@@ -316,12 +313,12 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         arr.recycle()
     }
 
-    override fun onFinishInflate() {
-        super.onFinishInflate()
-        val rootLp: ConstraintLayout.LayoutParams = cl_menu_container.layoutParams as LayoutParams
-        rootLp.height = height
-        cl_menu_container.layoutParams = rootLp
-    }
+//    override fun onFinishInflate() {
+//        super.onFinishInflate()
+//        val rootLp: ConstraintLayout.LayoutParams = cl_menu_container.layoutParams as LayoutParams
+//        rootLp.height = height
+//        cl_menu_container.layoutParams = rootLp
+//    }
 
     fun setRightTextVisible(isVisible: Boolean) {
         tv_right_name_menu.visibility = if (isVisible) View.VISIBLE else View.GONE

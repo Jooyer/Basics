@@ -96,8 +96,7 @@
 
 
     <declare-styleable name="CustomEditMenu">
-        <!-- 总高 -->
-        <attr name="cem_height" format="dimension|integer"/>
+
         <!-- 最左侧图标是否可见 -->
         <attr name="cem_left_image_visible" format="boolean"/>
         <!-- 最左侧图标的 drawable -->
@@ -118,26 +117,33 @@
         <!-- 紧靠左侧的文本左侧Margin -->
         <attr name="cem_left_text_left_margin" format="dimension|integer"/>
 
-        <!-- 紧靠右侧的文本 -->
-        <attr name="cem_right_text_info" format="reference|string"/>
-        <!-- 紧靠右侧的提示文本 -->
-        <attr name="cem_right_hint_text_info" format="reference|string"/>
-        <!-- 紧靠右侧的文本是否可见 -->
-        <attr name="cem_right_text_visible" format="boolean"/>
-        <!-- 紧靠右侧的文本大小 -->
-        <attr name="cem_right_text_size" format="dimension|integer"/>
-        <!-- 紧靠右侧的文本长度 -->
-        <attr name="cem_right_text_length" format="integer"/>
-        <!-- 紧靠右侧的文本颜色 -->
-        <attr name="cem_right_text_color" format="color|reference"/>
-        <!-- 紧靠右侧的提示文本颜色 -->
-        <attr name="cem_right_text_hint_color" format="color|reference"/>
-        <!-- 紧靠右侧的文本右侧Margin -->
-        <attr name="cem_right_text_right_margin" format="dimension|integer"/>
-        <!-- 输入的类型 -->
-        <attr name="cem_right_text_input_type">
+        <!-- 右侧输入框的文本是否可见 -->
+        <attr name="cem_right_input_visible" format="boolean"/>
+        <!-- 右侧输入框宽度 -->
+        <attr name="cem_right_input_left_padding" format="dimension|integer"/>
+        <!-- 右侧输入框宽度 -->
+        <attr name="cem_right_input_right_padding" format="dimension|integer"/>
+        <!-- 右侧输入框宽度 -->
+        <attr name="cem_right_input_width" format="dimension|integer"/>
+        <!-- 右侧输入框的文本 -->
+        <attr name="cem_right_input_text" format="reference|string"/>
+        <!-- 右侧输入框的提示文本 -->
+        <attr name="cem_right_input_hint_text" format="reference|string"/>
+        <!-- 右侧输入框的文本大小 -->
+        <attr name="cem_right_input_text_size" format="dimension|integer"/>
+        <!-- 右侧输入框的文本长度 -->
+        <attr name="cem_right_input_text_length" format="integer"/>
+        <!-- 右侧输入框的文本颜色 -->
+        <attr name="cem_right_input_text_color" format="color|reference"/>
+        <!-- 右侧输入框的提示文本颜色 -->
+        <attr name="cem_right_input_hint_color" format="color|reference"/>
+        <!-- 右侧输入框的文本右侧Margin -->
+        <attr name="cem_right_input_right_margin" format="dimension|integer"/>
+        <!-- 右侧输入框输入的类型,默认是文本, 如果输入1则表示数字 -->
+        <attr name="cem_right_input_type">
             <enum name="number" value="1"/>
         </attr>
+
 
         <!-- 最右侧图标的是否可见 -->
         <attr name="cem_right_image_visible" format="boolean"/>
@@ -149,6 +155,7 @@
         <attr name="cem_right_image_height" format="dimension|integer"/>
         <!-- 最右侧图标高度右侧Margin -->
         <attr name="cem_right_image_right_margin" format="dimension|integer"/>
+
 
         <!-- 底部分割线是否可见 -->
         <attr name="cem_bottom_divider_visible" format="boolean"/>
