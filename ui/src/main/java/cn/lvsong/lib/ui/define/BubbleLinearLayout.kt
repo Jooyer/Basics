@@ -30,66 +30,72 @@ import cn.lvsong.lib.ui.R
 
  */
 
-class BubbleLinearLayout(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
-    private var builder: BubbleDrawable.Builder? = null
-
+class BubbleLinearLayout(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     private var mArrowWidth: Float = 0.toFloat()
     private var mAngle: Float = 0.toFloat()
     private var mArrowHeight: Float = 0.toFloat()
     private var mArrowPosition: Float = 0.toFloat()
     private var mArrowLocation: BubbleDrawable.ArrowLocation = BubbleDrawable.ArrowLocation.LEFT
-    private var bubbleColor: Int = 0
+    private var mBubbleColor: Int = 0
     private var mArrowCenter: Boolean = false
+    private val mRectF = RectF()
+
+    constructor(context: Context) : this(context, null)
 
     init {
-        val array = context.obtainStyledAttributes(attrs, R.styleable.BubbleLinearLayout)
-        mArrowWidth = array.getDimension(
-            R.styleable.BubbleLinearLayout_arrowWidth,
-            BubbleDrawable.Builder.DEFAULT_ARROW_WITH
-        )
-        mArrowHeight = array.getDimension(
-            R.styleable.BubbleLinearLayout_arrowHeight,
-            BubbleDrawable.Builder.DEFAULT_ARROW_HEIGHT
-        )
-        mAngle = array.getDimension(
-            R.styleable.BubbleLinearLayout_angle,
-            BubbleDrawable.Builder.DEFAULT_ANGLE
-        )
-        mArrowPosition = array.getDimension(
-            R.styleable.BubbleLinearLayout_arrowPosition,
-            BubbleDrawable.Builder.DEFAULT_ARROW_POSITION
-        )
-        bubbleColor = array.getColor(
-            R.styleable.BubbleLinearLayout_bubbleColor,
-            BubbleDrawable.Builder.DEFAULT_BUBBLE_COLOR
-        )
-        val location = array.getInt(R.styleable.BubbleLinearLayout_arrowLocation, 0)
-        mArrowLocation = BubbleDrawable.ArrowLocation.mapIntToValue(location)
-        mArrowCenter = array.getBoolean(R.styleable.BubbleLinearLayout_arrowCenter, false)
-        array.recycle()
-    }
-
-    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        super.onSizeChanged(w, h, oldw, oldh)
-        if (w > 0 && h > 0) {
-            setUp(w, h)
+        attrs?.let {
+            val array = context.obtainStyledAttributes(attrs, R.styleable.BubbleLinearLayout)
+            mArrowWidth = array.getDimension(
+                R.styleable.BubbleLinearLayout_arrowWidth,
+                BubbleDrawable.Builder.DEFAULT_ARROW_WITH
+            )
+            mArrowHeight = array.getDimension(
+                R.styleable.BubbleLinearLayout_arrowHeight,
+                BubbleDrawable.Builder.DEFAULT_ARROW_HEIGHT
+            )
+            mAngle = array.getDimension(
+                R.styleable.BubbleLinearLayout_angle,
+                BubbleDrawable.Builder.DEFAULT_ANGLE
+            )
+            mArrowPosition = array.getDimension(
+                R.styleable.BubbleLinearLayout_arrowPosition,
+                BubbleDrawable.Builder.DEFAULT_ARROW_POSITION
+            )
+            mBubbleColor = array.getColor(
+                R.styleable.BubbleLinearLayout_bubbleColor,
+                BubbleDrawable.Builder.DEFAULT_BUBBLE_COLOR
+            )
+            val location = array.getInt(R.styleable.BubbleLinearLayout_arrowLocation, 0)
+            mArrowLocation = BubbleDrawable.ArrowLocation.mapIntToValue(location)
+            mArrowCenter = array.getBoolean(R.styleable.BubbleLinearLayout_arrowCenter, false)
+            array.recycle()
         }
     }
+
+    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
+        super.onLayout(changed, l, t, r, b)
+        if (r-l > 0 && b - t > 0) {
+            setUp(r-l, b - t)
+        }
+    }
+
 
     private fun setUp(left: Int, right: Int, top: Int, bottom: Int) {
         if (right < left || bottom < top)
             return
-        val rectF = RectF(left.toFloat(), top.toFloat(), right.toFloat(), bottom.toFloat())
-        builder = BubbleDrawable.Builder()
-            .rect(rectF)
+
+        mRectF.set(left.toFloat(), top.toFloat(), right.toFloat(), bottom.toFloat())
+        background = BubbleDrawable.Builder()
+            .rect(mRectF)
             .arrowLocation(mArrowLocation)
             .bubbleType(BubbleDrawable.BubbleType.COLOR)
             .angle(mAngle)
             .arrowHeight(mArrowHeight)
             .arrowWidth(mArrowWidth)
             .arrowPosition(mArrowPosition)
-            .bubbleColor(bubbleColor)
+            .bubbleColor(mBubbleColor)
             .arrowCenter(mArrowCenter)
+            .build()
     }
 
     private fun setUp(width: Int, height: Int) {
@@ -97,7 +103,41 @@ class BubbleLinearLayout(context: Context, attrs: AttributeSet) : LinearLayout(c
             paddingLeft, width - paddingRight,
             paddingTop, height - paddingBottom
         )
-        background = builder?.build()
+    }
+
+    fun setArrowAngle(angle: Float): BubbleLinearLayout {
+        mAngle = angle
+        return this
+    }
+
+    fun setArrowHeight(arrowHeight: Float): BubbleLinearLayout {
+        mArrowHeight = arrowHeight
+        return this
+    }
+
+    fun setArrowLocation(arrowLocation:  BubbleDrawable.ArrowLocation): BubbleLinearLayout {
+        mArrowLocation = arrowLocation
+        return this
+    }
+
+    fun setArrowPosition(arrowPosition: Float): BubbleLinearLayout {
+        mArrowPosition = arrowPosition
+        return this
+    }
+
+    fun setArrowWidth(arrowWidth: Float): BubbleLinearLayout {
+        mArrowWidth= arrowWidth
+        return this
+    }
+
+    fun setArrowCenter(arrowCenter: Boolean): BubbleLinearLayout {
+        mArrowCenter = arrowCenter
+        return this
+    }
+
+    fun setBubbleColor(bubbleColor: Int): BubbleLinearLayout {
+        mBubbleColor = bubbleColor
+        return this
     }
 
     fun setUpBubbleDrawable() {
@@ -109,8 +149,9 @@ class BubbleLinearLayout(context: Context, attrs: AttributeSet) : LinearLayout(c
      * 动态设置箭头距离左边的距离
      */
     fun setArrowLeftMargin(arrowPosition: Int) {
-        background = builder?.arrowPosition(arrowPosition.toFloat())?.build()
+        setArrowPosition(arrowPosition.toFloat())
+        // 这里 requestLayout() 不能换成 invalidate()
+        requestLayout()
     }
-
 
 }

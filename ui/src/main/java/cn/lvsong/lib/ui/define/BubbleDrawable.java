@@ -14,6 +14,8 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Desc:
  * Author: Jooyer
@@ -54,7 +56,7 @@ public class BubbleDrawable extends Drawable {
     }
 
     @Override
-    public void draw(Canvas canvas) {
+    public void draw(@NotNull Canvas canvas) {
         setUp(canvas);
     }
 
