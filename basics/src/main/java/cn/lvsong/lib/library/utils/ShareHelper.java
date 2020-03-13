@@ -21,9 +21,10 @@ import java.util.List;
  * https://blog.csdn.net/woblog/article/details/51095087
  * <p>
  * Created by Jooyer on 2018/6/14
- * 分享
+ * 分享.
+ * 新版微信,调用系统方法,不能直接分享了
  */
-
+@Deprecated
 public class ShareHelper {
 
     private static ShareHelper sShareHelper;
@@ -46,20 +47,20 @@ public class ShareHelper {
     /*---------------------- 以下分析调用的是系统分享方法,只能分享文本/图片,不能同时分享文字和图片 -----------------------*/
 
     //分享到 QQ 好友
-    public void shareToQQ(Activity context,String content,String appName) {
+    public void shareToQQ(Activity context, String content, String appName) {
         Intent intent = new Intent(Intent.ACTION_SEND); // 地址
         ComponentName component = new ComponentName(
                 "com.tencent.mobileqq",
                 "com.tencent.mobileqq.activity.JumpActivity");
         intent.setComponent(component);
-        intent.putExtra(Intent.EXTRA_TEXT,content);
+        intent.putExtra(Intent.EXTRA_TEXT, content);
         intent.setType("text/plain");
-        context.startActivity(Intent.createChooser(intent,appName));
+        context.startActivity(Intent.createChooser(intent, appName));
     }
 
 
     // 分享图片到微信好友
-    public void shareToWeiXin(Activity context, String appName, @DrawableRes int drawableId ) {
+    public void shareToWeiXin(Activity context, String appName, @DrawableRes int drawableId) {
         Intent intent = new Intent(Intent.ACTION_SEND); // 地址
         ComponentName componentName = new ComponentName(
                 "com.tencent.mm", "com.tencent.mm.ui.tools.ShareImgUI");

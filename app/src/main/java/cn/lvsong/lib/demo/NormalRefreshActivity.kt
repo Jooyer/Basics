@@ -25,6 +25,9 @@ class NormalRefreshActivity : AppCompatActivity() {
         prl_container.addHeader(DefaultHeaderView(this))
         prl_container.addFooter(DefaultFooterView(this))
 
+        prl_container.setRefreshable(true)
+        prl_container.setLoadable(false)
+
         prl_container.setOnRefreshAndLoadListener(object : OnRefreshAndLoadListener() {
             override fun onRefresh(refreshLayout: PowerRefreshLayout) {
                 Log.e("Test", "onRefresh==============")

@@ -1,6 +1,5 @@
 package cn.lvsong.lib.ui.define
 
-import android.app.Activity
 import android.content.Context
 import android.text.Editable
 import android.text.InputFilter
@@ -59,7 +58,7 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
      */
     private val ARROW_STYLE_MATERIAL_DESIGN = 1
 
-    private lateinit var ab_search_left_back: BackArrowView
+    private lateinit var bav_search_left_back: BackArrowView
     private lateinit var cl_search_input_container: ConstraintLayout
     private lateinit var asv_search_view_icon: AndroidSearchView
     private lateinit var et_search_view_search: AppCompatEditText
@@ -76,7 +75,7 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
 
     private fun initView() {
         LayoutInflater.from(context).inflate(R.layout.common_ui_search_view, this, true)
-        ab_search_left_back = findViewById(R.id.ab_search_left_back)
+        bav_search_left_back = findViewById(R.id.ab_search_left_back)
         cl_search_input_container = findViewById(R.id.cl_search_input_container)
         asv_search_view_icon = findViewById(R.id.asv_search_view_icon)
         et_search_view_search = findViewById(R.id.et_search_view_search)
@@ -186,16 +185,16 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
 
         arr.recycle()
 
-        ab_search_left_back.visibility = if (showLeftArrow) View.VISIBLE else View.GONE
-        ab_search_left_back.setArrowColor(leftArrowColor)
-        ab_search_left_back.setArrowPadding(leftArrowPadding.toFloat())
-        ab_search_left_back.setArrowStyle(leftArrowStyle)
+        bav_search_left_back.visibility = if (showLeftArrow) View.VISIBLE else View.GONE
+        bav_search_left_back.setArrowColor(leftArrowColor)
+        bav_search_left_back.setArrowPadding(leftArrowPadding.toFloat())
+        bav_search_left_back.setArrowStyle(leftArrowStyle)
         if (showLeftArrow) {
-            ab_search_left_back.setOnClickListener {
-                if (context is Activity) {
-                    context.finish()
+            bav_search_left_back.setOnClickListener(object :OnClickFastListener(){
+                override fun onFastClick(v: View) {
+                    mListener?.onClickBackArrow(v)
                 }
-            }
+            })
         }
 
         val inputContainerLp = cl_search_input_container.layoutParams as LayoutParams
@@ -333,6 +332,11 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
     }
 
     interface OnSearchListener {
+
+        fun onClickBackArrow(view: View){
+
+        }
+
         fun onChanged(text: String) {
 
         }
