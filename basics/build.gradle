@@ -74,7 +74,7 @@ dependencies {
     api rootProject.ext.dependencies.room_runtime
     kapt rootProject.ext.dependencies.room_compiler
 
-    api rootProject.ext.dependencies.paging
+//    api rootProject.ext.dependencies.paging
 
     api rootProject.ext.dependencies.permission
 
@@ -86,7 +86,7 @@ dependencies {
 //    api rootProject.ext.dependencies.rxrouter
 //    kapt rootProject.ext.dependencies.rxrouter_compiler
 
-    api rootProject.ext.dependencies.mmkv
+//    api rootProject.ext.dependencies.mmkv
 
 //    api rootProject.ext.dependencies.preLoader
 

@@ -6,7 +6,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import ccn.lvsong.lib.ui.network.NetStateChangeObserver
 import cn.lvsong.lib.net.retrofit.RxRetrofit
-import com.tencent.mmkv.MMKV
+import cn.lvsong.lib.net.utils.NetUtil
 
 
 /**
@@ -100,17 +100,17 @@ class NetWorkReceiver : BroadcastReceiver() {
      */
     private fun notifyObservers(networkType: NetworkType) {
         if (mType == networkType) {
-            MMKV.defaultMMKV().encode(cn.lvsong.lib.library.utils.Constants.KEY_NETWORK_STATE,networkType != NetworkType.NETWORK_NO)
+            NetUtil.setNetWorkAvailable(networkType != NetworkType.NETWORK_NO)
             return
         }
         mType = networkType
         if (networkType == NetworkType.NETWORK_NO) {
-            MMKV.defaultMMKV().encode(cn.lvsong.lib.library.utils.Constants.KEY_NETWORK_STATE,false)
+            NetUtil.setNetWorkAvailable(false)
             for (observer in mObservers) {
                 observer.onNetDisconnected()
             }
         } else {
-            MMKV.defaultMMKV().encode(cn.lvsong.lib.library.utils.Constants.KEY_NETWORK_STATE,true)
+            NetUtil.setNetWorkAvailable(true)
             for (observer in mObservers) {
                 observer.onNetConnected(networkType)
             }

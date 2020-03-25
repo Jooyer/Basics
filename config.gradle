@@ -14,8 +14,8 @@ ext {
     dependencies = [
             fileTree            : fileTree(dir: 'libs', include: ['*.jar']),
             kotlin_stdlib       : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
-            appcompat           : 'androidx.appcompat:appcompat:1.0.2',
-            core_ktx            : 'androidx.core:core-ktx:1.0.2',
+            appcompat           : 'androidx.appcompat:appcompat:1.1.0',
+            core_ktx            : 'androidx.core:core-ktx:1.2.0',
             //
             constraintlayout    : 'androidx.constraintlayout:constraintlayout:1.1.3',
             material            : 'com.google.android.material:material:1.2.0-alpha01',
@@ -82,23 +82,23 @@ ext {
             glide_compiler      : 'com.github.bumptech.glide:compiler:4.10.0',
 
             // https://github.com/ssseasonnn/RxRouter
-            rxrouter            : 'zlc.season:rxrouter:1.0.1',
-            rxrouter_compiler   : 'zlc.season:rxrouter-compiler:1.0.1',
+//            rxrouter            : 'zlc.season:rxrouter:1.0.1',
+//            rxrouter_compiler   : 'zlc.season:rxrouter-compiler:1.0.1',
 
             // https://github.com/Tencent/MMKV/wiki/android_tutorial_cn
-            mmkv                : 'com.tencent:mmkv:1.0.18',
+//            mmkv                : 'com.tencent:mmkv:1.0.18',
 
             // https://github.com/huanghaibin-dev/CalendarView
-            calendarview        : 'com.haibin:calendarview:3.4.8',
+//            calendarview        : 'com.haibin:calendarview:3.4.8',
 
             // https://github.com/luckybilly/PreLoader/blob/master/README-zh-CN.md
-            preLoader           : 'com.billy.android:pre-loader:2.1.0',
+//            preLoader           : 'com.billy.android:pre-loader:2.1.0',
 
             // https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=20181018152722#_2
 //            bugly: 'com.tencent.bugly:crashreport:latest.release' ,
 
             // https://github.com/mcxiaoke/packer-ng-plugin  打包工具
-            packer_ng           : 'com.mcxiaoke.packer-ng:helper:2.0.1',
+//            packer_ng           : 'com.mcxiaoke.packer-ng:helper:2.0.1',
 
     ]
 

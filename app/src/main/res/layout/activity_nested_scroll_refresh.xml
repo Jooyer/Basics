@@ -47,8 +47,8 @@
                 app:tabMode="scrollable"
                 app:tabGravity="center"
                 app:layout_collapseMode="pin"
-                app:tabTextColor="@color/color_EEEEEE"
-                app:tabSelectedTextColor="@color/color_FFFFFF"
+                app:tabTextColor="@color/color_8A8EA3"
+                app:tabSelectedTextColor="@color/color_333333"
                 />
 
         </com.google.android.material.appbar.AppBarLayout>

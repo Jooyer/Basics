@@ -22,7 +22,7 @@ class StatusActivity : BaseActivity<StatusPresenter>() {
     override fun needUseImmersive() = 1
 
 
-    override fun useStatusManager() = false
+    override fun useStatusManager() = true
 
     override fun setLogic() {
         // 如果不调用 显示内容/显示错误等,一直会显示 loading

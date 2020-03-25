@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.annotation.LayoutRes
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.util.forEach
 
 
 /**
@@ -111,12 +110,19 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
 
     }
 
-    private fun addLayoutView(layoutView: View, layoutId: Int, param: ConstraintLayout.LayoutParams) {
+    private fun addLayoutView(
+        layoutView: View,
+        layoutId: Int,
+        param: ConstraintLayout.LayoutParams
+    ) {
         mLayoutViews.put(layoutId, layoutView)
         addView(layoutView, param)
     }
 
-    private fun addLayoutResId(@LayoutRes layoutResId: Int, layoutId: Int, param: ConstraintLayout.LayoutParams) {
+    private fun addLayoutResId(
+        @LayoutRes layoutResId: Int, layoutId: Int,
+        param: ConstraintLayout.LayoutParams
+    ) {
         val view: View = LayoutInflater.from(context)
             .inflate(layoutResId, null)
         mLayoutViews.put(layoutId, view)
@@ -175,8 +181,9 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
      * @param layoutId --> 当前需要显示的 View ID
      */
     private fun showHideViewById(layoutId: Int) {
-        mLayoutViews.forEach { key, value ->
-            when (key) {
+        for (i in 0 until mLayoutViews.size()) {
+            val value = mLayoutViews.valueAt(i)
+            when (val key = mLayoutViews.keyAt(i)) {
                 LAYOUT_LOADING_ID -> { // 加载布局
                     if (layoutId == key) {   // 显示该 View
                         value.visibility = View.VISIBLE
@@ -229,6 +236,7 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
                 }
             }
         }
+
     }
 
     /**
@@ -260,7 +268,10 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
             LAYOUT_ERROR_ID -> {
                 isShow = when {
                     null != mStatusLayoutManager.mErrorView -> {
-                        retryLoad(mStatusLayoutManager.mErrorView!!, mStatusLayoutManager.mErrorRetryViewId)
+                        retryLoad(
+                            mStatusLayoutManager.mErrorView!!,
+                            mStatusLayoutManager.mErrorRetryViewId
+                        )
                         mLayoutViews.put(layoutId, mStatusLayoutManager.mErrorView!!)
                         return true
                     }
@@ -277,7 +288,10 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
             LAYOUT_EMPTY_ID -> {
                 isShow = when {
                     null != mStatusLayoutManager.mEmptyDataView -> {
-                        retryLoad(mStatusLayoutManager.mEmptyDataView!!, mStatusLayoutManager.mEmptyDataRetryViewId)
+                        retryLoad(
+                            mStatusLayoutManager.mEmptyDataView!!,
+                            mStatusLayoutManager.mEmptyDataRetryViewId
+                        )
                         mLayoutViews.put(layoutId, mStatusLayoutManager.mEmptyDataView!!)
                         return true
                     }
@@ -312,7 +326,11 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
     }
 
     private fun dp2px(def: Float): Float {
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, def, context.resources.displayMetrics)
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            def,
+            context.resources.displayMetrics
+        )
     }
 
 }

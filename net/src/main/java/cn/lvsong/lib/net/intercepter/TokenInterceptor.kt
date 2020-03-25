@@ -1,7 +1,7 @@
 package cn.lvsong.lib.net.intercepter
 
 import android.util.Log
-import com.tencent.mmkv.MMKV
+import cn.lvsong.lib.net.utils.NetUtil
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.io.IOException
@@ -21,14 +21,13 @@ class TokenInterceptor : Interceptor {
             .addHeader("Content-Type", "application/json;charset=UTF-8")
             .addHeader("Accept", "application/json;charset=UTF-8")
             .addHeader(
-                "X-Access-Token",
-                MMKV.defaultMMKV().decodeString(cn.lvsong.lib.library.utils.Constants.KEY_REQUEST_TOKEN, "")
+                "X-Access-Token",NetUtil.getAccessToken()
             ) // TODO
             .build()
         //
         Log.i(
             "TokenInterceptor",
-            "=======X-Access-Token : " + MMKV.defaultMMKV().decodeString(cn.lvsong.lib.library.utils.Constants.KEY_REQUEST_TOKEN, "")
+            "=======X-Access-Token : " + NetUtil.getAccessToken()
         )
         return chain.proceed(newRequest)
     }

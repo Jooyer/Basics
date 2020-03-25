@@ -1,6 +1,5 @@
 package cn.lvsong.lib.net.utils
 
-import com.tencent.mmkv.MMKV
 
 /**
  * Desc: 判断 网络和Url
@@ -11,12 +10,36 @@ import com.tencent.mmkv.MMKV
 object NetUtil {
 
     /**
+     * 网络是否可用
+     */
+    private var mNetWorkAvailable = false
+
+    /**
+     * 缓存Token
+     */
+    private var mAccessToken = ""
+
+    /**
      * 判断网络是否正常连接
      *
      * @return true --> 正常连接
      */
-    fun isNetWorkAvailable(): Boolean {
-        return  MMKV.defaultMMKV().decodeBool(cn.lvsong.lib.library.utils.Constants.KEY_NETWORK_STATE,true)
+    fun isNetWorkAvailable() = mNetWorkAvailable
+
+    /**
+     * @param netWorkAvailable  --> true 表示可用
+     */
+    fun setNetWorkAvailable(netWorkAvailable: Boolean) {
+        mNetWorkAvailable = netWorkAvailable
+    }
+
+    fun getAccessToken() = mAccessToken
+
+    /**
+     * 设置Token
+     */
+    fun setAccessToken(token: String) {
+        mAccessToken = token
     }
 
     /**
