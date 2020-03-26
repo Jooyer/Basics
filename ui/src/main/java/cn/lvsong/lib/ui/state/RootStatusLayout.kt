@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.annotation.LayoutRes
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 
 
 /**
@@ -127,6 +128,7 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
             .inflate(layoutResId, null)
         mLayoutViews.put(layoutId, view)
         if (LAYOUT_LOADING_ID == layoutId) {
+            view.setBackgroundColor(ContextCompat.getColor(context,mStatusLayoutManager.mLoadingViewBackgroundColor))
             view.visibility = View.GONE
         }
         addView(view, param)
@@ -136,8 +138,9 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
      * 显示loading
      */
     fun showLoading() {
-        if (mLayoutViews.get(LAYOUT_LOADING_ID) != null)
+        if (mLayoutViews.get(LAYOUT_LOADING_ID) != null) {
             showHideViewById(LAYOUT_LOADING_ID)
+        }
     }
 
     /**

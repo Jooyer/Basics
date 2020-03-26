@@ -263,9 +263,10 @@ abstract class BaseFragment<T : IBasePresenter> : Fragment(), BaseView,
             .netWorkErrorView(getNetWorkErrorViewLayoutId())
             .errorView(getErrorViewLayoutId())
             .retryViewId(R.id.view_retry_load_data)
+            .setLoadingViewBackgroundColor(if (-1 == setLoadingViewBackgroundColor()) StatusConfig.INSTANCE.getLoadingViewBackgroundColor() else setLoadingViewBackgroundColor())
             .onRetryListener(this)
             .build()
-        mStatusManager?.setTransY(if (0 == getTransY()) StatusConfig.INSTANCE.getTranslateY() else getTransY())
+        mStatusManager?.setTransY(if (-1 == getTransY()) StatusConfig.INSTANCE.getTranslateY() else getTransY())
         mStatusManager?.showLoading()
         return mStatusManager?.getRootLayout()!!
     }
@@ -278,9 +279,15 @@ abstract class BaseFragment<T : IBasePresenter> : Fragment(), BaseView,
      *  PS: 注意,返回的是 px
      */
     open fun getTransY(): Int {
-        return 0
+        return -1
     }
 
+    /**
+     * 设置LoadingView背景色
+     */
+    open fun setLoadingViewBackgroundColor(): Int {
+        return -1
+    }
 
     // 此方法有时可能不会回调,在 onDestroyView() 中再调用一次
     override fun onSaveInstanceState(outState: Bundle) {

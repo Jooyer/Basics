@@ -3,8 +3,10 @@ package  cn.lvsong.lib.ui.state
 import android.content.Context
 import android.view.View
 import android.view.ViewStub
+import androidx.annotation.ColorRes
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
+import cn.lvsong.lib.ui.R
 
 /**
  *      修饰符	                类成员	                    顶级声明
@@ -26,18 +28,22 @@ import androidx.annotation.LayoutRes
 class StatusManager(builder: Builder) {
 
     private var mContext: Context
+
     /**
      * 所有视图的根布局
      */
     private var mRootFrameLayout: RootStatusLayout
+
     /**
      * 内容视图
      */
     internal var mContentLayoutView: View
+
     /**
      * 内容视图布局
      */
     internal var mContentLayoutResId: Int = 0
+
     /**
      * Loading视图
      */
@@ -47,10 +53,12 @@ class StatusManager(builder: Builder) {
      * 网络异常 ViewStub
      */
     internal var mNetworkErrorVs: ViewStub? = null
+
     /**
      * 网络异常 View
      */
     internal var mNetworkErrorView: View? = null
+
     /**
      * 网络异常重试按钮 ID
      */
@@ -60,30 +68,37 @@ class StatusManager(builder: Builder) {
      * 空视图 ViewStub
      */
     internal var mEmptyDataVs: ViewStub? = null
+
     /**
      * 空视图View
      */
     internal var mEmptyDataView: View? = null
+
     /**
      * 空视图重试按钮 ID
      */
     internal var mEmptyDataRetryViewId: Int = 0
+
     /**
      * 请求错误 ViewStub
      */
     internal var mErrorVs: ViewStub? = null
+
     /**
      * 请求错误 View
      */
     internal var mErrorView: View? = null
+
     /**
      * 请求错误重试按钮 ID
      */
     internal var mErrorRetryViewId: Int = 0
+
     /**
      * 重试按钮 ID
      */
     internal var mRetryViewId: Int = 0
+
     /**
      * 开始加载时间
      */
@@ -93,6 +108,12 @@ class StatusManager(builder: Builder) {
      * 延迟显示 ContentView
      */
     private var mDelayTime: Long = 1200
+
+    /**
+     * LoadingView背景色
+     */
+    @ColorRes
+     var mLoadingViewBackgroundColor = R.color.main_theme_color
 
     fun setTransY(transY: Int) {
         mRootFrameLayout.setTransY(transY)
@@ -178,6 +199,12 @@ class StatusManager(builder: Builder) {
 
         var retryViewId: Int = 0
 
+        /**
+         * LoadingView背景色
+         */
+        @ColorRes
+        var mLoadingViewBackgroundColor = R.color.main_theme_color
+
         var delayTime: Long = 1200
 
         var onRetryListener: OnRetryListener? = null
@@ -237,6 +264,14 @@ class StatusManager(builder: Builder) {
             return this
         }
 
+        /**
+         * 设置LoadingView背景色
+         */
+        fun setLoadingViewBackgroundColor(@ColorRes bgColor: Int): Builder {
+            mLoadingViewBackgroundColor = bgColor
+            return this
+        }
+
         fun delayTime(delayTime: Long): Builder {
             this.delayTime = delayTime
             return this
@@ -271,9 +306,10 @@ class StatusManager(builder: Builder) {
         mRetryViewId = builder.retryViewId
         mContentLayoutView = builder.contentLayoutView
         mRootFrameLayout = RootStatusLayout(mContext)
-        mRootFrameLayout.setStatusManager(this)
         mDelayTime = builder.delayTime
+        mLoadingViewBackgroundColor = builder.mLoadingViewBackgroundColor
         mRootFrameLayout.setOnRetryListener(builder.onRetryListener)
+        mRootFrameLayout.setStatusManager(this)
     }
 
 

@@ -21,14 +21,14 @@ class StatusActivity : BaseActivity<StatusPresenter>() {
      */
     override fun needUseImmersive() = 1
 
-
     override fun useStatusManager() = true
+
+    override fun setLoadingViewBackgroundColor() = R.color.color_2878FF
 
     override fun setLogic() {
         // 如果不调用 显示内容/显示错误等,一直会显示 loading
 //        mStatusManager?.showContent() // 默认1200毫秒延时,其实一般网络请求成功差不多
         mStatusManager?.delayShowContent(3000)
-
     }
 
     // 根据需要重写

@@ -35,6 +35,11 @@ class StatusConfig {
      */
     @ColorRes
     private var mStatusBarColor = R.color.main_theme_color
+    /**
+     * 设置LoadingView背景色
+     */
+    @ColorRes
+    private var mLoadingViewBackgroundColor = R.color.main_theme_color
 
     companion object {
         val INSTANCE by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
@@ -62,6 +67,19 @@ class StatusConfig {
 
     fun getStatusBarColor(): Int {
         return mStatusBarColor
+    }
+
+
+    /**
+     * 设置LoadingView背景色
+     */
+    fun setLoadingViewBackgroundColor(@ColorRes loadingViewBackgroundColor: Int): StatusConfig {
+        mLoadingViewBackgroundColor = loadingViewBackgroundColor
+        return this
+    }
+
+    fun getLoadingViewBackgroundColor(): Int {
+        return mLoadingViewBackgroundColor
     }
 
     /**
