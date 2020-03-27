@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
+
 import androidx.annotation.ColorInt;
 import androidx.annotation.Dimension;
 import androidx.annotation.DrawableRes;
@@ -16,7 +17,16 @@ import androidx.core.content.ContextCompat;
 /**
  * Created by Jooyer
  * Date 2018/1/2
- * Des SelectorDrawable 工具类
+ * Des SelectorDrawable 动态设置背景工具类
+ * <p>
+ * //部分常用状态数组
+ * public static final int[] STATE_DEFAULT = new int[0];
+ * public static final int[] STATE_PRESSED = new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled};
+ * public static final int[] STATE_SELECTED = new int[]{android.R.attr.state_selected};
+ * public static final int[] STATE_CHECKED = new int[]{android.R.attr.state_checked};
+ * public static final int[] STATE_UNCHECKED = new int[]{-android.R.attr.state_checked};
+ * public static final int[] STATE_DISABLED = new int[]{-android.R.attr.state_enabled};
+ * public static final int[] STATE_FOCUSED = new int[]{android.R.attr.state_focused};
  */
 
 /*
@@ -24,9 +34,15 @@ import androidx.core.content.ContextCompat;
   Button.background = SelectorFactory.newShapeSelector()
             .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
             .setPressedBgColor(ContextCompat.getColor(this, R.color.main_theme_color))
-            .setCornerRadius(DensityUtils.dp2pxRtInt(5))
+            .setCornerRadius(DensityUtil.dp2pxRtInt(5))
             .create()
 
+PS: 使用时如果发现文本显示不完整,可以有2个解决方案:
+    1. 使用 AppCompatTextView(或者 TextView) 代替 AppCompatButton(或者Button)
+    2. AppCompatButton(或者Button)添加 android:background="@null"  --> 推荐使用此方法
+    3. 在application对应的 style 里添加
+        <!-- buttonStyle -->
+        <item name="buttonStyle">@style/Widget.AppCompat.ActionButton</item>
  */
 
 public class SelectorFactory {

@@ -7,6 +7,11 @@
         <item name="colorPrimaryDark">@color/color_2878FF</item>
         <item name="colorAccent">@color/color_2878FF</item>
         <item name="android:windowBackground">@color/color_FFFFFF</item>
+
+        <!-- buttonStyle -->
+        <item name="buttonStyle">@style/Widget.AppCompat.ActionButton</item>
+
+
     </style>
 
 </resources>

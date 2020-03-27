@@ -2,8 +2,12 @@ package cn.lvsong.lib.demo
 
 import android.content.Intent
 import android.view.View
+import androidx.core.content.ContextCompat
+import cn.lvsong.lib.library.utils.DensityUtil
+import cn.lvsong.lib.library.utils.SelectorFactory
 import cn.lvsong.lib.ui.mvp.BaseActivity
 import cn.lvsong.lib.ui.mvp.BasePresenter
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity<BasePresenter<*, *>>() {
 
@@ -21,7 +25,11 @@ class MainActivity : BaseActivity<BasePresenter<*, *>>() {
     }
 
     override fun bindEvent() {
-
+        btn_1.background = SelectorFactory.newShapeSelector()
+            .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
+            .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
+            .setCornerRadius(DensityUtil.dp2pxRtInt(5))
+            .create()
     }
 
     /**
