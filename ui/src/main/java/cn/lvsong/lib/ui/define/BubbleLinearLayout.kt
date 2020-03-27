@@ -5,6 +5,7 @@ import android.graphics.RectF
 import android.util.AttributeSet
 import android.widget.LinearLayout
 import cn.lvsong.lib.ui.R
+import cn.lvsong.lib.ui.define.BubbleDrawable
 
 
 /**
@@ -150,7 +151,6 @@ class BubbleLinearLayout(context: Context, attrs: AttributeSet?) : LinearLayout(
      */
     fun setArrowLeftMargin(arrowPosition: Int) {
         setArrowPosition(arrowPosition.toFloat())
-        // 这里 requestLayout() 不能换成 invalidate()
         requestLayout()
     }
 
