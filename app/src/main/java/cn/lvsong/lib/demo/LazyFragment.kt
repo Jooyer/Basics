@@ -24,7 +24,7 @@ class LazyFragment : BaseFragment<LazyPresenter>() {
     override fun getLayoutId() = R.layout.fragment_blank
 
     override fun setLogic() {
-        for (i in 0..10) {
+        for (i in 0..3) {
             data.add("<---- $i ---->")
         }
 
@@ -37,25 +37,25 @@ class LazyFragment : BaseFragment<LazyPresenter>() {
                 Log.e("Lazy", "onRefresh==============")
 
                 data.clear()
-                for (i in 0 until 10) {
+                for (i in 0 until 6) {
                     data.add("-----$i------")
                 }
-
+                refreshLayout.setNoMoreData(true)
                 refreshLayout.postDelayed({
                     rv_list.adapter?.notifyDataSetChanged()
                     snl_container.setFinishRefresh(true)
-                }, 3000)
+                }, 1000)
             }
 
             override fun onLoad(refreshLayout: PowerRefreshLayout) {
                 Log.e("Test", "onLoad==============")
-                for (i in data.size until data.size + 10) {
+                for (i in data.size until data.size + 6) {
                     data.add("-----$i------")
                 }
                 refreshLayout.postDelayed({
                     rv_list.adapter?.notifyDataSetChanged()
                     snl_container.setFinishLoad(true)
-                }, 3000)
+                }, 1000)
             }
         })
 

@@ -128,7 +128,13 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
             .inflate(layoutResId, null)
         mLayoutViews.put(layoutId, view)
         if (LAYOUT_LOADING_ID == layoutId) {
-            view.setBackgroundColor(ContextCompat.getColor(context,mStatusLayoutManager.mLoadingViewBackgroundColor))
+            if (-1 != mStatusLayoutManager.mLoadingViewBackgroundColor)
+                view.setBackgroundColor(
+                    ContextCompat.getColor(
+                        context,
+                        mStatusLayoutManager.mLoadingViewBackgroundColor
+                    )
+                )
             view.visibility = View.GONE
         }
         addView(view, param)

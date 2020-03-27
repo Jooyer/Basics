@@ -26,32 +26,32 @@ class NormalRefreshActivity : AppCompatActivity() {
         prl_container.addFooter(DefaultFooterView(this))
 
         prl_container.setRefreshable(true)
-        prl_container.setLoadable(false)
+        prl_container.setLoadable(true)
 
         prl_container.setOnRefreshAndLoadListener(object : OnRefreshAndLoadListener() {
             override fun onRefresh(refreshLayout: PowerRefreshLayout) {
                 Log.e("Test", "onRefresh==============")
 
                 data.clear()
-                for (i in 0 until 10) {
+                for (i in 0 until 4) {
                     data.add("-----$i------")
                 }
-
+//                refreshLayout.setNoMoreData(true)
                 refreshLayout.postDelayed({
                     rv_list.adapter?.notifyDataSetChanged()
                     prl_container.setFinishRefresh(true)
-                }, 3000)
+                }, 1000)
             }
 
             override fun onLoad(refreshLayout: PowerRefreshLayout) {
                 Log.e("Test", "onLoad==============")
-                for (i in data.size until data.size + 10) {
-                    data.add("-----$i------")
-                }
+//                for (i in data.size until data.size + 10) {
+//                    data.add("-----$i------")
+//                }
                 refreshLayout.postDelayed({
                     rv_list.adapter?.notifyDataSetChanged()
                     prl_container.setFinishLoad(true)
-                }, 3000)
+                }, 1000)
             }
         })
 

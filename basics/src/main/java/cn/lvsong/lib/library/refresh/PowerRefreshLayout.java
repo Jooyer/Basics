@@ -25,6 +25,8 @@ import androidx.core.view.ViewCompat;
  * https://github.com/baiduapp-tec/ELinkageScroll --> 多子view嵌套滚动通用解决方案
  * 1. 阻尼效果未完成
  * 2. TargetView 非 NestedScrollChild , 未完成(监听拦截里面处理)
+ * 3. 如果分页没有记得调用 setNoMoreData(true) , 特别是在 CoordinatorLayout 嵌套中,如果列表数据不满一屏时(即加载首页手机下面还有留白),
+ * 往上刷动会触发上拉加载,而不是先滑动AppBarLayout等内部控件
  */
 
 public class PowerRefreshLayout extends ViewGroup implements NestedScrollingParent2, NestedScrollingChild2 {
@@ -377,6 +379,7 @@ public class PowerRefreshLayout extends ViewGroup implements NestedScrollingPare
         mFlingScroll = false;
     }
 
+
     /**
      * 在嵌套滑动的子控件未滑动之前，判断父控件是否优先与子控件处理(也就是父控件可以先消耗，然后给子控件消耗）
      *
@@ -385,12 +388,15 @@ public class PowerRefreshLayout extends ViewGroup implements NestedScrollingPare
      * @param dy       垂直方向嵌套滑动的子控件想要变化的距离 dy<0 向下滑动 dy>0 向上滑动
      * @param consumed 这个参数要我们在实现这个函数的时候指定，回头告诉子控件当前父控件消耗的距离
      *                 consumed[0] 水平消耗的距离，consumed[1] 垂直消耗的距离 好让子控件做出相应的调整
+     *
+     * PS: 增加 0 == mLoadScrollY | 0 == mRefreshScrollY 是防止先下拉不松手接着上滑(或者先下滑不松手接着上拉)导致头部脚部都移动
      */
     @Override
     public void onNestedPreScroll(@NonNull View target, int dx, int dy, @NonNull int[] consumed, int type) {
 //        Log.e("PowerRefreshLayout", "onNestedPreScroll=======dy: " + dy + " ====getScrollY: " + getScrollY() + " ====mHeaderScrollY: " + mRefreshScrollY + " ====mFooterScrollY: " + mLoadScrollY + " ====mLoading: " + mLoading + " ===type: " + type);
+//        Log.e("PowerRefreshLayout", "onNestedPreScroll=======到达顶部: " + canChildScrollUp() + " ====到达底部: " + canChildScrollDown());
         if (ViewCompat.TYPE_TOUCH == type) {
-            if (mRefreshable && mRefreshing && dy < 0 && canChildScrollUp() && !mLoading) { // HeaderView隐藏着,正在刷新时下滑
+            if (mRefreshable && mRefreshing && dy < 0 && canChildScrollUp() && !mLoading && 0 == mLoadScrollY) { // HeaderView隐藏着,正在刷新时下滑
                 int ddy = calculateRefreshScrollY(dy);
                 if (-(getScrollY() + ddy) > mHeaderViewHeight) { // 当 HeaderView 向下滑动时, getScrollY() =  mHeaderViewHeight, 此时则不再滑动头部
                     scrollBy(0, -(mHeaderViewHeight + getScrollY()));
@@ -400,7 +406,7 @@ public class PowerRefreshLayout extends ViewGroup implements NestedScrollingPare
                     consumed[1] = ddy;
                 }
 //                Log.e("PowerRefreshLayout", "onNestedPreScroll=======  1 " + " =====ddy: " + ddy);
-            } else if (mRefreshable && !mRefreshing && dy > 0 && mRefreshScrollY > 0 && !mLoading) { // 还没达到刷新状态(可以是没有达到必要高度/达到高度没有松手)往上滑动
+            } else if (mRefreshable && !mRefreshing && dy > 0 && mRefreshScrollY > 0 && !mLoading && 0 == mLoadScrollY) { // 还没达到刷新状态(可以是没有达到必要高度/达到高度没有松手)往上滑动
                 int ddy = calculateRefreshScrollY(dy);
                 mRefreshScrollY -= ddy;
                 if (mRefreshScrollY > mHeaderViewHeight) { // 松手可以刷新
@@ -418,7 +424,7 @@ public class PowerRefreshLayout extends ViewGroup implements NestedScrollingPare
                     consumed[1] = ddy;
                 }
 //                Log.e("PowerRefreshLayout", "onNestedPreScroll=======  2 ");
-            } else if (mRefreshable && mRefreshing && dy > 0 && getScrollY() < 0 && !mLoading) { // 刷新时上滑
+            } else if (mRefreshable && mRefreshing && dy > 0 && getScrollY() < 0 && !mLoading && 0 == mLoadScrollY) { // 刷新时上滑
                 int ddy = calculateRefreshScrollY(dy);
                 if (getScrollY() + ddy > 0) { // 接近零界点,此时如果还滑动 dy, 则滑多了
                     scrollBy(0, -getScrollY());
@@ -432,27 +438,36 @@ public class PowerRefreshLayout extends ViewGroup implements NestedScrollingPare
 
             /////////////////////////////////////////////////////////////////////////////////
 
-            if (mLoadable && !mLoading && dy > 0 && mLoadScrollY < mLoadHeight && canChildScrollDown() && !mRefreshing) { // 上滑且没有达到加载状态(可以是没有达到必要高度/达到高度没有松手)
-                int ddy = calculateLoadScrollY(dy);
-                mLoadScrollY += ddy;
-                if (noMoreData) { // 没有更多数据
-                    updateStatus(RefreshState.FOOTER_NO_MORE);
-                } else if (mLoadScrollY > mFooterViewHeight) { // 松手可以加载
-                    updateStatus(RefreshState.FOOTER_RELEASE);
+            if (mLoadable && !mLoading && dy > 0 && mLoadScrollY < mLoadHeight && canChildScrollDown() && !mRefreshing && 0 == mRefreshScrollY) { // 上滑且没有达到加载状态(可以是没有达到必要高度/达到高度没有松手)
+                // 同样，将嵌套滑动向上传递
+                final int[] parentConsumed = mParentScrollConsumed;
+                // 之所以在这里先分发,因为在 CoordinatorLayout 嵌套中,不满一屏时会出现bug
+                if (noMoreData && dispatchNestedPreScroll(dx - consumed[0], dy - consumed[1], parentConsumed, null)) {
+//                    Log.e("PowerRefreshLayout", "onNestedPreScroll=======  4 ");
+                    consumed[0] += parentConsumed[0];
+                    consumed[1] += parentConsumed[1];
                 } else {
-                    updateStatus(RefreshState.FOOTER_PULL);
+                    int ddy = calculateLoadScrollY(dy);
+                    mLoadScrollY += ddy;
+                    if (noMoreData) { // 没有更多数据
+                        updateStatus(RefreshState.FOOTER_NO_MORE);
+                    } else if (mLoadScrollY > mFooterViewHeight) { // 松手可以加载
+                        updateStatus(RefreshState.FOOTER_RELEASE);
+                    } else {
+                        updateStatus(RefreshState.FOOTER_PULL);
+                    }
+                    if (mLoadScrollY > mLoadHeight) { //零界点,再加上本次滑动,大于了 FooterView 允许滑动距离
+                        int consumedY = mLoadHeight - mLoadScrollY + ddy;
+                        mLoadScrollY = mLoadHeight;
+                        scrollBy(0, consumedY);
+                        consumed[1] = consumedY;// consumed[0] 水平消耗的距离，consumed[1] 垂直消耗的距离
+                    } else {
+                        scrollBy(0, ddy);
+                        consumed[1] = ddy;
+                    }
                 }
-                if (mLoadScrollY > mLoadHeight) { //零界点,再加上本次滑动,大于了 FooterView 允许滑动距离
-                    int consumedY = mLoadHeight - mLoadScrollY + ddy;
-                    mLoadScrollY = mLoadHeight;
-                    scrollBy(0, consumedY);
-                    consumed[1] = consumedY;// consumed[0] 水平消耗的距离，consumed[1] 垂直消耗的距离
-                } else {
-                    scrollBy(0, ddy);
-                    consumed[1] = ddy;
-                }
-//                Log.e("PowerRefreshLayout", "onNestedPreScroll=======  4 ");
-            } else if (mLoadable && mLoading && dy > 0 && canChildScrollDown() && !mRefreshing) { // FooterView隐藏着,加载时上滑
+//                Log.e("PowerRefreshLayout", "onNestedPreScroll=======  5 ");
+            } else if (mLoadable && mLoading && dy > 0 && canChildScrollDown() && !mRefreshing && 0 == mRefreshScrollY) { // FooterView隐藏着,加载时上滑
                 int ddy = calculateLoadScrollY(dy);
                 if ((getScrollY() + ddy) > mFooterViewHeight) { // 当 FooterView 向上滑动时, getScrollY() =  mFooterViewHeight, 此时则不再滑动头部
                     scrollBy(0, mFooterViewHeight - getScrollY());
@@ -461,8 +476,8 @@ public class PowerRefreshLayout extends ViewGroup implements NestedScrollingPare
                     scrollBy(0, ddy);
                     consumed[1] = ddy;
                 }
-//                Log.e("PowerRefreshLayout", "onNestedPreScroll=======  5 ");
-            } else if (mLoadable && !mLoading && dy < 0 && mLoadScrollY > 0 && !mRefreshing) { // 还没达到加载状态(可以是没有达到必要高度/达到高度没有松手)往下滑动
+//                Log.e("PowerRefreshLayout", "onNestedPreScroll=======  6 ");
+            } else if (mLoadable && !mLoading && dy < 0 && mLoadScrollY > 0 && !mRefreshing && 0 == mRefreshScrollY) { // 还没达到加载状态(可以是没有达到必要高度/达到高度没有松手)往下滑动
                 int ddy = calculateLoadScrollY(dy);
                 mLoadScrollY += ddy;
                 if (noMoreData) { // 没有更多数据
@@ -481,8 +496,8 @@ public class PowerRefreshLayout extends ViewGroup implements NestedScrollingPare
                     scrollBy(0, ddy);
                     consumed[1] = ddy;
                 }
-//                Log.e("PowerRefreshLayout", "onNestedPreScroll=======  6 ");
-            } else if (mLoadable && mLoading && dy < 0 && getScrollY() > 0 && !mRefreshing) { // 加载时下滑
+//                Log.e("PowerRefreshLayout", "onNestedPreScroll=======  7 ");
+            } else if (mLoadable && mLoading && dy < 0 && getScrollY() > 0 && !mRefreshing && 0 == mRefreshScrollY) { // 加载时下滑
                 int ddy = calculateLoadScrollY(dy);
                 if (getScrollY() + ddy < 0) { // 接近零界点,此时如果还滑动 dy, 则滑多了
                     scrollBy(0, -getScrollY());
@@ -491,13 +506,14 @@ public class PowerRefreshLayout extends ViewGroup implements NestedScrollingPare
                     scrollBy(0, ddy);
                     consumed[1] = ddy;
                 }
-//                Log.e("PowerRefreshLayout", "onNestedPreScroll=======  7 ");
+//                Log.e("PowerRefreshLayout", "onNestedPreScroll=======  8 ");
             }
         }
 
         // 同样，将嵌套滑动向上传递
         final int[] parentConsumed = mParentScrollConsumed;
         if (dispatchNestedPreScroll(dx - consumed[0], dy - consumed[1], parentConsumed, null)) {
+//            Log.e("PowerRefreshLayout", "onNestedPreScroll=======  9 ");
             consumed[0] += parentConsumed[0];
             consumed[1] += parentConsumed[1];
         }
@@ -722,9 +738,11 @@ public class PowerRefreshLayout extends ViewGroup implements NestedScrollingPare
     }
 
     /**
+     * https://blog.csdn.net/xingchenxuanfeng/article/details/84790299
      * I. 传入 -1 ,判断可以下滑
      * II. 传入 1, 判断可以上滑
      * 滑到最顶部时，返回false，意思是不能下拉了
+     * canScrollVertically(-1)的值表示是否能向下滚动，true表示能滚动，false表示已经滚动到顶部
      */
     private boolean canChildScrollUp() {
         if (mChildScrollUpCallback != null) {
@@ -733,6 +751,9 @@ public class PowerRefreshLayout extends ViewGroup implements NestedScrollingPare
         return !mTargetView.canScrollVertically(-1);
     }
 
+    /**
+     * canScrollVertically(1)的值表示是否能向上滚动，true表示能滚动，false表示已经滚动到底部
+     */
     private boolean canChildScrollDown() {
         return !mTargetView.canScrollVertically(1);
     }

@@ -39,7 +39,7 @@ class StatusConfig {
      * 设置LoadingView背景色
      */
     @ColorRes
-    private var mLoadingViewBackgroundColor = R.color.main_theme_color
+    private var mLoadingViewBackgroundColor = -1
 
     companion object {
         val INSTANCE by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
