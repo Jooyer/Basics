@@ -33,7 +33,7 @@ class NormalRefreshActivity : AppCompatActivity() {
                 Log.e("Test", "onRefresh==============")
 
                 data.clear()
-                for (i in 0 until 4) {
+                for (i in 0 until 10) {
                     data.add("-----$i------")
                 }
 //                refreshLayout.setNoMoreData(true)
@@ -45,9 +45,9 @@ class NormalRefreshActivity : AppCompatActivity() {
 
             override fun onLoad(refreshLayout: PowerRefreshLayout) {
                 Log.e("Test", "onLoad==============")
-//                for (i in data.size until data.size + 10) {
-//                    data.add("-----$i------")
-//                }
+                for (i in data.size until data.size + 5) {
+                    data.add("-----$i------")
+                }
                 refreshLayout.postDelayed({
                     rv_list.adapter?.notifyDataSetChanged()
                     prl_container.setFinishLoad(true)

@@ -8,10 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.Guideline
 import cn.lvsong.lib.library.R
 
 /**
- * Desc:
+ * Desc: 默认刷新控件
  * Author: Jooyer
  * Date: 2019-08-06
  * Time: 17:34
@@ -20,6 +21,7 @@ open class DefaultHeaderView(context: Context) : LinearLayout(context), IHeaderW
 
     private var tvHeaderTip: TextView? = null
     private var cvLoading: ChrysanthemumView? = null
+    private var guideline: Guideline?=null
 
     init {
         initView()
@@ -29,9 +31,10 @@ open class DefaultHeaderView(context: Context) : LinearLayout(context), IHeaderW
         val view = LayoutInflater.from(context).inflate(R.layout.header_default, this, false)
         cvLoading = view.findViewById<ChrysanthemumView>(R.id.cv_loading)
         tvHeaderTip = view.findViewById<TextView>(R.id.tv_tip)
+        guideline = view.findViewById<Guideline>(R.id.gl_center_line)
         val params = LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT)
+            getRefreshHeight())
         params.gravity = Gravity.CENTER_VERTICAL
         addView(view, params)
     }
@@ -42,6 +45,7 @@ open class DefaultHeaderView(context: Context) : LinearLayout(context), IHeaderW
 
 
     override fun onPullDown() {
+        guideline?.setGuidelinePercent(0.5F)
         tvHeaderTip?.text = "下拉刷新"
     }
 
@@ -56,18 +60,20 @@ open class DefaultHeaderView(context: Context) : LinearLayout(context), IHeaderW
     }
 
     override fun onRefreshComplete(isRefreshSuccess: Boolean) {
-        cvLoading?.visibility = View.GONE
+//        cvLoading?.visibility = View.GONE
+        guideline?.setGuidelinePercent(0.4F)
         tvHeaderTip?.text = "刷新完成"
     }
 
     override fun onRefreshFailure() {
-        cvLoading?.visibility = View.GONE
+//        cvLoading?.visibility = View.GONE
+        guideline?.setGuidelinePercent(0.4F)
         tvHeaderTip?.text = "刷新失败"
     }
 
 
     override fun getRefreshHeight(): Int {
-        return dp2pxRtInt(50)
+        return dp2pxRtInt(70)
     }
 
     /**

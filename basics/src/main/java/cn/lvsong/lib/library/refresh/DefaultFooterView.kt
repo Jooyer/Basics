@@ -5,12 +5,14 @@ import android.content.res.Resources
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.Guideline
 import cn.lvsong.lib.library.R
 
 /**
- * Desc:
+ * Desc: 默认加载控件
  * Author: Jooyer
  * Date: 2019-08-06
  * Time: 17:34
@@ -19,6 +21,7 @@ open class DefaultFooterView(context: Context) : LinearLayout(context), IFooterW
 
     private var tvHeaderTip: TextView? = null
     private var cvLoading: ChrysanthemumView? = null
+    private var guideline: Guideline?=null
 
     init {
         initView()
@@ -28,7 +31,11 @@ open class DefaultFooterView(context: Context) : LinearLayout(context), IFooterW
         val view = LayoutInflater.from(context).inflate(R.layout.footer_default, this, false)
         cvLoading = view.findViewById<ChrysanthemumView>(R.id.cv_loading)
         tvHeaderTip = view.findViewById<TextView>(R.id.tv_tip)
-        val params = LinearLayout.LayoutParams(-1, -2)
+        guideline = view.findViewById<Guideline>(R.id.gl_center_line)
+        val params = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            getLoadHeight()
+        )
         params.gravity = Gravity.CENTER_VERTICAL
         addView(view, params)
     }
@@ -39,6 +46,7 @@ open class DefaultFooterView(context: Context) : LinearLayout(context), IFooterW
 
 
     override fun onPullUp() {
+        guideline?.setGuidelinePercent(0.5F)
         tvHeaderTip?.text = "上拉加载更多"
     }
 
@@ -53,22 +61,25 @@ open class DefaultFooterView(context: Context) : LinearLayout(context), IFooterW
     }
 
     override fun onLoadComplete(isLoadSuccess: Boolean) {
-        cvLoading?.visibility = View.GONE
+//        cvLoading?.visibility = View.GONE
+        guideline?.setGuidelinePercent(0.4F)
         tvHeaderTip?.text = "加载完成"
     }
 
     override fun onLoadFailure() {
         cvLoading?.visibility = View.GONE
+        guideline?.setGuidelinePercent(0.4F)
         tvHeaderTip?.text = "加载失败"
     }
 
     override fun onNoMore() {
         cvLoading?.visibility = View.GONE
+        guideline?.setGuidelinePercent(0.4F)
         tvHeaderTip?.text = "没有更多数据"
     }
 
     override fun getLoadHeight(): Int {
-      return  dp2pxRtInt(50)
+        return dp2pxRtInt(70)
     }
 
     /**

@@ -3,7 +3,7 @@ package cn.lvsong.lib.library.listener
 import android.view.View
 
 /** https://blog.csdn.net/qq_26971803/article/details/51284982
- * Desc: 解决快速点击问题(仿抖动)
+ * Desc: 解决快速点击问题(防抖动)
  * Author: Jooyer
  * Date: 2018-08-19
  * Time: 22:30

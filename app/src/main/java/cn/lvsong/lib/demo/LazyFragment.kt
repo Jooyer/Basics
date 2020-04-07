@@ -37,7 +37,7 @@ class LazyFragment : BaseFragment<LazyPresenter>() {
                 Log.e("Lazy", "onRefresh==============")
 
                 data.clear()
-                for (i in 0 until 6) {
+                for (i in 0 until 3) {
                     data.add("-----$i------")
                 }
                 refreshLayout.setNoMoreData(true)
