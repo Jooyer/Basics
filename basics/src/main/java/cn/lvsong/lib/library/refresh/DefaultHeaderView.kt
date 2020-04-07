@@ -45,6 +45,7 @@ open class DefaultHeaderView(context: Context) : LinearLayout(context), IHeaderW
 
 
     override fun onPullDown() {
+        cvLoading?.visibility = View.VISIBLE
         guideline?.setGuidelinePercent(0.5F)
         tvHeaderTip?.text = "下拉刷新"
     }
@@ -55,18 +56,16 @@ open class DefaultHeaderView(context: Context) : LinearLayout(context), IHeaderW
 
 
     override fun onRefreshing() {
-        cvLoading?.visibility = View.VISIBLE
         tvHeaderTip?.text = "正在刷新"
     }
 
     override fun onRefreshComplete(isRefreshSuccess: Boolean) {
 //        cvLoading?.visibility = View.GONE
-        guideline?.setGuidelinePercent(0.4F)
         tvHeaderTip?.text = "刷新完成"
     }
 
     override fun onRefreshFailure() {
-//        cvLoading?.visibility = View.GONE
+        cvLoading?.visibility = View.GONE
         guideline?.setGuidelinePercent(0.4F)
         tvHeaderTip?.text = "刷新失败"
     }

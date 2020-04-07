@@ -46,6 +46,7 @@ open class DefaultFooterView(context: Context) : LinearLayout(context), IFooterW
 
 
     override fun onPullUp() {
+        cvLoading?.visibility = View.VISIBLE
         guideline?.setGuidelinePercent(0.5F)
         tvHeaderTip?.text = "上拉加载更多"
     }
@@ -56,13 +57,11 @@ open class DefaultFooterView(context: Context) : LinearLayout(context), IFooterW
 
 
     override fun onLoading() {
-        cvLoading?.visibility = View.VISIBLE
         tvHeaderTip?.text = "正在加载"
     }
 
     override fun onLoadComplete(isLoadSuccess: Boolean) {
 //        cvLoading?.visibility = View.GONE
-        guideline?.setGuidelinePercent(0.4F)
         tvHeaderTip?.text = "加载完成"
     }
 
