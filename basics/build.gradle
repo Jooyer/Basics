@@ -76,7 +76,7 @@ dependencies {
 
 //    api rootProject.ext.dependencies.paging
 
-    api rootProject.ext.dependencies.permission
+//    api rootProject.ext.dependencies.permission
 
     api rootProject.ext.dependencies.multidex
 

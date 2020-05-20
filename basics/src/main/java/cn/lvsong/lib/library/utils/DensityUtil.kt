@@ -63,6 +63,14 @@ object DensityUtil {
         )
     }
 
+    fun sp2pxRtFloat(value: Float): Float {
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_SP,
+            value.toFloat(),
+            Resources.getSystem().displayMetrics
+        )
+    }
+
 
     fun getScreenWidth() = Resources.getSystem().displayMetrics.widthPixels
 

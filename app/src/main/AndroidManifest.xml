@@ -20,14 +20,16 @@
         <activity android:name=".BannerActivity" />
         <activity android:name=".StatusActivity" />
         <activity android:name=".LazyLoadActivity" />
-        <activity android:name=".NestedScrollRefreshActivity" />
-        <activity android:name=".NormalRefreshActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".NestedScrollRefreshActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".NormalRefreshActivity" />
+        <activity android:name=".MainActivity">
+
         </activity>
     </application>
 

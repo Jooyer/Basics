@@ -34,13 +34,12 @@ class LazyFragment : BaseFragment<LazyPresenter>() {
 
         snl_container.setOnRefreshAndLoadListener(object : OnRefreshAndLoadListener() {
             override fun onRefresh(refreshLayout: PowerRefreshLayout) {
-                Log.e("Lazy", "onRefresh==============")
+//                Log.e("PowerRefreshLayout", "onRefresh==============")
 
                 data.clear()
-                for (i in 0 until 3) {
+                for (i in 0 until 10) {
                     data.add("-----$i------")
                 }
-                refreshLayout.setNoMoreData(true)
                 refreshLayout.postDelayed({
                     rv_list.adapter?.notifyDataSetChanged()
                     snl_container.setFinishRefresh(true)
@@ -48,7 +47,7 @@ class LazyFragment : BaseFragment<LazyPresenter>() {
             }
 
             override fun onLoad(refreshLayout: PowerRefreshLayout) {
-                Log.e("Test", "onLoad==============")
+//                Log.e("PowerRefreshLayout", "onLoad==============")
                 for (i in data.size until data.size + 6) {
                     data.add("-----$i------")
                 }
@@ -86,9 +85,10 @@ class LazyFragment : BaseFragment<LazyPresenter>() {
     }
 
     override fun onFirstUserVisible() {
-        Log.e("Test", "onFirstUserVisible==============")
+//        Log.e("PowerRefreshLayout", "onFirstUserVisible==============")
         snl_container.postDelayed({
 //            snl_container.setAutoRefresh()
+            snl_container.setFinishRefresh(true)
         }, 600)
 
     }

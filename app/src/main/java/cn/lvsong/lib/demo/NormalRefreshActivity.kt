@@ -2,7 +2,11 @@ package cn.lvsong.lib.demo
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.BaseAdapter
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import cn.lvsong.lib.library.adapter.CommonAdapter
 import cn.lvsong.lib.library.adapter.ViewHolder
@@ -12,12 +16,15 @@ import cn.lvsong.lib.library.refresh.OnRefreshAndLoadListener
 import cn.lvsong.lib.library.refresh.PowerRefreshLayout
 import cn.lvsong.lib.library.rxbind.RxView
 import kotlinx.android.synthetic.main.activity_normal_refresh.*
+import okhttp3.internal.notify
 
 /**
  * 普通刷新效果
  */
 class NormalRefreshActivity : AppCompatActivity() {
     private val data = ArrayList<String>()
+    private var mBaseAdapter:BaseAdapter?=null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_normal_refresh)
@@ -38,7 +45,8 @@ class NormalRefreshActivity : AppCompatActivity() {
                 }
 //                refreshLayout.setNoMoreData(true)
                 refreshLayout.postDelayed({
-                    rv_list.adapter?.notifyDataSetChanged()
+//                    rv_list.adapter?.notifyDataSetChanged()
+                    mBaseAdapter?.notifyDataSetChanged()
                     prl_container.setFinishRefresh(true)
                 }, 1000)
             }
@@ -49,7 +57,8 @@ class NormalRefreshActivity : AppCompatActivity() {
                     data.add("-----$i------")
                 }
                 refreshLayout.postDelayed({
-                    rv_list.adapter?.notifyDataSetChanged()
+//                    rv_list.adapter?.notifyDataSetChanged()
+                    mBaseAdapter?.notifyDataSetChanged()
                     prl_container.setFinishLoad(true)
                 }, 1000)
             }
@@ -63,19 +72,29 @@ class NormalRefreshActivity : AppCompatActivity() {
             prl_container.setAutoRefresh()
         }, 300)
 
+//        rv_list.adapter = object : CommonAdapter<String>(this, R.layout.item_rv_list, data) {
+//            override fun convert(holder: ViewHolder, bean: String, position: Int) {
+//                holder.setText(R.id.tv_name, bean)
+//            }
+//        }
 
-        rv_list.adapter = object : CommonAdapter<String>(this, R.layout.item_rv_list, data) {
-            override fun convert(holder: ViewHolder, bean: String, position: Int) {
-                holder.setText(R.id.tv_name, bean)
+        mBaseAdapter = object :BaseAdapter(){
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+                val view = LayoutInflater.from(this@NormalRefreshActivity)
+                    .inflate(R.layout.item_rv_list, null)
+                view.findViewById<TextView>(R.id.tv_name).text = getItem(position)
+                return view
             }
+
+            override fun getItem(position: Int) = data[position]
+
+            override fun getItemId(position: Int): Long {
+                return position.toLong()
+            }
+
+            override fun getCount() = data.size
+
         }
-
-        RxView.setOnClickListeners(object :RxView.OnFilterClick{
-            override fun onClick(view: View) {
-
-            }
-
-        },rv_list)
-
+        rv_list.adapter = mBaseAdapter
     }
 }

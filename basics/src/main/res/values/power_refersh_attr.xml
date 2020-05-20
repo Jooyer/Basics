@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="PowerRefreshLayout">
+        <!-- 第一次加载时,如果没有更多数据,底部显示什么
+            1: 不显示 Footer,禁用加载更多了,默认值
+            2: 显示没有更多数据
+         -->
+        <attr name="prl_no_more_first_time" format="integer" />
+    </declare-styleable>
+
+</resources>
