@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ArcView">
+        <!-- 矩形的高度,比控件高度低 -->
+        <attr name="av_rectangle_height" format="reference|dimension" />
+        <!-- 背景色  -->
+        <attr name="av_color" format="reference|color" />
+        <!-- 贝塞尔曲线y点高度与控件高度的比值,默认是1.0 -->
+        <attr name="av_bezier_ratio" format="float" />
+    </declare-styleable>
+
+
+</resources>

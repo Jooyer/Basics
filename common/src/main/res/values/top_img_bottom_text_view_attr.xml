@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="TopImgAndBottomTextView">
+        <!-- 未选择Drawable -->
+        <attr name="itv_normal_drawable" format="reference" />
+        <!-- 选择Drawable -->
+        <attr name="itv_checked_drawable" format="reference" />
+        <!-- 是否被选中 -->
+        <attr name="itv_iv_checked" format="boolean" />
+        <!-- 图片宽度 -->
+        <attr name="itv_iv_width" format="reference|dimension" />
+        <!-- 图片高度 -->
+        <attr name="itv_iv_height" format="reference|dimension" />
+        <!-- 文本距离图片间隔 -->
+        <attr name="itv_tv_margin_top" format="reference|dimension" />
+        <!-- 文本内容 -->
+        <attr name="itv_tv_text" format="string|reference" />
+        <!-- 文字颜色 -->
+        <attr name="itv_tv_text_color" format="color|reference" />
+        <!-- 文字大小 -->
+        <attr name="itv_tv_text_size" format="reference|dimension" />
+    </declare-styleable>
+
+</resources>

@@ -6,7 +6,7 @@ import android.view.ViewStub
 import androidx.annotation.ColorRes
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
-import cn.lvsong.lib.ui.R
+import cn.lvsong.lib.library.R
 
 /**
  *      修饰符	                类成员	                    顶级声明
@@ -15,7 +15,7 @@ import cn.lvsong.lib.ui.R
  *  protected	        在子类中可见                      	–
  *  private	            在类内部可见	                    在当前文件中可见
  *
- *  值得一题的是，拓展方法并不能访问private和protected成员
+ *  值得一提的是，拓展方法并不能访问private和protected成员
  */
 
 /**

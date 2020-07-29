@@ -1,7 +1,6 @@
 package cn.lvsong.lib.demo
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,17 +8,14 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import cn.lvsong.lib.demo.presenter.LazyPresenter
 import cn.lvsong.lib.library.refresh.OnRefreshAndLoadListener
 import cn.lvsong.lib.library.refresh.PowerRefreshLayout
-import cn.lvsong.lib.ui.mvp.BaseFragment
+import cn.lvsong.lib.ui.ui.BaseFragment
 import kotlinx.android.synthetic.main.fragment_blank.*
 
-class LazyFragment : BaseFragment<LazyPresenter>() {
+class LazyFragment : BaseFragment() {
 
     private val data = ArrayList<String>()
-
-    override fun createPresenter(): LazyPresenter = LazyPresenter(this)
 
     override fun getLayoutId() = R.layout.fragment_blank
 

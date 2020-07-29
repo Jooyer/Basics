@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="BubbleRecyclerView">
+        <!-- 箭头宽度 -->
+        <attr name="brv_arrow_width" format="dimension" />
+        <!-- 四周圆角大小 -->
+        <attr name="brv_around_radius" format="dimension" />
+        <!-- 箭头高度 -->
+        <attr name="brv_arrow_height" format="dimension" />
+        <!-- 箭头偏移距离 -->
+        <attr name="brv_arrow_offset" format="dimension" />
+        <!-- 背景色 -->
+        <attr name="brv_bubble_color" format="color" />
+        <!-- 控件顶部内边距 -->
+        <attr name="brv_top_padding" format="dimension" />
+        <!-- 箭头是否居中 -->
+        <attr name="brv_arrow_center" format="boolean" />
+    </declare-styleable>
+
+</resources>

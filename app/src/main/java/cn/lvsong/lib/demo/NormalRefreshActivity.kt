@@ -8,15 +8,11 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import cn.lvsong.lib.library.adapter.CommonAdapter
-import cn.lvsong.lib.library.adapter.ViewHolder
 import cn.lvsong.lib.library.refresh.DefaultFooterView
 import cn.lvsong.lib.library.refresh.DefaultHeaderView
 import cn.lvsong.lib.library.refresh.OnRefreshAndLoadListener
 import cn.lvsong.lib.library.refresh.PowerRefreshLayout
-import cn.lvsong.lib.library.rxbind.RxView
 import kotlinx.android.synthetic.main.activity_normal_refresh.*
-import okhttp3.internal.notify
 
 /**
  * 普通刷新效果
@@ -80,8 +76,7 @@ class NormalRefreshActivity : AppCompatActivity() {
 
         mBaseAdapter = object :BaseAdapter(){
             override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-                val view = LayoutInflater.from(this@NormalRefreshActivity)
-                    .inflate(R.layout.item_rv_list, null)
+                val view = LayoutInflater.from(this@NormalRefreshActivity).inflate(R.layout.item_rv_list, null,false)
                 view.findViewById<TextView>(R.id.tv_name).text = getItem(position)
                 return view
             }

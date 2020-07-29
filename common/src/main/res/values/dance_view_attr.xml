@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="DanceView">
+        <!--  柱子数量  -->
+        <attr name="dv_pillar_count" format="integer" />
+        <!--  动画执行时间,默认1000毫秒 -->
+        <attr name="dv_pillar_duration" format="integer" />
+        <!--   空白间隔与柱子宽的比率,默认0.8  -->
+        <attr name="dv_space_ratio" format="float" />
+        <!--  柱子高度与控件高度的比率,默认0.8  -->
+        <attr name="dv_height_ratio" format="float" />
+        <!--  柱子颜色  -->
+        <attr name="dv_pillar_color" format="color|reference"/>
+    </declare-styleable>
+
+</resources>

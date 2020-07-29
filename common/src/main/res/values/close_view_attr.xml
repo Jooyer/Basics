@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CloseView">
+        <!-- 是否绘制背景,默认不绘制,只有在 cv_mode = circle才有效,此时就不要再设置 android:background -->
+        <attr name="cv_has_bg" format="boolean" />
+        <!-- 背景色 -->
+        <attr name="cv_bg_color" format="color" />
+        <!--  padding 使得在 cv_mode = circle 时,背景色圆形变小,同时点击面积没有变小   -->
+        <attr name="cv_bg_padding" format="dimension|integer|integer"/>
+        <!-- 线高 -->
+        <attr name="cv_line_width" format="integer|float|dimension" />
+        <!-- 线的颜色 -->
+        <attr name="cv_line_color" format="color" />
+        <!--  padding 使得里面 × 变小  -->
+        <attr name="cv_line_padding" format="dimension|integer|integer"/>
+        <!-- 模式，普通模式、圆边模式 -->
+        <attr name="cv_mode" format="enum">
+            <enum name="normal" value="1" />
+            <enum name="circle" value="2" />
+        </attr>
+        <!-- 圆的边线颜色 -->
+        <attr name="cv_circle_line_color" format="color" />
+        <!-- 圆的边线宽,如果指定为0 ,则不绘制圆环 -->
+        <attr name="cv_circle_line_width" format="integer|float|dimension" />
+    </declare-styleable>
+</resources>

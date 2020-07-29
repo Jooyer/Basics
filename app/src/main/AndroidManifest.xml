@@ -4,6 +4,9 @@
     package="cn.lvsong.lib.demo">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+
 <!-- not permitted by network security policy -->
 <!--  解法 https://www.jianshu.com/p/02956bdddd2d  -->
     <application

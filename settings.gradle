@@ -1,2 +1,2 @@
-include ':app', ':ui', ':net', ':basics'
+include ':app', ':ui', ':net', ':common'
 rootProject.name='Common'

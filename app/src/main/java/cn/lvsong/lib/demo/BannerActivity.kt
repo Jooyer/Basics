@@ -2,10 +2,10 @@ package cn.lvsong.lib.demo
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import cn.lvsong.lib.demo.adapter.CustomAdapter
 import cn.lvsong.lib.demo.adapter.CustomAdapter2
 import cn.lvsong.lib.library.banner.OnPositionChangeListener
 import cn.lvsong.lib.library.utils.DensityUtil
-import com.meirenmeitu.banner.demo.CustomAdapter
 import kotlinx.android.synthetic.main.activity_banner.*
 
 /**

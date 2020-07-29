@@ -1,9 +1,9 @@
-package com.meirenmeitu.banner.demo
+package cn.lvsong.lib.demo.adapter
 
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import cn.lvsong.lib.demo.R
-import cn.lvsong.lib.demo.utils.ImageLoader
+import cn.lvsong.lib.library.utils.ImageLoader
 import cn.lvsong.lib.library.banner.BannerAdapter
 import cn.lvsong.lib.library.banner.BannerHolder
 

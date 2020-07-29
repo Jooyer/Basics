@@ -5,11 +5,10 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import cn.lvsong.lib.library.utils.DensityUtil
 import cn.lvsong.lib.library.utils.SelectorFactory
-import cn.lvsong.lib.ui.mvp.BaseActivity
-import cn.lvsong.lib.ui.mvp.BasePresenter
+import cn.lvsong.lib.ui.ui.BaseActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : BaseActivity<BasePresenter<*, *>>() {
+class MainActivity : BaseActivity() {
 
     override fun getLayoutId() = R.layout.activity_main
 

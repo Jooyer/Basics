@@ -2,17 +2,15 @@ package cn.lvsong.lib.demo
 
 import android.util.Log
 import android.view.View
-import cn.lvsong.lib.demo.presenter.StatusPresenter
-import cn.lvsong.lib.ui.define.CustomSearchView
-import cn.lvsong.lib.ui.mvp.BaseActivity
+import cn.lvsong.lib.library.view.CustomSearchView
+import cn.lvsong.lib.ui.ui.BaseActivity
 import kotlinx.android.synthetic.main.activity_status.*
 
 /**
  * https://segmentfault.com/q/1010000013729036
  * 当没有具体 Presenter 时,可以参考上面,写成: StatusActivity : BaseActivity<BasePresenter<*,*>>
  */
-class StatusActivity : BaseActivity<StatusPresenter>() {
-    override fun createPresenter() = StatusPresenter(this)
+class StatusActivity : BaseActivity() {
 
     override fun getLayoutId() = R.layout.activity_status
 
@@ -37,7 +35,6 @@ class StatusActivity : BaseActivity<StatusPresenter>() {
 //    override fun getTransY() = DensityUtils.dp2pxRtInt(50)
 
     override fun bindEvent() {
-        mPresenter?.test()
 
         csv_test.setOnSearchListener(object :CustomSearchView.OnSearchListener{
             override fun onChanged(text: String) {

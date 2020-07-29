@@ -30,7 +30,7 @@ public class NetworkUtil {
      */
     @RequiresPermission("android.permission.ACCESS_NETWORK_STATE")
     public static NetworkType getNetworkType(Context context) {
-        NetworkType netType = NetworkType.NETWORK_NO;
+        NetworkType netType = NetworkType.NETWORK_NONE;
         NetworkInfo info = getActiveNetworkInfo(context);
         if (info != null && info.isAvailable()) {
             if (info.getType() == ConnectivityManager.TYPE_WIFI) {

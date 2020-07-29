@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="NineImageLayout">
+        <!-- 单张图片时宽度与屏幕宽度比值,默认是0.8-->
+        <attr name="nl_single_image_width_ratio" format="float" />
+        <!-- 图片之间间隙大小 -->
+        <attr name="nl_image_gap" format="dimension|reference" />
+        <!-- 2张图时,是否要和3张图大小保持一致,默认是false -->
+        <attr name="nl_keep_place" format="boolean" />
+    </declare-styleable>
+
+</resources>

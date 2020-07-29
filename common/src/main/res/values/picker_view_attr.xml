@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="PickerView">
+        <!-- 字体最大值 -->
+        <attr name="pv_max_text_size" format="dimension|reference" />
+        <!-- 字体最小值 -->
+        <attr name="pv_min_text_size" format="dimension|reference" />
+        <!-- 文字颜色 -->
+        <attr name="pv_text_color" format="color|reference" />
+        <!-- 透明度最大值 -->
+        <attr name="pv_max_alpha" format="integer" />
+        <!-- 透明度最小值 -->
+        <attr name="pv_min_alpha" format="integer" />
+
+    </declare-styleable>
+
+</resources>

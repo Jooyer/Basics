@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="MovingBallView">
+        <!-- 背景线条颜色 -->
+        <attr name="mbv_bg_line_color" format="color" />
+        <!-- 背景线条宽度 -->
+        <attr name="mbv_bg_line_width" format="dimension|float" />
+        <!-- 走过线条颜色,渐变起始颜色,默认是红色(没有渐变了) -->
+        <attr name="mbv_moved_line_start_color" format="color" />
+        <!-- 走过线条颜色,渐变结束颜色,默认是红色(没有渐变了) -->
+        <attr name="mbv_moved_line_end_color" format="color" />
+        <!-- 走过线条宽度 -->
+        <attr name="mbv_moved_line_width" format="dimension|float" />
+        <!-- 圆球颜色 -->
+        <attr name="mbv_ball_color" format="color" />
+        <!-- 圆球半径 -->
+        <attr name="mbv_ball_radius" format="dimension|float" />
+        <!-- 圆球环绕一周时间,默认30000毫秒, -->
+        <attr name="mbv_ball_duration" format="integer" />
+        <!-- 中间实心圆半径 -->
+        <attr name="mbv_solid_circle_radius" format="dimension|float" />
+        <!-- 中间实心圆渐变角度 -->
+        <attr name="mbv_solid_circle_gradient_angle" format="float" />
+        <!-- 中间准备播放的三角形边长 -->
+        <attr name="mbv_triangle_length" format="dimension|float" />
+        <!-- 中间播放的四边形边长 -->
+        <attr name="mbv_quadrilateral_length" format="dimension|float" />
+        <!-- 三角形,四边形边圆角大小 -->
+        <attr name="mbv_round_corner" format="dimension|float" />
+        <!-- 录音话筒的宽度,其他尺寸按与宽度的比例计算 -->
+        <attr name="mbv_microphone_width" format="dimension|float" />
+    </declare-styleable>
+
+</resources>

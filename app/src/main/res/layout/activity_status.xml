@@ -7,7 +7,7 @@
     tools:context=".StatusActivity">
 
 
-    <cn.lvsong.lib.ui.define.CustomToolbar
+    <cn.lvsong.lib.library.view.CustomToolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="@dimen/height_35"
@@ -34,7 +34,7 @@
         app:ct_right_image_right_margin="@dimen/padding_2"
         />
 
-    <cn.lvsong.lib.ui.define.FixedCursorEditText
+    <cn.lvsong.lib.library.view.FixedCursorEditText
         android:id="@+id/fct_test"
         android:layout_width="0dp"
         android:layout_height="50dp"
@@ -48,7 +48,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
-    <cn.lvsong.lib.ui.define.CustomEditMenu
+    <cn.lvsong.lib.library.view.CustomEditMenu
         android:id="@+id/cm_cn_name_publish_help"
         android:layout_width="0dp"
         android:layout_height="@dimen/height_40"
@@ -76,7 +76,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fct_test" />
 
-    <cn.lvsong.lib.ui.define.CustomMenu
+    <cn.lvsong.lib.library.view.CustomMenu
         android:id="@+id/cm_verify_personal_data"
         android:layout_width="0dp"
         android:layout_height="@dimen/height_40"
@@ -102,7 +102,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cm_cn_name_publish_help" />
 
-    <cn.lvsong.lib.ui.define.CustomToolbar
+    <cn.lvsong.lib.library.view.CustomToolbar
         android:id="@+id/tool"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -138,7 +138,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cm_verify_personal_data" />
 
-    <cn.lvsong.lib.ui.define.CustomToolbar
+    <cn.lvsong.lib.library.view.CustomToolbar
         android:id="@+id/tool2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -194,7 +194,7 @@
 <!--        app:layout_constraintTop_toBottomOf="@id/fsv_search_view_help" />-->
 
 
-    <cn.lvsong.lib.ui.define.CustomSearchView
+    <cn.lvsong.lib.library.view.CustomSearchView
         android:id="@+id/csv_test"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_48"

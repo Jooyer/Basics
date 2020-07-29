@@ -12,56 +12,67 @@ ext {
     ]
 
     dependencies = [
-            fileTree            : fileTree(dir: 'libs', include: ['*.jar']),
-            kotlin_stdlib       : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
-            appcompat           : 'androidx.appcompat:appcompat:1.1.0',
-            core_ktx            : 'androidx.core:core-ktx:1.2.0',
-            //
-            constraintlayout    : 'androidx.constraintlayout:constraintlayout:1.1.3',
-            material            : 'com.google.android.material:material:1.2.0-alpha01',
+            fileTree                           : fileTree(dir: 'libs', include: ['*.jar']),
+            kotlin_stdlib                      : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
+            appcompat                          : 'androidx.appcompat:appcompat:1.1.0',
+            core_ktx                           : 'androidx.core:core-ktx:1.3.0',
+            constraintlayout                   : 'androidx.constraintlayout:constraintlayout:1.1.3',
+            material                           : 'com.google.android.material:material:1.3.0-alpha01',
 
+            multidex                           : 'androidx.multidex:multidex:2.0.1',
 
             // 测试
-            junit               : 'junit:junit:4.12',
-            runner              : 'androidx.test:runner:1.1.1',
-            espresso_core       : 'androidx.test.espresso:espresso-core:3.1.1',
+            junit                              : 'junit:junit:4.13',
+            runner                             : 'androidx.test:runner:1.1.1',
+            espresso_core                      : 'androidx.test.espresso:espresso-core:3.2.0',
+
+            // room
+            room_runtime                       : 'androidx.room:room-runtime:2.2.5',
+            room_compiler                      : 'androidx.room:room-compiler:2.2.5',
+            // Paging
+            paging                             : "androidx.paging:paging-runtime:2.0.0-rc01",
+
 
             // https://github.com/ReactiveX/RxAndroid
-            rxandroid           : 'io.reactivex.rxjava2:rxandroid:2.1.1',
+//            rxandroid              : 'io.reactivex.rxjava2:rxandroid:2.1.1',
             // https://github.com/ReactiveX/RxJava
-            rxjava              : 'io.reactivex.rxjava2:rxjava:2.2.14',
+//            rxjava                 : 'io.reactivex.rxjava2:rxjava:2.2.14',
             // https://github.com/JakeWharton/RxRelay
-            rxrelay2            : 'com.jakewharton.rxrelay2:rxrelay:2.1.1',
-            // https://github.com/square/retrofit
-            retrofit            : 'com.squareup.retrofit2:retrofit:2.6.2',
+//            rxrelay2               : 'com.jakewharton.rxrelay2:rxrelay:2.1.1',
             // https://github.com/square/retrofit/tree/master/retrofit-adapters/rxjava2
-            adapter_rxjava      : 'com.squareup.retrofit2:adapter-rxjava2:2.6.2',
+//            adapter_rxjava         : 'com.squareup.retrofit2:adapter-rxjava2:2.6.2',
             // 网络请求返回字符串
-            converter_scalars   : 'com.squareup.retrofit2:converter-scalars:2.6.2',
-            // 用gson解析
-            converter_gson      : 'com.squareup.retrofit2:converter-gson:2.6.2',
-            // 日志
-            logging_interceptor : 'com.squareup.okhttp3:logging-interceptor:4.2.2',
+//            converter_scalars      : 'com.squareup.retrofit2:converter-scalars:2.6.2',
 
             //////////////////////////////////////////
             // https://www.jianshu.com/p/5457d5530e40
             // https://blog.csdn.net/huangruqi888/article/details/80074826
             // ViewModel and LiveData
             // https://developer.android.google.cn/jetpack/androidx/migrate
-            lifecycle_extensions: "androidx.lifecycle:lifecycle-extensions:2.0.0-rc01",
+            lifecycle_compiler                 : "androidx.lifecycle:lifecycle-compiler:2.0.0-rc01",
             //  lifecycle-extensions 包含下面注释的2者
 //        lifecycle_viewmodel : "androidx.lifecycle:lifecycle-viewmodel:2.0.0-rc0",
 //        lifecycle_livedata  : "androidx.lifecycle:lifecycle-livedata:2.0.0-rc01",
-            lifecycle_compiler  : "androidx.lifecycle:lifecycle-compiler:2.0.0-rc01",
+            lifecycle_extensions               : 'androidx.lifecycle:lifecycle-extensions:2.2.0',
+            lifecycle_viewmodel_ktx            : "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0",
+            // Kotlin + coroutines
+            work_runtime_ktx                   : "androidx.work:work-runtime-ktx:2.4.0",
+            concurrent_futures_ktx             : "androidx.concurrent:concurrent-futures-ktx:1.1.0-rc01",
 
-            // Room
-            room_runtime        : "androidx.room:room-runtime:2.0.0-rc01",
-            room_compiler       : "androidx.room:room-compiler:2.0.0-rc01",
+
+            // kotlin协程
+            kotlinx_coroutines_android         : "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.1",
+            retrofit2_kotlin_coroutines_adapter: 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2',
+            // https://github.com/square/retrofit
+            retrofit                           : 'com.squareup.retrofit2:retrofit:2.9.0',
+            // 用gson解析
+            converter_gson                     : 'com.squareup.retrofit2:converter-gson:2.9.0',
+            // 日志
+            logging_interceptor                : 'com.squareup.okhttp3:logging-interceptor:4.2.2',
+
 
             /////////////////////////////////////////
 
-            // Paging
-            paging              : "androidx.paging:paging-runtime:2.0.0-rc01",
 
             // Test helpers for LiveData
 //            testImplementation "android.arch.core:core-testing:1.1.0"
@@ -70,16 +81,16 @@ ext {
 //            testImplementation "android.arch.persistence.room:testing:1.0.0"
 
             // 权限 -->  https://github.com/yanzhenjie/AndPermission
-            permission          : 'com.yanzhenjie:permission:2.0.2',
-            // 分包
-            multidex            : 'androidx.multidex:multidex:2.0.1',
+            permission                         : 'com.yanzhenjie:permission:2.0.3',
+
+            //  https://github.com/bumptech/glide
+            glide                              : 'com.github.bumptech.glide:glide:4.11.0',
+            glide_compiler                     : 'com.github.bumptech.glide:compiler:4.11.0',
+
 
             // https://github.com/Ashok-Varma/BottomNavigation
 //            bottom_navigation_bar: 'com.ashokvarma.android:bottom-navigation-bar:2.0.5',
 
-            //  https://github.com/bumptech/glide
-            glide               : 'com.github.bumptech.glide:glide:4.10.0',
-            glide_compiler      : 'com.github.bumptech.glide:compiler:4.10.0',
 
             // https://github.com/ssseasonnn/RxRouter
 //            rxrouter            : 'zlc.season:rxrouter:1.0.1',

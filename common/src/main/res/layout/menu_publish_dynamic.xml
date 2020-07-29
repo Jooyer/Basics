@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cn.lvsong.lib.library.topmenu.BubbleRecyclerView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rv_menu_publish_dynamic"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:brv_around_radius="@dimen/padding_10"
+    app:brv_arrow_height="@dimen/padding_8"
+    app:brv_arrow_offset="@dimen/padding_12"
+    app:brv_arrow_width="@dimen/padding_8"
+    app:brv_bubble_color="@color/color_8A8EA3"
+    app:brv_top_padding="@dimen/padding_8"
+   />

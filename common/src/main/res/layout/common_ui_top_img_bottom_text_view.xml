@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:paddingTop="@dimen/padding_10"
+    android:paddingBottom="@dimen/padding_5">
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/aiv_icon_top_image"
+        android:layout_width="@dimen/width_40"
+        android:layout_height="@dimen/height_40"
+        android:scaleType="centerCrop" />
+
+
+    <cn.lvsong.lib.library.view.MediumTextView
+        android:id="@+id/tv_text_bottom_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_10"
+        android:text="视频相亲"
+        android:textColor="@color/color_333333"
+        android:textSize="@dimen/text_size_18" />
+
+
+</merge>

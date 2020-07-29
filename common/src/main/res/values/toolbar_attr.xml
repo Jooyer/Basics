@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CustomToolbar">
+        <!-- 左侧文本是否显示 -->
+        <attr name="ct_left_text_visible" format="boolean"/>
+        <!-- 左侧文本 -->
+        <attr name="ct_left_text_info" format="reference|string"/>
+        <!-- 左侧文本大小 -->
+        <attr name="ct_left_text_size" format="dimension"/>
+        <!-- 左侧文本颜色 -->
+        <attr name="ct_left_text_color" format="color|reference"/>
+        <!-- 左侧文本左侧 Margin -->
+        <attr name="ct_left_text_left_margin" format="dimension|integer"/>
+        <!-- 左侧图片是否显示 -->
+        <attr name="ct_left_arrow_visible" format="boolean"/>
+        <!-- 左侧图片宽度 -->
+        <attr name="ct_left_arrow_width" format="dimension|integer"/>
+        <!-- 左侧图片高度 -->
+        <attr name="ct_left_arrow_height" format="dimension|integer"/>
+        <!-- 左侧图片 Padding(上下左右) -->
+        <attr name="ct_left_arrow_padding" format="dimension|integer"/>
+        <!-- 左侧图片左侧 Margin -->
+        <attr name="ct_left_arrow_left_margin" format="dimension|integer"/>
+        <!-- 左侧箭头的 颜色 -->
+        <attr name="ct_left_arrow_color" format="color|reference"/>
+        <!-- 左侧箭头模式 -->
+        <attr name="ct_left_arrow_style" format="enum">
+            <!-- Google Material Design -->
+            <enum name="material_design" value="1" />
+            <!-- 微信风格 -->
+            <enum name="wechat_design" value="2" />
+        </attr>
+
+        <!-- 中间文本 -->
+        <attr name="ct_center_text_info" format="reference|string"/>
+        <!-- 中间文本的drawable -->
+        <attr name="ct_center_text_drawable" format="reference"/>
+        <!-- 中间文本的drawablePadding -->
+        <attr name="ct_center_text_drawable_padding" format="dimension|integer"/>
+        <!-- 中间文本大小 -->
+        <attr name="ct_center_text_size" format="dimension"/>
+        <!-- 中间文本颜色 -->
+        <attr name="ct_center_text_color" format="color|reference"/>
+        <!-- 右侧文本是否可见 -->
+        <attr name="ct_right_text_visible" format="boolean"/>
+        <!-- 右侧文本 -->
+        <attr name="ct_right_text_info" format="reference|string"/>
+        <!-- 右侧文本大小 -->
+        <attr name="ct_right_text_size" format="dimension"/>
+        <!-- 右侧文本颜色 -->
+        <attr name="ct_right_text_color" format="color|reference"/>
+        <!-- 右侧文本右侧 Margin -->
+        <attr name="ct_right_text_right_margin" format="dimension|integer"/>
+        <!-- 右侧图片是否可见 -->
+        <attr name="ct_right_image_visible" format="boolean"/>
+        <!-- 右侧图片 Drawable -->
+        <attr name="ct_right_image_drawable" format="reference"/>
+        <!-- 右侧图片宽度 -->
+        <attr name="ct_right_image_width" format="dimension|integer"/>
+        <!-- 右侧图片高度 -->
+        <attr name="ct_right_image_height" format="dimension|integer"/>
+        <!-- 右侧图片 Padding(上下左右) -->
+        <attr name="ct_right_image_padding" format="dimension|integer"/>
+        <!-- 右侧图片右侧 Margin -->
+        <attr name="ct_right_image_right_margin" format="dimension|integer"/>
+        <!-- 右侧图片2是否可见 -->
+        <attr name="ct_right_image2_visible" format="boolean"/>
+        <!-- 右侧图片2 Drawable -->
+        <attr name="ct_right_image2_drawable" format="reference"/>
+        <!-- 右侧图片2宽度 -->
+        <attr name="ct_right_image2_width" format="dimension|integer"/>
+        <!-- 右侧图片2高度 -->
+        <attr name="ct_right_image2_height" format="dimension|integer"/>
+        <!-- 右侧图片2 Padding(上下左右) -->
+        <attr name="ct_right_image2_padding" format="dimension|integer"/>
+        <!-- 右侧图片2右侧 Margin -->
+        <attr name="ct_right_image2_right_margin" format="dimension|integer"/>
+        <!-- 右侧文本是否加粗,类似苹果中黑效果,默认是加粗的 -->
+        <attr name="ct_right_text_bold" format="boolean"/>
+        <!-- 右侧更多按钮是否可见,默认不可见 -->
+        <attr name="ct_right_mav_visible" format="boolean"/>
+        <!-- 右侧更多按钮宽度 -->
+        <attr name="ct_right_mav_width" format="dimension|integer"/>
+        <!-- 右侧更多按钮高度 -->
+        <attr name="ct_right_mav_height" format="dimension|integer"/>
+        <!-- 右侧更多按 Margin -->
+        <attr name="ct_right_mav_right_margin" format="dimension|integer"/>
+        <!-- 右侧更多按钮的颜色 -->
+        <attr name="ct_right_mav_color" format="color|reference" />
+        <!-- 右侧更多按钮大小 -->
+        <attr name="ct_right_mav_dot_radius" format="integer|float|dimension" />
+        <!-- 右侧更多按钮排列方向，水平或垂直 -->
+        <attr name="ct_right_mav_orientation" format="enum">
+            <enum name="horizontal" value="1" />
+            <enum name="vertical" value="2" />
+        </attr>
+
+
+        <!-- 底部分割线是否可见 -->
+        <attr name="ct_bottom_divider_visible" format="boolean"/>
+        <!-- 底部分割线颜色 -->
+        <attr name="ct_bottom_divider_color" format="color|reference"/>
+        <!-- 底部分割线是否可见 -->
+
+    </declare-styleable>
+</resources>

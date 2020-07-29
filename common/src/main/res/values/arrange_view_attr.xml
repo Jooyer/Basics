@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="ArrangeView">
+        <!--  每一个Item重叠部分,默认20dp  -->
+        <attr name="av_space_width" format="reference|dimension" />
+        <!--  一共显示多个ItemView,默认4个  -->
+        <attr name="av_show_count" format="integer" />
+        <!--  是否开头的显示在最上方,默认不是  -->
+        <attr name="av_first_show_top" format="boolean" />
+    </declare-styleable>
+
+</resources>
