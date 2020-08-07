@@ -11,7 +11,7 @@ import cn.lvsong.lib.library.R
 /**
  *
  * @ProjectName:    android
- * @Package:        com.weex.app
+ * @Package:        cn.lvsong.lib.library.view
  * @ClassName:      ArcView
  * @Description:    弧形背景
  * @Author:         Jooyer
@@ -21,6 +21,23 @@ import cn.lvsong.lib.library.R
  * @UpdateRemark:
  * @Version:        1.0
  */
+
+/*
+ 用法
+
+    <com.yayd.live.base.view.ArcView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_220"
+        app:av_bezier_ratio="1.4"
+        app:av_color="@color/color_FCF2F2"
+        app:av_rectangle_height="@dimen/padding_140"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+ */
+
+
 class ArcView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     private var mPaint = Paint(Paint.ANTI_ALIAS_FLAG)

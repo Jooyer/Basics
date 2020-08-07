@@ -91,12 +91,15 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
      * 最右侧图标2,默认隐藏
      */
     lateinit var iv_right_icon_menu2: ImageView
+    /**
+     * 最右侧更多图标,不能同时与最右侧的图片显示,否则会重叠
+     */
+    lateinit var mav_right_icon_menu: MoreActionView
 
     /**
      * 底部分割线
      */
     lateinit var view_bottom_divider_menu: View
-
 
     constructor(context: Context, attr: AttributeSet) : this(context, attr, 0)
 
@@ -113,6 +116,7 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         tv_right_name_menu = findViewById(R.id.tv_right_name_menu)
         iv_right_icon_menu = findViewById(R.id.iv_right_icon_menu)
         iv_right_icon_menu2 = findViewById(R.id.iv_right_icon_menu2)
+        mav_right_icon_menu = findViewById(R.id.mav_right_icon_menu)
         view_bottom_divider_menu = findViewById(R.id.view_bottom_divider_menu)
     }
 
@@ -198,6 +202,15 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
             R.styleable.CustomToolbar_ct_right_text_color,
             ContextCompat.getColor(context, R.color.color_FFFFFF)
         )
+
+        val rightMoveViewVisible = arr.getBoolean(R.styleable.CustomToolbar_ct_right_mav_visible,false)
+        val rightMoveViewWidth = arr.getDimension(R.styleable.CustomToolbar_ct_right_mav_width, dp2px(40F)).toInt()
+        val rightMoveViewHeight = arr.getDimension(R.styleable.CustomToolbar_ct_right_mav_height, dp2px(40F)).toInt()
+        val rightMoveViewRightMargin = arr.getDimension(R.styleable.CustomToolbar_ct_right_mav_right_margin, dp2px(5F)).toInt()
+        val rightMoveViewColor = arr.getColor(R.styleable.CustomToolbar_ct_right_mav_color,
+            ContextCompat.getColor(context, R.color.color_2878FF))
+        val rightMoveViewDotRadius = arr.getDimension(R.styleable.CustomToolbar_ct_right_mav_dot_radius,dp2px(2F))
+        val rightMoveViewOrientation = arr.getInt(R.styleable.CustomToolbar_ct_right_mav_orientation,ORIENTATION_HORIZONTAL)
 
         val bottomDividerVisible =
             arr.getBoolean(R.styleable.CustomToolbar_ct_bottom_divider_visible, true)
@@ -320,6 +333,15 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         rightTextLp.rightMargin = rightTextRightMargin
         tv_right_name_menu.layoutParams = rightTextLp
 
+        mav_right_icon_menu.visibility = if (rightMoveViewVisible) View.VISIBLE else View.GONE
+        val moveViewLP = mav_right_icon_menu.layoutParams  as ConstraintLayout.LayoutParams
+        moveViewLP.width = rightMoveViewWidth
+        moveViewLP.height = rightMoveViewHeight
+        moveViewLP.rightMargin = rightMoveViewRightMargin
+        mav_right_icon_menu.layoutParams = moveViewLP
+        mav_right_icon_menu.setColor(rightMoveViewColor)
+        mav_right_icon_menu.setDotRadius(rightMoveViewDotRadius)
+        mav_right_icon_menu.setOrientation(rightMoveViewOrientation)
 
         view_bottom_divider_menu.visibility = if (bottomDividerVisible) View.VISIBLE else View.GONE
         view_bottom_divider_menu.setBackgroundColor(bottomDividerColor)

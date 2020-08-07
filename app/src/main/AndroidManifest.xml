@@ -21,15 +21,20 @@
         tools:targetApi="m">
         <activity android:name=".EncodeOrDecodeActivity"/>
         <activity android:name=".BannerActivity" />
-        <activity android:name=".StatusActivity" />
-        <activity android:name=".LazyLoadActivity" />
-        <activity android:name=".NestedScrollRefreshActivity" >
+
+        <activity android:name=".StatusActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".LazyLoadActivity" />
+        <activity android:name=".NestedScrollRefreshActivity" >
+
+        </activity>
+
         <activity android:name=".NormalRefreshActivity" />
         <activity android:name=".MainActivity">
 

@@ -1,12 +1,10 @@
 package cn.lvsong.lib.library.refresh;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
@@ -58,30 +56,6 @@ public class PowerRefreshLayout extends ViewGroup implements NestedScrollingPare
     private final NestedScrollingChildHelper mNestedScrollingChildHelper;
 
     /**
-     * 是否在拖拽
-     */
-    private boolean mIsBeingDragged;
-    /**
-     * 有效手指ID
-     */
-    private int mActivePointerId;
-    /**
-     * 按下时 Y 记录
-     */
-    private float mInitialDownY;
-    /**
-     * 移动 Y 距离
-     */
-    private float mRealMoveY;
-    /**
-     * 无效手指操作
-     */
-    private static final int INVALID_POINTER = -1;
-    /**
-     * 记录 HeaderView / FooterView  的状态
-     */
-    private int mStatus = RefreshState.DEFAULT;
-    /**
      * 滑动辅助
      */
     private Scroller mScroller;
@@ -101,10 +75,6 @@ public class PowerRefreshLayout extends ViewGroup implements NestedScrollingPare
      * FooterView 滑动距离
      */
     private int mLoadScrollY;
-    /**
-     * 有效滑动距离阀值
-     */
-    private float mTouchSlop;
 
     /**
      * 内容View
@@ -269,7 +239,6 @@ public class PowerRefreshLayout extends ViewGroup implements NestedScrollingPare
         mScroller = new Scroller(context);
         mNestedScrollingParentHelper = new NestedScrollingParentHelper(this);
         mNestedScrollingChildHelper = new NestedScrollingChildHelper(this);
-        mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         setNestedScrollingEnabled(true);
         mRequiredVelocityY = ViewConfiguration.get(getContext()).getScaledMinimumFlingVelocity();
         mHeaderView = new DefaultHeaderView(context);
@@ -843,263 +812,7 @@ public class PowerRefreshLayout extends ViewGroup implements NestedScrollingPare
     ////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////
 
-
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (!mScroller.isFinished()) {
-            mScroller.forceFinished(true);
-        }
-
-        if (!isEnabled() || mTargetView.isNestedScrollingEnabled() || mRefreshing || mLoading) {
-            return false;
-        }
-        ensureTarget();
-        final int action = ev.getActionMasked();
-        int pointerIndex;
-
-        Log.e("PowerRefreshLayout", "onInterceptTouchEvent========mIsBeingDragged: " + mIsBeingDragged + " ====action: " + action);
-        switch (action) {
-            case MotionEvent.ACTION_DOWN:
-                mActivePointerId = ev.getPointerId(0);
-                mIsBeingDragged = false;
-
-                pointerIndex = ev.findPointerIndex(mActivePointerId);
-                if (pointerIndex < 0) {
-                    return false;
-                }
-                mInitialDownY = ev.getY(pointerIndex);
-                break;
-
-            case MotionEvent.ACTION_MOVE:
-                if (mActivePointerId == INVALID_POINTER) {
-                    return false;
-                }
-
-                pointerIndex = ev.findPointerIndex(mActivePointerId);
-                if (pointerIndex < 0) {
-                    return false;
-                }
-                final float y = ev.getY(pointerIndex);
-                startDragging(y);
-                break;
-
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_CANCEL:
-                mIsBeingDragged = false;
-                mActivePointerId = INVALID_POINTER;
-                break;
-        }
-//        Log.e("PowerRefreshLayout", "onInterceptTouchEvent=========mIsBeingDragged: " + mIsBeingDragged);
-        return mIsBeingDragged;
-    }
-
-    /**
-     * java.lang.IllegalArgumentException:pointerIndex out of range
-     * https://www.jianshu.com/p/b65d21c909e5
-     */
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    @SuppressLint("ClickableViewAccessibility")
-    @Override
-    public boolean onTouchEvent(MotionEvent ev) {
-        final int action = ev.getActionMasked();
-        int pointerIndex;
-        if (!isEnabled() || mTargetView.isNestedScrollingEnabled() || mRefreshing || mLoading) {
-            return false;
-        }
-        Log.e("PowerRefreshLayout", "onTouchEvent=======mIsBeingDragged: " + mIsBeingDragged + " ====action: " + action);
-        switch (action) {
-            case MotionEvent.ACTION_DOWN:
-                mActivePointerId = ev.getPointerId(0);
-                mIsBeingDragged = false;
-                break;
-
-            case MotionEvent.ACTION_MOVE: {
-                pointerIndex = ev.findPointerIndex(mActivePointerId);
-                if (pointerIndex < 0) {
-                    return false;
-                }
-
-                final float y = ev.getY(pointerIndex);
-                startDragging(y);
-                //in this case ,just can refresh.
-                if (mIsBeingDragged) {
-                    final float overScrollTop = (y - mRealMoveY);
-                    if (canChildScrollUp()) {
-                        loadScroll(-(int) overScrollTop);
-                    } else if (canChildScrollDown()) {
-                        refreshScroll(-(int) overScrollTop);
-                    }
-                }
-                mRealMoveY = y;
-                break;
-            }
-            case MotionEvent.ACTION_POINTER_DOWN: {
-                pointerIndex = ev.getActionMasked();
-                if (pointerIndex < 0) {
-                    return false;
-                }
-                mActivePointerId = ev.getPointerId(pointerIndex);
-                break;
-            }
-
-            case MotionEvent.ACTION_UP: {
-                pointerIndex = ev.findPointerIndex(mActivePointerId);
-                if (pointerIndex < 0) {
-                    return false;
-                }
-
-                if (mIsBeingDragged) {
-                    mIsBeingDragged = false;
-                    if (getScrollY() > 0) {
-                        stopLoadScroll();
-                    } else if (getScrollY() < 0) {
-                        stopRefreshScroll();
-                    }
-                    resetScroll();
-                }
-                mActivePointerId = INVALID_POINTER;
-                return false;
-            }
-            case MotionEvent.ACTION_CANCEL:
-                resetScroll();
-                return false;
-        }
-//        Log.e("PowerRefresh", "onTouchEvent=========2 ");
-        return true;
-    }
-
-    private void stopRefreshScroll() {
-//        Log.e("PowerRefreshLayout", "stopRefreshScroll=====getScrollY: " + getScrollY());
-    }
-
-    private void stopLoadScroll() {
-//        Log.e("PowerRefreshLayout", "stopLoadScroll=====getScrollY: " + getScrollY());
-    }
-
-    /**
-     * 不支持嵌套滑动时加载滑动处理
-     */
-    private void loadScroll(int dy) {
-        scrollBy(0, dy);
-//        Log.e("PowerRefreshLayout", "loadScroll=====getScrollY: " + getScrollY());
-    }
-
-    /**
-     * 不支持嵌套滑动时刷新滑动处理
-     */
-    private void refreshScroll(int dy) {
-//        Log.e("PowerRefreshLayout", "onNestedPreScroll=======dy: " + dy);
-        if (!mRefreshing && dy < 0 && mRefreshScrollY < mRefreshHeight && canChildScrollUp()) { // 下滑且没有达到刷新状态(可以是没有达到必要高度/达到高度没有松手)
-            mRefreshScrollY += -dy;
-            if (mRefreshScrollY > mHeaderViewHeight) { // 松手可以刷新
-                updateStatus(RefreshState.HEADER_RELEASE);
-            } else {
-                updateStatus(RefreshState.HEADER_DRAG);
-            }
-            if (mRefreshScrollY > mRefreshHeight) { //零界点,再加上本次滑动,大于了 HeaderView 允许滑动距离
-                int consumedY = mRefreshScrollY + dy - mRefreshHeight;
-                mRefreshScrollY = mRefreshHeight;
-                scrollBy(0, consumedY);
-            } else {
-                scrollBy(0, dy);
-            }
-//            Log.e("PowerRefreshLayout", "onNestedPreScroll=======  1 ");
-        } else if (mRefreshing && dy < 0 && canChildScrollUp()) { // HeaderView隐藏着,正在刷新时下滑
-            if (-(getScrollY() + dy) > mHeaderViewHeight) { // 当 HeaderView 向下滑动时, getScrollY() =  mHeaderViewHeight, 此时则不再滑动头部
-                scrollBy(0, -(mHeaderViewHeight + getScrollY()));
-            } else {
-                scrollBy(0, dy);
-            }
-//            Log.e("PowerRefreshLayout", "onNestedPreScroll=======  2 ");
-        } else if (!mRefreshing && dy > 0 && mRefreshScrollY > 0) { // 还没达到刷新状态(可以是没有达到必要高度/达到高度没有松手)往上滑动
-            mRefreshScrollY -= dy;
-            if (mRefreshScrollY > mHeaderViewHeight) { // 松手可以刷新
-                updateStatus(RefreshState.HEADER_RELEASE);
-            } else {
-                updateStatus(RefreshState.HEADER_DRAG);
-            }
-            if (mRefreshScrollY < 0) {
-                int consumedY = mRefreshScrollY + dy;
-                scrollBy(0, consumedY);
-                mRefreshScrollY = 0;
-            } else {
-                scrollBy(0, dy);
-            }
-//            Log.e("PowerRefreshLayout", "onNestedPreScroll=======  3 ");
-        } else if (mRefreshing && dy > 0 && getScrollY() < 0) { // 刷新时上滑
-            if (getScrollY() + dy > 0) { // 接近零界点,此时如果还滑动 dy, 则滑多了
-                scrollBy(0, -getScrollY());
-            } else {
-                scrollBy(0, dy);
-            }
-//            Log.e("PowerRefreshLayout", "onNestedPreScroll=======  4 ");
-        }
-    }
-
-    @SuppressLint("NewApi")
-    private void startDragging(float y) {
-        final float yDiff = y - mInitialDownY;
-//        Log.e("PowerRefreshLayout", "startDragging=========mIsBeingDragged: " + mIsBeingDragged + " ====== " + (yDiff > mTouchSlop) + " ====yDiff: " + yDiff);
-        if (Math.abs(yDiff) > mTouchSlop && !mIsBeingDragged) {
-            mRealMoveY = mInitialDownY + yDiff;
-            mIsBeingDragged = true;
-        }
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////
-
-
-    /**
-     * 当手指抬起时, TargetView 非NestedScrollChild
-     */
-    private void resetScroll() {
-        // 判断本次触摸系列事件结束时,Layout的状态
-        switch (mStatus) {
-            //下拉刷新
-            case RefreshState.HEADER_DRAG:
-//				scrollToDefaultStatus(RefreshState.HEADER_CANCEL);
-                break;
-            // 释放刷新
-            case RefreshState.HEADER_RELEASE:
-//				scrollToRefreshStatus(true);
-                break;
-            // 正在刷新
-            case RefreshState.HEADER_REFRESHING:
-                if (Math.abs(getScrollY()) >= mHeaderViewHeight) { // 滑动超过 Header 高度
-//					scrollToRefreshStatus(false);
-                } else { // 滑动超过 Header 高度
-//					scrollToInitialPosition();
-                }
-                break;
-            //上拉加载更多
-            case RefreshState.FOOTER_PULL:
-//				scrollToDefaultStatus(RefreshState.FOOTER_CANCEL);
-                break;
-            // 正在加载
-            case RefreshState.FOOTER_RELEASE:
-//				scrollToLoadStatus(true);
-                break;
-            case RefreshState.FOOTER_LOADING:
-                if (Math.abs(getScrollY()) >= mFooterViewHeight) { // 滑动超过 Footer 高度
-//					scrollToLoadStatus(false);
-                } else { // 滑动没有超过 Footer 高度
-//					scrollToInitialPosition();
-                }
-                break;
-            //没有更多数据
-            case RefreshState.FOOTER_NO_MORE:
-//				scrollToInitialPosition();
-                break;
-            default:
-                break;
-        }
-    }
-
     private void updateStatus(int status) {
-        this.mStatus = status;
         switch (status) {
             case RefreshState.DEFAULT:
                 onDefault();

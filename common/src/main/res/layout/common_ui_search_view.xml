@@ -22,7 +22,6 @@
         android:id="@+id/cl_search_input_container"
         android:layout_width="0dp"
         android:layout_height="@dimen/height_40"
-        android:background="@drawable/ic_gray_solid_rectangle_r5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/acb_search_right_btn"
         app:layout_constraintStart_toEndOf="@id/ab_search_left_back"
@@ -48,7 +47,6 @@
             android:maxLines="1"
             android:textColor="@color/color_333333"
             android:textColorHint="@color/color_666666"
-            android:textCursorDrawable="@drawable/ic_edit_text_cursor_bg"
             android:textSize="@dimen/text_size_14"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -66,7 +64,7 @@
             tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
+e
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/acb_search_right_btn"
         android:layout_width="@dimen/width_40"
