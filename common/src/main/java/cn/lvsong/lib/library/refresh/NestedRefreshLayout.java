@@ -31,7 +31,7 @@ import cn.lvsong.lib.library.R;
  * 往上刷动会触发上拉加载,而不是先滑动AppBarLayout等内部控件
  */
 
-public class PowerRefreshLayout extends ViewGroup implements NestedScrollingParent2, NestedScrollingChild2 {
+public class NestedRefreshLayout extends ViewGroup implements NestedScrollingParent2, NestedScrollingChild2 {
     @Nullable
     private IHeaderWrapper mHeaderListener;
     @Nullable
@@ -39,7 +39,7 @@ public class PowerRefreshLayout extends ViewGroup implements NestedScrollingPare
     /**
      * 回调监听
      */
-    private OnRefreshAndLoadListener listener;
+    private OnNestedRefreshAndLoadListener listener;
     /**
      * 计算父类嵌套滑动消耗值
      */
@@ -62,7 +62,7 @@ public class PowerRefreshLayout extends ViewGroup implements NestedScrollingPare
     /**
      * 恢复时移动时间
      */
-    private float mScrollerMoveTime = 2000F;
+    private float mScrollerMoveTime = 800F;
     /**
      * Fling时 速度界限,低于这个且达到刷新/加载距离,则可以刷新
      */
@@ -214,7 +214,7 @@ public class PowerRefreshLayout extends ViewGroup implements NestedScrollingPare
     /**
      * 加载/刷新回调
      */
-    public void setOnRefreshAndLoadListener(OnRefreshAndLoadListener listener) {
+    public void setOnRefreshAndLoadListener(OnNestedRefreshAndLoadListener listener) {
         this.listener = listener;
     }
 
@@ -226,15 +226,15 @@ public class PowerRefreshLayout extends ViewGroup implements NestedScrollingPare
         mLoadHeight = (int) (mFooterViewHeight * mLoadRatio);
     }
 
-    public PowerRefreshLayout(Context context) {
+    public NestedRefreshLayout(Context context) {
         this(context, null);
     }
 
-    public PowerRefreshLayout(Context context, @Nullable AttributeSet attrs) {
+    public NestedRefreshLayout(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public PowerRefreshLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public NestedRefreshLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mScroller = new Scroller(context);
         mNestedScrollingParentHelper = new NestedScrollingParentHelper(this);
@@ -260,8 +260,8 @@ public class PowerRefreshLayout extends ViewGroup implements NestedScrollingPare
     }
 
     private void parseAttrs(Context context, AttributeSet attrs) {
-        TypedArray arr = context.obtainStyledAttributes(attrs, R.styleable.PowerRefreshLayout);
-        mShowStyleFirstTime = arr.getInt(R.styleable.PowerRefreshLayout_prl_no_more_first_time,1) ;
+        TypedArray arr = context.obtainStyledAttributes(attrs, R.styleable.NestedRefreshLayout);
+        mShowStyleFirstTime = arr.getInt(R.styleable.NestedRefreshLayout_nrl_no_more_first_time,1) ;
         arr.recycle();
     }
 
@@ -760,7 +760,7 @@ public class PowerRefreshLayout extends ViewGroup implements NestedScrollingPare
      * 对 嵌套 View 的滑动逻辑的处理
      */
     public interface OnChildScrollUpCallback {
-        boolean canChildScrollUp(PowerRefreshLayout parent, @Nullable View child);
+        boolean canChildScrollUp(NestedRefreshLayout parent, @Nullable View child);
     }
 
     @Deprecated

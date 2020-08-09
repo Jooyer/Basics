@@ -16,7 +16,7 @@
             android:layout_height="@dimen/height_40"
             android:layout_margin="@dimen/padding_5"
             android:onClick="onNormalRefresh"
-            android:text="普通刷新加载"
+            android:text="非嵌套刷新加载"
             android:textColor="@color/color_FFFFFF"
             android:textSize="@dimen/text_size_13" />
 
@@ -79,6 +79,8 @@
             android:textAllCaps="false"
             android:textColor="@color/color_333333"
             android:textSize="@dimen/text_size_16" />
+
+
     </LinearLayout>
 
 

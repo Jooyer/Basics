@@ -83,7 +83,8 @@ class DownWorker(val context: Context, workerParams: WorkerParameters) : Listena
 
             var call: Call<ResponseBody>? = null
 
-            val listener = object : JsDownloadListener {
+            val listener = object :
+                JDownloadListener {
                 override fun onComplete() {
                     completer.set(Result.success(Data.Builder().putInt(DOWNLOAD_STATE, 1).build()))
                 }
@@ -101,7 +102,11 @@ class DownWorker(val context: Context, workerParams: WorkerParameters) : Listena
                 }
             }
             val client = OkHttpClient.Builder()
-                    .addInterceptor(JsDownloadInterceptor(listener))
+                    .addInterceptor(
+                        JDownloadInterceptor(
+                            listener
+                        )
+                    )
                     .retryOnConnectionFailure(true)
                     .connectTimeout(5000, TimeUnit.SECONDS)
 

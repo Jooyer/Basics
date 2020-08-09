@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".NormalRefreshActivity">
 
-    <cn.lvsong.lib.library.refresh.PowerRefreshLayout
-        android:id="@+id/prl_container"
+    <cn.lvsong.lib.library.refresh.UnNestedRefreshLayout
+        android:id="@+id/nrl_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,7 +29,7 @@
             android:layout_height="match_parent"
             />
 
-    </cn.lvsong.lib.library.refresh.PowerRefreshLayout>
+    </cn.lvsong.lib.library.refresh.UnNestedRefreshLayout>
 
 
 

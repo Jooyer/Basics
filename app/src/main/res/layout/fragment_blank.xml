@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<cn.lvsong.lib.library.refresh.PowerRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<cn.lvsong.lib.library.refresh.NestedRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/snl_container"
@@ -12,4 +12,4 @@
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-</cn.lvsong.lib.library.refresh.PowerRefreshLayout>
+</cn.lvsong.lib.library.refresh.NestedRefreshLayout>

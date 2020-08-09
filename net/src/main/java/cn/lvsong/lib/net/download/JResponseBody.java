@@ -21,14 +21,14 @@ import okio.Source;
  * @UpdateRemark:
  * @Version: 1.0
  */
-public class JsResponseBody extends ResponseBody {
+public class JResponseBody extends ResponseBody {
     private ResponseBody responseBody;
-    private JsDownloadListener downloadListener;
+    private JDownloadListener downloadListener;
     // BufferedSource 是okio库中的输入流，这里就当作inputStream来使用。
     private BufferedSource bufferedSource;
     private int mLatestProgress = 0;
 
-    public JsResponseBody(ResponseBody responseBody, JsDownloadListener downloadListener) {
+    public JResponseBody(ResponseBody responseBody, JDownloadListener downloadListener) {
         this.responseBody = responseBody;
         this.downloadListener = downloadListener;
         downloadListener.onStartDownload(responseBody.contentLength());

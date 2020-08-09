@@ -11,7 +11,7 @@ package cn.lvsong.lib.net.download;
  * @UpdateRemark: 更新说明
  * @Version: 1.0
  */
-public interface JsDownloadListener {
+public interface JDownloadListener {
     void onStartDownload(long totalLength);
     void onProgress(int progress);
     void onComplete();

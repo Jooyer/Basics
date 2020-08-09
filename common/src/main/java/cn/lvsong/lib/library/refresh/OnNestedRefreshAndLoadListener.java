@@ -6,11 +6,17 @@ package cn.lvsong.lib.library.refresh;
  * Date: 2019-10-22
  * Time: 15:10
  */
-public abstract class OnRefreshAndLoadListener {
+public abstract class OnNestedRefreshAndLoadListener {
 
-    public abstract void onRefresh(PowerRefreshLayout refreshLayout);
+    /**
+     * 开始刷新
+     */
+    public abstract void onRefresh(NestedRefreshLayout refreshLayout);
 
-    public void onLoad(PowerRefreshLayout refreshLayout) {
+    /**
+     * 开始加载更多
+     */
+    public void onLoad(NestedRefreshLayout refreshLayout) {
 
     }
 
@@ -20,7 +26,7 @@ public abstract class OnRefreshAndLoadListener {
      * @param headerMaxDistance  --> HeaderView 最大移动距离
      * @param footerMaxDistance  --> FooterView 最大移动距离
      */
-    public void onMoveDistance(PowerRefreshLayout refreshLayout, int headerMaxDistance,int footerMaxDistance,int distance){
+    public void onMoveDistance(NestedRefreshLayout refreshLayout, int headerMaxDistance, int footerMaxDistance, int distance){
 
     }
 

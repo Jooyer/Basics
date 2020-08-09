@@ -23,11 +23,7 @@
         <activity android:name=".BannerActivity" />
 
         <activity android:name=".StatusActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity android:name=".LazyLoadActivity" />
@@ -36,8 +32,13 @@
         </activity>
 
         <activity android:name=".NormalRefreshActivity" />
-        <activity android:name=".MainActivity">
 
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

@@ -8,8 +8,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import cn.lvsong.lib.library.refresh.OnRefreshAndLoadListener
-import cn.lvsong.lib.library.refresh.PowerRefreshLayout
+import cn.lvsong.lib.library.refresh.OnNestedRefreshAndLoadListener
+import cn.lvsong.lib.library.refresh.NestedRefreshLayout
 import cn.lvsong.lib.ui.ui.BaseFragment
 import kotlinx.android.synthetic.main.fragment_blank.*
 
@@ -28,8 +28,8 @@ class LazyFragment : BaseFragment() {
 //        snl_container.addHeader(DefaultHeaderView(mActivity))
 //        snl_container.addFooter(DefaultFooterView(mActivity))
 
-        snl_container.setOnRefreshAndLoadListener(object : OnRefreshAndLoadListener() {
-            override fun onRefresh(refreshLayout: PowerRefreshLayout) {
+        snl_container.setOnRefreshAndLoadListener(object : OnNestedRefreshAndLoadListener() {
+            override fun onRefresh(refreshLayout: NestedRefreshLayout) {
 //                Log.e("PowerRefreshLayout", "onRefresh==============")
 
                 data.clear()
@@ -42,7 +42,7 @@ class LazyFragment : BaseFragment() {
                 }, 1000)
             }
 
-            override fun onLoad(refreshLayout: PowerRefreshLayout) {
+            override fun onLoad(refreshLayout: NestedRefreshLayout) {
 //                Log.e("PowerRefreshLayout", "onLoad==============")
                 for (i in data.size until data.size + 6) {
                     data.add("-----$i------")
