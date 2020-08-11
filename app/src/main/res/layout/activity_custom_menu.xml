@@ -1,117 +1,184 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".CustomMenuActivity">
 
-    <cn.lvsong.lib.library.view.CustomMenu
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:cm_bottom_divider_color="@color/color_2878FF"
-        app:cm_bottom_divider_left_margin="@dimen/height_10"
-        app:cm_bottom_divider_visible="true"
-        app:cm_left_image_drawable="@drawable/ic_baseline_alarm_add_24"
-        app:cm_left_image_margin="@dimen/padding_10"
-        app:cm_left_text_color="@color/color_333333"
-        app:cm_left_text_info="左侧图片右侧文字"
-        app:cm_left_text_left_margin="@dimen/padding_5"
-        app:cm_right_text_info="右侧文字" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <!--  app:cm_right_text_visible="false" 可以不设置文本,不用隐藏 -->
-    <cn.lvsong.lib.library.view.CustomMenu
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:cm_bottom_divider_color="@color/color_2878FF"
-        app:cm_bottom_divider_left_margin="@dimen/height_10"
-        app:cm_bottom_divider_visible="true"
-        app:cm_left_image_drawable="@drawable/ic_baseline_alarm_add_24"
-        app:cm_left_image_margin="@dimen/padding_10"
-        app:cm_left_text_color="@color/color_333333"
-        app:cm_left_text_info="左侧图片右侧图片"
-        app:cm_left_text_left_margin="@dimen/padding_5"
-        app:cm_right_near_image_drawable="@drawable/ic_baseline_assignment_returned_24"
-        app:cm_right_near_image_right_margin="@dimen/padding_2"
-        app:cm_right_near_image_top_margin="@dimen/padding_14"
-        app:cm_right_near_image_visible="true"
-        app:cm_right_text_visible="false" />
+        <cn.lvsong.lib.library.view.CustomMenu
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_50"
+            android:layout_marginTop="@dimen/padding_10"
+            app:cm_bottom_divider_color="@color/color_2878FF"
+            app:cm_bottom_divider_left_margin="@dimen/height_10"
+            app:cm_bottom_divider_visible="true"
+            app:cm_left_image_drawable="@drawable/ic_baseline_alarm_add_24"
+            app:cm_left_image_margin="@dimen/padding_10"
+            app:cm_left_text_color="@color/color_333333"
+            app:cm_left_text_info="左侧图片右侧文字"
+            app:cm_left_text_left_margin="@dimen/padding_5"
+            app:cm_right_text_info="右侧文字" />
 
-    <cn.lvsong.lib.library.view.CustomMenu
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:cm_bottom_divider_color="@color/color_2878FF"
-        app:cm_bottom_divider_left_margin="@dimen/height_10"
-        app:cm_bottom_divider_visible="true"
-        app:cm_left_image_drawable="@drawable/ic_baseline_alarm_add_24"
-        app:cm_left_image_margin="@dimen/padding_10"
-        app:cm_left_text_color="@color/color_333333"
-        app:cm_left_text_info="左侧图片右侧图片+文字"
-        app:cm_left_text_left_margin="@dimen/padding_5"
-        app:cm_right_near_image_drawable="@drawable/ic_baseline_assignment_returned_24"
-        app:cm_right_near_image_right_margin="@dimen/padding_2"
-        app:cm_right_near_image_top_margin="@dimen/padding_14"
-        app:cm_right_near_image_visible="true"
-        app:cm_right_text_info="邀请好友" />
+        <!--  app:cm_right_text_visible="false" 可以不设置文本,不用隐藏 -->
+        <cn.lvsong.lib.library.view.CustomMenu
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_50"
+            android:layout_marginTop="@dimen/padding_10"
+            app:cm_bottom_divider_color="@color/color_2878FF"
+            app:cm_bottom_divider_left_margin="@dimen/height_10"
+            app:cm_bottom_divider_visible="true"
+            app:cm_left_image_drawable="@drawable/ic_baseline_alarm_add_24"
+            app:cm_left_image_margin="@dimen/padding_10"
+            app:cm_left_text_color="@color/color_333333"
+            app:cm_left_text_info="左侧图片右侧图片"
+            app:cm_left_text_left_margin="@dimen/padding_5"
+            app:cm_right_near_image_drawable="@drawable/ic_baseline_assignment_returned_24"
+            app:cm_right_near_image_right_margin="@dimen/padding_2"
+            app:cm_right_near_image_top_margin="@dimen/padding_14"
+            app:cm_right_near_image_visible="true"
+            app:cm_right_text_visible="false" />
 
-    <cn.lvsong.lib.library.view.CustomMenu
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:cm_bottom_divider_color="@color/color_2878FF"
-        app:cm_bottom_divider_left_margin="@dimen/height_10"
-        app:cm_bottom_divider_visible="true"
-        app:cm_left_image_drawable="@drawable/ic_baseline_alarm_add_24"
-        app:cm_left_image_margin="@dimen/padding_10"
-        app:cm_left_text_color="@color/color_333333"
-        app:cm_left_text_info="左侧图片右侧图片+小红点"
-        app:cm_left_text_left_margin="@dimen/padding_5"
-        app:cm_right_near_image_drawable="@drawable/select"
-        app:cm_right_near_image_height="@dimen/height_10"
-        app:cm_right_near_image_right_margin="@dimen/padding_2"
-        app:cm_right_near_image_top_margin="@dimen/padding_12"
-        app:cm_right_near_image_visible="true"
-        app:cm_right_near_image_width="@dimen/width_10"
-        app:cm_right_text_info="版本更新"
-        app:cm_right_text_right_margin="@dimen/padding_2" />
+        <cn.lvsong.lib.library.view.CustomMenu
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_50"
+            android:layout_marginTop="@dimen/padding_10"
+            app:cm_bottom_divider_color="@color/color_2878FF"
+            app:cm_bottom_divider_left_margin="@dimen/height_10"
+            app:cm_bottom_divider_visible="true"
+            app:cm_left_image_drawable="@drawable/ic_baseline_alarm_add_24"
+            app:cm_left_image_margin="@dimen/padding_10"
+            app:cm_left_text_color="@color/color_333333"
+            app:cm_left_text_info="左侧图片右侧图片+文字"
+            app:cm_left_text_left_margin="@dimen/padding_5"
+            app:cm_right_near_image_drawable="@drawable/ic_baseline_assignment_returned_24"
+            app:cm_right_near_image_right_margin="@dimen/padding_2"
+            app:cm_right_near_image_top_margin="@dimen/padding_14"
+            app:cm_right_near_image_visible="true"
+            app:cm_right_text_info="邀请好友" />
 
-
-    <cn.lvsong.lib.library.view.CustomEditMenu
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:cem_bottom_divider_color="@color/color_8A8EA3"
-        app:cem_bottom_divider_visible="true"
-        app:cem_left_image_drawable="@drawable/ic_baseline_assignment_returned_24"
-        app:cem_left_image_margin="@dimen/padding_10"
-        app:cem_left_text_info="左侧图片右侧输入框+图片"
-        app:cem_right_image_drawable="@drawable/ic_baseline_alarm_add_24"
-        app:cem_right_image_right_margin="@dimen/padding_10"
-        app:cem_right_input_hint_color="@color/color_B1B6D1"
-        app:cem_right_input_hint_text="请输入昵称" />
-
-    <cn.lvsong.lib.library.view.CustomEditMenu
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:cem_bottom_divider_color="@color/color_8A8EA3"
-        app:cem_bottom_divider_visible="true"
-        app:cem_left_image_drawable="@drawable/ic_baseline_assignment_returned_24"
-        app:cem_left_image_margin="@dimen/padding_10"
-        app:cem_left_text_info="左侧图片右侧输入框"
-        app:cem_right_image_visible="false"
-        app:cem_right_input_hint_color="@color/color_B1B6D1"
-        app:cem_right_input_hint_text="请输入昵称" />
+        <cn.lvsong.lib.library.view.CustomMenu
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_50"
+            android:layout_marginTop="@dimen/padding_10"
+            app:cm_bottom_divider_color="@color/color_2878FF"
+            app:cm_bottom_divider_left_margin="@dimen/height_10"
+            app:cm_bottom_divider_visible="true"
+            app:cm_left_image_drawable="@drawable/ic_baseline_alarm_add_24"
+            app:cm_left_image_margin="@dimen/padding_10"
+            app:cm_left_text_color="@color/color_333333"
+            app:cm_left_text_info="左侧图片右侧图片+小红点"
+            app:cm_left_text_left_margin="@dimen/padding_5"
+            app:cm_right_near_image_drawable="@drawable/select"
+            app:cm_right_near_image_height="@dimen/height_10"
+            app:cm_right_near_image_right_margin="@dimen/padding_2"
+            app:cm_right_near_image_top_margin="@dimen/padding_12"
+            app:cm_right_near_image_visible="true"
+            app:cm_right_near_image_width="@dimen/width_10"
+            app:cm_right_text_info="版本更新"
+            app:cm_right_text_right_margin="@dimen/padding_2" />
 
 
-    <cn.lvsong.lib.library.view.CustomSearchView
-        android:id="@+id/csv_1"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:csv_input_container_drawable="@drawable/ic_gray_solid_rectangle_r5"
-        app:csv_search_btn_width="@dimen/width_40"
-        app:csv_search_btn_bg_color="@color/color_2878FF"
-        app:csv_search_btn_text_color="@color/color_FFFFFF"
-        app:csv_input_container_margin_right="@dimen/padding_10"
-        />
+        <cn.lvsong.lib.library.view.CustomEditMenu
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_50"
+            android:layout_marginTop="@dimen/padding_10"
+            app:cem_bottom_divider_color="@color/color_8A8EA3"
+            app:cem_bottom_divider_visible="true"
+            app:cem_left_image_drawable="@drawable/ic_baseline_assignment_returned_24"
+            app:cem_left_image_margin="@dimen/padding_10"
+            app:cem_left_text_info="左侧图片右侧输入框+图片"
+            app:cem_right_image_drawable="@drawable/ic_baseline_alarm_add_24"
+            app:cem_right_image_right_margin="@dimen/padding_10"
+            app:cem_right_input_hint_color="@color/color_B1B6D1"
+            app:cem_right_input_hint_text="请输入昵称" />
+
+        <cn.lvsong.lib.library.view.CustomEditMenu
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_50"
+            android:layout_marginTop="@dimen/padding_10"
+            app:cem_bottom_divider_color="@color/color_8A8EA3"
+            app:cem_bottom_divider_visible="true"
+            app:cem_left_image_drawable="@drawable/ic_baseline_assignment_returned_24"
+            app:cem_left_image_margin="@dimen/padding_10"
+            app:cem_left_text_info="左侧图片右侧输入框"
+            app:cem_right_image_visible="false"
+            app:cem_right_input_hint_color="@color/color_B1B6D1"
+            app:cem_right_input_hint_text="请输入昵称" />
 
 
-</LinearLayout>
+        <cn.lvsong.lib.library.view.CustomSearchView
+            android:id="@+id/csv_1"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_50"
+            android:layout_marginTop="@dimen/padding_10"
+            app:csv_input_container_drawable="@drawable/ic_gray_solid_rectangle_r5"
+            app:csv_input_container_margin_right="@dimen/padding_10"
+            app:csv_input_hint_text="请输入搜索内容"
+            app:csv_search_btn_bg_color="@color/color_2878FF"
+            app:csv_search_btn_text_color="@color/color_FFFFFF"
+            app:csv_search_btn_width="@dimen/width_40" />
+
+
+        <cn.lvsong.lib.library.view.CustomSearchView
+            android:id="@+id/csv_2"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_50"
+            android:layout_marginTop="@dimen/padding_10"
+            app:csv_input_container_drawable="@drawable/ic_gray_solid_rectangle_r5"
+            app:csv_input_container_margin_right="@dimen/padding_10"
+            app:csv_input_hint_text="点击整个搜索控件跳转"
+            app:csv_need_jump="true"
+            app:csv_search_btn_text_color="@color/color_FFFFFF"
+            app:csv_search_btn_visible="false" />
+
+        <!--  默认是图片在左,文字在右  -->
+        <cn.lvsong.lib.library.view.LeftImgAndRightTextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/height_50"
+            android:layout_marginTop="@dimen/padding_10"
+            app:lirt_iconDrawable="@drawable/ic_baseline_alarm_add_24"
+            app:lirt_text="左边图片,右边文字" />
+
+        <cn.lvsong.lib.library.view.LeftImgAndRightTextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/height_50"
+            android:layout_marginTop="@dimen/padding_10"
+            app:lirt_iconDrawable="@drawable/ic_baseline_alarm_add_24"
+            app:lirt_style="iconRight"
+            app:lirt_text="文字在左,图片在右" />
+
+        <cn.lvsong.lib.library.view.LeftImgAndRightTextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/height_50"
+            android:layout_marginTop="@dimen/padding_10"
+            app:lirt_iconDrawable="@drawable/ic_baseline_alarm_add_24"
+            app:lirt_style="iconUp"
+            app:lirt_spacing="@dimen/padding_2"
+            app:lirt_text="图片在上,文字在下" />
+
+        <cn.lvsong.lib.library.view.LeftImgAndRightTextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/height_50"
+            android:layout_marginTop="@dimen/padding_10"
+            app:lirt_iconDrawable="@drawable/ic_baseline_alarm_add_24"
+            app:lirt_style="iconBottom"
+            app:lirt_spacing="@dimen/padding_5"
+            app:lirt_text="文字在上,图片在下" />
+
+
+        <cn.lvsong.lib.library.view.TopImgAndBottomTextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_80"
+            android:layout_marginTop="@dimen/padding_10"
+            app:tibt_checked_drawable="@drawable/ic_baseline_assignment_returned_24"
+            app:tibt_normal_drawable="@drawable/ic_baseline_alarm_add_24"
+            app:tibt_tv_text="上面图片,下面文字" />
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

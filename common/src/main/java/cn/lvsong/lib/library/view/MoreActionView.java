@@ -22,23 +22,23 @@ import cn.lvsong.lib.library.R;
 
 /* 用法:
 
- <com.zh.cavas.sample.widget.MoreActionView
- android:id="@+id/more_action"
- android:layout_width="40dp"
- android:layout_height="40dp"
- android:layout_marginTop="20dp"
- app:mav_color="@android:color/black"
- app:mav_dot_radius="1.5dp"
- app:mav_orientation="vertical" />
+     <cn.lvsong.lib.library.view.MoreActionView
+         android:id="@+id/more_action"
+         android:layout_width="40dp"
+         android:layout_height="40dp"
+         android:layout_marginTop="20dp"
+         app:mav_color="@android:color/black"
+         app:mav_dot_radius="1.5dp"
+         app:mav_orientation="vertical" />
 
- <com.zh.cavas.sample.widget.MoreActionView
- android:id="@+id/more_action2"
- android:layout_width="40dp"
- android:layout_height="40dp"
- android:layout_marginTop="20dp"
- app:mav_color="@android:color/black"
- app:mav_dot_radius="1.5dp"
- app:mav_orientation="horizontal" />
+     <cn.lvsong.lib.library.view.MoreActionView
+         android:id="@+id/more_action2"
+         android:layout_width="40dp"
+         android:layout_height="40dp"
+         android:layout_marginTop="20dp"
+         app:mav_color="@android:color/black"
+         app:mav_dot_radius="1.5dp"
+         app:mav_orientation="horizontal" />
 
  */
 

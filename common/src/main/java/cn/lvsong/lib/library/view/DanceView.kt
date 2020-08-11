@@ -25,6 +25,24 @@ import cn.lvsong.lib.library.R
  * @UpdateRemark:
  * @Version:        1.0
  */
+
+/*
+    <cn.lvsong.lib.library.view.DanceView
+        android:id="@+id/dv_tips_item_people"
+        android:layout_width="@dimen/width_18"
+        android:layout_height="@dimen/height_18"
+        android:layout_marginStart="@dimen/padding_40"
+        android:layout_marginBottom="@dimen/padding_30"
+        app:dv_height_ratio="0.7"
+        app:dv_pillar_color="@color/color_FE2864"
+        app:dv_pillar_count="4"
+        app:dv_pillar_duration="800"
+        app:dv_space_ratio="0.5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+ */
+
 class DanceView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
 
     constructor(context: Context) : this(context, null)

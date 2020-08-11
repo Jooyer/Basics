@@ -20,19 +20,19 @@ import androidx.appcompat.widget.AppCompatEditText;
  * 原理: 在初始化时拿到设置的hint保存起来，然后清空EditText本身的hint，最后在onDraw()方法中绘制自己的hint
  */
 
-/**
- * 用法
- * <cn.lvsong.lib.ui.define.FixedCursorEditText
- * android:layout_width="280dp"
- * android:layout_height="50dp"
- * android:layout_marginTop="@dimen/padding_20"
- * android:hint="Android 自定义View绘制箭头"
- * android:gravity="center_vertical|right"
- * android:background="@null"
- * app:layout_constraintStart_toStartOf="parent"
- * app:layout_constraintEnd_toEndOf="parent"
- * app:layout_constraintTop_toBottomOf="@id/toolbar"
- * />
+/*
+   用法
+       <cn.lvsong.lib.ui.define.FixedCursorEditText
+           android:layout_width="280dp"
+           android:layout_height="50dp"
+           android:layout_marginTop="@dimen/padding_20"
+           android:hint="Android 自定义View绘制箭头"
+           android:gravity="center_vertical|right"
+           android:background="@null"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintTop_toBottomOf="@id/toolbar"
+       />
  */
 public class FixedCursorEditText extends AppCompatEditText {
 

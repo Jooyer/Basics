@@ -24,6 +24,25 @@ import cn.lvsong.lib.library.R;
  * @UpdateRemark:
  * @Version: 1.0
  */
+
+/*
+
+    <cn.lvsong.lib.library.view.NineImageLayout
+        android:id="@+id/nl_image_item_dynamic"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/padding_14"
+        android:layout_marginTop="@dimen/padding_10"
+        android:layout_marginEnd="@dimen/padding_14"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/atv_text_item_dynamic"
+        app:nl_image_gap="10dp"
+        app:nl_keep_place="true"
+        app:nl_single_image_width_ratio="0.8" />
+
+ */
+
 public class NineImageLayout extends ViewGroup {
     /**
      * 当只有一张图时Item宽度

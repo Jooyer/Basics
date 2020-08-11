@@ -21,20 +21,20 @@ import cn.lvsong.lib.library.R
  * @Version:        1.0
  */
 
-/**
- * 用法
-<cn.lvsong.lib.library.view.BadgeView
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-app:layout_constraintStart_toStartOf="parent"
-app:layout_constraintBottom_toBottomOf="parent"
-app:layout_constraintTop_toTopOf="parent"
-app:layout_constraintEnd_toEndOf="parent"
-app:bv_number="111"
-app:bv_text_size="@dimen/text_size_14"
-app:bv_stoke_width="1.5dp"
-app:bv_more_style="dot"
-/>
+/*
+  用法
+    <cn.lvsong.lib.library.view.BadgeView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:bv_number="111"
+        app:bv_text_size="@dimen/text_size_14"
+        app:bv_stoke_width="1.5dp"
+        app:bv_more_style="dot"
+    />
 
  */
 class BadgeView(context: Context, attr: AttributeSet?) : View(context, attr) {
@@ -69,7 +69,7 @@ class BadgeView(context: Context, attr: AttributeSet?) : View(context, attr) {
     /**
      * 上下间隔
      */
-    private var mTBPadding = DensityUtil.dp2pxRtInt(3F)* 2
+    private var mTBPadding = DensityUtil.dp2pxRtInt(3F) * 2
 
     /**
      * 左右间隔
@@ -112,12 +112,16 @@ class BadgeView(context: Context, attr: AttributeSet?) : View(context, attr) {
             val arr = context.obtainStyledAttributes(attrs, R.styleable.BadgeView)
             val medium = arr.getBoolean(R.styleable.BadgeView_bv_text_medium, true)
             mTextPaint.isFakeBoldText = medium
-            mTBPadding = arr.getDimensionPixelOffset(R.styleable.BadgeView_bv_tb_padding, mTBPadding / 2) * 2
-            mLRPadding = arr.getDimensionPixelOffset(R.styleable.BadgeView_bv_lr_padding, mLRPadding / 2) * 2
+            mTBPadding =
+                arr.getDimensionPixelOffset(R.styleable.BadgeView_bv_tb_padding, mTBPadding / 2) * 2
+            mLRPadding =
+                arr.getDimensionPixelOffset(R.styleable.BadgeView_bv_lr_padding, mLRPadding / 2) * 2
             mStrokeWidth = arr.getDimension(R.styleable.BadgeView_bv_stoke_width, mStrokeWidth)
             mStrokePaint.strokeWidth = mStrokeWidth
             mStrokePaint.color = arr.getColor(R.styleable.BadgeView_bv_stoke_color, Color.WHITE)
-            mTextSize = arr.getDimensionPixelSize(R.styleable.BadgeView_bv_text_size, mTextSize.toInt()).toFloat()
+            mTextSize =
+                arr.getDimensionPixelSize(R.styleable.BadgeView_bv_text_size, mTextSize.toInt())
+                    .toFloat()
             mTextPaint.textSize = mTextSize
             mTextPaint.color = arr.getColor(R.styleable.BadgeView_bv_text_color, Color.WHITE)
             mBgPaint.color = arr.getColor(R.styleable.BadgeView_bv_background_color, Color.RED)
@@ -134,15 +138,19 @@ class BadgeView(context: Context, attr: AttributeSet?) : View(context, attr) {
         val textHeight = (mTBPadding + mTextSize).toInt()
         if (textWidth > textHeight) {
             setMeasuredDimension(textWidth, textHeight)
-            mRectF.set(0.5F,
-                    0.5F,
-                    textWidth - 0.5F,
-                    textHeight - 0.5F)
+            mRectF.set(
+                0.5F,
+                0.5F,
+                textWidth - 0.5F,
+                textHeight - 0.5F
+            )
 
-            mStrokeRectF.set(mStrokeWidth / 2,
-                    mStrokeWidth / 2,
-                    textWidth - mStrokeWidth / 2,
-                    textHeight - mStrokeWidth / 2)
+            mStrokeRectF.set(
+                mStrokeWidth / 2,
+                mStrokeWidth / 2,
+                textWidth - mStrokeWidth / 2,
+                textHeight - mStrokeWidth / 2
+            )
         } else {
             setMeasuredDimension(textHeight, textHeight)
         }
@@ -157,7 +165,12 @@ class BadgeView(context: Context, attr: AttributeSet?) : View(context, attr) {
             canvas.drawCircle(width / 2F, height / 2F, (height - mStrokeWidth) / 2F, mStrokePaint)
         } else {
             canvas.drawRoundRect(mRectF, height / 2F, height / 2F, mBgPaint)
-            canvas.drawRoundRect(mStrokeRectF, (height - mStrokeWidth) / 2F, (height - mStrokeWidth) / 2F, mStrokePaint)
+            canvas.drawRoundRect(
+                mStrokeRectF,
+                (height - mStrokeWidth) / 2F,
+                (height - mStrokeWidth) / 2F,
+                mStrokePaint
+            )
         }
         canvas.drawText(getShowText(), (width - textWidth) / 2F, y, mTextPaint)
     }

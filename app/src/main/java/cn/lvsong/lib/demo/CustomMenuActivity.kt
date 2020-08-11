@@ -3,6 +3,7 @@ package cn.lvsong.lib.demo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import cn.lvsong.lib.library.view.CustomSearchView
 import cn.lvsong.lib.ui.ui.BaseActivity
 import kotlinx.android.synthetic.main.activity_custom_menu.*
@@ -43,6 +44,12 @@ class CustomMenuActivity : BaseActivity() {
 
             }
 
+        })
+
+        csv_2.setOnSearchListener(object :CustomSearchView.OnSearchListener{
+            override fun onJump(view: View) {
+                Toast.makeText(this@CustomMenuActivity,"点击可以在此执行跳转逻辑",Toast.LENGTH_SHORT).show()
+            }
         })
 
     }

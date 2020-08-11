@@ -1,22 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-<!--    <attr name="backColor" format="color" />-->
-<!--    <attr name="backColorPress" format="color" />-->
-<!--    <attr name="textColor" format="color" />-->
-<!--    <attr name="textColorPress" format="color" />-->
-
     <declare-styleable name="LeftImgAndRightTextView">
-        <attr name="itv_backColor" format="color"/>
-        <attr name="itv_backColorPress" format="color"/>
-        <attr name="itv_textColor" format="color"/>
-        <attr name="itv_textColorPress" format="color"/>
-        <attr name="itv_iconDrawable" format="reference" />
-        <attr name="itv_iconDrawablePress" format="reference" />
-        <attr name="itv_text" format="string" />
-        <attr name="itv_textSize" format="float" />
-        <attr name="itv_spacing" format="dimension" />
-        <attr name="itv_style">
+        <attr name="lirt_backColor" format="color"/>
+        <attr name="lirt_backColorPress" format="color"/>
+        <attr name="lirt_textColor" format="color"/>
+        <attr name="lirt_textColorPress" format="color"/>
+        <attr name="lirt_iconDrawable" format="reference" />
+        <attr name="lirt_iconDrawablePress" format="reference" />
+        <attr name="lirt_text" format="string" />
+        <attr name="lirt_textSize" format="float" />
+        <attr name="lirt_spacing" format="dimension" />
+        <attr name="lirt_style">
             <enum name="iconLeft" value="0" />
             <enum name="iconRight" value="1" />
             <enum name="iconUp" value="2" />

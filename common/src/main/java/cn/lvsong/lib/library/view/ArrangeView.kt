@@ -25,6 +25,22 @@ import cn.lvsong.lib.library.R
  * 2，用setZ(float),自定义Z值，值越大越优先绘制；
  * https://github.com/hnsycsxhzcsh/DiscussionAvatarView
  */
+
+
+/*
+    <cn.lvsong.lib.library.view.ArrangeView
+        android:id="@+id/av_avatar_item_people"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/height_25"
+        android:layout_marginEnd="@dimen/padding_32"
+        app:av_first_show_top="false"
+        app:av_show_count="6"
+        app:av_space_width="5dp"
+        app:layout_constraintBottom_toBottomOf="@id/dv_tips_item_people"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/dv_tips_item_people" />
+ */
+
 class ArrangeView(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs) {
 
     /**

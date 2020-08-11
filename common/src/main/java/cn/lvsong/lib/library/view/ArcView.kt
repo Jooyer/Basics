@@ -25,7 +25,7 @@ import cn.lvsong.lib.library.R
 /*
  用法
 
-    <com.yayd.live.base.view.ArcView
+    <cn.lvsong.lib.library.view.ArcView
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_220"
         app:av_bezier_ratio="1.4"

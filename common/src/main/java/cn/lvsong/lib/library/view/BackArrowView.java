@@ -24,7 +24,7 @@ import cn.lvsong.lib.library.R;
 
 /* 用法:
 
-<com.zh.cavas.sample.widget.BackArrowView
+<cn.lvsong.lib.library.view.BackArrowView
     android:id="@+id/back_arrow"
     android:layout_width="40dp"
     android:layout_height="40dp"
@@ -33,7 +33,7 @@ import cn.lvsong.lib.library.R;
     app:bav_color="@android:color/black"
     app:bav_stroke_width="1.5dp" />
 
-<com.zh.cavas.sample.widget.BackArrowView
+<cn.lvsong.lib.library.view.BackArrowView
     android:id="@+id/back_arrow2"
     android:layout_width="40dp"
     android:layout_height="40dp"

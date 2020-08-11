@@ -41,16 +41,17 @@ class TopImgAndBottomTextView(context: Context, attr: AttributeSet) : LinearLayo
 
     private fun parse(context: Context, attr: AttributeSet) {
         LayoutInflater.from(context).inflate(R.layout.common_ui_top_img_bottom_text_view, this, true)
+        
         val arr = context.obtainStyledAttributes(attr, R.styleable.TopImgAndBottomTextView)
-        mNormalDrawable = arr.getDrawable(R.styleable.TopImgAndBottomTextView_itv_normal_drawable)
-        mCheckedDrawable = arr.getDrawable(R.styleable.TopImgAndBottomTextView_itv_checked_drawable)
-        mChecked = arr.getBoolean(R.styleable.TopImgAndBottomTextView_itv_iv_checked, mChecked)
-        mImgWidth = arr.getDimensionPixelOffset(R.styleable.TopImgAndBottomTextView_itv_iv_width, mImgWidth)
-        mImgHeight = arr.getDimensionPixelOffset(R.styleable.TopImgAndBottomTextView_itv_iv_height, mImgHeight)
-        val marginTop = arr.getDimensionPixelSize(R.styleable.TopImgAndBottomTextView_itv_tv_margin_top, DensityUtil.dp2pxRtInt(10F))
-        val text = arr.getString(R.styleable.TopImgAndBottomTextView_itv_tv_text)
-        val textColor = arr.getColor(R.styleable.TopImgAndBottomTextView_itv_tv_text_color, ContextCompat.getColor(context, R.color.color_333333))
-        val textSize = arr.getDimensionPixelSize(R.styleable.TopImgAndBottomTextView_itv_tv_text_size, DensityUtil.sp2pxRtFloat(14F).toInt()).toFloat()
+        mNormalDrawable = arr.getDrawable(R.styleable.TopImgAndBottomTextView_tibt_normal_drawable)
+        mCheckedDrawable = arr.getDrawable(R.styleable.TopImgAndBottomTextView_tibt_checked_drawable)
+        mChecked = arr.getBoolean(R.styleable.TopImgAndBottomTextView_tibt_iv_checked, mChecked)
+        mImgWidth = arr.getDimensionPixelOffset(R.styleable.TopImgAndBottomTextView_tibt_iv_width, mImgWidth)
+        mImgHeight = arr.getDimensionPixelOffset(R.styleable.TopImgAndBottomTextView_tibt_iv_height, mImgHeight)
+        val marginTop = arr.getDimensionPixelSize(R.styleable.TopImgAndBottomTextView_tibt_tv_margin_top, DensityUtil.dp2pxRtInt(10F))
+        val text = arr.getString(R.styleable.TopImgAndBottomTextView_tibt_tv_text)
+        val textColor = arr.getColor(R.styleable.TopImgAndBottomTextView_tibt_tv_text_color, ContextCompat.getColor(context, R.color.color_333333))
+        val textSize = arr.getDimensionPixelSize(R.styleable.TopImgAndBottomTextView_tibt_tv_text_size, DensityUtil.sp2pxRtFloat(14F).toInt()).toFloat()
 
         val ivLp = aiv_icon_top_image.layoutParams as LinearLayout.LayoutParams
         ivLp.width = mImgWidth

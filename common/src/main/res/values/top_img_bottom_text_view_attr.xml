@@ -3,23 +3,23 @@
 
     <declare-styleable name="TopImgAndBottomTextView">
         <!-- 未选择Drawable -->
-        <attr name="itv_normal_drawable" format="reference" />
+        <attr name="tibt_normal_drawable" format="reference" />
         <!-- 选择Drawable -->
-        <attr name="itv_checked_drawable" format="reference" />
+        <attr name="tibt_checked_drawable" format="reference" />
         <!-- 是否被选中 -->
-        <attr name="itv_iv_checked" format="boolean" />
+        <attr name="tibt_iv_checked" format="boolean" />
         <!-- 图片宽度 -->
-        <attr name="itv_iv_width" format="reference|dimension" />
+        <attr name="tibt_iv_width" format="reference|dimension" />
         <!-- 图片高度 -->
-        <attr name="itv_iv_height" format="reference|dimension" />
+        <attr name="tibt_iv_height" format="reference|dimension" />
         <!-- 文本距离图片间隔 -->
-        <attr name="itv_tv_margin_top" format="reference|dimension" />
+        <attr name="tibt_tv_margin_top" format="reference|dimension" />
         <!-- 文本内容 -->
-        <attr name="itv_tv_text" format="string|reference" />
+        <attr name="tibt_tv_text" format="string|reference" />
         <!-- 文字颜色 -->
-        <attr name="itv_tv_text_color" format="color|reference" />
+        <attr name="tibt_tv_text_color" format="color|reference" />
         <!-- 文字大小 -->
-        <attr name="itv_tv_text_size" format="reference|dimension" />
+        <attr name="tibt_tv_text_size" format="reference|dimension" />
     </declare-styleable>
 
 </resources>

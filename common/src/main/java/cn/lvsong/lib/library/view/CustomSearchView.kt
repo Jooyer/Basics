@@ -156,7 +156,7 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
             ContextCompat.getColor(context, R.color.color_666666)
         )
 
-        val showBtn = arr.getBoolean(R.styleable.CustomSearchView_csv_show_search_btn, true)
+        val showBtn = arr.getBoolean(R.styleable.CustomSearchView_csv_search_btn_visible, true)
         val btnText = arr.getString(R.styleable.CustomSearchView_csv_search_btn_text)
         val btnTextSize = arr.getDimensionPixelSize(
             R.styleable.CustomSearchView_csv_search_btn_text_size,

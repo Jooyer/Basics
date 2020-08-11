@@ -115,7 +115,7 @@ public class LeftImgAndRightTextView extends RelativeLayout {
                 attrs, R.styleable.LeftImgAndRightTextView, defStyle, 0);
         if (a != null) {
             //设置背景色
-            ColorStateList colorList = a.getColorStateList(R.styleable.LeftImgAndRightTextView_itv_backColor);
+            ColorStateList colorList = a.getColorStateList(R.styleable.LeftImgAndRightTextView_lirt_backColor);
             if (colorList != null) {
                 backColor = colorList.getColorForState(getDrawableState(), 0);
                 if (backColor != 0) {
@@ -123,40 +123,40 @@ public class LeftImgAndRightTextView extends RelativeLayout {
                 }
             }
             //记录View被按下时的背景色
-            ColorStateList colorListPress = a.getColorStateList(R.styleable.LeftImgAndRightTextView_itv_backColorPress);
+            ColorStateList colorListPress = a.getColorStateList(R.styleable.LeftImgAndRightTextView_lirt_backColorPress);
             if (colorListPress != null) {
                 backColorPress = colorListPress.getColorForState(getDrawableState(), 0);
             }
             //设置icon
-            iconDrawable = a.getDrawable(R.styleable.LeftImgAndRightTextView_itv_iconDrawable);
+            iconDrawable = a.getDrawable(R.styleable.LeftImgAndRightTextView_lirt_iconDrawable);
             if (iconDrawable != null) {
                 ivIcon.setImageDrawable(iconDrawable);
             }
             //记录View被按下时的icon的图片
-            iconDrawablePress = a.getDrawable(R.styleable.LeftImgAndRightTextView_itv_iconDrawablePress);
+            iconDrawablePress = a.getDrawable(R.styleable.LeftImgAndRightTextView_lirt_iconDrawablePress);
             //设置文字的颜色
-            textColor = a.getColorStateList(R.styleable.LeftImgAndRightTextView_itv_textColor);
+            textColor = a.getColorStateList(R.styleable.LeftImgAndRightTextView_lirt_textColor);
             if (textColor != null) {
                 tvContent.setTextColor(textColor);
             }
             //记录View被按下时文字的颜色
-            textColorPress = a.getColorStateList(R.styleable.LeftImgAndRightTextView_itv_textColorPress);
+            textColorPress = a.getColorStateList(R.styleable.LeftImgAndRightTextView_lirt_textColorPress);
             //设置显示的文本内容
-            String text = a.getString(R.styleable.LeftImgAndRightTextView_itv_text);
+            String text = a.getString(R.styleable.LeftImgAndRightTextView_lirt_text);
             if (text != null) {
                 //默认为隐藏的，设置文字后显示出来
                 tvContent.setVisibility(VISIBLE);
                 tvContent.setText(text);
             }
             //设置文本字体大小
-            float textSize = a.getFloat(R.styleable.LeftImgAndRightTextView_itv_textSize, 0);
+            float textSize = a.getFloat(R.styleable.LeftImgAndRightTextView_lirt_textSize, 0);
             if (textSize != 0) {
                 tvContent.setTextSize(textSize);
             }
             //设置两个控件之间的间距
-            spacing = a.getDimensionPixelSize(R.styleable.LeftImgAndRightTextView_itv_spacing, dp2px(context, 8));
+            spacing = a.getDimensionPixelSize(R.styleable.LeftImgAndRightTextView_lirt_spacing, dp2px(context, 8));
             //设置两个控件的位置结构
-            mStyle = a.getInt(R.styleable.LeftImgAndRightTextView_itv_style, 0);
+            mStyle = a.getInt(R.styleable.LeftImgAndRightTextView_lirt_style, 0);
             setIconStyle(mStyle);
             a.recycle();
         }
@@ -251,7 +251,7 @@ public class LeftImgAndRightTextView extends RelativeLayout {
                 lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
                 lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
                 lp.addRule(RelativeLayout.BELOW, tvContent.getId());
-                lp.bottomMargin = spacing;
+                lp.topMargin = spacing;
                 ivIcon.setLayoutParams(lp);
                 break;
             default:
