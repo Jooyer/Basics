@@ -29,13 +29,55 @@ class MainActivity : BaseActivity() {
             .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
             .setCornerRadius(DensityUtil.dp2pxRtInt(5))
             .create()
+
+        btn_2.background = SelectorFactory.newShapeSelector()
+            .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
+            .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
+            .setCornerRadius(DensityUtil.dp2pxRtInt(5))
+            .create()
+
+        btn_3.background = SelectorFactory.newShapeSelector()
+            .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
+            .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
+            .setCornerRadius(DensityUtil.dp2pxRtInt(5))
+            .create()
+
+        btn_4.background = SelectorFactory.newShapeSelector()
+            .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
+            .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
+            .setCornerRadius(DensityUtil.dp2pxRtInt(5))
+            .create()
+
+        btn_5.background = SelectorFactory.newShapeSelector()
+            .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
+            .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
+            .setCornerRadius(DensityUtil.dp2pxRtInt(5))
+            .create()
+
+        btn_6.background = SelectorFactory.newShapeSelector()
+            .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
+            .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
+            .setCornerRadius(DensityUtil.dp2pxRtInt(5))
+            .create()
+
+        btn_7.background = SelectorFactory.newShapeSelector()
+            .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
+            .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
+            .setCornerRadius(DensityUtil.dp2pxRtInt(5))
+            .create()
+
+        btn_8.background = SelectorFactory.newShapeSelector()
+            .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
+            .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
+            .setCornerRadius(DensityUtil.dp2pxRtInt(5))
+            .create()
     }
 
     /**
      * 普通刷新加载
      */
     fun onNormalRefresh(view: View) {
-        startActivity(Intent(this,NormalRefreshActivity::class.java))
+        startActivity(Intent(this,UnNestedRefreshActivity::class.java))
     }
 
     /**
@@ -70,6 +112,17 @@ class MainActivity : BaseActivity() {
      */
     fun onEncodeOrDecode(view: View) {
         startActivity(Intent(this,EncodeOrDecodeActivity::class.java))
+    }
+
+    /**
+     * 自定义 CustomToolbar
+     */
+    fun onCustomToolbar(view: View) {
+        startActivity(Intent(this,CustomToolbarActivity::class.java))
+    }
+
+    fun onCustomMenu(view: View) {
+        startActivity(Intent(this,CustomMenuActivity::class.java))
     }
 
 

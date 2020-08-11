@@ -12,7 +12,8 @@ import androidx.core.content.ContextCompat;
 
 import cn.lvsong.lib.library.R;
 
-/** 参考: https://www.jianshu.com/p/7a61d5714136?utm_campaign=haruki&utm_content=note&utm_medium=reader_share&utm_source=weixin
+/**
+ * 参考: https://www.jianshu.com/p/7a61d5714136?utm_campaign=haruki&utm_content=note&utm_medium=reader_share&utm_source=weixin
  * Desc: Android 自定义View绘制更多操作按钮
  * Author: Jooyer
  * Date: 2020-02-28
@@ -124,7 +125,7 @@ public class MoreActionView extends View {
         //计算半径
         float radius = Math.min(mViewWidth, mViewHeight) / 2F;
         //计算每个点之间的距离，半径的一半，再减去原点的直径
-        mDotDistance = (radius*3F/ 5F) - (mDotRadius * 2);
+        mDotDistance = (radius * 3F / 5F) - (mDotRadius * 2);
     }
 
     @Override

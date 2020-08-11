@@ -24,7 +24,7 @@ import cn.lvsong.lib.library.R
 
 /*
 
-    <cn.lvsong.lib.ui.define.CustomEditMenu
+    <cn.lvsong.lib.library.view.CustomEditMenu
         android:id="@+id/cm_cn_name_publish_help"
         android:layout_width="0dp"
         android:layout_height="@dimen/height_40"
@@ -41,9 +41,9 @@ import cn.lvsong.lib.library.R
         app:cem_left_text_info="书籍名称"
         app:cem_left_text_left_margin="@dimen/padding_10"
         app:cem_left_text_size="15"
-        app:cem_right_input_hint_text="请输入昵称"
         app:cem_right_image_drawable="@mipmap/ic_launcher"
         app:cem_right_image_visible="false"
+        app:cem_right_input_hint_text="请输入昵称"
         app:cem_right_input_right_margin="@dimen/padding_10"
         app:cem_right_input_right_padding="@dimen/padding_40"
         app:cem_right_input_text_size="14"

@@ -27,7 +27,7 @@
         <!-- 紧靠右侧的文本 -->
         <attr name="cm_right_text_info" format="reference|string"/>
         <!-- 紧靠右侧的提示文本 -->
-        <attr name="cm_right_hint_text_info" format="reference|string"/>
+<!--        <attr name="cm_right_hint_text_info" format="reference|string"/>-->
         <!-- 紧靠右侧的文本是否可见 -->
         <attr name="cm_right_text_visible" format="boolean"/>
         <!-- 紧靠右侧的文本大小 -->
@@ -56,7 +56,7 @@
         <!-- 紧靠右侧图标顶部Margin,距离最上面,默认0dp -->
         <attr name="cm_right_near_image_top_margin" format="dimension|integer"/>
         <!-- 紧靠右侧是否垂直居中,模式是的 -->
-        <attr name="cm_right_near_image_center_vertical" format="boolean"/>
+<!--        <attr name="cm_right_near_image_center_vertical" format="boolean"/>-->
         <!-- 最右侧箭头的是否可见 -->
         <attr name="cm_right_arrow_visible" format="boolean"/>
         <!-- 最右侧箭头的 颜色 -->

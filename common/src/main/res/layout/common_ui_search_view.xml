@@ -8,7 +8,7 @@
 
 
     <cn.lvsong.lib.library.view.BackArrowView
-        android:id="@+id/ab_search_left_back"
+        android:id="@+id/bab_search_left_back"
         android:layout_width="@dimen/width_40"
         android:layout_height="0dp"
         app:bav_arrow_padding="@dimen/padding_2"
@@ -23,8 +23,8 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/height_40"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/acb_search_right_btn"
-        app:layout_constraintStart_toEndOf="@id/ab_search_left_back"
+        app:layout_constraintEnd_toStartOf="@id/act_search_right_btn"
+        app:layout_constraintStart_toEndOf="@id/bab_search_left_back"
         app:layout_constraintTop_toTopOf="parent">
 
         <cn.lvsong.lib.library.view.AndroidSearchView
@@ -64,9 +64,9 @@
             tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-e
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/acb_search_right_btn"
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/act_search_right_btn"
         android:layout_width="@dimen/width_40"
         android:layout_height="@dimen/height_40"
         android:gravity="center"

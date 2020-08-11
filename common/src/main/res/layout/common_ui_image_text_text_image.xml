@@ -14,7 +14,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@mipmap/ic_launcher" />
+        tools:src="@drawable/ic_baseline_alarm_add_24" />
 
     <TextView
         android:id="@+id/tv_left_name_menu"
@@ -51,7 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
-        android:text="关云长"
+        tools:text="关云长"
         android:textColor="@color/color_333333"
         android:textSize="@dimen/text_size_15"
         android:visibility="visible"
@@ -65,7 +65,6 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/iv_right_arrow_menu"
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@mipmap/ic_launcher"

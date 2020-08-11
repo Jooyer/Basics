@@ -19,13 +19,7 @@ import androidx.annotation.RequiresApi;
 import cn.lvsong.lib.library.R;
 
 /**
- * https://blog.csdn.net/chaoyangsun/article/details/94398225  --> Scroller
- * https://www.jianshu.com/p/8be7458c644b --> NestedScrollingParent
- * https://github.com/baiduapp-tec/ELinkageScroll --> 多子view嵌套滚动通用解决方案
- * 1. 阻尼效果已完成
- * 2. TargetView 非 NestedScrollChild , 未完成(监听拦截里面处理)
- * 3. 如果分页没有记得调用 setNoMoreData(true) , 特别是在 CoordinatorLayout 嵌套中,如果列表数据不满一屏时(即加载首页手机下面还有留白),
- * 往上刷动会触发上拉加载,而不是先滑动AppBarLayout等内部控件
+ * 不知道嵌套刷新
  */
 
 public class UnNestedRefreshLayout extends ViewGroup {
@@ -152,9 +146,7 @@ public class UnNestedRefreshLayout extends ViewGroup {
      */
     private boolean mFlingScroll = false;
     /**
-     * 第一次加载时,如果没有更多数据,底部显示什么
-     * 也是为了解决 CoordinatorLayout + TabLayout + ViewPager + RecyclerView下
-     * 列表数据 + 上部折叠部分一起不够屏幕高度,造成上滑联动异常(加载更多会提前显示)
+     * 第一次加载时,如果没有更多数据,底部显示什么,也是为了解决列表数据不够屏幕高度
      */
     private int mShowStyleFirstTime = 1;
     /**
@@ -173,17 +165,16 @@ public class UnNestedRefreshLayout extends ViewGroup {
                 for (int i = 0; i < count; i++) {
                     height += mTargetView.getChildAt(i).getHeight();
                 }
-                if (height < mTargetView.getHeight()) {
-                    if (2 == mShowStyleFirstTime) {
+                if (height < mTargetView.getHeight()) { // 列表实际高度小于控件高度
+                    if (2 == mShowStyleFirstTime) { // 模式二显示更多
                         setNoMoreData(true);
-                    } else {
+                    } else { // 模式一没有加载更多
                         setLoadable(false);
                     }
                 } else {
                     setLoadable(true);
                     setNoMoreData(false);
                 }
-//                Log.e("JRefreshLayout", "onSizeChanged=======items.height: " + height + " =====mTargetView: " + mTargetView.getHeight());
             }
         }
     };
@@ -277,7 +268,8 @@ public class UnNestedRefreshLayout extends ViewGroup {
 
     private void parseAttrs(Context context, AttributeSet attrs) {
         TypedArray arr = context.obtainStyledAttributes(attrs, R.styleable.UnNestedRefreshLayout);
-        mShowStyleFirstTime = arr.getInt(R.styleable.UnNestedRefreshLayout_uurl_no_more_first_time, 1);
+        mShowStyleFirstTime = arr.getInt(R.styleable.UnNestedRefreshLayout_unrl_no_more_first_time, 1);
+        mScrollerMoveTime = arr.getFloat(R.styleable.UnNestedRefreshLayout_unrl_scroll_time, 800F);
         arr.recycle();
     }
 
@@ -529,8 +521,7 @@ public class UnNestedRefreshLayout extends ViewGroup {
                 mActivePointerId = ev.getPointerId(0);
                 mIsBeingDragged = false;
                 break;
-
-            case MotionEvent.ACTION_MOVE: {
+            case MotionEvent.ACTION_MOVE:
                 pointerIndex = ev.findPointerIndex(mActivePointerId);
                 if (pointerIndex < 0) {
                     return false;
@@ -539,25 +530,22 @@ public class UnNestedRefreshLayout extends ViewGroup {
 //                startDragging(y);
                 if (mIsBeingDragged) {
                     final float overScrollTop = (y - mRealMoveY);
-                    if (canChildScrollUp() ) {
+                    if (canChildScrollUp() && mRefreshable) {
                         refreshScroll(-(int) overScrollTop);
-                    } else if (canChildScrollDown()) {
+                    } else if (canChildScrollDown() && mLoadable) {
                         loadScroll(-(int) overScrollTop);
                     }
                 }
                 mRealMoveY = y;
                 break;
-            }
-            case MotionEvent.ACTION_POINTER_DOWN: {
+            case MotionEvent.ACTION_POINTER_DOWN:
                 pointerIndex = ev.getActionMasked();
                 if (pointerIndex < 0) {
                     return false;
                 }
                 mActivePointerId = ev.getPointerId(pointerIndex);
                 break;
-            }
-
-            case MotionEvent.ACTION_UP: {
+            case MotionEvent.ACTION_UP:
                 pointerIndex = ev.findPointerIndex(mActivePointerId);
                 if (pointerIndex < 0) {
                     return false;
@@ -565,76 +553,23 @@ public class UnNestedRefreshLayout extends ViewGroup {
 
                 if (mIsBeingDragged) {
                     mIsBeingDragged = false;
-//                    if (getScrollY() > 0) {
-//                        stopLoadScroll();
-//                    } else if (getScrollY() < 0) {
-//                        stopRefreshScroll();
-//                    }
                     resetScroll();
                 }
                 mActivePointerId = INVALID_POINTER;
                 return false;
-            }
             case MotionEvent.ACTION_CANCEL:
                 resetScroll();
                 return false;
         }
-//        Log.e("PowerRefresh", "onTouchEvent=========2 ");
         return true;
-    }
-
-    /**
-     * 不支持嵌套滑动时加载滑动处理
-     */
-    private void loadScroll(int dy) {
-        Log.e("JRefreshLayout", "loadScroll=====getScrollY: " + getScrollY() + " =====dy: " + dy + " ======mLoadScrollY: " + mLoadScrollY);
-        if (!mLoading && dy < 0 && mLoadScrollY > 0 && canChildScrollDown()) { // 上滑且没有达到加载状态(可以是没有达到必要高度/达到高度没有松手)往下滑动
-            mLoadScrollY -= dy;
-            if (mLoadScrollY > mFooterViewHeight) { // 松手可以加载
-                Log.e("JRefreshLayout", "loadScroll=======  111 mStatus: " + mStatus);
-                updateStatus(RefreshState.FOOTER_RELEASE);
-            } else {
-                Log.e("JRefreshLayout", "loadScroll=======  222 mStatus: " + mStatus);
-                updateStatus(RefreshState.FOOTER_PULL);
-            }
-            if (mLoadScrollY < 0) {
-                int consumedY = mLoadScrollY + dy;
-                scrollBy(0, consumedY);
-                mLoadScrollY = 0;
-            } else {
-                scrollBy(0, dy);
-            }
-        } else if (!mLoading && dy > 0 && mLoadScrollY < mLoadHeight) { // 还没达到刷加载状态(可以是没有达到必要高度/达到高度没有松手)往上滑动
-            mLoadScrollY += -dy;
-            if (Math.abs(mLoadScrollY) > mFooterViewHeight) { // 松手可以加载
-                Log.e("JRefreshLayout", "loadScroll=======  333 mStatus: " + mStatus);
-                updateStatus(RefreshState.FOOTER_RELEASE);
-            } else {
-                Log.e("JRefreshLayout", "loadScroll=======  444 mStatus: " + mStatus);
-                updateStatus(RefreshState.FOOTER_PULL);
-            }
-            if (Math.abs(mLoadScrollY) > mLoadHeight) { //零界点,再加上本次滑动,大于了 FooterView 允许滑动距离
-                int consumedY = mLoadHeight + mLoadScrollY + dy;
-                mLoadScrollY = mLoadHeight;
-                scrollBy(0, consumedY);
-            } else {
-                scrollBy(0, dy);
-            }
-        }
-//        else if(getScrollY() > 0){ //  上拉不松这里偶问题
-//            updateStatus(RefreshState.DEFAULT);
-//            mLoadScrollY = 0;
-//            Log.e("JRefreshLayout", "loadScroll=======  555 mStatus: " + mStatus);
-//            scrollBy(0, dy);
-//        }
     }
 
     /**
      * 不支持嵌套滑动时刷新滑动处理
      */
     private void refreshScroll(int dy) {
-        Log.e("JRefreshLayout", "refreshScroll=======dy: " + dy + " =====mRefreshScrollY: " + mRefreshScrollY);
-        if (!mRefreshing && dy < 0 && mRefreshScrollY < mRefreshHeight && canChildScrollUp()) { // 下滑且没有达到刷新状态(可以是没有达到必要高度/达到高度没有松手)
+        Log.e("JRefreshLayout", "refreshScroll=======dy: " + dy + " =====mRefreshScrollY: " + mRefreshScrollY + " =====ScrollY: " + getScrollY() + " ===mRefreshHeight: " + mRefreshHeight);
+        if (!mRefreshing && dy < 0 && mRefreshScrollY < mRefreshHeight && canChildScrollUp()) { // 下滑
             mRefreshScrollY += -dy;
             if (mRefreshScrollY > mHeaderViewHeight) { // 松手可以刷新
                 updateStatus(RefreshState.HEADER_RELEASE);
@@ -644,26 +579,82 @@ public class UnNestedRefreshLayout extends ViewGroup {
             if (mRefreshScrollY > mRefreshHeight) { //零界点,再加上本次滑动,大于了 HeaderView 允许滑动距离
                 int consumedY = mRefreshScrollY + dy - mRefreshHeight;
                 mRefreshScrollY = mRefreshHeight;
+                Log.e("JRefreshLayout", "refreshScroll=======  1 ");
                 scrollBy(0, consumedY);
             } else {
+                Log.e("JRefreshLayout", "refreshScroll=======  2 ");
                 scrollBy(0, dy);
             }
-            Log.e("JRefreshLayout", "refreshScroll=======  1 ");
-        } else if (!mRefreshing && dy > 0 && mRefreshScrollY >= 0) { // 还没达到刷新状态(可以是没有达到必要高度/达到高度没有松手)往上滑动
+        } else if (!mRefreshing && dy > 0 && mRefreshScrollY > 0) { // 上滑
             mRefreshScrollY -= dy;
             if (mRefreshScrollY > mHeaderViewHeight) { // 松手可以刷新
                 updateStatus(RefreshState.HEADER_RELEASE);
             } else {
                 updateStatus(RefreshState.HEADER_DRAG);
             }
-            if (mRefreshScrollY < 0) {
-                int consumedY = mRefreshScrollY + dy;
-                scrollBy(0, consumedY);
+            if (mRefreshScrollY < 0) { // 此时将不能滑动, consumedY实际上为0
+                Log.e("JRefreshLayout", "refreshScroll=======  3 ");
+//                int consumedY = mRefreshScrollY + dy;
+//                scrollBy(0, consumedY);
                 mRefreshScrollY = 0;
             } else {
+                Log.e("JRefreshLayout", "refreshScroll=======  4 ");
                 scrollBy(0, dy);
             }
-            Log.e("JRefreshLayout", "refreshScroll=======  3 ");
+        } else if (0 == mRefreshScrollY && getScrollY() < 0) { // 修复误差
+            Log.e("JRefreshLayout", "refreshScroll=======ScrollY: " + getScrollY());
+            scrollBy(0, -getScrollY());
+        }
+    }
+
+    /**
+     * 不支持嵌套滑动时加载滑动处理
+     */
+    private void loadScroll(int dy) {
+        Log.e("JRefreshLayout", "loadScroll=====getScrollY: " + getScrollY() + " =====dy: " + dy + " ======mLoadScrollY: " + mLoadScrollY + " ===mFooterViewHeight: " + mFooterViewHeight);
+        if (!mLoading && dy < 0 && mLoadScrollY > 0 && canChildScrollDown()) { // 下滑
+            mLoadScrollY += dy;
+            if (!noMoreData) { // 有更多数据则更新状态
+                if (mLoadScrollY > mFooterViewHeight) { // 松手可以加载
+                    Log.e("JRefreshLayout", "loadScroll=======  111 mStatus: " + mStatus);
+                    updateStatus(RefreshState.FOOTER_RELEASE);
+                } else {
+                    Log.e("JRefreshLayout", "loadScroll=======  222 mStatus: " + mStatus);
+                    updateStatus(RefreshState.FOOTER_PULL);
+                }
+            }
+            if (mLoadScrollY < 0) {
+                Log.e("JRefreshLayout", "loadScroll=======  333 ");
+//                int consumedY = mLoadScrollY + dy;
+//                scrollBy(0,consumedY);
+                mLoadScrollY = 0;
+            } else {
+                Log.e("JRefreshLayout", "loadScroll=======  444 ");
+                scrollBy(0, dy);
+            }
+        } else if (!mLoading && dy > 0 && mLoadScrollY < mLoadHeight) { // 上滑
+            mLoadScrollY += -dy;
+            if (!noMoreData) { // 有更多数据则更新状态
+                if (Math.abs(mLoadScrollY) > mFooterViewHeight) { // 松手可以加载
+                    Log.e("JRefreshLayout", "loadScroll=======  555 mStatus: " + mStatus);
+                    updateStatus(RefreshState.FOOTER_RELEASE);
+                } else {
+                    Log.e("JRefreshLayout", "loadScroll=======  666 mStatus: " + mStatus);
+                    updateStatus(RefreshState.FOOTER_PULL);
+                }
+            }
+            if (Math.abs(mLoadScrollY) > mLoadHeight) { //零界点,再加上本次滑动,大于了 FooterView 允许滑动距离
+                Log.e("JRefreshLayout", "loadScroll=======  777 ");
+                int consumedY = mLoadHeight + mLoadScrollY + dy;
+                mLoadScrollY = mLoadHeight;
+                scrollBy(0, consumedY);
+            } else {
+                Log.e("JRefreshLayout", "loadScroll=======  888 ");
+                scrollBy(0, dy);
+            }
+        } else if (0 == mLoadScrollY && getScrollY() > 0) { // 修复误差
+            Log.e("JRefreshLayout", "loadScroll=======ScrollY: " + getScrollY());
+            scrollBy(0, -getScrollY());
         }
     }
 
@@ -684,7 +675,6 @@ public class UnNestedRefreshLayout extends ViewGroup {
     ////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////
 
-
     /**
      * 当手指抬起时, TargetView 非NestedScrollChild
      */
@@ -699,6 +689,8 @@ public class UnNestedRefreshLayout extends ViewGroup {
             case RefreshState.HEADER_RELEASE:
                 scrollToRefreshStatus();
                 break;
+            //没有更多数据
+            case RefreshState.FOOTER_NO_MORE:
             // 上拉加载
             case RefreshState.FOOTER_PULL:
                 scrollToFooterDefaultStatus();
@@ -706,10 +698,6 @@ public class UnNestedRefreshLayout extends ViewGroup {
             // 释放加载
             case RefreshState.FOOTER_RELEASE:
                 scrollToLoadStatus();
-                break;
-            //没有更多数据
-            case RefreshState.FOOTER_NO_MORE:
-//				scrollToInitialPosition();
                 break;
             default:
                 break;
@@ -884,7 +872,7 @@ public class UnNestedRefreshLayout extends ViewGroup {
      * @param isSuccess --> 可以根据这个值,设置加载成功或者失败
      */
     public void setFinishLoad(boolean isSuccess) {
-        setFinishLoad(isSuccess, 800);
+        setFinishLoad(isSuccess, (long) mScrollerMoveTime);
     }
 
     /**
@@ -906,7 +894,7 @@ public class UnNestedRefreshLayout extends ViewGroup {
      */
     public void setNoMoreData(boolean noMoreData) {
         this.noMoreData = noMoreData;
-        postDelayed(noDataAction, (long) (mScrollerMoveTime / mLoadHeight));
+        postDelayed(noDataAction, (long) (mScrollerMoveTime * 1.2));
     }
 
     /**

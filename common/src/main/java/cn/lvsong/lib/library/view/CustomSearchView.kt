@@ -11,6 +11,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import cn.lvsong.lib.library.listener.EditTextWatcher
@@ -28,24 +29,29 @@ import cn.lvsong.lib.library.R
 
 /*
 
-    <cn.lvsong.lib.ui.define.CustomSearchView
+    <cn.lvsong.lib.library.view.CustomSearchView
         android:id="@+id/csv_test"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_48"
         android:layout_marginTop="@dimen/padding_30"
-        app:csv_input_container_height="@dimen/height_30"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tool2"
-        app:csv_show_search_icon="true"
-        app:csv_show_clear_icon="false"
-        app:csv_input_hint_text="@string/common_ui_search"
+        app:csv_left_arrow_padding="@dimen/padding_3"
         app:csv_bottom_divider_color="@color/color_2878FF"
         app:csv_bottom_divider_visible="true"
+        app:csv_input_container_height="@dimen/height_30"
+        app:csv_input_hint_text="@string/common_ui_search"
         app:csv_need_jump="true"
-        />
+        app:csv_show_clear_icon="false"
+        app:csv_show_search_icon="true"
+        app:csv_show_search_btn="true"
+        app:csv_search_btn_width="@dimen/width_50"
+        app:csv_search_btn_text_size="12dp"
+        app:csv_search_btn_margin_right="@dimen/padding_2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tool2" />
 
  */
+
 
 class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) :
     ConstraintLayout(context, attr, defStyleAttr) {
@@ -53,6 +59,7 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
     constructor(context: Context, attr: AttributeSet) : this(context, attr, 0)
 
     private var mListener: OnSearchListener? = null
+
     /**
      * Material Design风格
      */
@@ -63,7 +70,7 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
     private lateinit var asv_search_view_icon: AndroidSearchView
     private lateinit var et_search_view_search: AppCompatEditText
     private lateinit var cv_search_view_clean: CloseView
-    private lateinit var acb_search_right_btn: AppCompatButton
+    private lateinit var act_search_right_btn: AppCompatTextView
     private lateinit var view_search_bottom_divider: View
     private lateinit var view_search_view_flow: View
 
@@ -75,12 +82,12 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
 
     private fun initView() {
         LayoutInflater.from(context).inflate(R.layout.common_ui_search_view, this, true)
-        bav_search_left_back = findViewById(R.id.ab_search_left_back)
+        bav_search_left_back = findViewById(R.id.bab_search_left_back)
         cl_search_input_container = findViewById(R.id.cl_search_input_container)
         asv_search_view_icon = findViewById(R.id.asv_search_view_icon)
         et_search_view_search = findViewById(R.id.et_search_view_search)
         cv_search_view_clean = findViewById(R.id.cv_search_view_clean)
-        acb_search_right_btn = findViewById(R.id.acb_search_right_btn)
+        act_search_right_btn = findViewById(R.id.act_search_right_btn)
         view_search_bottom_divider = findViewById(R.id.view_search_bottom_divider)
         view_search_view_flow = findViewById(R.id.view_search_view_flow)
     }
@@ -120,7 +127,7 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
         val inputContainerRightMargin =
             arr.getDimensionPixelOffset(
                 R.styleable.CustomSearchView_csv_input_container_margin_right,
-                0
+                dp2px(10F).toInt()
             )
         val inputContainerDrawable =
             arr.getDrawable(R.styleable.CustomSearchView_csv_input_container_drawable)
@@ -190,7 +197,7 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
         bav_search_left_back.setArrowPadding(leftArrowPadding.toFloat())
         bav_search_left_back.setArrowStyle(leftArrowStyle)
         if (showLeftArrow) {
-            bav_search_left_back.setOnClickListener(object :OnClickFastListener(){
+            bav_search_left_back.setOnClickListener(object : OnClickFastListener() {
                 override fun onFastClick(v: View) {
                     mListener?.onClickBackArrow(v)
                 }
@@ -199,7 +206,7 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
 
         val inputContainerLp = cl_search_input_container.layoutParams as LayoutParams
         val height = dp2px(30F).toInt()
-        if(inputContainerHeight < height && showClearIcon) {
+        if (inputContainerHeight < height && showClearIcon) {
             // 如果需要显示右侧清除按钮,则必须对输入框高度进行限制
             inputContainerHeight = height
         }
@@ -247,23 +254,23 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
 
 
         if (TextUtils.isEmpty(btnText)) {
-            acb_search_right_btn.text = context.getString(R.string.common_ui_search)
+            act_search_right_btn.text = context.getString(R.string.common_ui_search)
         } else {
-            acb_search_right_btn.text = btnText
+            act_search_right_btn.text = btnText
         }
 
         if (showBtn) {
-            acb_search_right_btn.setTextSize(TypedValue.COMPLEX_UNIT_PX, btnTextSize.toFloat())
-            acb_search_right_btn.setTextColor(btnTextColor)
-            acb_search_right_btn.setBackgroundColor(btnBgColor)
-            val searchBtnLp = acb_search_right_btn.layoutParams as LayoutParams
+            act_search_right_btn.setTextSize(TypedValue.COMPLEX_UNIT_PX, btnTextSize.toFloat())
+            act_search_right_btn.setTextColor(btnTextColor)
+            act_search_right_btn.setBackgroundColor(btnBgColor)
+            val searchBtnLp = act_search_right_btn.layoutParams as LayoutParams
             searchBtnLp.width = btnWidth
             searchBtnLp.height = btnHeight
             searchBtnLp.rightMargin = btnRightMargin
-            acb_search_right_btn.layoutParams = searchBtnLp
-            acb_search_right_btn.visibility = View.VISIBLE
+            act_search_right_btn.layoutParams = searchBtnLp
+            act_search_right_btn.visibility = View.VISIBLE
         } else {
-            acb_search_right_btn.visibility = View.GONE
+            act_search_right_btn.visibility = View.GONE
         }
 
         view_search_bottom_divider.visibility = if (showBottomDivider) View.VISIBLE else View.GONE
@@ -292,7 +299,7 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
             view_search_view_flow.visibility = View.GONE
         }
 
-        acb_search_right_btn.setOnClickListener(object : OnClickFastListener() {
+        act_search_right_btn.setOnClickListener(object : OnClickFastListener() {
             override fun onFastClick(v: View) {
                 val text = et_search_view_search.text.toString()
                 if (!TextUtils.isEmpty(text)) {
@@ -333,22 +340,37 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
 
     interface OnSearchListener {
 
-        fun onClickBackArrow(view: View){
+        /**
+         * 点击返回键
+         */
+        fun onClickBackArrow(view: View) {
 
         }
 
+        /**
+         * 文本输入框发生改变
+         */
         fun onChanged(text: String) {
 
         }
 
+        /**
+         * 清空输入内容
+         */
         fun onClear() {
 
         }
 
+        /**
+         * 点击搜索框,进行跳转了
+         */
         fun onJump(view: View) {
 
         }
 
+        /**
+         * 点击搜索按钮
+         */
         fun onSearch(text: String) {
 
         }

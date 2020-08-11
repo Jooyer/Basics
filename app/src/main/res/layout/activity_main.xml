@@ -13,73 +13,88 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_1"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/height_40"
+            android:layout_height="@dimen/height_50"
             android:layout_margin="@dimen/padding_5"
             android:onClick="onNormalRefresh"
             android:text="非嵌套刷新加载"
             android:textColor="@color/color_FFFFFF"
-            android:textSize="@dimen/text_size_13" />
+            android:textSize="@dimen/text_size_16" />
 
         <Button
             android:id="@+id/btn_2"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/height_40"
+            android:layout_height="@dimen/height_50"
             android:layout_margin="@dimen/padding_5"
-            android:background="@color/main_theme_color"
             android:onClick="onNestedScrollRefresh"
             android:text="NestedScroll嵌套滑动刷新加载"
             android:textAllCaps="false"
-            android:textColor="@color/color_333333"
+            android:textColor="@color/color_FFFFFF"
             android:textSize="@dimen/text_size_16" />
 
         <Button
             android:id="@+id/btn_3"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/height_40"
+            android:layout_height="@dimen/height_50"
             android:layout_margin="@dimen/padding_5"
-            android:background="@color/main_theme_color"
             android:onClick="onLazyLoad"
             android:text="懒加载"
-            android:textColor="@color/color_333333"
+            android:textColor="@color/color_FFFFFF"
             android:textSize="@dimen/text_size_16" />
 
         <Button
             android:id="@+id/btn_4"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/height_40"
+            android:layout_height="@dimen/height_50"
             android:layout_margin="@dimen/padding_5"
-            android:background="@color/main_theme_color"
             android:onClick="onUserStatusManager"
             android:text="使用StatusManager"
             android:textAllCaps="false"
-            android:textColor="@color/color_333333"
+            android:textColor="@color/color_FFFFFF"
             android:textSize="@dimen/text_size_16" />
 
         <Button
             android:id="@+id/btn_5"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/height_40"
+            android:layout_height="@dimen/height_50"
             android:layout_margin="@dimen/padding_5"
-            android:background="@color/main_theme_color"
             android:onClick="onUseBanner"
             android:text="Banner"
             android:textAllCaps="false"
-            android:textColor="@color/color_333333"
+            android:textColor="@color/color_FFFFFF"
             android:textSize="@dimen/text_size_16" />
-
 
         <Button
             android:id="@+id/btn_6"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/height_40"
+            android:layout_height="@dimen/height_50"
             android:layout_margin="@dimen/padding_5"
-            android:background="@color/main_theme_color"
             android:onClick="onEncodeOrDecode"
             android:text="请求接口加密解密"
             android:textAllCaps="false"
-            android:textColor="@color/color_333333"
+            android:textColor="@color/color_FFFFFF"
             android:textSize="@dimen/text_size_16" />
 
+        <Button
+            android:id="@+id/btn_7"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_50"
+            android:layout_margin="@dimen/padding_5"
+            android:onClick="onCustomToolbar"
+            android:text="自定义Toolbar"
+            android:textAllCaps="false"
+            android:textColor="@color/color_FFFFFF"
+            android:textSize="@dimen/text_size_16" />
+
+        <Button
+            android:id="@+id/btn_8"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_50"
+            android:layout_margin="@dimen/padding_5"
+            android:onClick="onCustomMenu"
+            android:text="自定义Menu"
+            android:textAllCaps="false"
+            android:textColor="@color/color_FFFFFF"
+            android:textSize="@dimen/text_size_16" />
 
     </LinearLayout>
 

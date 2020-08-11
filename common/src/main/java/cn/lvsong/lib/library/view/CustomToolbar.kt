@@ -23,26 +23,47 @@ import cn.lvsong.lib.library.R
 
 /*
 
-    <cn.lvsong.lib.ui.define.CustomToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:ct_left_arrow_width="@dimen/width_45"
-            app:ct_left_arrow_padding="@dimen/padding_5"
-            app:ct_left_text_info="@string/back"
-            app:ct_left_text_color="@color/color_2878FF"
-            app:ct_left_text_visible="true"
-            app:ct_left_text_size="@dimen/text_size_14"
-            app:ct_left_text_left_margin="@dimen/padding_32"
-            app:ct_center_text_size="@dimen/text_size_16"
-            app:ct_center_text_info="商品详情"
-            app:ct_center_text_color="@color/color_333333"
-            app:ct_bottom_divider_visible="true"
-            app:ct_bottom_divider_color="@color/color_DEDEDE"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-    />
+    <cn.lvsong.lib.library.view.CustomToolbar
+        android:id="@+id/tool2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:ct_bottom_divider_color="@color/color_EEEEEE"
+        app:ct_bottom_divider_visible="true"
+        app:ct_center_text_color="@color/color_333333"
+        app:ct_center_text_info="右侧更多"
+        app:ct_center_text_size="@dimen/text_size_16"
+        app:ct_left_arrow_color="@color/color_333333"
+        app:ct_left_arrow_padding="@dimen/padding_5"
+        app:ct_left_arrow_style="wechat_design"
+        app:ct_left_arrow_width="@dimen/width_36"
+        app:ct_left_text_color="@color/color_2878FF"
+        app:ct_left_text_info="返回"
+        app:ct_left_text_left_margin="@dimen/padding_26"
+        app:ct_left_text_size="@dimen/text_size_14"
+        app:ct_left_text_visible="true"
+        app:ct_right_image2_drawable="@mipmap/ic_launcher"
+        app:ct_right_image2_height="@dimen/width_40"
+        app:ct_right_image2_padding="@dimen/padding_1"
+        app:ct_right_image2_right_margin="@dimen/padding_10"
+        app:ct_right_image2_visible="true"
+        app:ct_right_image2_width="@dimen/width_40"
+        app:ct_right_image_drawable="@mipmap/ic_launcher"
+        app:ct_right_image_height="@dimen/width_40"
+        app:ct_right_image_padding="@dimen/padding_1"
+        app:ct_right_image_right_margin="@dimen/padding_10"
+        app:ct_right_image_visible="true"
+        app:ct_right_image_width="@dimen/width_40"
+        app:ct_right_mav_color="@color/color_2878FF"
+        app:ct_right_mav_dot_radius="@dimen/padding_2"
+        app:ct_right_mav_orientation="vertical"
+        app:ct_right_mav_visible="false"
+        app:ct_right_text_color="@color/color_2878FF"
+        app:ct_right_text_info="保存"
+        app:ct_right_text_right_margin="@dimen/padding_10"
+        app:ct_right_text_visible="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tool" />
 
  */
 
@@ -172,7 +193,7 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         val rightImagePadding =
             arr.getDimension(R.styleable.CustomToolbar_ct_right_image_padding, dp2px(0F)).toInt()
         val rightImageRightMargin =
-            arr.getDimension(R.styleable.CustomToolbar_ct_right_image_right_margin, dp2px(20F))
+            arr.getDimension(R.styleable.CustomToolbar_ct_right_image_right_margin, dp2px(5F))
                 .toInt()
 
         val rightImage2Visible =
@@ -355,6 +376,10 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
 
     fun setRightImage2Listener(listener: View.OnClickListener) {
         iv_right_icon_menu2.setOnClickListener(listener)
+    }
+
+    fun setMoreViewListener(listener: View.OnClickListener) {
+        mav_right_icon_menu.setOnClickListener(listener)
     }
 
     fun setRightTextListener(listener: View.OnClickListener) {

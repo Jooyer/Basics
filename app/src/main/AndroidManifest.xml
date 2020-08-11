@@ -4,13 +4,10 @@
     package="cn.lvsong.lib.demo">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-
-<!-- not permitted by network security policy -->
-<!--  解法 https://www.jianshu.com/p/02956bdddd2d  -->
     <application
-        android:name="cn.lvsong.lib.demo.App"
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/library_name"
@@ -19,20 +16,14 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="m">
-        <activity android:name=".EncodeOrDecodeActivity"/>
+        <activity android:name=".CustomMenuActivity"></activity>
+        <activity android:name=".CustomToolbarActivity" />
+        <activity android:name=".EncodeOrDecodeActivity" />
         <activity android:name=".BannerActivity" />
-
-        <activity android:name=".StatusActivity">
-
-        </activity>
-
+        <activity android:name=".StatusActivity" />
         <activity android:name=".LazyLoadActivity" />
-        <activity android:name=".NestedScrollRefreshActivity" >
-
-        </activity>
-
-        <activity android:name=".NormalRefreshActivity" />
-
+        <activity android:name=".NestedScrollRefreshActivity" />
+        <activity android:name=".UnNestedRefreshActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

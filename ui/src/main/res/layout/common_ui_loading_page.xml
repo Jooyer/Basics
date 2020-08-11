@@ -7,19 +7,18 @@
     android:focusable="true"
     android:gravity="center"
     android:orientation="vertical"
-    android:background="#C9E7E7E7">
+    android:background="#C9493D3D">
 
 
     <cn.lvsong.lib.library.refresh.ChrysanthemumView
         android:id="@+id/wlp_cv_loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/padding_20"
-        app:chrysanthemum_view_color="@color/color_E95C5B5B"
-        app:chrysanthemum_view_radius="@dimen/padding_10"
-        app:chrysanthemum_view_width="@dimen/padding_6"
-        app:chrysanthemum_view_height="@dimen/padding_2"
-        app:chrysanthemum_flower_count="10"
+        app:chrysanthemum_view_color="@color/color_FFFFFF"
+        app:chrysanthemum_view_radius="@dimen/padding_20"
+        app:chrysanthemum_view_width="@dimen/padding_10"
+        app:chrysanthemum_view_height="@dimen/padding_3"
+        app:chrysanthemum_flower_count="14"
         />
 
 </LinearLayout>

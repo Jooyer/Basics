@@ -14,7 +14,8 @@ import androidx.core.content.ContextCompat;
 import cn.lvsong.lib.library.R;
 
 
-/** 参考: https://www.jianshu.com/p/fa85186f12fb?utm_campaign=haruki&utm_content=note&utm_medium=reader_share&utm_source=weixin
+/**
+ * 参考: https://www.jianshu.com/p/fa85186f12fb?utm_campaign=haruki&utm_content=note&utm_medium=reader_share&utm_source=weixin
  * Desc: Android 自定义View绘制箭头
  * Author: Jooyer
  * Date: 2020-02-28
@@ -132,8 +133,8 @@ public class BackArrowView extends View {
 
     private void initAttr(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.BackArrowView, defStyleAttr, 0);
-        mPadding = array.getDimension(R.styleable.BackArrowView_bav_arrow_padding,dip2px(context, 1f));
-        mArrowColor = array.getColor(R.styleable.BackArrowView_bav_arrow_color, ContextCompat.getColor(context,R.color.color_333333));
+        mPadding = array.getDimension(R.styleable.BackArrowView_bav_arrow_padding, dip2px(context, 1f));
+        mArrowColor = array.getColor(R.styleable.BackArrowView_bav_arrow_color, ContextCompat.getColor(context, R.color.color_333333));
         mArrowStrokeWidth = array.getDimension(R.styleable.BackArrowView_bav_stroke_width, dip2px(context, 2f));
         mArrowStyle = array.getInt(R.styleable.BackArrowView_bav_arrow_style, ARROW_STYLE_MATERIAL_DESIGN);
         array.recycle();
@@ -160,7 +161,11 @@ public class BackArrowView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         //将画布中心移动到中心点偏左位置
-        canvas.translate((mViewWidth / 2F) - mArrowStartDistance, mViewHeight / 2F);
+        if (mArrowStyle == ARROW_STYLE_MATERIAL_DESIGN) {
+            canvas.translate(mViewWidth / 2F - (mArrowLineLength + mArrowStartDistance) / 2F, mViewHeight / 2F);
+        } else {
+            canvas.translate(mViewWidth / 2F - mArrowLineLength / 2, mViewHeight / 2F);
+        }
         //将画布旋转45度，让后面画的直角旋转
         canvas.rotate(45);
         //画第一条线

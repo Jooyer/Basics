@@ -21,30 +21,32 @@ import cn.lvsong.lib.library.R
  */
 
 /*
-    <cn.lvsong.lib.ui.define.CustomMenu
-            android:id="@+id/cm_verify_personal_data"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:cm_left_image_visible="false"
-            app:cm_left_text_info="个人认证"
-            app:cm_left_text_size="14"
-            app:cm_right_text_size="14"
-            app:cm_left_text_left_margin="@dimen/padding_20"
-            app:cm_left_text_color="@color/color_333333"
-            app:cm_right_text_visible="true"
-            app:cm_right_text_info="www.123.com"
-            app:cm_right_arrow_visible="true"
-            app:cm_right_arrow_right_margin="@dimen/padding_10"
-            app:cm_right_arrow_color="@color/color_999999"
-            app:cm_bottom_divider_visible="true"
-            app:cm_bottom_divider_color="@color/color_EEF2FA"
-            app:cm_bottom_divider_left_margin="@dimen/padding_10"
-            app:cm_bottom_divider_right_margin="@dimen/padding_10"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar"
-            app:layout_constraintEnd_toEndOf="parent"
-    />
+
+    <cn.lvsong.lib.library.view.CustomMenu
+        android:id="@+id/cm_verify_personal_data"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/height_40"
+        android:background="@color/color_DDDDDD"
+        app:cm_bottom_divider_color="@color/color_8A8EA3"
+        app:cm_bottom_divider_left_margin="@dimen/padding_20"
+        app:cm_bottom_divider_visible="true"
+        app:cm_left_image_drawable="@mipmap/ic_launcher"
+        app:cm_left_image_height="@dimen/height_40"
+        app:cm_left_image_visible="false"
+        app:cm_left_image_width="@dimen/width_40"
+        app:cm_left_text_color="@color/color_333333"
+        app:cm_left_text_info="个人认证"
+        app:cm_left_text_left_margin="@dimen/padding_5"
+        app:cm_left_text_size="14"
+        app:cm_right_arrow_visible="false"
+        app:cm_right_near_image_visible="false"
+        app:cm_right_text_info="www.123.com"
+        app:cm_right_text_right_margin="@dimen/padding_10"
+        app:cm_right_text_size="14"
+        app:cm_right_text_visible="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cm_cn_name_publish_help" />
 
  */
 
@@ -146,7 +148,7 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         )
 
         val rightTextInfo = arr.getText(R.styleable.CustomMenu_cm_right_text_info)
-        val rightHintTextInfo = arr.getText(R.styleable.CustomMenu_cm_right_hint_text_info)
+//        val rightHintTextInfo = arr.getText(R.styleable.CustomMenu_cm_right_hint_text_info)
         val rightTextVisible = arr.getBoolean(R.styleable.CustomMenu_cm_right_text_visible, true)
         val rightTextSize = arr.getInt(R.styleable.CustomMenu_cm_right_text_size, 14).toFloat()
         rightTextRightMargin =
@@ -167,8 +169,8 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
             arr.getDrawable(R.styleable.CustomMenu_cm_right_near_image_drawable)
         val rightNearImageWidth =
             arr.getDimension(R.styleable.CustomMenu_cm_right_near_image_width, dp2px(22F)).toInt()
-        val rightNearImageCenterVertical =
-            arr.getBoolean(R.styleable.CustomMenu_cm_right_near_image_center_vertical, true)
+//        val rightNearImageCenterVertical =
+//            arr.getBoolean(R.styleable.CustomMenu_cm_right_near_image_center_vertical, true)
         val rightNearImageHeight =
             arr.getDimension(R.styleable.CustomMenu_cm_right_near_image_height, dp2px(22F)).toInt()
 
@@ -186,7 +188,7 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
             ContextCompat.getColor(context, R.color.color_999999)
         )
         val rightArrowOrientation =
-            arr.getInt(R.styleable.CustomMenu_cm_right_arrow_orientation, ORIENTATION_LEFT)
+            arr.getInt(R.styleable.CustomMenu_cm_right_arrow_orientation, ORIENTATION_RIGHT)
 
         val rightArrowStyle =
             arr.getInt(R.styleable.CustomMenu_cm_right_arrow_style, ARROW_STYLE_MATERIAL_DESIGN)
@@ -246,9 +248,9 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         if (1 == rightInputType) {
             tv_right_name_menu.inputType = android.text.InputType.TYPE_CLASS_NUMBER
         }
-        if (!TextUtils.isEmpty(rightHintTextInfo)) {
-            tv_right_name_menu.hint = rightHintTextInfo
-        }
+//        if (!TextUtils.isEmpty(rightHintTextInfo)) {
+//            tv_right_name_menu.hint = rightHintTextInfo
+//        }
         if (!TextUtils.isEmpty(rightTextInfo)) {
             tv_right_name_menu.text = rightTextInfo
         }
@@ -271,10 +273,8 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         rightNearImageLp.height = rightNearImageHeight
 
 //        if (rightNearImageCenterVertical) {
-//            rightNearImageLp.addRule(ConstraintLayout.CENTER_VERTICAL)
-//        } else {
-//            rightNearImageLp.removeRule(ConstraintLayout.CENTER_VERTICAL)
 //        }
+
 
         if (rightArrowVisible) {
             rightNearImageLp.marginEnd = rightNearImageRightMargin

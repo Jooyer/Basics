@@ -1,6 +1,7 @@
 package cn.lvsong.lib.demo
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,17 +21,10 @@ class LazyFragment : BaseFragment() {
     override fun getLayoutId() = R.layout.fragment_blank
 
     override fun setLogic() {
-        for (i in 0..3) {
-            data.add("<---- $i ---->")
-        }
-
-
-//        snl_container.addHeader(DefaultHeaderView(mActivity))
-//        snl_container.addFooter(DefaultFooterView(mActivity))
 
         snl_container.setOnRefreshAndLoadListener(object : OnNestedRefreshAndLoadListener() {
             override fun onRefresh(refreshLayout: NestedRefreshLayout) {
-//                Log.e("PowerRefreshLayout", "onRefresh==============")
+//                Log.e("LazyFragment", "onRefresh==============")
 
                 data.clear()
                 for (i in 0 until 10) {
@@ -43,7 +37,7 @@ class LazyFragment : BaseFragment() {
             }
 
             override fun onLoad(refreshLayout: NestedRefreshLayout) {
-//                Log.e("PowerRefreshLayout", "onLoad==============")
+//                Log.e("LazyFragment", "onLoad==============")
                 for (i in data.size until data.size + 6) {
                     data.add("-----$i------")
                 }
@@ -54,7 +48,6 @@ class LazyFragment : BaseFragment() {
             }
         })
 
-        ////////////////////////////////////////////////////////////////////////////////////////////
 
         rv_list.layoutManager = LinearLayoutManager(mActivity)
 
@@ -81,11 +74,10 @@ class LazyFragment : BaseFragment() {
     }
 
     override fun onFirstUserVisible() {
-//        Log.e("PowerRefreshLayout", "onFirstUserVisible==============")
+        Log.e("LazyFragment", "onFirstUserVisible==============")
         snl_container.postDelayed({
-//            snl_container.setAutoRefresh()
-            snl_container.setFinishRefresh(true)
-        }, 600)
+            snl_container.setAutoRefresh()
+        }, 300)
 
     }
 

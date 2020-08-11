@@ -11,7 +11,6 @@
         StatusBarUtil.setStatusBarColor(this, ContextCompat.getColor(this, R.color.main_theme_color))
     }
 
-    override fun createPresenter() = FeedbackPresenter(this)
     override fun getLayoutId() = R.layout.activity_feedback
 
     override fun setLogic() {

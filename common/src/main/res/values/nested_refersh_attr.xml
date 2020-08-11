@@ -7,6 +7,8 @@
             2: 显示没有更多数据
          -->
         <attr name="nrl_no_more_first_time" format="integer" />
+        <!--  当成功刷新/成功加载后,隐藏Header/Footer滚动时间  -->
+        <attr name="nrl_scroll_time" format="integer" />
     </declare-styleable>
 
 </resources>

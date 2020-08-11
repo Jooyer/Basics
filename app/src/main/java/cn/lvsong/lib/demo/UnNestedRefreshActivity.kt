@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.activity_normal_refresh.*
 /**
  * 普通刷新效果
  */
-class NormalRefreshActivity : AppCompatActivity() {
+class UnNestedRefreshActivity : AppCompatActivity() {
     private val data = ArrayList<String>()
     private var mBaseAdapter:BaseAdapter?=null
 
@@ -53,6 +53,7 @@ class NormalRefreshActivity : AppCompatActivity() {
 //                    rv_list.adapter?.notifyDataSetChanged()
                     mBaseAdapter?.notifyDataSetChanged()
                     nrl_container.setFinishLoad(true)
+                    nrl_container.setNoMoreData(true)
                 }, 1000)
             }
         })
@@ -67,7 +68,7 @@ class NormalRefreshActivity : AppCompatActivity() {
 
         mBaseAdapter = object :BaseAdapter(){
             override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-                val view = LayoutInflater.from(this@NormalRefreshActivity).inflate(R.layout.item_rv_list, null,false)
+                val view = LayoutInflater.from(this@UnNestedRefreshActivity).inflate(R.layout.item_rv_list, null,false)
                 view.findViewById<TextView>(R.id.tv_name).text = getItem(position)
                 return view
             }
