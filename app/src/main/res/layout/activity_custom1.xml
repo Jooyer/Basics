@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CustomActivity1"
+    android:orientation="vertical"
+    >
+
+    <cn.lvsong.lib.library.view.CustomToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_50"
+        app:ct_center_text_color="@color/color_333333"
+        app:ct_center_text_info="点击右侧更多弹出类似微信弹框"
+        app:ct_center_text_size="@dimen/text_size_16"
+        app:ct_left_arrow_color="@color/color_2878FF"
+        app:ct_left_arrow_height="@dimen/height_50"
+        app:ct_left_arrow_padding="@dimen/padding_3"
+        app:ct_left_arrow_style="wechat_design"
+        app:ct_left_arrow_width="@dimen/width_40"
+        app:ct_right_mav_color="@color/color_666666"
+        app:ct_right_mav_dot_radius="@dimen/padding_2"
+        app:ct_right_mav_height="@dimen/height_50"
+        app:ct_right_mav_orientation="vertical"
+        app:ct_right_mav_right_margin="@dimen/padding_2"
+        app:ct_right_mav_visible="true"
+        app:ct_right_mav_width="@dimen/width_40" />
+
+
+    <Button
+        android:id="@+id/btn_1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_50"
+        android:layout_margin="@dimen/padding_5"
+        android:onClick="onCenterDialog"
+        android:text="中间Dialog"
+        android:textAllCaps="false"
+        android:textColor="@color/color_FFFFFF"
+        android:textSize="@dimen/text_size_16" />
+
+
+    <Button
+        android:id="@+id/btn_2"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_50"
+        android:layout_margin="@dimen/padding_5"
+        android:onClick="onBottomDialog"
+        android:text="底部Dialog"
+        android:textAllCaps="false"
+        android:textColor="@color/color_FFFFFF"
+        android:textSize="@dimen/text_size_16" />
+
+
+    <Button
+        android:id="@+id/btn_3"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_50"
+        android:layout_margin="@dimen/padding_5"
+        android:onClick="onPopupWindowShowAtAnchorView"
+        android:text="showAtAnchorView展示popupwindow"
+        android:textAllCaps="false"
+        android:textColor="@color/color_FFFFFF"
+        android:textSize="@dimen/text_size_16" />
+
+
+    <Button
+        android:id="@+id/btn_4"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_50"
+        android:layout_margin="@dimen/padding_5"
+        android:onClick="onShowAtLocation"
+        android:text="showAtLocation展示popupwindow"
+        android:textAllCaps="false"
+        android:textColor="@color/color_FFFFFF"
+        android:textSize="@dimen/text_size_16" />
+
+</LinearLayout>

@@ -16,6 +16,17 @@ import android.view.View
  * https://www.jianshu.com/p/7118226ecba9
  */
 
+
+/*
+
+    基本用法
+        View.withTrigger().click { // 礼物弹框
+
+        }
+
+ */
+
+
 /***
  * 设置延迟时间的View扩展
  * @param delay Long 延迟时间，默认600毫秒
@@ -41,7 +52,7 @@ fun <T : View> T.click(block: (T) -> Unit) = setOnClickListener {
  * @param block: (T) -> Unit 函数
  * @return Unit
  */
-fun <T : View> T.clickWithTrigger(time: Long = 600, block: (T) -> Unit){
+fun <T : View> T.clickWithTrigger(time: Long = 600, block: (T) -> Unit) {
     triggerDelay = time
     setOnClickListener {
         if (clickEnable()) {

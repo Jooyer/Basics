@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/height_100"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/padding_10"
+    android:orientation="horizontal">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="@dimen/width_80"
+        android:layout_height="@dimen/height_80"
+        android:src="@drawable/ic_baseline_alarm_add_24"
+        android:layout_gravity="center_vertical"
+        />
+
+    <cn.lvsong.lib.library.bubble.BubbleLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:bubbleColor="@color/color_B1B6D1"
+        >
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:visibility="gone"
+            android:layout_margin="@dimen/padding_10"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_80"
+            android:layout_marginStart="@dimen/padding_15"
+            android:layout_marginEnd="@dimen/padding_10"
+            android:textSize="20sp"
+            android:textColor="@color/color_FFFFFF"
+            android:visibility="gone"
+            />
+
+    </cn.lvsong.lib.library.bubble.BubbleLinearLayout>
+
+</LinearLayout>

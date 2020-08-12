@@ -71,6 +71,18 @@ class MainActivity : BaseActivity() {
             .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
             .setCornerRadius(DensityUtil.dp2pxRtInt(5))
             .create()
+
+        btn_9.background = SelectorFactory.newShapeSelector()
+            .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
+            .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
+            .setCornerRadius(DensityUtil.dp2pxRtInt(5))
+            .create()
+
+        btn_10.background = SelectorFactory.newShapeSelector()
+            .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
+            .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
+            .setCornerRadius(DensityUtil.dp2pxRtInt(5))
+            .create()
     }
 
     /**
@@ -121,8 +133,25 @@ class MainActivity : BaseActivity() {
         startActivity(Intent(this,CustomToolbarActivity::class.java))
     }
 
+    /**
+     * 自定义Menu
+     */
     fun onCustomMenu(view: View) {
         startActivity(Intent(this,CustomMenuActivity::class.java))
+    }
+
+    /**
+     * 聊天气泡
+     */
+    fun onChatBubble(view: View) {
+        startActivity(Intent(this,ChatBubbleActivity::class.java))
+    }
+
+    /**
+     * 自定义控件集合1
+     */
+    fun onCustomView1(view: View) {
+        startActivity(Intent(this,CustomActivity1::class.java))
     }
 
 

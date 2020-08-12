@@ -96,6 +96,28 @@
             android:textColor="@color/color_FFFFFF"
             android:textSize="@dimen/text_size_16" />
 
+        <Button
+            android:id="@+id/btn_9"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_50"
+            android:layout_margin="@dimen/padding_5"
+            android:onClick="onChatBubble"
+            android:text="聊天气泡"
+            android:textAllCaps="false"
+            android:textColor="@color/color_FFFFFF"
+            android:textSize="@dimen/text_size_16" />
+
+        <Button
+            android:id="@+id/btn_10"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_50"
+            android:layout_margin="@dimen/padding_5"
+            android:onClick="onCustomView1"
+            android:text="自定义View集合1"
+            android:textAllCaps="false"
+            android:textColor="@color/color_FFFFFF"
+            android:textSize="@dimen/text_size_16" />
+
     </LinearLayout>
 
 

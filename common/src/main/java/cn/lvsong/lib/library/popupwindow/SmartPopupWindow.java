@@ -136,6 +136,7 @@ public class SmartPopupWindow extends PopupWindow {
         mOffsetY = y;
         addGlobalLayoutListener(getContentView());
         super.showAtLocation(parent, gravity, x, y);
+        showBackgroundAnimator();
     }
 
     public void showAtAnchorView(@NonNull View anchorView, @VerticalPosition int verticalPos, @HorizontalPosition int horizontalPos) {

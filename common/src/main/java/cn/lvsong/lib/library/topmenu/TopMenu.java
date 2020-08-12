@@ -140,7 +140,7 @@ public class TopMenu {
     /**
      * 设置背景是否变暗
      */
-    public TopMenu setShowBackground(boolean isShowBackground) {
+    public TopMenu setBackDark(boolean isShowBackground) {
         this.isShowBackground = isShowBackground;
         return this;
     }

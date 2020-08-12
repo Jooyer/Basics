@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="cn.lvsong.lib.demo.ChatBubbleActivity">
+
+
+    <cn.lvsong.lib.library.view.CustomToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_50"
+        app:ct_center_text_color="@color/color_333333"
+        app:ct_center_text_info="聊天气泡"
+        app:ct_center_text_size="@dimen/text_size_16"
+        app:ct_left_arrow_color="@color/color_2878FF"
+        app:ct_left_arrow_height="@dimen/height_50"
+        app:ct_left_arrow_padding="@dimen/padding_3"
+        app:ct_left_arrow_style="wechat_design"
+        app:ct_left_arrow_width="@dimen/width_40"
+        app:ct_right_image_visible="false" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_list_chat"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        />
+
+</LinearLayout>

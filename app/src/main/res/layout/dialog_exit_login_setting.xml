@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_title_exit_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/height_30"
+        android:layout_marginTop="@dimen/padding_10"
+        android:gravity="center"
+        android:text="退出"
+        android:textColor="@color/color_333333"
+        android:textSize="@dimen/text_size_18"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="@dimen/divider_2"
+        android:layout_marginTop="@dimen/padding_10"
+        android:background="@color/color_2878FF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title_exit_dialog" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_reminder_exit_dialog"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/padding_20"
+        android:layout_marginTop="@dimen/padding_16"
+        android:layout_marginEnd="@dimen/padding_20"
+        android:gravity="center"
+        android:lineSpacingMultiplier="1.2"
+        android:text="确定退出?"
+        android:textColor="@color/color_333333"
+        android:textSize="@dimen/text_size_14"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title_exit_dialog" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_cancel_exit_dialog"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/height_40"
+        android:layout_marginStart="@dimen/padding_30"
+        android:layout_marginTop="@dimen/padding_15"
+        android:layout_marginEnd="@dimen/padding_6"
+        android:text="取消"
+        android:textColor="@color/color_2878FF"
+        android:textSize="@dimen/text_size_12"
+        app:layout_constraintEnd_toStartOf="@id/btn_sure_exit_dialog"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_reminder_exit_dialog" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_sure_exit_dialog"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/height_40"
+        android:layout_marginStart="@dimen/padding_6"
+        android:layout_marginTop="@dimen/padding_15"
+        android:layout_marginEnd="@dimen/padding_30"
+        android:text="确定"
+        android:textColor="@color/color_2878FF"
+        android:textSize="@dimen/text_size_12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btn_cancel_exit_dialog"
+        app:layout_constraintTop_toBottomOf="@id/tv_reminder_exit_dialog" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
