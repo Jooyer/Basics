@@ -11,7 +11,7 @@
     <cn.lvsong.lib.library.view.CustomToolbar
         android:id="@+id/ct_1"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/height_50"
         app:ct_center_text_color="@color/color_333333"
         app:ct_center_text_info="右侧显示一个图片"
         app:ct_center_text_size="@dimen/text_size_16"
@@ -30,7 +30,7 @@
     <cn.lvsong.lib.library.view.CustomToolbar
         android:id="@+id/ct_2"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/height_50"
         app:ct_center_text_color="@color/color_333333"
         app:ct_center_text_info="右侧显示两个图片"
         app:ct_center_text_size="@dimen/text_size_16"
@@ -58,7 +58,7 @@
     <cn.lvsong.lib.library.view.CustomToolbar
         android:id="@+id/ct_3"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/height_50"
         app:ct_center_text_color="@color/color_333333"
         app:ct_center_text_info="显示更多按钮"
         app:ct_center_text_size="@dimen/text_size_16"
@@ -79,9 +79,9 @@
     <cn.lvsong.lib.library.view.CustomToolbar
         android:id="@+id/ct_4"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/height_50"
         app:ct_center_text_color="@color/color_333333"
-        app:ct_center_text_info="左侧显示文本,右侧这里没有设置"
+        app:ct_center_text_info="左侧显示文本,右侧自行设置"
         app:ct_center_text_size="@dimen/text_size_16"
         app:ct_left_arrow_color="@color/color_2878FF"
         app:ct_left_arrow_height="@dimen/height_50"
@@ -96,7 +96,41 @@
     <cn.lvsong.lib.library.view.CustomToolbar
         android:id="@+id/ct_5"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/height_50"
+        app:ct_center_text_color="@color/color_333333"
+        app:ct_center_text_info="改变左侧箭头颜色"
+        app:ct_center_text_size="@dimen/text_size_16"
+        app:ct_left_arrow_color="@color/color_333333"
+        app:ct_left_arrow_height="@dimen/height_50"
+        app:ct_left_arrow_padding="@dimen/padding_3"
+        app:ct_left_arrow_style="wechat_design"
+        app:ct_left_arrow_width="@dimen/width_40"
+        app:ct_left_text_color="@color/color_2878FF"
+        app:ct_left_text_info="返回"
+        app:ct_left_text_left_margin="@dimen/padding_26"
+        app:ct_left_text_visible="true" />
+
+    <cn.lvsong.lib.library.view.CustomToolbar
+        android:id="@+id/ct_6"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_50"
+        app:ct_center_text_color="@color/color_333333"
+        app:ct_center_text_info="改变左侧箭头样式"
+        app:ct_center_text_size="@dimen/text_size_16"
+        app:ct_left_arrow_color="@color/color_333333"
+        app:ct_left_arrow_height="@dimen/height_50"
+        app:ct_left_arrow_padding="@dimen/padding_3"
+        app:ct_left_arrow_style="material_design"
+        app:ct_left_arrow_width="@dimen/width_40"
+        app:ct_left_text_color="@color/color_2878FF"
+        app:ct_left_text_info="返回"
+        app:ct_left_text_left_margin="@dimen/padding_26"
+        app:ct_left_text_visible="true" />
+
+    <cn.lvsong.lib.library.view.CustomToolbar
+        android:id="@+id/ct_7"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_50"
         app:ct_center_text_color="@color/color_333333"
         app:ct_center_text_info="设置底部分割线颜色"
         app:ct_center_text_size="@dimen/text_size_16"
@@ -105,9 +139,9 @@
         />
 
     <cn.lvsong.lib.library.view.CustomToolbar
-        android:id="@+id/ct_6"
+        android:id="@+id/ct_8"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/height_50"
         app:ct_center_text_color="@color/color_333333"
         app:ct_center_text_info="隐藏底部分割线"
         app:ct_center_text_size="@dimen/text_size_16"

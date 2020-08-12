@@ -94,7 +94,7 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
 
     private fun parseAttrs(context: Context, attr: AttributeSet) {
         val arr = context.obtainStyledAttributes(attr, R.styleable.CustomSearchView)
-        val showLeftArrow = arr.getBoolean(R.styleable.CustomSearchView_csv_show_left_arrow, true)
+        val showLeftArrow = arr.getBoolean(R.styleable.CustomSearchView_csv_left_arrow_visible, true)
         val leftArrowColor = arr.getColor(
             R.styleable.CustomSearchView_csv_left_arrow_color,
             ContextCompat.getColor(context, R.color.color_666666)

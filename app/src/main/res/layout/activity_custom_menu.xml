@@ -131,8 +131,10 @@
             android:layout_height="@dimen/height_50"
             android:layout_marginTop="@dimen/padding_10"
             app:csv_input_container_drawable="@drawable/ic_gray_solid_rectangle_r5"
+            app:csv_input_container_margin_left="@dimen/padding_10"
             app:csv_input_container_margin_right="@dimen/padding_10"
-            app:csv_input_hint_text="点击整个搜索控件跳转"
+            app:csv_input_hint_text="点击整个搜索控件跳转,隐藏返回键"
+            app:csv_left_arrow_visible="false"
             app:csv_need_jump="true"
             app:csv_search_btn_text_color="@color/color_FFFFFF"
             app:csv_search_btn_visible="false" />
@@ -158,8 +160,8 @@
             android:layout_height="@dimen/height_50"
             android:layout_marginTop="@dimen/padding_10"
             app:lirt_iconDrawable="@drawable/ic_baseline_alarm_add_24"
-            app:lirt_style="iconUp"
             app:lirt_spacing="@dimen/padding_2"
+            app:lirt_style="iconUp"
             app:lirt_text="图片在上,文字在下" />
 
         <cn.lvsong.lib.library.view.LeftImgAndRightTextView
@@ -167,8 +169,8 @@
             android:layout_height="@dimen/height_50"
             android:layout_marginTop="@dimen/padding_10"
             app:lirt_iconDrawable="@drawable/ic_baseline_alarm_add_24"
-            app:lirt_style="iconBottom"
             app:lirt_spacing="@dimen/padding_5"
+            app:lirt_style="iconBottom"
             app:lirt_text="文字在上,图片在下" />
 
 
@@ -178,7 +180,7 @@
             android:layout_marginTop="@dimen/padding_10"
             app:tibt_checked_drawable="@drawable/ic_baseline_assignment_returned_24"
             app:tibt_normal_drawable="@drawable/ic_baseline_alarm_add_24"
-            app:tibt_tv_text="上面图片,下面文字" />
+            app:tibt_tv_text="TopImgAndBottomTextView实现上面图片,下面文字" />
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

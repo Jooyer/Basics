@@ -10,9 +10,9 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
+
+import androidx.appcompat.widget.AppCompatImageView;
 
 import cn.lvsong.lib.library.R;
 
@@ -45,8 +45,8 @@ public class LeftImgAndRightTextView extends RelativeLayout {
     /**
      * 定义控件
      */
-    private ImageView ivIcon;
-    private TextView tvContent;
+    private AppCompatImageView ivIcon;
+    private MediumTextView tvContent;
     /**
      * 上下文
      */
@@ -108,8 +108,8 @@ public class LeftImgAndRightTextView extends RelativeLayout {
         //加载布局
         LayoutInflater.from(context).inflate(R.layout.common_ui_left_image_right_text_view, this, true);
         //初始化控件
-        ivIcon = (ImageView) findViewById(R.id.iv_icon);
-        tvContent = (TextView) findViewById(R.id.tv_content);
+        ivIcon = (AppCompatImageView) findViewById(R.id.iv_icon);
+        tvContent = (MediumTextView) findViewById(R.id.tv_content);
         setGravity(Gravity.CENTER);
         TypedArray a = getContext().obtainStyledAttributes(
                 attrs, R.styleable.LeftImgAndRightTextView, defStyle, 0);

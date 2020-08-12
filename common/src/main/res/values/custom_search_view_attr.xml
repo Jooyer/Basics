@@ -4,7 +4,8 @@
     <declare-styleable name="CustomSearchView">
 
         <!-- 显示返回按钮 -->
-        <attr name="csv_show_left_arrow" format="boolean" />
+        <attr name="csv_left_arrow_visible" format="boolean" />
+        <!-- 显示返回按钮 -->
         <!-- 左侧箭头的 颜色 -->
         <attr name="csv_left_arrow_color" format="color|reference" />
         <!-- 左侧箭头 Padding(上下左右) -->

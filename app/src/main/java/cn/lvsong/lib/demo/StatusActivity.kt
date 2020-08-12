@@ -57,6 +57,12 @@ class StatusActivity : BaseActivity() {
             .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
             .setCornerRadius(DensityUtil.dp2pxRtInt(5))
             .create()
+
+        acb_tips.background = SelectorFactory.newShapeSelector()
+            .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
+            .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
+            .setCornerRadius(DensityUtil.dp2pxRtInt(5))
+            .create()
     }
 
     // 根据需要重写
@@ -93,7 +99,16 @@ class StatusActivity : BaseActivity() {
         acb_empty.setOnClickListener {
             mStatusManager?.showEmptyData()
         }
+    }
 
+    /**
+     * 点击重试则会走这里
+     * 注意:  如果布局给了重试控件,则ID必须为:  view_retry_load_data
+     * 注意:  如果布局给了重试控件,则ID必须为:  view_retry_load_data
+     * 注意:  如果布局给了重试控件,则ID必须为:  view_retry_load_data
+     */
+    override fun onRetry() {
+        mStatusManager?.showContent()
     }
 
 }

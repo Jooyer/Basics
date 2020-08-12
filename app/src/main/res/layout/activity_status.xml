@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".StatusActivity">
 
-
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/acb_loading"
         android:layout_width="match_parent"
@@ -63,7 +62,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/acb_error" />
 
-
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/acb_empty"
         android:layout_width="match_parent"
@@ -77,6 +75,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/acb_net_error" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/acb_tips"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_140"
+        android:layout_marginStart="@dimen/padding_10"
+        android:layout_marginTop="@dimen/padding_20"
+        android:layout_marginEnd="@dimen/padding_10"
+        android:text="如果布局给了重试控件,则ID必须为:  view_retry_load_data,不给则点击整个内容区域均为重试"
+        android:textColor="@color/color_FFFFFF"
+        android:textSize="20sp"
+        android:gravity="center_vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/acb_empty" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

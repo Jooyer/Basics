@@ -14,9 +14,10 @@ import kotlinx.android.synthetic.main.activity_banner.*
 class BannerActivity : AppCompatActivity() {
 
     private val data = arrayListOf(
-        "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1573379127723&di=bd32e4115b494ce9267fc15f09206047&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2Fc142bd27742defa1abedf5c3e389f4e9645462ea7e1ba-M4oq6P_fw658",
-        "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3598308963,3250463486&fm=26&gp=0.jpg",
-        "http://img0.imgtn.bdimg.com/it/u=2326305792,2139565828&fm=26&gp=0.jpg"
+        "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3820948238,3810516733&fm=26&gp=0.jpg",
+        "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1545980553,2413955112&fm=26&gp=0.jpg",
+        "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2412068931,3031791558&fm=26&gp=0.jpg",
+        "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=286946846,3770652173&fm=26&gp=0.jpg"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,14 +26,14 @@ class BannerActivity : AppCompatActivity() {
 
         // 普通用法
         val adapter = CustomAdapter(data, R.layout.item_banner_normal)
-        banner.setBannerAdapter(adapter,DensityUtil.dp2pxRtInt(10))
+        banner.setBannerAdapter(adapter, DensityUtil.dp2pxRtInt(10))
 
         // Item 带横幅用法
         val adapter2 = CustomAdapter2(data, R.layout.item_banner_normal2)
         banner2.setBannerAdapter(adapter2)
 
         // 独立横幅用法
-        val titles = arrayListOf("818活动刚刚过去...", "双十一活动报名现在开始...", "双十二活动即将到来...")
+        val titles = arrayListOf("818活动刚刚过去...", "双十一活动报名现在开始...", "双十二活动即将到来...","活动多得停不下来啦...")
         tv_text.text = titles[0]
         val adapter3 = CustomAdapter(data, R.layout.item_banner_normal)
         banner3.setBannerAdapter(adapter3)

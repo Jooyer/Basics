@@ -16,7 +16,7 @@ import cn.lvsong.lib.library.banner.BannerHolder
 class CustomAdapter2(data: List<String>, layoutId: Int) :
     BannerAdapter<String>(data, layoutId) {
 
-    private val titles = arrayListOf("818活动刚刚过去...","双十一活动报名现在开始...","双十二活动即将到来...")
+    private val titles = arrayListOf("818活动刚刚过去...","双十一活动报名现在开始...","双十二活动即将到来...","活动多得停不下来啦...")
 
     override fun onBindViewHolder(holder: BannerHolder, position: Int) {
         holder.itemView.findViewById<AppCompatTextView>(R.id.tv_position).text = "$position"
