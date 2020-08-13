@@ -1,9 +1,10 @@
 package cn.lvsong.lib.demo
 
-import android.app.Activity
+import android.graphics.Color
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
@@ -20,7 +21,9 @@ import cn.lvsong.lib.library.popupwindow.VerticalPosition
 import cn.lvsong.lib.library.topmenu.MenuItem
 import cn.lvsong.lib.library.topmenu.TopMenu
 import cn.lvsong.lib.library.utils.DensityUtil
+import cn.lvsong.lib.library.utils.ImageLoad
 import cn.lvsong.lib.library.utils.SelectorFactory
+import cn.lvsong.lib.library.view.ArrangeView
 import cn.lvsong.lib.library.view.MediumTextView
 import cn.lvsong.lib.ui.ui.BaseActivity
 import kotlinx.android.synthetic.main.activity_custom1.*
@@ -45,6 +48,8 @@ class CustomActivity1 : BaseActivity() {
         initExitDialog()
         initPop()
 
+        setArrayViewAdapter()
+
         btn_1.background = SelectorFactory.newShapeSelector()
             .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
             .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
@@ -68,6 +73,29 @@ class CustomActivity1 : BaseActivity() {
             .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
             .setCornerRadius(DensityUtil.dp2pxRtInt(5))
             .create()
+    }
+
+    private fun setArrayViewAdapter() {
+        val data = arrayListOf<String>(
+            "https://upload.jianshu.io/users/upload_avatars/2631077/dc99c361412c?imageMogr2/auto-orient/strip|imageView2/1/w/240/h/240",
+            "https://upload.jianshu.io/users/upload_avatars/1300228/1169f257-ab3b-44f2-bed2-57282511eb8f.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/240/h/240",
+            "https://upload.jianshu.io/users/upload_avatars/7133325/f4370cf6-cf4d-4839-9b54-87beaa767d48?imageMogr2/auto-orient/strip|imageView2/1/w/240/h/240",
+            "https://upload.jianshu.io/users/upload_avatars/7290998/f64f5ef0-def0-4b26-beb3-b9d88f060ba0.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/240/h/240",
+            "https://upload.jianshu.io/users/upload_avatars/2558050/7761b285-2805-4534-9870-ba7dcc7538ec.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/240/h/240"
+        )
+        av.setAdapter(object : ArrangeView.ArrangeAdapter(data) {
+            override fun getRangeView(position: Int, parent: ViewGroup): View {
+                val view = LayoutInflater.from(this@CustomActivity1)
+                    .inflate(R.layout.item_arrange_view_peoples, parent, false)
+                ImageLoad.loader.loadImgWithCircleAndRing(
+                    view.findViewById(R.id.iv_range_view),
+                    getItem(position),
+                    2F,
+                    Color.WHITE
+                )
+                return view
+            }
+        } )
     }
 
 

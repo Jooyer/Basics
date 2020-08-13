@@ -23,27 +23,6 @@ import cn.lvsong.lib.library.R;
 
 /* 用法:
 
-<cn.lvsong.lib.library.view.CloseView
-    android:id="@+id/close_view"
-    android:layout_width="40dp"
-    android:layout_height="40dp"
-    android:layout_marginTop="20dp"
-    app:cv_circle_color="@android:color/darker_gray"
-    app:cv_circle_line_width="1dp"
-    app:cv_color="@android:color/black"
-    app:cv_line_width="1.5dp"
-    app:cv_mode="normal" />
-
-<cn.lvsong.lib.library.view.CloseView
-    android:id="@+id/close_view2"
-    android:layout_width="40dp"
-    android:layout_height="40dp"
-    android:layout_marginTop="20dp"
-    app:cv_circle_color="@android:color/darker_gray"
-    app:cv_circle_line_width="1dp"
-    app:cv_color="@android:color/darker_gray"
-    app:cv_line_width="1.5dp"
-    app:cv_mode="circle" />
 
  */
 
@@ -147,9 +126,12 @@ public class CloseView extends View {
         mCircleColor = array.getColor(R.styleable.CloseView_cv_circle_line_color, mColor);
         //如果不指定圆的线宽，则和线的线宽的一致
         mCircleLineWidth = array.getDimension(R.styleable.CloseView_cv_circle_line_width, mLineWidth);
-        mHasBg = array.getBoolean(R.styleable.CloseView_cv_has_bg, mHasBg);
-        mBgColor = array.getColor(R.styleable.CloseView_cv_bg_color, mBgColor);
-        mBgPadding = array.getDimension(R.styleable.CloseView_cv_bg_padding, 0F);
+        mHasBg = array.getBoolean(R.styleable.CloseView_cv_circle_has_bg, mHasBg);
+        mBgColor = array.getColor(R.styleable.CloseView_cv_circle_bg_color, mBgColor);
+        mBgPadding = array.getDimension(R.styleable.CloseView_cv_circle_bg_padding, mCircleLineWidth);
+        if (mBgPadding < mCircleLineWidth){
+            mBgPadding = mCircleLineWidth;
+        }
         array.recycle();
     }
 

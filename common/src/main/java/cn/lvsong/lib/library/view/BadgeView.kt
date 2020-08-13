@@ -92,7 +92,7 @@ class BadgeView(context: Context, attr: AttributeSet?) : View(context, attr) {
     private var mStrokeWidth = DensityUtil.dp2pxRtFloat(1F)
 
     /**
-     * >99 时显示分割
+     * >99 时显示分割,或者显示+ (2),默认显示... (1)
      */
     private var mMoreStyle = 1
 

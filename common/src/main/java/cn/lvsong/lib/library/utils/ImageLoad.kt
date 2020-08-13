@@ -20,10 +20,10 @@ import java.io.File
  * Date: 2019-08-11
  * Time: 9:34
  */
-class ImageLoader {
+class ImageLoad {
     companion object {
-        val loader: ImageLoader by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
-            ImageLoader()
+        val loader: ImageLoad by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
+            ImageLoad()
         }
         val options = RequestOptions()
 

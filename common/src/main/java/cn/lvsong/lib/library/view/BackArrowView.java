@@ -30,7 +30,7 @@ import cn.lvsong.lib.library.R;
     android:layout_height="40dp"
     android:layout_marginTop="20dp"
     app:bav_arrow_style="wechat_design"
-    app:bav_color="@android:color/black"
+    app:bav_arrow_color="@android:color/black"
     app:bav_stroke_width="1.5dp" />
 
 <cn.lvsong.lib.library.view.BackArrowView
@@ -39,7 +39,7 @@ import cn.lvsong.lib.library.R;
     android:layout_height="40dp"
     android:layout_marginTop="20dp"
     app:bav_arrow_style="material_design"
-    app:bav_color="@android:color/black"
+    app:bav_arrow_color="@android:color/black"
     app:bav_stroke_width="1.5dp" />
 
  */

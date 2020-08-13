@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.AppCompatImageView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/iv_range_view"
+    android:layout_width="@dimen/width_40"
+    android:layout_height="@dimen/height_40" />

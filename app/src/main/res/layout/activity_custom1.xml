@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CustomActivity1"
     android:orientation="vertical"
-    >
+    tools:context=".CustomActivity1">
 
     <cn.lvsong.lib.library.view.CustomToolbar
         android:id="@+id/toolbar"
@@ -75,5 +74,58 @@
         android:textAllCaps="false"
         android:textColor="@color/color_FFFFFF"
         android:textSize="@dimen/text_size_16" />
+
+    <!--  如果设置控件高度为200,矩形高度为150,则弧形高度最大200 -150, 通过av_bezier_ratio可以改变其高度  -->
+    <cn.lvsong.lib.library.view.ArcView
+        android:id="@+id/btn_5"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_200"
+        android:layout_margin="@dimen/padding_5"
+        app:av_bezier_ratio="1.2"
+        app:av_color="@color/color_2878FF"
+        app:av_rectangle_height="@dimen/height_150" />
+
+    <cn.lvsong.lib.library.view.DanceView
+        android:layout_width="@dimen/width_40"
+        android:layout_height="@dimen/height_40"
+        android:layout_marginStart="@dimen/padding_40"
+        android:layout_marginTop="@dimen/padding_10"
+        app:dv_height_ratio="0.7"
+        app:dv_pillar_color="@color/color_2878FF"
+        app:dv_pillar_count="4"
+        app:dv_pillar_duration="1200"
+        app:dv_space_ratio="0.5" />
+
+    <cn.lvsong.lib.library.view.ArrangeView
+        android:id="@+id/av"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/height_40"
+        android:layout_marginStart="@dimen/padding_10"
+        android:layout_marginTop="@dimen/padding_10"
+        app:av_first_show_top="false"
+        app:av_show_count="6"
+        app:av_space_width="@dimen/padding_8"
+        />
+
+    <cn.lvsong.lib.library.view.BackArrowView
+        android:id="@+id/bav"
+        android:layout_width="@dimen/width_40"
+        android:layout_height="@dimen/height_40"
+        android:layout_marginTop="@dimen/padding_10"
+        app:bav_arrow_style="material_design"
+        app:bav_arrow_color="@color/color_2878FF"
+        app:bav_stroke_width="1.5dp"
+        />
+
+    <cn.lvsong.lib.library.view.BackArrowView
+        android:id="@+id/bav2"
+        android:layout_width="@dimen/width_40"
+        android:layout_height="@dimen/height_40"
+        android:layout_marginTop="@dimen/padding_10"
+        app:bav_arrow_style="wechat_design"
+        app:bav_arrow_color="@android:color/black"
+        app:bav_stroke_width="1.5dp"
+        />
+
 
 </LinearLayout>

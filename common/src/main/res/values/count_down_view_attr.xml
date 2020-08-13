@@ -4,12 +4,10 @@
     <declare-styleable name="CountDownView">
         <attr name="cdv_ring_color" format="color|reference"/>
         <attr name="cdv_ring_width" format="integer|dimension"/>
-
-        <attr name="cdv_circle_color" format="color|reference"/>
-
+        <attr name="cdv_bg_color" format="color|reference"/>
         <attr name="cdv_text_color" format="color|reference"/>
         <attr name="cdv_text_size" format="integer|dimension"/>
-
+        <attr name="cdv_text_info" format="string|reference"/>
     </declare-styleable>
 
 </resources>

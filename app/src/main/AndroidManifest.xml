@@ -16,8 +16,9 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="m">
-        <activity android:name=".ChatBubbleActivity"/>
-        <activity android:name=".CustomActivity1"/>
+        <activity android:name=".CustomActivity2"/>
+        <activity android:name=".ChatBubbleActivity" />
+        <activity android:name=".CustomActivity1" />
         <activity android:name=".CustomMenuActivity" />
         <activity android:name=".CustomToolbarActivity" />
         <activity android:name=".EncodeOrDecodeActivity" />
