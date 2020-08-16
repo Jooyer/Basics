@@ -17,8 +17,9 @@ import androidx.appcompat.widget.AppCompatImageView;
 import cn.lvsong.lib.library.R;
 
 
-/** https://github.com/yuxingxin/TintStateImage/blob/master/library/src/main/res/values/attrs.xml  --> getColorStateList
- *
+/**
+ * https://github.com/yuxingxin/TintStateImage/blob/master/library/src/main/res/values/attrs.xml  --> getColorStateList
+ * <p>
  * Desc: 默认为左右结构，图片在左，文字在右
  * Author: Jooyer
  * Date: 2019-05-24
@@ -83,6 +84,10 @@ public class LeftImgAndRightTextView extends RelativeLayout {
      * 两个控件的位置结构
      */
     private int mStyle = STYLE_ICON_LEFT;
+    /**
+     * 是否被选中
+     */
+    private boolean mChecked;
     /**
      * 标示onTouch方法的返回值，用来解决onClick和onTouch冲突问题
      */
@@ -157,6 +162,12 @@ public class LeftImgAndRightTextView extends RelativeLayout {
             spacing = a.getDimensionPixelSize(R.styleable.LeftImgAndRightTextView_lirt_spacing, dp2px(context, 8));
             //设置两个控件的位置结构
             mStyle = a.getInt(R.styleable.LeftImgAndRightTextView_lirt_style, 0);
+
+            mChecked = a.getBoolean(R.styleable.LeftImgAndRightTextView_lirt_checked, false);
+            if (mChecked){// TODO
+
+            }
+
             setIconStyle(mStyle);
             a.recycle();
         }
@@ -359,7 +370,7 @@ public class LeftImgAndRightTextView extends RelativeLayout {
         setIconStyle(mStyle);
     }
 
-    private int dp2px(Context context,int spacing) {
+    private int dp2px(Context context, int spacing) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, spacing, context.getResources().getDisplayMetrics());
     }
 

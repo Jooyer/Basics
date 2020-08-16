@@ -3,10 +3,9 @@
 
     <declare-styleable name="CustomSearchView">
 
-        <!-- 显示返回按钮 -->
+        <!-- 是否显示返回按钮 -->
         <attr name="csv_left_arrow_visible" format="boolean" />
-        <!-- 显示返回按钮 -->
-        <!-- 左侧箭头的 颜色 -->
+        <!-- 左侧箭头的颜色 -->
         <attr name="csv_left_arrow_color" format="color|reference" />
         <!-- 左侧箭头 Padding(上下左右) -->
         <attr name="csv_left_arrow_padding" format="dimension|integer" />
@@ -22,7 +21,6 @@
         <attr name="csv_show_search_icon" format="boolean" />
         <!--  搜索图标颜色 -->
         <attr name="csv_search_icon_color" format="color|reference" />
-
         <!--是否显示清除图标,默认显示-->
         <attr name="csv_show_clear_icon" format="boolean" />
         <!--  清除图标颜色 -->
@@ -31,15 +29,15 @@
 
         <!-- 中间搜索容器高度,最小高度 30dp -->
         <attr name="csv_input_container_height" format="dimension|reference" />
-        <!-- 中间搜索容器的左侧margin -->
+        <!-- 中间搜索容器leftMargin -->
         <attr name="csv_input_container_margin_left" format="dimension|reference" />
-        <!-- 中间搜索容器的右侧margin -->
+        <!-- 中间搜索容器rightMargin -->
         <attr name="csv_input_container_margin_right" format="dimension|reference" />
-        <!-- 中间搜索容器 drawable -->
+        <!-- 中间搜索容器背景drawable -->
         <attr name="csv_input_container_drawable" format="reference"/>
 
 
-        <!--中间搜索输入框左侧padding-->
+        <!--中间搜索输入框leftPadding-->
         <attr name="csv_input_left_padding" format="dimension|reference" />
         <!--默认的搜索文本-->
         <attr name="csv_default_search_text" format="string|reference" />
@@ -71,7 +69,7 @@
         <attr name="csv_search_btn_width" format="dimension|reference" />
         <!-- 搜索按钮高度 -->
         <attr name="csv_search_btn_height" format="dimension|reference" />
-        <!-- 搜索按钮宽度右侧margin -->
+        <!-- 搜索按钮宽度rightMargin -->
         <attr name="csv_search_btn_margin_right" format="dimension|reference" />
 
         <!-- 底部分割线 ,默认隐藏-->

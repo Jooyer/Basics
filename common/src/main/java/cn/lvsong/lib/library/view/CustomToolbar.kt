@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.DrawableRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import cn.lvsong.lib.library.R
@@ -171,10 +172,10 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         )
 
         val centerTextInfo = arr.getText(R.styleable.CustomToolbar_ct_center_text_info)
-        val centerTextDrawable = arr.getDrawable(R.styleable.CustomToolbar_ct_center_text_drawable)
-        val centerTextDrawablePadding =
-            arr.getDimension(R.styleable.CustomToolbar_ct_center_text_drawable_padding, dp2px(10F))
-                .toInt()
+//        val centerTextDrawable = arr.getDrawable(R.styleable.CustomToolbar_ct_center_text_drawable)
+//        val centerTextDrawablePadding =
+//            arr.getDimension(R.styleable.CustomToolbar_ct_center_text_drawable_padding, dp2px(10F))
+//                .toInt()
         val centerTextSize =
             arr.getDimension(R.styleable.CustomToolbar_ct_center_text_size, dp2px(18F))
         val centerTextColor = arr.getColor(
@@ -189,7 +190,7 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         val rightImageWidth =
             arr.getDimension(R.styleable.CustomToolbar_ct_right_image_width, dp2px(20F)).toInt()
         val rightImageHeight =
-            arr.getDimension(R.styleable.CustomToolbar_ct_right_image_height, 20F).toInt()
+            arr.getDimension(R.styleable.CustomToolbar_ct_right_image_height, dp2px(20F)).toInt()
         val rightImagePadding =
             arr.getDimension(R.styleable.CustomToolbar_ct_right_image_padding, dp2px(0F)).toInt()
         val rightImageRightMargin =
@@ -231,7 +232,7 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         val rightMoveViewColor = arr.getColor(R.styleable.CustomToolbar_ct_right_mav_color,
             ContextCompat.getColor(context, R.color.color_2878FF))
         val rightMoveViewDotRadius = arr.getDimension(R.styleable.CustomToolbar_ct_right_mav_dot_radius,dp2px(2F))
-        val rightMoveViewOrientation = arr.getInt(R.styleable.CustomToolbar_ct_right_mav_orientation,ORIENTATION_HORIZONTAL)
+        val rightMoveViewOrientation = arr.getInt(R.styleable.CustomToolbar_ct_right_mav_orientation,ORIENTATION_VERTICAL)
 
         val bottomDividerVisible =
             arr.getBoolean(R.styleable.CustomToolbar_ct_bottom_divider_visible, true)
@@ -291,15 +292,15 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
 
 //        tv_center_title_menu.setShadowLayer(0.15F, 0.2F, 0.2F, ContextCompat.getColor(context, R.color.color_write))
 
-        if (null != centerTextDrawable) {
-            tv_center_title_menu.setCompoundDrawablesWithIntrinsicBounds(
-                centerTextDrawable,
-                null,
-                null,
-                null
-            )
-            tv_center_title_menu.compoundDrawablePadding = centerTextDrawablePadding
-        }
+//        if (null != centerTextDrawable) {
+//            tv_center_title_menu.setCompoundDrawablesWithIntrinsicBounds(
+//                centerTextDrawable,
+//                null,
+//                null,
+//                null
+//            )
+//            tv_center_title_menu.compoundDrawablePadding = centerTextDrawablePadding
+//        }
 
 
         iv_right_icon_menu.visibility = if (rightImageVisible) View.VISIBLE else View.GONE
@@ -390,32 +391,45 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         tv_right_name_menu.visibility = visable
     }
 
-    fun setCenterText(text: String) {
-        tv_center_title_menu.text = text
+    fun setRightImageVisible(visible: Int) {
+        iv_right_icon_menu.visibility = visible
+    }
+
+
+    fun setRightImage2Visible(visible: Int) {
+        iv_right_icon_menu2.visibility = visible
     }
 
     fun setRightText(text: String) {
         tv_right_name_menu.text = text
     }
 
-    fun setRightImage2(resource: Int) {
+    fun setRightImage(@DrawableRes resource: Int) {
+        iv_right_icon_menu.setImageResource(resource)
+    }
+
+    fun setRightImage2(@DrawableRes resource: Int) {
         iv_right_icon_menu2.setImageResource(resource)
+    }
+
+    fun setCenterText(text: String) {
+        tv_center_title_menu.text = text
+    }
+
+    fun setLeftText(text: String) {
+        tv_left_name_menu.text = text
     }
 
     fun setLeftArrowVisible(visible: Int) {
         iv_left_icon_menu.visibility = visible
     }
 
-    fun setRightImage2Visible(visible: Int) {
-        iv_right_icon_menu2.visibility = visible
-    }
-
-    fun setLeftArrowClickListener(listener: OnClickListener){
+    fun setLeftArrowClickListener(listener: View.OnClickListener){
         iv_left_icon_menu.setOnClickListener(listener)
     }
 
 
-    fun setLeftTextViewClickListener(listener: OnClickListener){
+    fun setLeftTextViewClickListener(listener: View.OnClickListener){
         tv_left_name_menu.setOnClickListener(listener)
     }
 

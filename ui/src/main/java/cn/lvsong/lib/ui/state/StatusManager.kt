@@ -209,28 +209,28 @@ class StatusManager(builder: Builder) {
 
         var onRetryListener: OnRetryListener? = null
 
-        fun loadingView(@LayoutRes loadingLayoutResId: Int): Builder {
-            this.loadingLayoutResId = loadingLayoutResId
+        fun loadingView(@LayoutRes loadingLayout: Int): Builder {
+            this.loadingLayoutResId = loadingLayout
             return this
         }
 
         // https://blog.csdn.net/a740169405/article/details/50351013
         // https://www.jianshu.com/p/63a066e7a5a9
-        fun netWorkErrorView(@LayoutRes newWorkErrorId: Int): Builder {
+        fun netWorkErrorView(@LayoutRes netWorkErrorLayout: Int): Builder {
             netWorkErrorVs = ViewStub(context)
-            netWorkErrorVs.layoutResource = newWorkErrorId
+            netWorkErrorVs.layoutResource = netWorkErrorLayout
             return this
         }
 
-        fun emptyDataView(@LayoutRes noDataViewId: Int): Builder {
+        fun emptyDataView(@LayoutRes noDataLayout: Int): Builder {
             emptyDataVs = ViewStub(context)
-            emptyDataVs.layoutResource = noDataViewId
+            emptyDataVs.layoutResource = noDataLayout
             return this
         }
 
-        fun errorView(@LayoutRes errorViewId: Int): Builder {
+        fun errorView(@LayoutRes errorLayout: Int): Builder {
             errorVs = ViewStub(context)
-            errorVs.layoutResource = errorViewId
+            errorVs.layoutResource = errorLayout
             return this
         }
 
@@ -239,8 +239,8 @@ class StatusManager(builder: Builder) {
             return this
         }
 
-        fun contentViewResId(@LayoutRes contentLayoutResId: Int): Builder {
-            this.contentLayoutResId = contentLayoutResId
+        fun contentView(@LayoutRes contentLayout: Int): Builder {
+            this.contentLayoutResId = contentLayout
             return this
         }
 
@@ -254,7 +254,7 @@ class StatusManager(builder: Builder) {
             return this
         }
 
-        fun errorRetryViewId(@IdRes errorRetryViewId: Int): Builder {
+            fun errorRetryViewId(@IdRes errorRetryViewId: Int): Builder {
             this.errorRetryViewId = errorRetryViewId
             return this
         }

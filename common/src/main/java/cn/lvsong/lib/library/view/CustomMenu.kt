@@ -8,6 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import cn.lvsong.lib.library.R
@@ -69,11 +72,6 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
      * 微信风格
      */
     private val ARROW_STYLE_WECHAT_DESIGN = 2
-
-    /**
-     * 自定义布局
-     */
-//    private lateinit var cl_menu_container: View
     /**
      * 最左侧图标
      */
@@ -136,7 +134,7 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         val leftImageHeight =
             arr.getDimension(R.styleable.CustomMenu_cm_left_image_height, dp2px(22F)).toInt()
         val leftImageLeftMargin =
-            arr.getDimension(R.styleable.CustomMenu_cm_left_image_margin, dp2px(20F)).toInt()
+            arr.getDimension(R.styleable.CustomMenu_cm_left_image_left_margin, dp2px(20F)).toInt()
 
         val leftTextInfo = arr.getText(R.styleable.CustomMenu_cm_left_text_info)
         val leftTextSize = arr.getInteger(R.styleable.CustomMenu_cm_left_text_size, 14).toFloat()
@@ -153,7 +151,6 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         val rightTextSize = arr.getInt(R.styleable.CustomMenu_cm_right_text_size, 14).toFloat()
         rightTextRightMargin =
             arr.getDimension(R.styleable.CustomMenu_cm_right_text_right_margin, dp2px(5F)).toInt()
-        val rightInputType = arr.getInt(R.styleable.CustomMenu_cm_right_text_input_type, 0)
         val rightTextColor = arr.getColor(
             R.styleable.CustomMenu_cm_right_text_color,
             ContextCompat.getColor(context, R.color.color_333333)
@@ -245,9 +242,9 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         tv_right_name_menu.setTextSize(TypedValue.COMPLEX_UNIT_DIP, rightTextSize)
         tv_right_name_menu.setHintTextColor(rightTextHintColor)
 
-        if (1 == rightInputType) {
-            tv_right_name_menu.inputType = android.text.InputType.TYPE_CLASS_NUMBER
-        }
+//        if (1 == rightInputType) {
+//            tv_right_name_menu.inputType = android.text.InputType.TYPE_CLASS_NUMBER
+//        }
 //        if (!TextUtils.isEmpty(rightHintTextInfo)) {
 //            tv_right_name_menu.hint = rightHintTextInfo
 //        }
@@ -313,23 +310,8 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         arr.recycle()
     }
 
-//    override fun onFinishInflate() {
-//        super.onFinishInflate()
-//        val rootLp: ConstraintLayout.LayoutParams = cl_menu_container.layoutParams as LayoutParams
-//        rootLp.height = height
-//        cl_menu_container.layoutParams = rootLp
-//    }
-
     fun setRightTextVisible(isVisible: Boolean) {
         tv_right_name_menu.visibility = if (isVisible) View.VISIBLE else View.GONE
-    }
-
-    fun setRightNearImageViewVisible(isVisible: Boolean) {
-        iv_near_right_icon_menu.visibility = if (isVisible) View.VISIBLE else View.GONE
-    }
-
-    fun getRightNearImageView(): ImageView {
-        return iv_near_right_icon_menu
     }
 
     fun setRightImageViewVisible(isVisible: Boolean) {
@@ -346,7 +328,6 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
             rightTextLp.marginEnd = rightTextRightMargin
             iv_right_arrow_menu.visibility = View.GONE
         }
-
         iv_near_right_icon_menu.layoutParams = rightNearImageLp
         tv_right_name_menu.layoutParams = rightTextLp
     }
@@ -356,13 +337,18 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         text?.let {
             tv_left_name_menu.text = text
         }
-
     }
 
     fun setLeftText(text: String?, color: Int) {
         text?.let {
             tv_left_name_menu.text = text
             tv_left_name_menu.setTextColor(color)
+        }
+    }
+
+    fun setRightText(text: String?) {
+        text?.let {
+            tv_right_name_menu.text = it
         }
     }
 
@@ -373,13 +359,19 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         }
     }
 
-    fun setRightText(text: String?) {
-        text?.let {
-            tv_right_name_menu.text = it
-        }
+    fun setLeftImage(@DrawableRes resource: Int){
+        iv_left_icon_menu.setImageResource(resource)
     }
 
-    fun getRightTextView() = tv_right_name_menu
+    fun setRightImage(@DrawableRes resource: Int) {
+        iv_near_right_icon_menu.setImageResource(resource)
+    }
+
+
+    fun setMoreViewListener(listener: View.OnClickListener) {
+        iv_right_arrow_menu.setOnClickListener(listener)
+    }
+
 
     private fun dp2px(def: Float): Float {
         return TypedValue.applyDimension(

@@ -148,5 +148,23 @@
         app:ct_bottom_divider_visible="false"
         />
 
+    <cn.lvsong.lib.library.view.CustomToolbar
+        android:id="@+id/ct_9"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_50"
+        app:ct_center_text_color="@color/color_333333"
+        app:ct_center_text_info="右侧显示文本"
+        app:ct_center_text_size="@dimen/text_size_16"
+        app:ct_right_text_visible="true"
+        app:ct_right_text_info="反馈"
+        app:ct_right_text_color="@color/color_2878FF"
+        app:ct_right_text_right_margin="@dimen/padding_10"
+        app:ct_bottom_divider_visible="true"
+        app:ct_bottom_divider_color="@color/color_333333"
+        app:ct_right_image_visible="true"
+        app:ct_right_image_right_margin="@dimen/padding_40"
+        app:ct_right_image_drawable="@drawable/ic_baseline_alarm_add_24"
+        />
+
 
 </LinearLayout>

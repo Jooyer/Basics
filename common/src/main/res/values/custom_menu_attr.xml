@@ -2,8 +2,6 @@
 <resources>
 
     <declare-styleable name="CustomMenu">
-        <!-- 总高 -->
-
         <!-- 最左侧图标是否可见 -->
         <attr name="cm_left_image_visible" format="boolean"/>
         <!-- 最左侧图标的 drawable -->
@@ -12,8 +10,8 @@
         <attr name="cm_left_image_width" format="dimension|integer"/>
         <!-- 最左侧图标高度 -->
         <attr name="cm_left_image_height" format="dimension|integer"/>
-        <!-- 最左侧图标左侧Margin -->
-        <attr name="cm_left_image_margin" format="dimension|integer"/>
+        <!-- 最左侧图标LeftMargin -->
+        <attr name="cm_left_image_left_margin" format="dimension|integer"/>
 
         <!-- 紧靠左侧的文本 -->
         <attr name="cm_left_text_info" format="reference|string"/>
@@ -21,27 +19,27 @@
         <attr name="cm_left_text_size" format="dimension|integer"/>
         <!-- 紧靠左侧的文本颜色 -->
         <attr name="cm_left_text_color" format="color|reference"/>
-        <!-- 紧靠左侧的文本左侧Margin -->
+        <!-- 紧靠左侧的文本LeftMargin -->
         <attr name="cm_left_text_left_margin" format="dimension|integer"/>
 
+        <!-- 紧靠右侧的文本是否可见 -->
+        <attr name="cm_right_text_visible" format="boolean"/>
         <!-- 紧靠右侧的文本 -->
         <attr name="cm_right_text_info" format="reference|string"/>
         <!-- 紧靠右侧的提示文本 -->
 <!--        <attr name="cm_right_hint_text_info" format="reference|string"/>-->
-        <!-- 紧靠右侧的文本是否可见 -->
-        <attr name="cm_right_text_visible" format="boolean"/>
         <!-- 紧靠右侧的文本大小 -->
         <attr name="cm_right_text_size" format="dimension|integer"/>
         <!-- 紧靠右侧的文本颜色 -->
         <attr name="cm_right_text_color" format="color|reference"/>
         <!-- 紧靠右侧的提示文本颜色 -->
         <attr name="cm_right_text_hint_color" format="color|reference"/>
-        <!-- 紧靠右侧的文本右侧Margin -->
+        <!-- 紧靠右侧的文本RightMargin -->
         <attr name="cm_right_text_right_margin" format="dimension|integer"/>
         <!-- 输入的类型 -->
-        <attr name="cm_right_text_input_type">
-            <enum name="number" value="1"/>
-        </attr>
+<!--        <attr name="cm_right_text_input_type">-->
+<!--            <enum name="number" value="1"/>-->
+<!--        </attr>-->
 
         <!-- 紧靠右侧图标是否可见 -->
         <attr name="cm_right_near_image_visible" format="boolean"/>
@@ -51,17 +49,18 @@
         <attr name="cm_right_near_image_width" format="dimension|integer"/>
         <!-- 紧靠右侧图标高度 -->
         <attr name="cm_right_near_image_height" format="dimension|integer"/>
-        <!-- 紧靠右侧图标右侧Margin,距离最右侧 -->
+        <!-- 紧靠右侧图标rightMargin,距离最右侧 -->
         <attr name="cm_right_near_image_right_margin" format="dimension|integer"/>
         <!-- 紧靠右侧图标顶部Margin,距离最上面,默认0dp -->
         <attr name="cm_right_near_image_top_margin" format="dimension|integer"/>
         <!-- 紧靠右侧是否垂直居中,模式是的 -->
 <!--        <attr name="cm_right_near_image_center_vertical" format="boolean"/>-->
+
         <!-- 最右侧箭头的是否可见 -->
         <attr name="cm_right_arrow_visible" format="boolean"/>
         <!-- 最右侧箭头的 颜色 -->
         <attr name="cm_right_arrow_color" format="color|reference"/>
-        <!-- 左侧图片 Padding(上下左右) -->
+        <!-- 最右侧箭头 Padding(上下左右) -->
         <attr name="cm_right_arrow_padding" format="dimension|integer"/>
         <!-- 最右侧箭头方向, 向左或向右 -->
         <attr name="cm_right_arrow_orientation" format="enum">
@@ -79,16 +78,16 @@
         <attr name="cm_right_arrow_width" format="dimension|integer"/>
         <!-- 最右侧箭头高度 -->
         <attr name="cm_right_arrow_height" format="dimension|integer"/>
-        <!-- 最右侧箭头右侧Margin -->
+        <!-- 最右侧箭头rightMargin -->
         <attr name="cm_right_arrow_right_margin" format="dimension|integer"/>
 
         <!-- 底部分割线是否可见 -->
         <attr name="cm_bottom_divider_visible" format="boolean"/>
         <!-- 底部分割线颜色 -->
         <attr name="cm_bottom_divider_color" format="color|reference"/>
-        <!-- 底部分割线左侧Margin -->
+        <!-- 底部分割线leftMargin -->
         <attr name="cm_bottom_divider_left_margin" format="dimension|integer"/>
-        <!-- 底部分割线右侧Margin -->
+        <!-- 底部分割线rightMargin -->
         <attr name="cm_bottom_divider_right_margin" format="dimension|integer"/>
 
 
@@ -105,7 +104,7 @@
         <attr name="cem_left_image_width" format="dimension|integer"/>
         <!-- 最左侧图标高度 -->
         <attr name="cem_left_image_height" format="dimension|integer"/>
-        <!-- 最左侧图标左侧Margin -->
+        <!-- 最左侧图标leftMargin -->
         <attr name="cem_left_image_margin" format="dimension|integer"/>
 
         <!-- 紧靠左侧的文本 -->
@@ -114,14 +113,14 @@
         <attr name="cem_left_text_size" format="dimension|integer"/>
         <!-- 紧靠左侧的文本颜色 -->
         <attr name="cem_left_text_color" format="color|reference"/>
-        <!-- 紧靠左侧的文本左侧Margin -->
+        <!-- 紧靠左侧的文本leftMargin -->
         <attr name="cem_left_text_left_margin" format="dimension|integer"/>
 
         <!-- 右侧输入框的文本是否可见 -->
         <attr name="cem_right_input_visible" format="boolean"/>
-        <!-- 右侧输入框宽度 -->
+        <!-- 右侧输入框leftPadding -->
         <attr name="cem_right_input_left_padding" format="dimension|integer"/>
-        <!-- 右侧输入框宽度 -->
+        <!-- 右侧输入框rightPadding -->
         <attr name="cem_right_input_right_padding" format="dimension|integer"/>
         <!-- 右侧输入框宽度 -->
         <attr name="cem_right_input_width" format="dimension|integer"/>
@@ -137,9 +136,9 @@
         <attr name="cem_right_input_text_color" format="color|reference"/>
         <!-- 右侧输入框的提示文本颜色 -->
         <attr name="cem_right_input_hint_color" format="color|reference"/>
-        <!-- 右侧输入框的文本右侧Margin -->
+        <!-- 右侧输入框的文本rightMargin -->
         <attr name="cem_right_input_right_margin" format="dimension|integer"/>
-        <!-- 右侧输入框输入的类型,默认是文本, 如果输入1则表示数字 -->
+        <!-- 右侧输入框输入的类型,默认是文本, 如果输入number则表示数字 -->
         <attr name="cem_right_input_type">
             <enum name="number" value="1"/>
         </attr>
@@ -153,7 +152,7 @@
         <attr name="cem_right_image_width" format="dimension|integer"/>
         <!-- 最右侧图标高度 -->
         <attr name="cem_right_image_height" format="dimension|integer"/>
-        <!-- 最右侧图标高度右侧Margin -->
+        <!-- 最右侧图标高度rightMargin -->
         <attr name="cem_right_image_right_margin" format="dimension|integer"/>
 
 
@@ -161,9 +160,9 @@
         <attr name="cem_bottom_divider_visible" format="boolean"/>
         <!-- 底部分割线颜色 -->
         <attr name="cem_bottom_divider_color" format="color|reference"/>
-        <!-- 底部分割线左侧Margin -->
+        <!-- 底部分割线leftMargin -->
         <attr name="cem_bottom_divider_left_margin" format="dimension|integer"/>
-        <!-- 底部分割线右侧Margin -->
+        <!-- 底部分割线rightMargin -->
         <attr name="cem_bottom_divider_right_margin" format="dimension|integer"/>
 
 

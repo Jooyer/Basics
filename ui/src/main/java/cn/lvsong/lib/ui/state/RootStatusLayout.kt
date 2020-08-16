@@ -11,6 +11,7 @@ import android.widget.FrameLayout
 import androidx.annotation.LayoutRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import cn.lvsong.lib.library.listener.OnClickFastListener
 
 
 /**
@@ -329,9 +330,12 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
                 layoutResId
             }
         ) ?: return
-        retryView?.setOnClickListener {
-            onRetryListener?.onRetry()
-        }
+
+        retryView?.setOnClickListener(object : OnClickFastListener(1200L) {
+                override fun onFastClick(v: View) {
+                    onRetryListener?.onRetry()
+                }
+            })
     }
 
     private fun dp2px(def: Float): Float {
