@@ -837,10 +837,18 @@ public class UnNestedRefreshLayout extends ViewGroup {
     ////////////////////////////////////////////////////////////////////////////////////////////
 
 
+    /**
+     * 是否可以刷新
+     * @param refreshable --> 默认是true
+     */
     public void setRefreshable(boolean refreshable) {
         this.mRefreshable = refreshable;
     }
 
+    /**
+     * 是否可以加载
+     * @param loadable --> 默认是true
+     */
     public void setLoadable(boolean loadable) {
         this.mLoadable = loadable;
     }
@@ -851,7 +859,7 @@ public class UnNestedRefreshLayout extends ViewGroup {
      * @param isSuccess --> 可以根据这个值,设置刷新成功或者失败
      */
     public void setFinishRefresh(boolean isSuccess) {
-        setFinishRefresh(isSuccess, 800);
+        setFinishRefresh(isSuccess, (long) mScrollerMoveTime);
     }
 
     /**

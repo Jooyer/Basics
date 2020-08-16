@@ -24,8 +24,6 @@ class LazyFragment : BaseFragment() {
 
         snl_container.setOnRefreshAndLoadListener(object : OnNestedRefreshAndLoadListener() {
             override fun onRefresh(refreshLayout: NestedRefreshLayout) {
-//                Log.e("LazyFragment", "onRefresh==============")
-
                 data.clear()
                 for (i in 0 until 10) {
                     data.add("-----$i------")
@@ -37,7 +35,6 @@ class LazyFragment : BaseFragment() {
             }
 
             override fun onLoad(refreshLayout: NestedRefreshLayout) {
-//                Log.e("LazyFragment", "onLoad==============")
                 for (i in data.size until data.size + 6) {
                     data.add("-----$i------")
                 }

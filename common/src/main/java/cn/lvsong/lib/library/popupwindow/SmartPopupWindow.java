@@ -20,7 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.core.widget.PopupWindowCompat;
 
 /**
- * Desc: https://www.jianshu.com/p/6c32889e6377
+ * Desc:原作者 https://www.jianshu.com/p/6c32889e6377
  * Author: Jooyer
  * Date: 2019-05-26
  * Time: 9:02
