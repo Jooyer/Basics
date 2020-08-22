@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import cn.lvsong.lib.library.utils.OnLazyClickListener
 import cn.lvsong.lib.ui.R
-import cn.lvsong.lib.ui.state.OnRetryListener
-import cn.lvsong.lib.ui.state.StatusManager
+import cn.lvsong.lib.library.state.OnRetryListener
+import cn.lvsong.lib.library.state.StatusManager
 
 
 /** 参考: https://blog.csdn.net/qq_36486247/article/details/102531304

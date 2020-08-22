@@ -1,4 +1,4 @@
-package  cn.lvsong.lib.ui.state
+package  cn.lvsong.lib.library.state
 
 import android.content.Context
 import android.view.View
@@ -140,6 +140,13 @@ class StatusManager(builder: Builder) {
         } else {
             delayShowContent(mDelayTime + mStartTime - endTime)
         }
+    }
+
+    /**
+     * 立刻显示内容
+     */
+    fun showContentImmediately(){
+        mRootFrameLayout.showContent()
     }
 
     fun delayShowContent(delay: Long) {

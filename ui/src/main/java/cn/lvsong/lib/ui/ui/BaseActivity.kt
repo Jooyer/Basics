@@ -12,8 +12,8 @@ import androidx.lifecycle.ViewModelProvider
 import cn.lvsong.lib.library.utils.OnLazyClickListener
 import cn.lvsong.lib.library.utils.StatusBarUtil
 import cn.lvsong.lib.ui.R
-import cn.lvsong.lib.ui.state.OnRetryListener
-import cn.lvsong.lib.ui.state.StatusManager
+import cn.lvsong.lib.library.state.OnRetryListener
+import cn.lvsong.lib.library.state.StatusManager
 
 /**
  * https://segmentfault.com/q/1010000013729036

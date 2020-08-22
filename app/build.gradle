@@ -1,6 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
     defaultConfig {
@@ -29,12 +31,45 @@ android {
 
 dependencies {
     implementation rootProject.ext.dependencies.fileTree
+    implementation project(path: ':ui')
+    implementation project(path: ':net')
+    implementation project(path: ':common')
+
+    implementation rootProject.ext.dependencies.core_ktx
+    implementation rootProject.ext.dependencies.fileTree
     implementation rootProject.ext.dependencies.kotlin_stdlib
     implementation rootProject.ext.dependencies.appcompat
     implementation rootProject.ext.dependencies.core_ktx
     implementation rootProject.ext.dependencies.constraintlayout
+
     implementation rootProject.ext.dependencies.junit
     implementation rootProject.ext.dependencies.runner
     implementation rootProject.ext.dependencies.espresso_core
-    implementation project(path: ':ui')
+
+    implementation rootProject.ext.dependencies.permission
+    implementation rootProject.ext.dependencies.material
+
+    implementation rootProject.ext.dependencies.glide
+    kapt rootProject.ext.dependencies.glide_compiler
+
+//    api rootProject.ext.dependencies.room_runtime
+//    kapt rootProject.ext.dependencies.room_compiler
+//
+//    api rootProject.ext.dependencies.rxrouter
+//    kapt rootProject.ext.dependencies.rxrouter_compiler
+//
+
+//
+//    api rootProject.ext.dependencies.multidex
+//    api rootProject.ext.dependencies.mmkv
+//
+//    api rootProject.ext.dependencies.preLoader
+//
+//    // 通过 Jar 引入了
+//    api rootProject.ext.dependencies.bugly
+//
+//    api rootProject.ext.dependencies.packer_ng
+//    api rootProject.ext.dependencies.paging
+
+
 }

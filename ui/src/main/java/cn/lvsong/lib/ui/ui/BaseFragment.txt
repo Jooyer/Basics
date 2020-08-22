@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import cn.lvsong.lib.library.rxbind.RxView
 import cn.lvsong.lib.library.R
-import cn.lvsong.lib.ui.state.OnRetryListener
-import cn.lvsong.lib.ui.state.StatusManager
+import cn.lvsong.lib.library.state.OnRetryListener
+import cn.lvsong.lib.library.state.StatusManager
 import io.reactivex.disposables.CompositeDisposable
 
 

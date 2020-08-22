@@ -1,4 +1,4 @@
-package cn.lvsong.lib.ui.state
+package cn.lvsong.lib.library.state
 
 import android.content.Context
 import android.util.AttributeSet
@@ -200,7 +200,7 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
                         val param = value.layoutParams as LayoutParams
                         param.topMargin = mTransY
                         value.layoutParams = param
-                    } else {
+                    } else if (View.VISIBLE == value.visibility){
                         value.animate()
                             .alpha(0F)
                             .setDuration(300)

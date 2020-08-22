@@ -6,7 +6,7 @@ apply plugin: 'kotlin-kapt'
 // 2. 上传 jitpack.io需要的配置
 
 apply plugin: 'com.github.dcendents.android-maven' // 必加
-group='com.github.Jooyer'// 比加,com.github.<用户名>,如 https://github.com/Jooyer/Beauty,则是 com.github.Jooyer
+group = 'com.github.Jooyer'// 比加,com.github.<用户名>,如 https://github.com/Jooyer/Beauty,则是 com.github.Jooyer
 
 android {
     compileSdkVersion 28
@@ -32,5 +32,15 @@ android {
 }
 
 dependencies {
-    api project(path: ':common')
+    implementation project(path: ':common')
+    implementation rootProject.ext.dependencies.kotlinx_coroutines_android
+    implementation rootProject.ext.dependencies.retrofit2_kotlin_coroutines_adapter
+    implementation rootProject.ext.dependencies.retrofit
+    implementation rootProject.ext.dependencies.converter_gson
+    implementation rootProject.ext.dependencies.logging_interceptor
+    kapt rootProject.ext.dependencies.lifecycle_compiler
+    implementation rootProject.ext.dependencies.lifecycle_extensions
+    implementation rootProject.ext.dependencies.lifecycle_viewmodel_ktx
+    implementation rootProject.ext.dependencies.work_runtime_ktx
+    implementation rootProject.ext.dependencies.concurrent_futures_ktx
 }

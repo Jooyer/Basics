@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@android:color/white"
     android:clickable="true"
     android:focusable="true"
@@ -14,7 +15,7 @@
         android:id="@+id/empty_img_status"
         android:layout_width="@dimen/width_100"
         android:layout_height="@dimen/height_100"
-        android:background="@color/main_theme_color" />
+        tools:background="@color/main_theme_color" />
 
     <TextView
         android:id="@+id/view_retry_load_data"
@@ -26,7 +27,7 @@
         android:paddingTop="@dimen/padding_6"
         android:paddingRight="@dimen/padding_18"
         android:paddingBottom="@dimen/padding_6"
-        android:text="@string/common_ui_data_empty"
+        tools:text="@string/common_ui_data_empty"
         android:textColor="@color/main_theme_color"
         android:textSize="@dimen/text_size_16" />
 

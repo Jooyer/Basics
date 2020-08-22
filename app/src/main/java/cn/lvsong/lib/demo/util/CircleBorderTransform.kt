@@ -1,4 +1,4 @@
-package cn.lvsong.lib.library.other
+package cn.lvsong.lib.demo.util
 
 import android.graphics.*
 import com.bumptech.glide.load.Key

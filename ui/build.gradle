@@ -32,5 +32,11 @@ android {
 }
 
 dependencies {
-    api project(path: ':net')
+    implementation project(path: ':common')
+    implementation project(path: ':net')
+    implementation rootProject.ext.dependencies.kotlin_stdlib
+    implementation rootProject.ext.dependencies.appcompat
+    implementation rootProject.ext.dependencies.core_ktx
+    implementation rootProject.ext.dependencies.constraintlayout
+
 }

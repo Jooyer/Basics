@@ -1,6 +1,6 @@
 package cn.lvsong.lib.demo
 
-import cn.lvsong.lib.library.LSApp
+import android.app.Application
 import cn.lvsong.lib.net.network.NetWorkMonitorManager
 
 /**
@@ -9,7 +9,7 @@ import cn.lvsong.lib.net.network.NetWorkMonitorManager
  * Date: 2019-11-09
  * Time: 23:46
  */
-class App :LSApp() {
+class App :Application() {
 
     override fun onCreate() {
         super.onCreate()

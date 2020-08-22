@@ -1,4 +1,4 @@
-package cn.lvsong.lib.library.utils
+package cn.lvsong.lib.demo.util
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -11,7 +11,8 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.annotation.ColorInt
-import cn.lvsong.lib.library.R
+import cn.lvsong.lib.demo.R
+import cn.lvsong.lib.library.utils.DensityUtil
 import com.google.android.material.snackbar.Snackbar
 
 /** https://www.jianshu.com/p/487dca941e15 (可以实现顶部弹出)

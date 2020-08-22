@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import cn.lvsong.lib.demo.util.ImageLoad
 import cn.lvsong.lib.library.adapter.CommonAdapter
 import cn.lvsong.lib.library.adapter.MultiItemTypeAdapter
 import cn.lvsong.lib.library.adapter.ViewHolder
@@ -21,7 +22,6 @@ import cn.lvsong.lib.library.popupwindow.VerticalPosition
 import cn.lvsong.lib.library.topmenu.MenuItem
 import cn.lvsong.lib.library.topmenu.TopMenu
 import cn.lvsong.lib.library.utils.DensityUtil
-import cn.lvsong.lib.library.utils.ImageLoad
 import cn.lvsong.lib.library.utils.SelectorFactory
 import cn.lvsong.lib.library.view.ArrangeView
 import cn.lvsong.lib.library.view.MediumTextView

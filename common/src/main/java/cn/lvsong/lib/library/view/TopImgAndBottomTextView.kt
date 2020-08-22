@@ -7,6 +7,7 @@ import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.widget.LinearLayout
+import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import cn.lvsong.lib.library.utils.DensityUtil
 import cn.lvsong.lib.library.R
@@ -40,18 +41,35 @@ class TopImgAndBottomTextView(context: Context, attr: AttributeSet) : LinearLayo
     }
 
     private fun parse(context: Context, attr: AttributeSet) {
-        LayoutInflater.from(context).inflate(R.layout.common_ui_top_img_bottom_text_view, this, true)
-        
+        LayoutInflater.from(context)
+            .inflate(R.layout.common_ui_top_img_bottom_text_view, this, true)
+
         val arr = context.obtainStyledAttributes(attr, R.styleable.TopImgAndBottomTextView)
         mNormalDrawable = arr.getDrawable(R.styleable.TopImgAndBottomTextView_tibt_normal_drawable)
-        mCheckedDrawable = arr.getDrawable(R.styleable.TopImgAndBottomTextView_tibt_checked_drawable)
+        mCheckedDrawable =
+            arr.getDrawable(R.styleable.TopImgAndBottomTextView_tibt_checked_drawable)
         mChecked = arr.getBoolean(R.styleable.TopImgAndBottomTextView_tibt_iv_checked, mChecked)
-        mImgWidth = arr.getDimensionPixelOffset(R.styleable.TopImgAndBottomTextView_tibt_iv_width, mImgWidth)
-        mImgHeight = arr.getDimensionPixelOffset(R.styleable.TopImgAndBottomTextView_tibt_iv_height, mImgHeight)
-        val marginTop = arr.getDimensionPixelSize(R.styleable.TopImgAndBottomTextView_tibt_tv_margin_top, DensityUtil.dp2pxRtInt(10F))
+        mImgWidth = arr.getDimensionPixelOffset(
+            R.styleable.TopImgAndBottomTextView_tibt_iv_width,
+            mImgWidth
+        )
+        mImgHeight = arr.getDimensionPixelOffset(
+            R.styleable.TopImgAndBottomTextView_tibt_iv_height,
+            mImgHeight
+        )
+        val marginTop = arr.getDimensionPixelSize(
+            R.styleable.TopImgAndBottomTextView_tibt_tv_margin_top,
+            DensityUtil.dp2pxRtInt(10F)
+        )
         val text = arr.getString(R.styleable.TopImgAndBottomTextView_tibt_tv_text)
-        val textColor = arr.getColor(R.styleable.TopImgAndBottomTextView_tibt_tv_text_color, ContextCompat.getColor(context, R.color.color_333333))
-        val textSize = arr.getDimensionPixelSize(R.styleable.TopImgAndBottomTextView_tibt_tv_text_size, DensityUtil.sp2pxRtFloat(14F).toInt()).toFloat()
+        val textColor = arr.getColor(
+            R.styleable.TopImgAndBottomTextView_tibt_tv_text_color,
+            ContextCompat.getColor(context, R.color.color_333333)
+        )
+        val textSize = arr.getDimensionPixelSize(
+            R.styleable.TopImgAndBottomTextView_tibt_tv_text_size,
+            DensityUtil.sp2pxRtFloat(14F).toInt()
+        ).toFloat()
 
         val ivLp = aiv_icon_top_image.layoutParams as LinearLayout.LayoutParams
         ivLp.width = mImgWidth
@@ -71,6 +89,29 @@ class TopImgAndBottomTextView(context: Context, attr: AttributeSet) : LinearLayo
     fun setChecked(isChecked: Boolean) {
         mChecked = isChecked
         aiv_icon_top_image.setImageDrawable(if (mChecked) mCheckedDrawable else mNormalDrawable)
+    }
+
+    fun setText(text: String) {
+        tv_text_bottom_text.text = text
+    }
+
+    fun setTextColor(@ColorRes textColor: Int) {
+        tv_text_bottom_text.setTextColor(ContextCompat.getColor(context, textColor))
+    }
+
+    fun setTextSize(textSize:Float){
+        tv_text_bottom_text.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize)
+    }
+
+    fun setNormalImage(drawable: Drawable) {
+        mNormalDrawable = drawable
+        aiv_icon_top_image.setImageDrawable(drawable)
+    }
+
+
+    fun setCheckImage(drawable: Drawable) {
+        mCheckedDrawable = drawable
+        aiv_icon_top_image.setImageDrawable(drawable)
     }
 
 }

@@ -9,7 +9,7 @@ import java.lang.reflect.Type
 import java.util.concurrent.atomic.AtomicBoolean
 
 /** https://github.com/googlesamples/android-architecture-components/blob/master/GithubBrowserSample/app/src/main/java/com/android/example/github/api/ApiResponse.kt
- * @Author 刘一召
+ * @Author Jooyer
  * @Date  2019/2/21
  * @Time 18:23
  */

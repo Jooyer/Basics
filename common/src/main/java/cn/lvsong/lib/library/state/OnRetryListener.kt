@@ -1,4 +1,4 @@
-package cn.lvsong.lib.ui.state
+package cn.lvsong.lib.library.state
 
 /**
  * Desc: 数据异常处理时点击回调

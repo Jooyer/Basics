@@ -4,7 +4,11 @@
 
 # 在common库中,封装了大家常用的控件,有部分控件直接使用其他大佬的,在此感谢诸位大佬!感谢开源!如果用得上记得点赞收藏
 
+### 在Android中依赖
 
+```gradle
+
+```
 
 [toc]
 
@@ -132,16 +136,16 @@
 ```kotlin
     val statusManager = StatusManager.newBuilder(this)
             .contentView(R.layout.xxx) // 这里加载的是自己的布局文件
-            .loadingView(getLoadingViewLayoutId())
-            .emptyDataView(getEmptyDataViewLayoutId())
-         .netWorkErrorView(getNetWorkErrorViewLayoutId())
-            .errorView(getErrorViewLayoutId())
-            .retryViewId(R.id.view_retry_load_data)
-            .setLoadingViewBackgroundColor(Color.RED)
+            .loadingView(getLoadingViewLayoutId()) // 设置自定义的loading布局
+            .emptyDataView(getEmptyDataViewLayoutId()) // 设置自定义的空数据布局
+         .netWorkErrorView(getNetWorkErrorViewLayoutId()) // 设置自定义的网络异常布局
+            .errorView(getErrorViewLayoutId()) // 设置自定义错误布局
+            .retryViewId(R.id.view_retry_load_data) // 设置点击重试的按钮ID
+            .setLoadingViewBackgroundColor(Color.RED) // 如果用默认loading,可以设置背景色
             .onRetryListener(this)
             .build()
         statusManager.showLoading()
-setContentView(setContentView)
+setContentView(statusManager.getRootLayout())
 
 ```
 

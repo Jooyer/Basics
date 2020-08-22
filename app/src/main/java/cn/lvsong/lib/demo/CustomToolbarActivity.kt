@@ -1,5 +1,6 @@
 package cn.lvsong.lib.demo
 
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -24,6 +25,7 @@ class CustomToolbarActivity : BaseActivity() {
     override fun bindEvent() {
         ct_1.setRightImageListener(View.OnClickListener {
             Toast.makeText(this,"点击右侧图片",Toast.LENGTH_SHORT).show()
+            ct_1.alpha = 0.5f
         })
 
         ct_2.setRightImageListener(View.OnClickListener {

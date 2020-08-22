@@ -1,17 +1,16 @@
-package cn.lvsong.lib.library.utils
+package cn.lvsong.lib.demo.util
 
 import android.graphics.Color
 import android.widget.ImageView
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
+import cn.lvsong.lib.library.utils.DensityUtil
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
-import cn.lvsong.lib.library.other.CircleBorderTransform
-import cn.lvsong.lib.library.other.RoundedCornersTransform
 import java.io.File
 
 

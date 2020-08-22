@@ -21,20 +21,20 @@ android {
         consumerProguardFiles 'consumer-rules.pro'
 
         // 1
-        ndk {
+//        ndk {
             //选择要添加的对应cpu类型的.so库。
-            abiFilters 'armeabi-v7a'
+//            abiFilters 'armeabi-v7a'
             // 还可以添加 'x86', 'x86_64', 'mips', 'mips64' , 'armeabi', 'arm64-v8a',
-        }
+//        }
     }
 
     //2. 将 so 放在 jni 文件夹下时
-    sourceSets {
-        main {
-            jni.srcDirs = []
-            jniLibs.srcDirs = ['src/main/jniLibs']
-        }
-    }
+//    sourceSets {
+//        main {
+//            jni.srcDirs = []
+//            jniLibs.srcDirs = ['src/main/jniLibs']
+//        }
+//    }
 
 
     buildTypes {
@@ -47,50 +47,14 @@ android {
 }
 
 dependencies {
-    api rootProject.ext.dependencies.fileTree
-    api rootProject.ext.dependencies.kotlin_stdlib
-    api rootProject.ext.dependencies.appcompat
-    api rootProject.ext.dependencies.core_ktx
-    api rootProject.ext.dependencies.material
-    api rootProject.ext.dependencies.constraintlayout
+    implementation rootProject.ext.dependencies.fileTree
+    implementation rootProject.ext.dependencies.kotlin_stdlib
+    implementation rootProject.ext.dependencies.appcompat
+    implementation rootProject.ext.dependencies.constraintlayout
 
-    api rootProject.ext.dependencies.multidex
-
-    api rootProject.ext.dependencies.junit
-    api rootProject.ext.dependencies.runner
-    api rootProject.ext.dependencies.espresso_core
-
-    api rootProject.ext.dependencies.room_runtime
-    kapt rootProject.ext.dependencies.room_compiler
-    //    api rootProject.ext.dependencies.paging
-
-    kapt rootProject.ext.dependencies.lifecycle_compiler
-    api rootProject.ext.dependencies.lifecycle_extensions
-    api rootProject.ext.dependencies.lifecycle_viewmodel_ktx
-    api rootProject.ext.dependencies.work_runtime_ktx
-    api rootProject.ext.dependencies.concurrent_futures_ktx
-
-    api rootProject.ext.dependencies.kotlinx_coroutines_android
-    api rootProject.ext.dependencies.retrofit2_kotlin_coroutines_adapter
-    api rootProject.ext.dependencies.retrofit
-    api rootProject.ext.dependencies.converter_gson
-    api rootProject.ext.dependencies.logging_interceptor
-
-    api rootProject.ext.dependencies.permission
-
-    api rootProject.ext.dependencies.glide
-    kapt rootProject.ext.dependencies.glide_compiler
-    
-//    api rootProject.ext.dependencies.rxrouter
-//    kapt rootProject.ext.dependencies.rxrouter_compiler
-
-//    api rootProject.ext.dependencies.mmkv
-
-//    api rootProject.ext.dependencies.preLoader
-
-    // 通过 Jar 引入了
-//    api rootProject.ext.dependencies.bugly
-
-//    api rootProject.ext.dependencies.packer_ng
+    implementation rootProject.ext.dependencies.junit
+    implementation rootProject.ext.dependencies.runner
+    implementation rootProject.ext.dependencies.espresso_core
+    implementation rootProject.ext.dependencies.recyclerview
 
 }

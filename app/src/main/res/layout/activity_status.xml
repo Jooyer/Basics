@@ -6,6 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".StatusActivity">
 
+    <cn.lvsong.lib.library.view.CustomToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_50"
+        app:ct_center_text_color="@color/color_333333"
+        app:ct_center_text_info="状态管理器"
+        app:ct_center_text_size="@dimen/text_size_16"
+        app:ct_bottom_divider_visible="true"
+        app:ct_bottom_divider_color="@color/color_333333"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/acb_loading"
         android:layout_width="match_parent"
@@ -18,7 +32,7 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/acb_content"
