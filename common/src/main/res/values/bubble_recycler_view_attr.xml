@@ -2,17 +2,17 @@
 <resources>
 
     <declare-styleable name="BubbleRecyclerView">
-        <!-- 箭头宽度 -->
+        <!-- 箭头宽度,默认25px -->
         <attr name="brv_arrow_width" format="dimension" />
-        <!-- 四周圆角大小 -->
+        <!-- 四周圆角每一个圆角角度,默认20° -->
         <attr name="brv_around_radius" format="dimension" />
-        <!-- 箭头高度 -->
+        <!-- 箭头高度,默认25px -->
         <attr name="brv_arrow_height" format="dimension" />
-        <!-- 箭头偏移距离 -->
+        <!-- 箭头位置,当arrowLocation确定时箭头初始位置的偏移量,,默认50px -->
         <attr name="brv_arrow_offset" format="dimension" />
-        <!-- 背景色 -->
+        <!-- 气泡背景色 -->
         <attr name="brv_bubble_color" format="color" />
-        <!-- 控件顶部内边距 -->
+        <!-- 箭头居中,此时arrowPosition无效,默认false -->
         <attr name="brv_top_padding" format="dimension" />
         <!-- 箭头是否居中 -->
         <attr name="brv_arrow_center" format="boolean" />

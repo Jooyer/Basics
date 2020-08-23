@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="StarsView">
+        <!-- 星星的默认颜色 -->
+        <attr name="stv_default_color" format="color" />
+        <!-- 星星的选中颜色 -->
+        <attr name="stv_checked_color" format="color" />
+        <!-- 星星的边数 -->
+        <attr name="stv_num" format="integer|reference" />
+        <!-- 边的线宽 -->
+        <attr name="stv_edge_line_width" format="float|dimension|reference" />
+        <!-- 填充风格 -->
+        <attr name="stv_style" format="enum">
+            <!-- 填满 -->
+            <enum name="fill" value="1" />
+            <!-- 描边 -->
+            <enum name="stroke" value="2" />
+        </attr>
+    </declare-styleable>
+</resources>

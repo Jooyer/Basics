@@ -16,7 +16,7 @@
     <cn.lvsong.lib.library.bubble.BubbleLinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:bubbleColor="@color/color_B1B6D1"
+        app:bll_bubble_color="@color/color_B1B6D1"
         >
 
         <androidx.appcompat.widget.AppCompatImageView

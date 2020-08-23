@@ -19,12 +19,12 @@ import cn.lvsong.lib.library.R
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:arrowPosition="@dimen/padding_50"
-        app:angle="@dimen/padding_3"
-        app:arrowHeight="@dimen/padding_8"
-        app:arrowLocation="top_right"
-        app:arrowWidth="@dimen/width_10"
-        app:bubbleColor="@color/color_write"
+        app:bll_arrow_position="@dimen/padding_50"
+        app:bll_angle="@dimen/padding_3"
+        app:bll_arrow_height="@dimen/padding_8"
+        app:bll_arrow_position="top_right"
+        app:bll_arrow_width="@dimen/width_10"
+        app:bll_bubble_color="@color/color_write"
 >
 
  */
@@ -45,28 +45,28 @@ class BubbleLinearLayout(context: Context, attrs: AttributeSet?) : LinearLayout(
         attrs?.let {
             val array = context.obtainStyledAttributes(attrs, R.styleable.BubbleLinearLayout)
             mArrowWidth = array.getDimension(
-                R.styleable.BubbleLinearLayout_arrowWidth,
+                R.styleable.BubbleLinearLayout_bll_arrow_width,
                 BubbleDrawable.Builder.DEFAULT_ARROW_WITH
             )
             mArrowHeight = array.getDimension(
-                R.styleable.BubbleLinearLayout_arrowHeight,
+                R.styleable.BubbleLinearLayout_bll_arrow_height,
                 BubbleDrawable.Builder.DEFAULT_ARROW_HEIGHT
             )
             mAngle = array.getDimension(
-                R.styleable.BubbleLinearLayout_angle,
+                R.styleable.BubbleLinearLayout_bll_angle,
                 BubbleDrawable.Builder.DEFAULT_ANGLE
             )
             mArrowPosition = array.getDimension(
-                R.styleable.BubbleLinearLayout_arrowPosition,
+                R.styleable.BubbleLinearLayout_bll_arrow_position,
                 BubbleDrawable.Builder.DEFAULT_ARROW_POSITION
             )
             mBubbleColor = array.getColor(
-                R.styleable.BubbleLinearLayout_bubbleColor,
+                R.styleable.BubbleLinearLayout_bll_bubble_color,
                 BubbleDrawable.Builder.DEFAULT_BUBBLE_COLOR
             )
-            val location = array.getInt(R.styleable.BubbleLinearLayout_arrowLocation, 0)
+            val location = array.getInt(R.styleable.BubbleLinearLayout_bll_arrow_location, 0)
             mArrowLocation = BubbleDrawable.ArrowLocation.mapIntToValue(location)
-            mArrowCenter = array.getBoolean(R.styleable.BubbleLinearLayout_arrowCenter, false)
+            mArrowCenter = array.getBoolean(R.styleable.BubbleLinearLayout_bll_arrow_center, false)
             array.recycle()
         }
     }

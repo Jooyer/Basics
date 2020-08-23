@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="ArcView">
-        <!-- 矩形的高度,比控件高度低 -->
+        <!-- 矩形的高度,非圆弧部分高度 -->
         <attr name="av_rectangle_height" format="reference|dimension" />
         <!-- 背景色  -->
         <attr name="av_color" format="reference|color" />

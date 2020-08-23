@@ -187,6 +187,9 @@ class BadgeView(context: Context, attr: AttributeSet?) : View(context, attr) {
         }
     }
 
+    /**
+     * 设置具体消息数量
+     */
     fun setNumber(number: Int) {
         mNumber = number
         invalidate()

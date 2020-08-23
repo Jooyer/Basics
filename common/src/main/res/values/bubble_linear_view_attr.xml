@@ -2,13 +2,20 @@
 <resources>
 
     <declare-styleable name="BubbleLinearLayout">
-        <attr name="arrowWidth" format="dimension" />
-        <attr name="angle" format="dimension" />
-        <attr name="arrowHeight" format="dimension" />
-        <attr name="arrowPosition" format="dimension" />
-        <attr name="bubbleColor" format="color" />
-        <attr name="arrowCenter" format="boolean" />
-        <attr name="arrowLocation" format="enum">
+        <!-- 箭头宽度,默认25px -->
+        <attr name="bll_arrow_width" format="dimension|integer" />
+        <!-- 四周圆角每一个圆角角度,默认20° -->
+        <attr name="bll_angle" format="float|dimension" />
+        <!-- 箭头高度,默认25px -->
+        <attr name="bll_arrow_height" format="dimension|integer" />
+        <!-- 箭头位置,当arrowLocation确定时箭头初始位置的偏移量,,默认50px -->
+        <attr name="bll_arrow_position" format="dimension|integer" />
+        <!-- 气泡背景色 -->
+        <attr name="bll_bubble_color" format="color" />
+        <!-- 箭头居中,此时arrowPosition无效,默认false -->
+        <attr name="bll_arrow_center" format="boolean" />
+        <!-- 箭头位置,默认在左边 -->
+        <attr name="bll_arrow_location" format="enum">
             <enum name="left" value="0x00" />
             <enum name="right" value="0x01" />
             <enum name="top" value="0x02" />

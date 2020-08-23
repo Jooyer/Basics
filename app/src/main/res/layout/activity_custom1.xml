@@ -81,7 +81,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_200"
         android:layout_margin="@dimen/padding_5"
-        app:av_bezier_ratio="1.2"
+        app:av_bezier_ratio="1"
         app:av_color="@color/color_2878FF"
         app:av_rectangle_height="@dimen/height_150" />
 

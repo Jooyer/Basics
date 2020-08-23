@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ShadowLayout">
+        <!--  阴影颜色  -->
+        <attr name="shadow_layout_shadow_color" format="color|reference" />
+        <!--  背景颜色  -->
+        <attr name="shadow_layout_background_color" format="color|reference" />
+        <!--  阴影水平偏移  -->
+        <attr name="shadow_layout_offsetX" format="dimension|reference" />
+        <!--  阴影垂直偏移  -->
+        <attr name="shadow_layout_offsetY" format="dimension|reference" />
+        <!--  阴影圆角  -->
+        <attr name="shadow_layout_blur" format="dimension|reference" />
+        <!--  ShadowLayout圆角  -->
+        <attr name="shadow_layout_radius" format="dimension|reference" />
+    </declare-styleable>
+</resources>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="PolygonSettingView">
+        <!-- 开始颜色 -->
+        <attr name="psv_color" format="color|reference" />
+        <!-- 多边形多少条边，至少3条边，如果小于3条，会强制3条 -->
+        <attr name="psv_num" format="integer" />
+        <!-- 边的线宽 -->
+        <attr name="psv_line_width" format="float|dimension|reference" />
+    </declare-styleable>
+</resources>
