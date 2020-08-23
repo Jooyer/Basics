@@ -176,16 +176,25 @@ public class MoreActionView extends View {
         return (int) (dipValue * scale + 0.5f);
     }
 
+    /**
+     * 设置点大小
+     */
     public void setDotRadius(float dotRadius) {
         this.mDotRadius = dotRadius;
         postInvalidate();
     }
 
+    /**
+     * 设置方向
+     */
     public void setOrientation(int orientation) {
         this.mOrientation = orientation;
         postInvalidate();
     }
 
+    /**
+     * 设置点颜色
+     */
     public void setColor(int color) {
         this.mColor = color;
         mPaint.setColor(mColor);

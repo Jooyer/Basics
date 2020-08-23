@@ -12,7 +12,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.ColorRes;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.core.content.ContextCompat;
 
 import cn.lvsong.lib.library.R;
 
@@ -83,7 +85,7 @@ public class LeftImgAndRightTextView extends RelativeLayout {
     /**
      * 两个控件的位置结构
      */
-    private int mStyle = STYLE_ICON_LEFT;
+    private int mPosition = STYLE_ICON_LEFT;
     /**
      * 是否被选中
      */
@@ -154,21 +156,21 @@ public class LeftImgAndRightTextView extends RelativeLayout {
                 tvContent.setText(text);
             }
             //设置文本字体大小
-            float textSize = a.getFloat(R.styleable.LeftImgAndRightTextView_lirt_textSize, 0);
+            float textSize = a.getDimension(R.styleable.LeftImgAndRightTextView_lirt_textSize, 0);
             if (textSize != 0) {
                 tvContent.setTextSize(textSize);
             }
             //设置两个控件之间的间距
             spacing = a.getDimensionPixelSize(R.styleable.LeftImgAndRightTextView_lirt_spacing, dp2px(context, 8));
             //设置两个控件的位置结构
-            mStyle = a.getInt(R.styleable.LeftImgAndRightTextView_lirt_style, 0);
+            mPosition = a.getInt(R.styleable.LeftImgAndRightTextView_lirt_style, 0);
 
             mChecked = a.getBoolean(R.styleable.LeftImgAndRightTextView_lirt_checked, false);
             if (mChecked){// TODO
 
             }
 
-            setIconStyle(mStyle);
+            setIconPosition(mPosition);
             a.recycle();
         }
 
@@ -219,12 +221,12 @@ public class LeftImgAndRightTextView extends RelativeLayout {
      * 设置图标位置
      * 通过重置LayoutParams来设置两个控件的摆放位置
      *
-     * @param style
+     * @param position
      */
-    public void setIconStyle(int style) {
-        mStyle = style;
+    public void setIconPosition(int position) {
+        mPosition = position;
         LayoutParams lp;
-        switch (style) {
+        switch (position) {
             case STYLE_ICON_LEFT:
                 lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
                 lp.addRule(RelativeLayout.CENTER_VERTICAL);
@@ -271,21 +273,21 @@ public class LeftImgAndRightTextView extends RelativeLayout {
     }
 
     /**
-     * 设置View的背景色
+     * 设置控件背景色
      *
      * @param backColor
      */
-    public void setBackColor(int backColor) {
-        this.backColor = backColor;
-        setBackgroundColor(backColor);
+    public void setBackColor(@ColorRes int backColor) {
+        this.backColor = ContextCompat.getColor(getContext(),backColor);
+        setBackgroundColor(this.backColor);
     }
 
     /**
-     * 设置View被按下时的背景色
+     * 设置控件被按下时的背景色
      *
      * @param backColorPress
      */
-    public void setBackColorPress(int backColorPress) {
+    public void setBackColorPress(@ColorRes int backColorPress) {
         this.backColorPress = backColorPress;
     }
 
@@ -300,7 +302,7 @@ public class LeftImgAndRightTextView extends RelativeLayout {
     }
 
     /**
-     * 设置View被按下时的icon的图片
+     * 设置被按下时的icon的图片
      *
      * @param iconDrawablePress
      */
@@ -314,20 +316,20 @@ public class LeftImgAndRightTextView extends RelativeLayout {
      *
      * @param textColor
      */
-    public void setTextColor(int textColor) {
+    public void setTextColor(@ColorRes  int textColor) {
         if (textColor == 0) return;
-        this.textColor = ColorStateList.valueOf(textColor);
+        this.textColor = ColorStateList.valueOf(ContextCompat.getColor(getContext(),textColor));
         tvContent.setTextColor(this.textColor);
     }
 
     /**
-     * 设置View被按下时文字的颜色
+     * 设置被按下时文字的颜色
      *
      * @param textColorPress
      */
-    public void setTextColorPress(int textColorPress) {
+    public void setTextColorPress(@ColorRes int textColorPress) {
         if (textColorPress == 0) return;
-        this.textColorPress = ColorStateList.valueOf(textColorPress);
+        this.textColorPress = ColorStateList.valueOf(ContextCompat.getColor(getContext(),textColorPress));
     }
 
     /**
@@ -362,12 +364,12 @@ public class LeftImgAndRightTextView extends RelativeLayout {
     /**
      * 设置两个控件之间的间距
      *
-     * @param spacing
+     * @param spacing --> 单位dp
      */
     public void setSpacing(int spacing) {
         this.spacing = dp2px(mContext, spacing);
         //设置完成后刷新一下两个控件的结构，避免先执行了setIconStyle后，setSpacing不生效
-        setIconStyle(mStyle);
+        setIconPosition(mPosition);
     }
 
     private int dp2px(Context context, int spacing) {

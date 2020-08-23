@@ -19,11 +19,11 @@
         <!-- 文本内容 -->
         <attr name="lirt_text" format="string" />
         <!-- 文本大小 -->
-        <attr name="lirt_textSize" format="float" />
+        <attr name="lirt_textSize" format="float|dimension" />
         <!-- 文本和图片的间隔 -->
-        <attr name="lirt_spacing" format="dimension" />
+        <attr name="lirt_spacing" format="dimension|integer" />
         <!-- 设置图片所在方向 -->
-        <attr name="lirt_style">
+        <attr name="lirt_style" format="enum">
             <enum name="iconLeft" value="0" />
             <enum name="iconRight" value="1" />
             <enum name="iconUp" value="2" />

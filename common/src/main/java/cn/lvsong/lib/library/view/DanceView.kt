@@ -189,7 +189,7 @@ class DanceView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
     }
 
     /**
-     * 开始动画
+     * 开始动画,如果控件可见就会自动执行,不必手动调用
      */
     fun startAnimator() {
         mAnimatorSet.start()
@@ -197,7 +197,7 @@ class DanceView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
     }
 
     /**
-     * 取消动画
+     * 取消动画,如果控件不可见就会自动执行,不必手动调用
      */
     fun cancelAnimator(){
         mAnimatorSet.cancel()

@@ -159,20 +159,24 @@ class CustomActivity1 : BaseActivity() {
             .setCornerRadius(DensityUtil.dp2pxRtInt(10F))
             .create()
         mExitDialog = JAlertDialog.Builder(this@CustomActivity1)
-            .setCancelable(false)
-            .setContentView(view)
-            .setHasAnimation(false)
-            .setWidthAndHeight(
+            .setCancelable(false) //设置是否点击外面可以取消
+            .setContentView(view) // 绑定视图,可以是view也可以是layout资源文件
+            .setHasAnimation(false) // 是否有动画效果,如果不调用setAnimation()则使用默认的
+//            .setAnimation() // 设置动画效果
+            .setWidthAndHeight( // 设置弹框大小
                 DensityUtil.getScreenWidth() - DensityUtil.dp2pxRtInt(38F) * 2,
                 DensityUtil.dp2pxRtInt(130F)
             )
-            .setOnClick(R.id.btn_cancel_exit_dialog)
-            .setOnClick(R.id.btn_sure_exit_dialog)
+//            .setText() // 可以放入TextView的id 和 在此控件显示的内容
+            .setOnClick(R.id.btn_cancel_exit_dialog) // 设置点击的按钮ID,注意下面onClick(view: View, position: Int)中position和这里添加顺序有关
+            .setOnClick(R.id.btn_sure_exit_dialog)// 设置点击的按钮ID,注意下面onClick(view: View, position: Int)中position和这里添加顺序有关
             .setOnJAlertDialogCLickListener(object : OnJAlertDialogCLickListener {
                 override fun onClick(view: View, position: Int) {
                     mExitDialog.dismiss()
                 }
-            }).create()
+            })
+            .create() // 这里调用create()则返回dialog
+//            .show() // 这里调用show()则直接显示
 
         val view2 = LayoutInflater.from(this).inflate(R.layout.dialog_exit_login_setting, null)
         view2.background = SelectorFactory.newShapeSelector()

@@ -22,6 +22,21 @@ import cn.lvsong.lib.library.R
  * Date: 2018-11-02
  * Time: 11:17
  */
+
+/* 用法
+
+    <cn.lvsong.lib.library.view.CountDownView
+        android:id="@+id/cdv"
+        android:layout_width="@dimen/width_60"
+        android:layout_height="@dimen/height_60"
+        android:layout_margin="@dimen/padding_5"
+        app:cdv_bg_color="@android:color/holo_red_dark"
+        app:cdv_ring_color="@color/main_theme_color"
+        app:cdv_ring_width="@dimen/padding_5"
+        app:cdv_text_info="5s"
+        />
+
+ */
 class CountDownView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
     View(context, attrs, defStyleAttr) {
     private val mRingPaint = Paint(Paint.ANTI_ALIAS_FLAG)

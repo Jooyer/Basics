@@ -24,7 +24,7 @@
         <attr name="mbv_solid_circle_gradient_angle" format="float" />
         <!-- 中间准备播放的三角形边长 -->
         <attr name="mbv_triangle_length" format="dimension|float" />
-        <!-- 中间播放的四边形边长 -->
+        <!-- 中间停止状态的四边形边长 -->
         <attr name="mbv_quadrilateral_length" format="dimension|float" />
         <!-- 三角形,四边形边圆角大小 -->
         <attr name="mbv_round_corner" format="dimension|float" />

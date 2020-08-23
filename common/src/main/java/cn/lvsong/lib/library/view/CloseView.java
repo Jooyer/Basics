@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
 
 import cn.lvsong.lib.library.R;
@@ -220,7 +221,10 @@ public class CloseView extends View {
     }
 
 
-    public void setColor(int color) {
+    /**
+     * 叉叉的颜色
+     */
+    public void setColor(@ColorInt int color) {
         this.mColor = color;
         mPaint.setColor(mColor);
         postInvalidate();

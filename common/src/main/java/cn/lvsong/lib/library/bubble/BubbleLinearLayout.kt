@@ -139,10 +139,10 @@ class BubbleLinearLayout(context: Context, attrs: AttributeSet?) : LinearLayout(
         return this
     }
 
-    fun setUpBubbleDrawable() {
-        background = null
-        post { setUp(width, height) }
-    }
+//    fun setUpBubbleDrawable() {
+//        background = null
+//        post { setUp(width, height) }
+//    }
 
     /**
      * 动态设置箭头距离左边的距离

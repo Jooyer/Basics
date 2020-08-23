@@ -2,12 +2,18 @@
 <resources>
 
     <declare-styleable name="CountDownView">
-        <attr name="cdv_ring_color" format="color|reference"/>
-        <attr name="cdv_ring_width" format="integer|dimension"/>
-        <attr name="cdv_bg_color" format="color|reference"/>
-        <attr name="cdv_text_color" format="color|reference"/>
-        <attr name="cdv_text_size" format="integer|dimension"/>
-        <attr name="cdv_text_info" format="string|reference"/>
+        <!-- 圆环颜色 -->
+        <attr name="cdv_ring_color" format="color" />
+        <!-- 圆环宽度 -->
+        <attr name="cdv_ring_width" format="integer|dimension" />
+        <!-- 背景色 -->
+        <attr name="cdv_bg_color" format="color" />
+        <!-- 文本颜色 -->
+        <attr name="cdv_text_color" format="color" />
+        <!-- 文本大小 -->
+        <attr name="cdv_text_size" format="integer|dimension" />
+        <!-- 文本内容 -->
+        <attr name="cdv_text_info" format="string|reference" />
     </declare-styleable>
 
 </resources>

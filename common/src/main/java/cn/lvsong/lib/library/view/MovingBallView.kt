@@ -297,12 +297,17 @@ class MovingBallView(context: Context, attrs: AttributeSet) : View(context, attr
         }
     }
 
+    /**
+     * 开始录制
+     */
     fun startRecord() {
         mRecordState = 2
         mMovingAnimator.start()
     }
 
-
+    /**
+     * 停止录制
+     */
     fun stopRecord() {
         // 需记录原本具体录制的时长
         mRecordState = 3
@@ -310,10 +315,16 @@ class MovingBallView(context: Context, attrs: AttributeSet) : View(context, attr
         invalidate()
     }
 
+    /**
+     * 开始播放
+     */
     fun playRecord(){
         startRecord()
     }
 
+    /**
+     * 重置录制按钮
+     */
     fun resetRecord() {
         mRecordState = 1
         mCurAngle = -1F

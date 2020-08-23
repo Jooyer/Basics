@@ -280,23 +280,113 @@ class CustomAdapter(data: List<String>, layoutId: Int) :
 | bll_arrow_position | dimension\|integer | 箭头位置,当arrowLocation确定时箭头初始位置的偏移量,,默认50px |
 | bll_bubble_color   | color              | 气泡背景色                                                   |
 | bll_arrow_center   | boolean            | 箭头居中,此时arrowPosition无效,默认false                     |
-| bll_arrow_location | enum               | 箭头位置,默认在左边 ,可取: left,right,top,bottom,top_right   |
+| bll_arrow_location | enum               | 箭头方向,默认在左边 ,可取: left,right,top,bottom,top_right   |
 
 
 
 ## **公共方法:**
+
+| 方法名称                                                     | 作用                                         |
+| ------------------------------------------------------------ | -------------------------------------------- |
+| setArrowAngle(angle: Float)                                  | 设置四周圆角每一个圆角角度                   |
+| setArrowHeight(arrowHeight: Float)                           | 设置箭头高度                                 |
+| setArrowLocation(arrowLocation:  BubbleDrawable.ArrowLocation) | 设置箭头方向                                 |
+| setArrowPosition(arrowPosition: Float)                       | 设置箭头位置                                 |
+| setArrowWidth(arrowWidth: Float)                             | 设置箭头宽度                                 |
+| setArrowCenter(arrowCenter: Boolean)                         | 设置箭头居中,此时arrowPosition无效,默认false |
+| setBubbleColor(bubbleColor: Int)                             | 设置气泡背景色                               |
+
+
 
 
 # CloseView
 ## **用法:**
+
+具体参考: cn.lvsong.lib.demo.CustomActivity2
+
+```xml
+    <cn.lvsong.lib.library.view.CloseView
+        android:id="@+id/cv2"
+        android:layout_width="@dimen/width_40"
+        android:layout_height="@dimen/height_40"
+        android:layout_margin="@dimen/padding_5"
+        app:cv_circle_line_color="@color/main_theme_color"
+        app:cv_circle_line_width="2dp"
+        app:cv_circle_has_bg="true"
+        app:cv_circle_bg_padding="2dp"
+        app:cv_circle_bg_color="@color/color_8A8EA3"
+        app:cv_line_width="1.5dp"
+        app:cv_mode="circle" />
+```
+
+
+
 ## **属性介绍:**
+
+| 属性姓名             | 取值类型           | 取值和作用                                                   |
+| -------------------- | ------------------ | ------------------------------------------------------------ |
+| cv_line_width        | integer\|dimension | 叉叉的线高                                                   |
+| cv_line_color        | color              | 叉叉的颜色                                                   |
+| cv_line_padding      | integer\|dimension | padding 使得里面 × 变小                                      |
+| cv_mode              | enum               | 模式，普通模式(normal)只有叉叉、圆边模式(circle)带圆形背景   |
+| cv_circle_line_color | color              | 圆的轮廓线颜色                                               |
+| cv_circle_line_width | integer\|dimension | 圆的轮廓线宽,如果指定为0 ,则不绘制圆环                       |
+| cv_circle_has_bg     | boolean            | 是否绘制背景,默认不绘制,只有在 cv_mode = circle才有效,此时就不要再设置 android:background |
+| cv_circle_bg_color   | color              | 背景色,只有在 cv_mode = circle才有效                         |
+| cv_circle_bg_padding | dimension\|integer | padding 使得在 cv_mode = circle 时,轮廓线往内变小,同时点击面积没有变小 |
+
+
+
 ## **公共方法:**
+
+| 方法名称            | 作用           |
+| ------------------- | -------------- |
+| setColor(int color) | 设置叉叉的颜色 |
+
+
 
 
 # CountDownView
 ## **用法:**
+
+具体参考: cn.lvsong.lib.demo.CustomActivity2
+
+```xml
+    <cn.lvsong.lib.library.view.CountDownView
+        android:id="@+id/cdv"
+        android:layout_width="@dimen/width_60"
+        android:layout_height="@dimen/height_60"
+        android:layout_margin="@dimen/padding_5"
+        app:cdv_bg_color="@android:color/holo_red_dark"
+        app:cdv_ring_color="@color/main_theme_color"
+        app:cdv_ring_width="@dimen/padding_5"
+        app:cdv_text_info="5s"
+        />
+```
+
+
+
 ## **属性介绍:**
+
+| 属性名称       | 取值类型           | 取值和作用 |
+| -------------- | ------------------ | ---------- |
+| cdv_ring_color | color              | 圆环颜色   |
+| cdv_ring_width | integer\|dimension | 圆环宽度   |
+| cdv_bg_color   | color              | 背景色     |
+| cdv_text_color | color              | 文本颜色   |
+| cdv_text_size  | integer\|dimension | 文本大小   |
+| cdv_text_info  | string\|reference  | 文本内容   |
+
+
+
 ## **公共方法:**
+
+| 方法名称                       | 作用                        |
+| ------------------------------ | --------------------------- |
+| startCountDown(duration: Long) | 开始倒计时,注意单位为==秒== |
+
+
+
 # CustomEditMenu
 ## **用法:**
 
@@ -588,44 +678,308 @@ PS: 一般右侧显示一个文本按钮(或者2个图标按钮,或者更多按�
 
 # DanceView
 ## **用法:**
+
+具体参考: cn.lvsong.lib.demo.CustomActivity1
+
+```xml
+    <cn.lvsong.lib.library.view.DanceView
+        android:layout_width="@dimen/width_40"
+        android:layout_height="@dimen/height_40"
+        android:layout_marginStart="@dimen/padding_40"
+        android:layout_marginTop="@dimen/padding_10"
+        app:dv_height_ratio="0.7"
+        app:dv_pillar_color="@color/color_2878FF"
+        app:dv_pillar_count="4"
+        app:dv_pillar_duration="1200"
+        app:dv_space_ratio="0.5" />
+```
+
+
+
 ## **属性介绍:**
+
+| 属性名称           | 取值类型 | 取值和作用                       |
+| ------------------ | -------- | -------------------------------- |
+| dv_pillar_count    | integer  | 柱子数量,默认是4个               |
+| dv_pillar_duration | integer  | 动画执行时间,默认1000毫秒        |
+| dv_space_ratio     | float    | 空白间隔与柱子宽的比率,默认0.8   |
+| dv_height_ratio    | float    | 柱子高度与控件高度的比率,默认0.8 |
+| dv_pillar_color    | color    | 柱子颜色,默认是红色              |
+
+
+
 ## **公共方法:**
+
+| 方法名称         | 作用                                             |
+| ---------------- | ------------------------------------------------ |
+| startAnimator()  | 开始动画,如果控件可见就会自动执行,不必手动调用   |
+| cancelAnimator() | 取消动画,如果控件不可见就会自动执行,不必手动调用 |
+
+
 
 
 # FixedCursorEditText
 ## **用法:**
-## **属性介绍:**
+
+```xml
+    <cn.lvsong.lib.library.view.FixedCursorEditText
+        android:id="@+id/et_right_name_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:contentDescription="@null"
+        android:gravity="center_vertical|end"
+        android:maxLines="1"
+        android:textColor="@color/color_333333"
+        android:textCursorDrawable="@drawable/ic_fixed_edit_cursor_bg"
+        android:textSize="@dimen/text_size_14"/>
+```
+
+
+
+## **作用介绍:**
+
+ Android 处理EditText光标显示在hint文字之前的问题,即输入之前光标在提示文本最前面,写入文字后光标跑到了输入文本后面, 修改为输入前光标在提示文本末尾
+
 ## **公共方法:**
+
+暂无
 
 
 # JAlertDialog
 ## **用法:**
+
+具体参考: cn.lvsong.lib.demo.CustomActivity1
+
+```java
+        mExitDialog = JAlertDialog.Builder(this@CustomActivity1)
+            .setCancelable(false) //设置是否点击外面可以取消
+            .setContentView(view) // 绑定视图,可以是view也可以是layout资源文件
+            .setHasAnimation(false) // 是否有动画效果,如果不调用setAnimation()则使用默认的 
+//            .setAnimation() // 设置动画效果
+            .setWidthAndHeight( // 设置弹框大小
+                DensityUtil.getScreenWidth() - DensityUtil.dp2pxRtInt(38F) * 2,
+                DensityUtil.dp2pxRtInt(130F)
+            )
+            //            .setText() // 可以放入TextView的id 和 在此控件显示的内容
+            .setOnClick(R.id.btn_cancel_exit_dialog) // 设置点击的按钮ID,注意下面onClick(view: View, position: Int)中position和这里添加顺序有关
+            .setOnClick(R.id.btn_sure_exit_dialog)// 设置点击的按钮ID,注意下面onClick(view: View, position: Int)中position和这里添加顺序有关
+            .setOnJAlertDialogCLickListener(object : OnJAlertDialogCLickListener {
+                override fun onClick(view: View, position: Int) {
+                    // 参数中 position和添加点击按钮顺序有关
+                    mExitDialog.dismiss()
+                }
+            })
+            .create() // 这里调用create()则返回dialog
+//            .show() // 这里调用show()则直接显示
+```
+
+
+
 ## **属性介绍:**
+
+暂无
+
 ## **公共方法:**
+
+| 方法名称                                                     | 作用                                   |
+| ------------------------------------------------------------ | -------------------------------------- |
+| setContentView(view: View)                                   | 设置Dialog的视图                       |
+| setContentView(layoutResId: Int)                             | 设置Dialog的视图                       |
+| setCancelable(cancelable: Boolean)                           | 设置在弹框外面是否可以点击取消         |
+| setText(@IdRes viewId: Int, text: CharSequence)              | 放入TextView的id 和 在此控件显示的内容 |
+| setFromTop(marginTop: Int)                                   | 距离顶部距离,此时则弹框顶部显示        |
+| setFromBottom()                                              | 设置Dialog在底部显示                   |
+| setAnimation(@StyleRes styleAnim: Int)                       | 设置Dialog动画                         |
+| setHasAnimation(hasAnimation: Boolean)                       | 设置是否使用动画,默认是true            |
+| setFullWidth()                                               | 设置Dialog宽度占满                     |
+| setWidthAndHeight(width: Int, height: Int)                   | 设置Dialog宽高                         |
+| setOnClick(@IdRes viewId: Int)                               | 设置Dialog点击View                     |
+| setOnJAlertDialogCLickListener(onJAlertDialogCLickListener: OnJAlertDialogCLickListener) | 设置点击事件                           |
+| setOnCancelListener(onCancelListener: DialogInterface.OnCancelListener) | 设置取消Dialog事件                     |
+| setOnOnDismissListener(onDismissListener: DialogInterface.OnDismissListener) | 设置Dialog消失回调                     |
+| setOnKeyListener(onKeyListener: DialogInterface.OnKeyListener) | 设置Dialog OnKeyListener               |
+| create()                                                     | 生成Dialog返回                         |
+| show()                                                       | 显示Dialog并返回                       |
+| delayShow(delay: Int)                                        | 延迟显示,必须 Dialog 来调用            |
+
+
 
 
 # LeftImgAndRightTextView
 ## **用法:**
+
+具体参考: cn.lvsong.lib.demo.CustomMenuActivity
+
+```xml
+    <cn.lvsong.lib.library.view.LeftImgAndRightTextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/height_50"
+            android:layout_marginTop="@dimen/padding_10"
+            app:lirt_iconDrawable="@drawable/ic_baseline_alarm_add_24"
+            app:lirt_spacing="@dimen/padding_5"
+            app:lirt_style="iconBottom"
+            app:lirt_text="文字在上,图片在下" />
+```
+
 ## **属性介绍:**
+
+| 属性名称               | 取值类型           | 取值和作用                                                |
+| ---------------------- | ------------------ | --------------------------------------------------------- |
+| lirt_backColor         | color              | 控件默认背景色                                            |
+| lirt_backColorPress    | color              | 控件点击后背景色                                          |
+| lirt_textColor         | color              | 文本默认颜色                                              |
+| lirt_textColorPress    | color              | 文本点击后颜色                                            |
+| lirt_iconDrawable      | reference          | 默认图标                                                  |
+| lirt_checked           | boolean            | 是否被选中                                                |
+| lirt_iconDrawablePress | reference          | 点击后图片                                                |
+| lirt_text              | string             | 文本内容                                                  |
+| lirt_textSize          | float\|dimension   | 文本大小                                                  |
+| lirt_spacing           | dimension\|integer | 文本和图片的间隔                                          |
+| lirt_style             | enum               | 设置图片所在方向,可取iconLeft,iconRight,iconUp,iconBottom |
+
+
+
 ## **公共方法:**
+
+| 方法名称                                         | 作用                              |
+| ------------------------------------------------ | --------------------------------- |
+| setIconPosition(int position)                    | 设置图片所在方向                  |
+| setBackColor(int backColor)                      | 设置控件背景色                    |
+| setBackColorPress(int backColorPress)            | 设置控件被按下时的背景色          |
+| setIconDrawable(Drawable iconDrawable)           | 设置icon的图片                    |
+| setIconDrawablePress(Drawable iconDrawablePress) | 设置被按下时的icon的图片          |
+| setTextColor(@ColorRes  int textColor)           | 设置文字的颜色                    |
+| setTextColorPress(@ColorRes int textColorPress)  | 设置被按下时文字的颜色            |
+| setText(CharSequence text)                       | 设置显示的文本内容                |
+| getText()                                        | 获取显示的文本                    |
+| setTextSize(float size)                          | 设置文本字体大小                  |
+| setSpacing(int spacing)                          | 设置两个控件之间的间距,单位==dp== |
+
+
 
 
 # MediumTextView
 ## **用法:**
-## **属性介绍:**
+
+```xml
+    <cn.lvsong.lib.library.view.MediumTextView
+        android:id="@+id/tv_text_right_text"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/height_40"
+        android:layout_marginStart="@dimen/padding_10"
+        android:text="扫一扫"
+        android:textColor="@color/color_FFFFFF"
+        android:textSize="@dimen/text_size_14"
+        android:gravity="center_vertical"
+        />
+```
+
+
+
+## **用法介绍:**
+
+只需在布局中引用即可
+
 ## **公共方法:**
+
+暂无
 
 
 # MoreActionView
 ## **用法:**
+
+```xml
+    <cn.lvsong.lib.library.view.MoreActionView
+        android:id="@+id/mav_right_icon_menu"
+        android:layout_width="@dimen/width_40"
+        android:layout_height="@dimen/height_40"
+        android:layout_marginEnd="@dimen/padding_10"
+        app:mav_color="@color/color_2878FF"
+        app:mav_dot_radius="@dimen/padding_2"
+        app:mav_orientation="horizontal"/>
+```
+
+
+
 ## **属性介绍:**
+
+| 属性名称        | 取值类型         | 取值和作用                                          |
+| --------------- | ---------------- | --------------------------------------------------- |
+| mav_color       | color            | 点的颜色,默认 #444444                               |
+| mav_dot_radius  | float\|dimension | 点大小,默认2dp                                      |
+| mav_orientation | enum             | 排列方向，水平(horizontal)或垂直(vertical),默认水平 |
+
+
+
 ## **公共方法:**
+
+| 方法名称                        | 作用       |
+| ------------------------------- | ---------- |
+| setDotRadius(float dotRadius)   | 设置点大小 |
+| setOrientation(int orientation) | 设置方向   |
+| setColor(int color)             | 设置点颜色 |
+
+
 
 
 # MovingBallView
 ## **用法:**
+
+具体参考: cn.lvsong.lib.demo.CustomActivity2
+
+```xml
+           <cn.lvsong.lib.library.view.MovingBallView
+        android:id="@+id/mbv_audio_record_publish_dynamic"
+        android:layout_width="@dimen/width_100"
+        android:layout_height="@dimen/height_100"
+        android:layout_marginTop="@dimen/padding_20"
+        app:mbv_ball_duration="60000"
+        app:mbv_ball_radius="@dimen/padding_6"
+        app:mbv_bg_line_width="@dimen/padding_1"
+        app:mbv_microphone_width="@dimen/padding_20"
+        app:mbv_moved_line_end_color="@color/color_333333"
+        app:mbv_moved_line_start_color="@color/color_B1B6D1"
+        app:mbv_moved_line_width="@dimen/padding_2"
+        app:mbv_quadrilateral_length="@dimen/padding_20"
+        app:mbv_round_corner="@dimen/padding_8"
+        app:mbv_solid_circle_radius="@dimen/padding_30"
+        app:mbv_triangle_length="@dimen/padding_20" />
+```
+
+
+
 ## **属性介绍:**
+
+| 属性名称                        | 取值类型         | 取值和作用                                         |
+| ------------------------------- | ---------------- | -------------------------------------------------- |
+| mbv_bg_line_color               | color            | 背景线条颜色,默认灰色                              |
+| mbv_bg_line_width               | dimension\|float | 背景线条宽度,默认5dp                               |
+| mbv_moved_line_start_color      | color            | 走过线条颜色,渐变起始颜色,默认是红色(没有渐变了)   |
+| mbv_moved_line_end_color        | color            | 走过线条颜色,渐变结束颜色,默认是红色(没有渐变了)   |
+| mbv_moved_line_width            | dimension\|float | 走过线条宽度,默认6dp                               |
+| mbv_ball_color                  | color            | 圆球颜色,默认红色                                  |
+| mbv_ball_radius                 | dimension\|float | 圆球半径,默认10dp                                  |
+| mbv_ball_duration               | integer          | 圆球环绕一周时间,默认30000毫秒                     |
+| mbv_solid_circle_radius         | dimension\|float | 中间实心圆半径,默认0                               |
+| mbv_solid_circle_gradient_angle | float            | 中间实心圆渐变角度,默认0                           |
+| mbv_triangle_length             | dimension\|float | 中间准备播放的三角形边长,默认0                     |
+| mbv_quadrilateral_length        | dimension\|float | 中间停止状态的四边形边长,默认0                     |
+| mbv_round_corner                | dimension\|float | 三角形,四边形边圆角大小,默认5dp                    |
+| mbv_microphone_width            | dimension\|float | 录音话筒的宽度,其他尺寸按与宽度的比例计算,默认20dp |
+
+
+
 ## **公共方法:**
+
+| 方法名称      | 作用         |
+| ------------- | ------------ |
+| startRecord() | 开始录制     |
+| stopRecord()  | 停止录制     |
+| playRecord()  | 开始播放     |
+| resetRecord() | 重置录制按钮 |
+
+
 
 
 # NineImageLayout

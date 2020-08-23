@@ -68,4 +68,21 @@
         app:cdv_text_info="5s"
         />
 
+    <cn.lvsong.lib.library.view.MovingBallView
+        android:id="@+id/mbv_audio_record_publish_dynamic"
+        android:layout_width="@dimen/width_100"
+        android:layout_height="@dimen/height_100"
+        android:layout_marginTop="@dimen/padding_20"
+        app:mbv_ball_duration="60000"
+        app:mbv_ball_radius="@dimen/padding_6"
+        app:mbv_bg_line_width="@dimen/padding_1"
+        app:mbv_microphone_width="@dimen/padding_20"
+        app:mbv_moved_line_end_color="@color/color_333333"
+        app:mbv_moved_line_start_color="@color/color_B1B6D1"
+        app:mbv_moved_line_width="@dimen/padding_2"
+        app:mbv_quadrilateral_length="@dimen/padding_20"
+        app:mbv_round_corner="@dimen/padding_8"
+        app:mbv_solid_circle_radius="@dimen/padding_30"
+        app:mbv_triangle_length="@dimen/padding_20" />
+
 </LinearLayout>
