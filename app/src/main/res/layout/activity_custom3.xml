@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".CustomActivity3">
+
+    <cn.lvsong.lib.library.view.PolygonSettingView
+        android:id="@+id/psv_test"
+        android:layout_width="@dimen/width_30"
+        android:layout_height="@dimen/height_30"
+        android:layout_marginStart="@dimen/padding_20"
+        android:layout_marginTop="@dimen/padding_20"
+        app:psv_color="@color/color_666666"
+        app:psv_line_width="@dimen/padding_2"
+        app:psv_num="6" />
+
+    <cn.lvsong.lib.library.view.RoundImageView
+        android:id="@+id/riv_cover_item"
+        android:layout_width="@dimen/width_70"
+        android:layout_height="@dimen/height_70"
+        android:layout_marginStart="@dimen/padding_14"
+        android:layout_marginTop="@dimen/padding_20"
+        android:src="@drawable/ic_launcher_background"
+        app:riv_border_color="@android:color/transparent"
+        app:riv_border_width="4dp"
+        app:riv_mask_type="ROUNDRECTANGLE"
+        app:riv_round_radius="@dimen/padding_5" />
+
+    <cn.lvsong.lib.library.view.ShadowLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/padding_20"
+        app:sl_background_color="@color/color_444444"
+        app:sl_layout_radius="@dimen/padding_10"
+        app:sl_offset_x="0dp"
+        app:sl_offset_y="5dp"
+        app:sl_shadow_color="@color/color_999999"
+        app:sl_shadow_radius="@dimen/padding_12">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_100"
+            android:background="@color/main_theme_color" />
+
+    </cn.lvsong.lib.library.view.ShadowLayout>
+
+    <cn.lvsong.lib.library.view.StarsView
+        android:id="@+id/sv_star"
+        android:layout_margin="@dimen/padding_20"
+        android:layout_width="@dimen/width_30"
+        android:layout_height="@dimen/height_30"
+        app:stv_checked_color="@color/main_theme_color"
+        app:stv_default_color="@color/color_2878FF"
+        app:stv_edge_line_width="@dimen/padding_2"
+        app:stv_num="5"
+        app:stv_style="stroke" />
+
+</LinearLayout>

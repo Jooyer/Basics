@@ -3,6 +3,7 @@ package cn.lvsong.lib.library.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
@@ -135,21 +136,21 @@ public class StarsView extends View implements Checkable {
 
     private void initAttr(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         int defaultNum = 5;
-        int mineNum = 2;
+        int mineNum = 3;
         float defaultEdgeLineWidth = dip2px(context, 1f);
         int defaultStyle = STYLE_STROKE;
         if (attrs != null) {
             TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.StarsView, defStyleAttr, 0);
-            mDefaultColor = array.getColor(R.styleable.StarsView_stv_default_color, ContextCompat.getColor(context, R.color.color_DDDDDD));
-            mCheckedColor = array.getColor(R.styleable.StarsView_stv_checked_color, ContextCompat.getColor(context, R.color.main_theme_color));
+            mDefaultColor = array.getColor(R.styleable.StarsView_stv_default_color, Color.GREEN);
+            mCheckedColor = array.getColor(R.styleable.StarsView_stv_checked_color, Color.RED);
             int num = array.getInt(R.styleable.StarsView_stv_num, defaultNum);
             mAngleNum = Math.max(num, mineNum);
             mEdgeLineWidth = array.getDimension(R.styleable.StarsView_stv_edge_line_width, defaultEdgeLineWidth);
             mStyle = array.getInt(R.styleable.StarsView_stv_style, defaultStyle);
             array.recycle();
         } else {
-            mDefaultColor = ContextCompat.getColor(context, R.color.color_DDDDDD);
-            mCheckedColor = ContextCompat.getColor(context, R.color.main_theme_color);
+            mDefaultColor = Color.GREEN;
+            mCheckedColor = Color.RED;
             mAngleNum = defaultNum;
             mEdgeLineWidth = defaultEdgeLineWidth;
             mStyle = defaultStyle;

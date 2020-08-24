@@ -1,88 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".CustomActivity2">
 
-    <cn.lvsong.lib.library.view.CustomToolbar
-        android:id="@+id/toolbar"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_50"
-        app:ct_center_text_color="@color/color_333333"
-        app:ct_center_text_info="自定义View集合2"
-        app:ct_center_text_size="@dimen/text_size_16"
-        app:ct_left_arrow_color="@color/color_2878FF"
-        app:ct_left_arrow_height="@dimen/height_50"
-        app:ct_left_arrow_padding="@dimen/padding_3"
-        app:ct_left_arrow_style="wechat_design"
-        app:ct_left_arrow_width="@dimen/width_40"
-        />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <cn.lvsong.lib.library.view.BadgeView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/padding_5"
-        app:bv_number="111"
-        app:bv_text_size="@dimen/text_size_14"
-        app:bv_stoke_width="1.5dp"
-        app:bv_more_style="plus"
-        app:bv_text_medium="false"
-        app:bv_background_color="@color/color_2878FF"
-        app:bv_lr_padding="@dimen/padding_8"
-        app:bv_tb_padding="@dimen/padding_5"
-        />
+        <cn.lvsong.lib.library.view.CustomToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_50"
+            app:ct_center_text_color="@color/color_333333"
+            app:ct_center_text_info="自定义View集合2"
+            app:ct_center_text_size="@dimen/text_size_16"
+            app:ct_left_arrow_color="@color/color_2878FF"
+            app:ct_left_arrow_height="@dimen/height_50"
+            app:ct_left_arrow_padding="@dimen/padding_3"
+            app:ct_left_arrow_style="wechat_design"
+            app:ct_left_arrow_width="@dimen/width_40" />
 
-    <cn.lvsong.lib.library.view.CloseView
-        android:id="@+id/cv1"
-        android:layout_width="@dimen/width_40"
-        android:layout_height="@dimen/height_40"
-        android:layout_margin="@dimen/padding_5"
-        app:cv_line_width="1.5dp"
-        app:cv_line_padding="@dimen/padding_2"
-        app:cv_mode="normal" />
+        <cn.lvsong.lib.library.view.BadgeView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/padding_5"
+            app:bv_background_color="@color/color_2878FF"
+            app:bv_lr_padding="@dimen/padding_8"
+            app:bv_more_style="plus"
+            app:bv_number="111"
+            app:bv_stoke_width="1.5dp"
+            app:bv_tb_padding="@dimen/padding_5"
+            app:bv_text_medium="false"
+            app:bv_text_size="@dimen/text_size_14" />
 
-    <cn.lvsong.lib.library.view.CloseView
-        android:id="@+id/cv2"
-        android:layout_width="@dimen/width_40"
-        android:layout_height="@dimen/height_40"
-        android:layout_margin="@dimen/padding_5"
-        app:cv_circle_line_color="@color/main_theme_color"
-        app:cv_circle_line_width="2dp"
-        app:cv_circle_has_bg="true"
-        app:cv_circle_bg_padding="2dp"
-        app:cv_circle_bg_color="@color/color_8A8EA3"
-        app:cv_line_width="1.5dp"
-        app:cv_mode="circle" />
+        <cn.lvsong.lib.library.view.CloseView
+            android:id="@+id/cv1"
+            android:layout_width="@dimen/width_40"
+            android:layout_height="@dimen/height_40"
+            android:layout_margin="@dimen/padding_5"
+            app:cv_line_padding="@dimen/padding_2"
+            app:cv_line_width="1.5dp"
+            app:cv_mode="normal" />
 
-    <cn.lvsong.lib.library.view.CountDownView
-        android:id="@+id/cdv"
-        android:layout_width="@dimen/width_60"
-        android:layout_height="@dimen/height_60"
-        android:layout_margin="@dimen/padding_5"
-        app:cdv_bg_color="@android:color/holo_red_dark"
-        app:cdv_ring_color="@color/main_theme_color"
-        app:cdv_ring_width="@dimen/padding_5"
-        app:cdv_text_info="5s"
-        />
+        <cn.lvsong.lib.library.view.CloseView
+            android:id="@+id/cv2"
+            android:layout_width="@dimen/width_40"
+            android:layout_height="@dimen/height_40"
+            android:layout_margin="@dimen/padding_5"
+            app:cv_circle_bg_color="@color/color_8A8EA3"
+            app:cv_circle_bg_padding="2dp"
+            app:cv_circle_has_bg="true"
+            app:cv_circle_line_color="@color/main_theme_color"
+            app:cv_circle_line_width="2dp"
+            app:cv_line_width="1.5dp"
+            app:cv_mode="circle" />
 
-    <cn.lvsong.lib.library.view.MovingBallView
-        android:id="@+id/mbv_audio_record_publish_dynamic"
-        android:layout_width="@dimen/width_100"
-        android:layout_height="@dimen/height_100"
-        android:layout_marginTop="@dimen/padding_20"
-        app:mbv_ball_duration="60000"
-        app:mbv_ball_radius="@dimen/padding_6"
-        app:mbv_bg_line_width="@dimen/padding_1"
-        app:mbv_microphone_width="@dimen/padding_20"
-        app:mbv_moved_line_end_color="@color/color_333333"
-        app:mbv_moved_line_start_color="@color/color_B1B6D1"
-        app:mbv_moved_line_width="@dimen/padding_2"
-        app:mbv_quadrilateral_length="@dimen/padding_20"
-        app:mbv_round_corner="@dimen/padding_8"
-        app:mbv_solid_circle_radius="@dimen/padding_30"
-        app:mbv_triangle_length="@dimen/padding_20" />
+        <cn.lvsong.lib.library.view.CountDownView
+            android:id="@+id/cdv"
+            android:layout_width="@dimen/width_60"
+            android:layout_height="@dimen/height_60"
+            android:layout_margin="@dimen/padding_5"
+            app:cdv_bg_color="@android:color/holo_red_dark"
+            app:cdv_ring_color="@color/main_theme_color"
+            app:cdv_ring_width="@dimen/padding_5"
+            app:cdv_text_info="5s" />
 
-</LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="@dimen/padding_20"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_100"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            >
+
+            <cn.lvsong.lib.library.view.MovingBallView
+                android:id="@+id/mbv_audio_record"
+                android:layout_width="@dimen/width_100"
+                android:layout_height="@dimen/height_100"
+                app:mbv_ball_duration="4000"
+                app:mbv_ball_radius="@dimen/padding_6"
+                app:mbv_bg_line_width="@dimen/padding_1"
+                app:mbv_microphone_width="@dimen/padding_20"
+                app:mbv_moved_line_end_color="@color/colorAccent"
+                app:mbv_moved_line_start_color="@color/color_2878FF"
+                app:mbv_moved_line_width="@dimen/padding_2"
+                app:mbv_quadrilateral_length="@dimen/padding_20"
+                app:mbv_round_corner="@dimen/padding_8"
+                app:mbv_solid_circle_radius="@dimen/padding_30"
+                app:mbv_triangle_length="@dimen/padding_20" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/height_50"
+                android:text="start"
+                android:onClick="onStartRecord"
+                android:layout_marginStart="@dimen/padding_20"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/text_size_16"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/height_50"
+                android:text="stop"
+                android:onClick="onStopRecord"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/text_size_16"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/height_50"
+                android:text="play"
+                android:onClick="onPlayRecord"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/text_size_16"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/height_50"
+                android:text="reset"
+                android:onClick="onResetRecord"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/text_size_16"
+                />
+
+        </LinearLayout>
+
+        <cn.lvsong.lib.library.refresh.ChrysanthemumView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_20"
+            android:layout_marginTop="@dimen/padding_20"
+            app:cv_flower_count="10"
+            app:cv_view_color="@color/color_E95C5B5B"
+            app:cv_view_height="@dimen/padding_3"
+            app:cv_view_radius="@dimen/padding_15"
+            app:cv_view_width="@dimen/padding_8" />
+
+        <cn.lvsong.lib.library.view.PhoneEditText
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_50"
+            android:layout_margin="@dimen/padding_20"
+            android:background="@color/color_EEEEEE"
+            android:hint="请输入电话号码"
+            android:paddingStart="@dimen/padding_10"
+            android:paddingEnd="@dimen/padding_10"
+            android:textColor="@color/color_333333"
+            android:textColorHint="@color/color_666666" />
+
+        <cn.lvsong.lib.library.view.PickerView
+            android:id="@+id/pickerView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_200"
+            />
+
+    </LinearLayout>
+
+
+</androidx.core.widget.NestedScrollView>

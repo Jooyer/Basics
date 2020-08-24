@@ -15,7 +15,6 @@ import java.util.regex.Pattern;
 
 /**
  * @ProjectName: android
- * @Package: com.weex.app
  * @ClassName: PhoneEditText
  * @Description: 实现自定义手机号输入框，手机号码效果为344效果，例如111 1111 1111
  * @Author: Jooyer
@@ -25,6 +24,22 @@ import java.util.regex.Pattern;
  * @UpdateRemark:
  * @Version: 1.0
  */
+
+/*
+
+    <cn.lvsong.lib.library.view.PhoneEditText
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_50"
+        android:layout_margin="@dimen/padding_20"
+        android:background="@color/color_EEEEEE"
+        android:hint="请输入电话号码"
+        android:paddingStart="@dimen/padding_10"
+        android:paddingEnd="@dimen/padding_10"
+        android:textColor="@color/color_333333"
+        android:textColorHint="@color/color_666666" />
+
+ */
+
 public class PhoneEditText extends AppCompatEditText implements TextWatcher {
 
     // 特殊下标位置
@@ -55,19 +70,16 @@ public class PhoneEditText extends AppCompatEditText implements TextWatcher {
     public interface OnPhoneEditTextChangeListener {
         /**
          * 对外提供接口监听
-         * @param s 字符串
+         *
+         * @param phoneNum 字符串
          * @param isEleven 现在是否是11位数字
          */
-        void onTextChange(String s, boolean isEleven);
-    }
-
-    public void setOnPhoneEditTextChangeListener(OnPhoneEditTextChangeListener listener) {
-        this.onPhoneEditTextChangeListener = listener;
+        void onTextChange(boolean isEleven, String phoneNum);
     }
 
     private void initView() {
         //设置输入过滤器
-        setFilters(new InputFilter[] {
+        setFilters(new InputFilter[]{
                 new InputFilter() {
                     @Override
                     public CharSequence filter(CharSequence source, int start, int end,
@@ -121,8 +133,7 @@ public class PhoneEditText extends AppCompatEditText implements TextWatcher {
         }
 
         if (null != onPhoneEditTextChangeListener) {
-            onPhoneEditTextChangeListener.onTextChange(getPhoneText(),
-                    getPhoneText().length() == 11);
+            onPhoneEditTextChangeListener.onTextChange(getPhoneText().length() == 11, getPhoneText());
         }
 
         if (s == null || s.length() == 0) {
@@ -172,12 +183,6 @@ public class PhoneEditText extends AppCompatEditText implements TextWatcher {
 
     }
 
-    // 获得不包含空格的手机号
-    public String getPhoneText() {
-        String str = getText().toString();
-        return replaceBlank(str);
-    }
-
     private String replaceBlank(String str) {
         String dest = "";
         if (str != null) {
@@ -189,5 +194,21 @@ public class PhoneEditText extends AppCompatEditText implements TextWatcher {
         }
         return dest;
     }
+
+    /**
+     * 设置输入变化监听
+     */
+    public void setOnPhoneEditTextChangeListener(OnPhoneEditTextChangeListener listener) {
+        this.onPhoneEditTextChangeListener = listener;
+    }
+
+    /**
+     * 获得不包含空格的电话号码
+     */
+    public String getPhoneText() {
+        String str = getText().toString();
+        return replaceBlank(str);
+    }
+
 }
 

@@ -16,42 +16,55 @@ import androidx.appcompat.widget.AppCompatImageView;
 import cn.lvsong.lib.library.R;
 
 
-/** RoundedBitmapDrawable 是 support-v4 下一个类
+/**
+ * RoundedBitmapDrawable 是 support-v4 下一个类
  * Desc: 圆角矩形
  * Author: Jooyer
  * Date: 2018-08-15
  * Time: 10:02
+ * <p>
+ * ImageView mm1 = (ImageView) findViewById(R.id.mm1);
+ * ImageView mm2 = (ImageView) findViewById(R.id.mm2);
+ * <p>
+ * RoundedBitmapDrawable roundedBitmapDrawable1 = RoundedBitmapDrawableFactory.create(getResources(), BitmapFactory.decodeResource(getResources(), R.drawable.ns2));
+ * RoundedBitmapDrawable roundedBitmapDrawable2 = RoundedBitmapDrawableFactory.create(getResources(), BitmapFactory.decodeResource(getResources(), R.drawable.ns2));
+ * // 圆形
+ * roundedBitmapDrawable1.setCircular(true);
+ * mm1.setImageDrawable(roundedBitmapDrawable1);
+ * // 圆角矩形
+ * roundedBitmapDrawable2.setCornerRadius(10);
+ * mm2.setImageDrawable(roundedBitmapDrawable2);
  */
 
 /**
-        ImageView mm1 = (ImageView) findViewById(R.id.mm1);
-        ImageView mm2 = (ImageView) findViewById(R.id.mm2);
+ ImageView mm1 = (ImageView) findViewById(R.id.mm1);
+ ImageView mm2 = (ImageView) findViewById(R.id.mm2);
 
-        RoundedBitmapDrawable roundedBitmapDrawable1 = RoundedBitmapDrawableFactory.create(getResources(), BitmapFactory.decodeResource(getResources(), R.drawable.ns2));
-        RoundedBitmapDrawable roundedBitmapDrawable2 = RoundedBitmapDrawableFactory.create(getResources(), BitmapFactory.decodeResource(getResources(), R.drawable.ns2));
-        // 圆形
-        roundedBitmapDrawable1.setCircular(true);
-        mm1.setImageDrawable(roundedBitmapDrawable1);
-        // 圆角矩形
-        roundedBitmapDrawable2.setCornerRadius(10);
-        mm2.setImageDrawable(roundedBitmapDrawable2);
+ RoundedBitmapDrawable roundedBitmapDrawable1 = RoundedBitmapDrawableFactory.create(getResources(), BitmapFactory.decodeResource(getResources(), R.drawable.ns2));
+ RoundedBitmapDrawable roundedBitmapDrawable2 = RoundedBitmapDrawableFactory.create(getResources(), BitmapFactory.decodeResource(getResources(), R.drawable.ns2));
+ // 圆形
+ roundedBitmapDrawable1.setCircular(true);
+ mm1.setImageDrawable(roundedBitmapDrawable1);
+ // 圆角矩形
+ roundedBitmapDrawable2.setCornerRadius(10);
+ mm2.setImageDrawable(roundedBitmapDrawable2);
 
  */
 
-/**
-  <com.shijigui.app.library.define.RoundImageView
-                android:id="@+id/riv_cover_item"
-                android:layout_width="@dimen/width_70"
-                android:layout_height="@dimen/height_70"
-                android:layout_marginStart="@dimen/padding_14"
-                android:layout_marginTop="@dimen/padding_20"
-                android:src="@drawable/shape_rect_blue_gradient"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:RoundImageView_borderColor_Ri="@android:color/transparent"
-                app:RoundImageView_borderWidth_Ri="4dp"
-                app:RoundImageView_maskType="ROUNDRECTANGLE"
-        />
+/** 用法:
+ <cn.lvsong.lib.library.view.RoundImageView
+ android:id="@+id/riv_cover_item"
+ android:layout_width="@dimen/width_70"
+ android:layout_height="@dimen/height_70"
+ android:layout_marginStart="@dimen/padding_14"
+ android:layout_marginTop="@dimen/padding_20"
+ android:src="@drawable/ic_launcher_background"
+ app:riv_border_color="@android:color/transparent"
+ app:riv_border_width="4dp"
+ app:riv_round_radius="@dimen/padding_5"
+ app:riv_mask_type="ROUNDRECTANGLE"
+ />
+
  */
 public class RoundImageView extends AppCompatImageView {
 
@@ -84,13 +97,13 @@ public class RoundImageView extends AppCompatImageView {
         initRoundImageView();
         TypedArray a = context.obtainStyledAttributes(attrs,
                 R.styleable.RoundImageView, defStyle, 0);
-        int index = a.getInt(R.styleable.RoundImageView_RoundImageView_maskType, -1);
+        int index = a.getInt(R.styleable.RoundImageView_riv_mask_type, -1);
         if (index >= 0) {
             setMaskType(sMaskTypeArray[index]);
         }
-        mRadius = a.getDimensionPixelSize(R.styleable.RoundImageView_RoundImageView_roundRadius,10);
-        mBorderColor = a.getColor(R.styleable.RoundImageView_RoundImageView_borderColor_Ri, Color.BLACK);
-        mBorderWidth = a.getDimensionPixelSize(R.styleable.RoundImageView_RoundImageView_borderWidth_Ri, 0);
+        mRadius = a.getDimensionPixelSize(R.styleable.RoundImageView_riv_round_radius, 10);
+        mBorderColor = a.getColor(R.styleable.RoundImageView_riv_border_color, Color.TRANSPARENT);
+        mBorderWidth = a.getDimensionPixelSize(R.styleable.RoundImageView_riv_border_width, 0);
 
         a.recycle();
     }
@@ -102,64 +115,6 @@ public class RoundImageView extends AppCompatImageView {
         mBorderPaint = new Paint();
         mBorderColor = DEFAULT_BORDER_COLOR;
         mBorderPaint.setColor(mBorderColor);
-    }
-
-    /**
-     *
-     * @MaskType.ROUNDRECTANGLE
-     * @MaskType.ROUNDRECTANGLETOP
-     * @param radius
-     */
-    public void setRadius(int radius) {
-        if (mRadius == radius) {
-            return;
-        }
-
-        mRadius = radius;
-        invalidate();
-    }
-
-    public void setBorderColor(@ColorInt int color) {
-        if (mBorderColor == color) {
-            return;
-        }
-
-        mBorderColor = color;
-        mBorderPaint.setColor(color);
-        invalidate();
-    }
-
-
-    public void initAll(float borderWidth,MaskType maskType,int radius,@ColorInt int borderColor){
-        mBorderWidth = borderWidth;
-        mMaskType = maskType;
-        mRadius = radius;
-        mBorderColor = borderColor;
-    }
-
-    public void setBorderColorResource(@ColorRes int colorResource) {
-        setBorderColor(getContext().getResources().getColor(colorResource));
-    }
-
-    public void setBorderWidth(float borderWidth) {
-        if (mBorderWidth == borderWidth) {
-            return;
-        }
-        mBorderWidth = borderWidth;
-        invalidate();
-    }
-
-    public void setMaskType(MaskType maskType) {
-        if (maskType == null) {
-            throw new NullPointerException();
-        }
-
-        if (mMaskType != maskType) {
-            mMaskType = maskType;
-
-            requestLayout();
-            invalidate();
-        }
     }
 
     @Override
@@ -223,7 +178,7 @@ public class RoundImageView extends AppCompatImageView {
                 canvas.drawCircle(width / 2, height / 2, r - mBorderWidth / 2, mBorderPaint);
                 break;
             case ROUNDRECTANGLE:
-                canvas.drawRoundRect(new RectF(0, 0, width, height), mRadius, mRadius,mBorderPaint);
+                canvas.drawRoundRect(new RectF(0, 0, width, height), mRadius, mRadius, mBorderPaint);
                 break;
         }
 
@@ -259,4 +214,73 @@ public class RoundImageView extends AppCompatImageView {
             mNativeInt = ni;
         }
     }
+
+
+    /**
+     * 四周圆角半径,默认10px,在下面2种情形下有效
+     * @MaskType.ROUNDRECTANGLE
+     * @MaskType.ROUNDRECTANGLETOP
+     */
+    public void setRadius(int radius) {
+        if (mRadius == radius) {
+            return;
+        }
+
+        mRadius = radius;
+        invalidate();
+    }
+
+    /**
+     *边框颜色,默认透明,在下面2种情形下有效
+     * @MaskType.ROUNDRECTANGLE
+     * @MaskType.ROUNDRECTANGLETOP
+     */
+    public void setBorderColor(@ColorInt int color) {
+        if (mBorderColor == color) {
+            return;
+        }
+
+        mBorderColor = color;
+        mBorderPaint.setColor(color);
+        invalidate();
+    }
+
+    /**
+     *边框颜色,默认透明,在下面2种情形下有效
+     * @MaskType.ROUNDRECTANGLE
+     * @MaskType.ROUNDRECTANGLETOP
+     */
+    public void setBorderColorResource(@ColorRes int colorResource) {
+        setBorderColor(getContext().getResources().getColor(colorResource));
+    }
+
+    /**
+     * 边框半径,默认0,在下面2种情形下有效
+     * @MaskType.ROUNDRECTANGLE
+     * @MaskType.ROUNDRECTANGLETOP
+     */
+    public void setBorderWidth(float borderWidth) {
+        if (mBorderWidth == borderWidth) {
+            return;
+        }
+        mBorderWidth = borderWidth;
+        invalidate();
+    }
+
+    /**
+     *  设置圆角的类型,矩形(RECTANGLE),CIRCLE(圆形),ROUNDRECTANGLE(四周圆角),ROUNDRECTANGLETOP(左上和右上有圆角)
+     */
+    public void setMaskType(MaskType maskType) {
+        if (maskType == null) {
+            throw new NullPointerException();
+        }
+
+        if (mMaskType != maskType) {
+            mMaskType = maskType;
+
+            requestLayout();
+            invalidate();
+        }
+    }
+
 }

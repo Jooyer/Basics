@@ -123,16 +123,16 @@ class ShadowLayout : ConstraintLayout {
     private fun initAttributes(context: Context, attrs: AttributeSet?) {
         attrs?.let {
             val attr = context.obtainStyledAttributes(attrs, R.styleable.ShadowLayout)
-            mCornerRadius = attr.getDimension(R.styleable.ShadowLayout_shadow_layout_radius, 0f)
-            mShadowRadius = attr.getDimension(R.styleable.ShadowLayout_shadow_layout_blur, 0f)
-            mDx = attr.getDimension(R.styleable.ShadowLayout_shadow_layout_offsetX, 0f)
-            mDy = attr.getDimension(R.styleable.ShadowLayout_shadow_layout_offsetY, 0f)
+            mCornerRadius = attr.getDimension(R.styleable.ShadowLayout_sl_layout_radius, 0f)
+            mShadowRadius = attr.getDimension(R.styleable.ShadowLayout_sl_shadow_radius, 0f)
+            mDx = attr.getDimension(R.styleable.ShadowLayout_sl_offset_x, 0f)
+            mDy = attr.getDimension(R.styleable.ShadowLayout_sl_offset_y, 0f)
             mShadowColor = attr.getColor(
-                R.styleable.ShadowLayout_shadow_layout_shadow_color,
+                R.styleable.ShadowLayout_sl_shadow_color,
                 Color.parseColor("#22000000")
             )
             mBackgroundColor = attr.getColor(
-                R.styleable.ShadowLayout_shadow_layout_background_color,
+                R.styleable.ShadowLayout_sl_background_color,
                 Integer.MIN_VALUE
             )
             attr.recycle()

@@ -297,6 +297,47 @@ class CustomAdapter(data: List<String>, layoutId: Int) :
 | setBubbleColor(bubbleColor: Int)                             | 设置气泡背景色                               |
 
 
+# ChrysanthemumView
+## **用法:**
+
+具体参考: cn.lvsong.lib.demo.CustomActivity2
+
+```xml
+    <cn.lvsong.lib.library.refresh.ChrysanthemumView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_20"
+        android:layout_marginStart="@dimen/padding_20"
+        app:chrysanthemum_view_color="@color/color_E95C5B5B"
+        app:chrysanthemum_view_radius="@dimen/padding_15"
+        app:chrysanthemum_view_width="@dimen/padding_8"
+        app:chrysanthemum_view_height="@dimen/padding_3"
+        app:chrysanthemum_flower_count="10"
+        />
+```
+
+
+
+## **属性介绍:**
+
+| 属性名称        | 取值类型           | 取值和作用                    |
+| --------------- | ------------------ | ----------------------------- |
+| cv_flower_count | integer            | 花瓣的数量,一般去偶数 8,10,12 |
+| cv_view_radius  | dimension\|integer | 菊花半径                      |
+| cv_view_width   | dimension\|integer | 每一片花瓣的长度              |
+| cv_view_height  | dimension\|integer | 每一片花瓣的厚度              |
+| cv_view_color   | color              | 花瓣的颜色                    |
+
+
+
+## **公共方法:**
+
+| 方法名称 | 作用                                             |
+| -------- | ------------------------------------------------ |
+| start()  | 开始旋转,如果控件可见就会自动执行,不必手动调用   |
+| stop()   | 暂停旋转,如果控件不可见就会自动执行,不必手动调用 |
+
+
 
 
 # CloseView
@@ -984,6 +1025,9 @@ PS: 一般右侧显示一个文本按钮(或者2个图标按钮,或者更多按�
 
 # NineImageLayout
 ## **用法:**
+
+
+
 ## **属性介绍:**
 ## **公共方法:**
 
@@ -1046,16 +1090,122 @@ PS: 一般右侧显示一个文本按钮(或者2个图标按钮,或者更多按�
 | setOnRefreshAndLoadListener(OnNestedRefreshAndLoadListener listener) | 设置刷新与加载回调                                       |
 
 
+# PhoneEditText
+## **用法:**
+
+具体参考: cn.lvsong.lib.demo.CustomActivity2
+
+```xml
+    <cn.lvsong.lib.library.view.PhoneEditText
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_50"
+        android:layout_margin="@dimen/padding_20"
+        android:background="@color/color_EEEEEE"
+        android:hint="请输入电话号码"
+        android:paddingStart="@dimen/padding_10"
+        android:paddingEnd="@dimen/padding_10"
+        android:textColor="@color/color_333333"
+        android:textColorHint="@color/color_666666" />
+```
+
+
+
+## **属性介绍:**
+
+暂无
+
+## **公共方法:**
+
+| 方法名称                                                     | 作用                                                         |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| setOnPhoneEditTextChangeListener(OnPhoneEditTextChangeListener listener) | 设置输入变化监听,返回的是参数中phoneNum是去掉空格后的电话号码 |
+| getPhoneText()                                               | 获得不包含空格的电话号码                                     |
+
+
+
+
 # PickerView
 ## **用法:**
 ## **属性介绍:**
 ## **公共方法:**
 
-
 # PolygonSettingView
 ## **用法:**
+具体参考: cn.lvsong.lib.demo.CustomActivity3
+
+```xml
+    <cn.lvsong.lib.library.view.PolygonSettingView
+        android:id="@+id/psv_test"
+        android:layout_width="@dimen/width_30"
+        android:layout_height="@dimen/height_30"
+        android:layout_marginTop="@dimen/padding_20"
+        android:layout_marginStart="@dimen/padding_20"
+        app:psv_color="@color/color_666666"
+        app:psv_line_width="@dimen/padding_2"
+        app:psv_num="6"
+        />
+```
+
+
+
 ## **属性介绍:**
+
+| 属性名称       | 取值类型         | 取值和作用                                        |
+| -------------- | ---------------- | ------------------------------------------------- |
+| psv_color      | color            | 颜色,必须设置                                     |
+| psv_num        | integer          | 多边形多少条边，至少3条边，如果小于3条，会强制3条 |
+| psv_line_width | float\|dimension | 边的线宽,默认1.5dp                                |
+
+
+
 ## **公共方法:**
+
+暂无
+
+
+# RoundImageView
+## **用法:**
+
+具体参考: cn.lvsong.lib.demo.CustomActivity3
+
+```xml
+    <cn.lvsong.lib.library.view.RoundImageView
+        android:id="@+id/riv_cover_item"
+        android:layout_width="@dimen/width_70"
+        android:layout_height="@dimen/height_70"
+        android:layout_marginStart="@dimen/padding_14"
+        android:layout_marginTop="@dimen/padding_20"
+        android:src="@drawable/ic_launcher_background"
+        app:riv_border_color="@android:color/transparent"
+        app:riv_border_width="4dp"
+        app:riv_round_radius="@dimen/padding_5"
+        app:riv_mask_type="ROUNDRECTANGLE"
+        />
+```
+
+
+
+## **属性介绍:**
+
+| 属性名称         | 取值类型           | 取值和作用                                                   |
+| ---------------- | ------------------ | ------------------------------------------------------------ |
+| riv_round_radius | dimension\|integer | 四周圆角半径,默认10px, 在圆角类型为 ROUNDRECTANGLE或者ROUNDRECTANGLETOP时有效 |
+| riv_border_width | dimension\|float   | 边框半径,默认0,在圆角类型为 ROUNDRECTANGLE或者ROUNDRECTANGLETOP时有效 |
+| riv_border_color | color              | 边框颜色,默认透明,在圆角类型为 ROUNDRECTANGLE或者ROUNDRECTANGLETOP时有效 |
+| riv_mask_type    | enum               | 圆角的类型,矩形(RECTANGLE),CIRCLE(圆形),ROUNDRECTANGLE(四周圆角),ROUNDRECTANGLETOP(左上和右上有圆角) |
+
+
+
+## **公共方法:**
+
+| 方法名称                                            | 作用                                                         |
+| --------------------------------------------------- | ------------------------------------------------------------ |
+| setRadius(int radius)                               | 设置四周圆角半径, 在圆角类型为 ROUNDRECTANGLE或者ROUNDRECTANGLETOP时有效 |
+| setBorderColor(@ColorInt int color)                 | 设置边框颜色,在圆角类型为 ROUNDRECTANGLE或者ROUNDRECTANGLETOP时有效 |
+| setBorderColorResource(@ColorRes int colorResource) | 设置边框颜色,在圆角类型为 ROUNDRECTANGLE或者ROUNDRECTANGLETOP时有效 |
+| setBorderWidth(float borderWidth)                   | 设置边框半径,在圆角类型为 ROUNDRECTANGLE或者ROUNDRECTANGLETOP时有效 |
+| setMaskType(MaskType maskType)                      | 设置圆角的类型,矩形(RECTANGLE),CIRCLE(圆形),ROUNDRECTANGLE(四周圆角),ROUNDRECTANGLETOP(左上和右上有圆角) |
+
 
 
 # ShadowLayout
@@ -1072,8 +1222,39 @@ PS: 一般右侧显示一个文本按钮(或者2个图标按钮,或者更多按�
 
 # StarsView
 ## **用法:**
+
+具体参考: cn.lvsong.lib.demo.CustomActivity3
+
+```xml
+    <cn.lvsong.lib.library.view.StarsView
+        android:id="@+id/sv_star"
+        android:layout_margin="@dimen/padding_20"
+        android:layout_width="@dimen/width_30"
+        android:layout_height="@dimen/height_30"
+        app:stv_checked_color="@color/main_theme_color"
+        app:stv_default_color="@color/color_2878FF"
+        app:stv_edge_line_width="@dimen/padding_2"
+        app:stv_num="5"
+        app:stv_style="fill" />
+```
+
+
+
 ## **属性介绍:**
+
+| 属性名称            | 取值类型         | 取值和作用                                |
+| ------------------- | ---------------- | ----------------------------------------- |
+| stv_default_color   | color            | 星星的默认颜色,默认Color.GREEN            |
+| stv_checked_color   | color            | 星星的选中颜色,Color.RED                  |
+| stv_num             | integer          | 星星的角个数,默认5个                      |
+| stv_edge_line_width | float\|dimension | 边的线宽,默认1dp                          |
+| stv_style           | enum             | 填充风格,fill(填满),stroke(描边),默认描边 |
+
+
+
 ## **公共方法:**
+
+
 
 
 # StatusManager
@@ -1143,8 +1324,30 @@ setContentView(setContentView)
 
 # TopImgAndBottomTextView
 ## **用法:**
+
+具体参考: cn.lvsong.lib.demo.CustomMenuActivity
+
+```xml
+        <cn.lvsong.lib.library.view.TopImgAndBottomTextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_80"
+            android:layout_marginTop="@dimen/padding_10"
+            app:tibt_checked_drawable="@drawable/ic_baseline_assignment_returned_24"
+            app:tibt_normal_drawable="@drawable/ic_baseline_alarm_add_24"
+            app:tibt_tv_text="TopImgAndBottomTextView实现上面图片,下面文字" />
+```
+
+
+
 ## **属性介绍:**
+
+
+
+
+
 ## **公共方法:**
+
+
 
 
 

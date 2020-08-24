@@ -2,6 +2,7 @@ package cn.lvsong.lib.demo
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import cn.lvsong.lib.library.utils.click
 import cn.lvsong.lib.library.utils.withTrigger
@@ -32,6 +33,19 @@ class CustomActivity2 : BaseActivity() {
             cdv.startCountDown(5)
         },1200L)
 
+    }
+
+    fun onStartRecord(view: View) {
+        mbv_audio_record.startRecord()
+    }
+    fun onStopRecord(view: View) {
+        mbv_audio_record.stopRecord()
+    }
+    fun onPlayRecord(view: View) {
+        mbv_audio_record.playRecord()
+    }
+    fun onResetRecord(view: View) {
+        mbv_audio_record.resetRecord()
     }
 
 }

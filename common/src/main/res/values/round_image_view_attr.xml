@@ -3,15 +3,19 @@
 
     <!--自定义圆角矩形-->
     <declare-styleable name="RoundImageView">
-        <attr name="RoundImageView_maskType">
+        <!-- 四周圆角半径,默认10px -->
+        <attr name="riv_round_radius" format="dimension|integer" />
+        <!-- 边框半径,默认0 -->
+        <attr name="riv_border_width" format="dimension|float" />
+        <!-- 边框颜色,默认透明 -->
+        <attr name="riv_border_color" format="color" />
+        <!-- 圆角的类型 -->
+        <attr name="riv_mask_type" format="enum">
             <enum name="RECTANGLE" value="0" />
             <enum name="CIRCLE" value="1" />
             <enum name="ROUNDRECTANGLE" value="2" />
             <enum name="ROUNDRECTANGLETOP" value="3" />
         </attr>
-        <attr name="RoundImageView_roundRadius" format="dimension" />
-        <attr name="RoundImageView_borderWidth_Ri" format="dimension" />
-        <attr name="RoundImageView_borderColor_Ri" format="color|reference" />
     </declare-styleable>
 
 </resources>

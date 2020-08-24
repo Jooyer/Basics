@@ -2,16 +2,16 @@
 <resources>
     <declare-styleable name="ShadowLayout">
         <!--  阴影颜色  -->
-        <attr name="shadow_layout_shadow_color" format="color|reference" />
+        <attr name="sl_shadow_color" format="color" />
         <!--  背景颜色  -->
-        <attr name="shadow_layout_background_color" format="color|reference" />
+        <attr name="sl_background_color" format="color" />
         <!--  阴影水平偏移  -->
-        <attr name="shadow_layout_offsetX" format="dimension|reference" />
+        <attr name="sl_offset_x" format="dimension|float" />
         <!--  阴影垂直偏移  -->
-        <attr name="shadow_layout_offsetY" format="dimension|reference" />
+        <attr name="sl_offset_y" format="dimension|float" />
         <!--  阴影圆角  -->
-        <attr name="shadow_layout_blur" format="dimension|reference" />
+        <attr name="sl_shadow_radius" format="dimension|float" />
         <!--  ShadowLayout圆角  -->
-        <attr name="shadow_layout_radius" format="dimension|reference" />
+        <attr name="sl_layout_radius" format="dimension|float" />
     </declare-styleable>
 </resources>
