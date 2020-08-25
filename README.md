@@ -485,7 +485,21 @@ class CustomAdapter(data: List<String>, layoutId: Int) :
 | cem_bottom_divider_right_margin | dimension\|integer | 底部分割线rightMargin                                     |
 
 ## **公共方法:**
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+| 方法名称                                                 | 作用                         |
+| -------------------------------------------------------- | ---------------------------- |
+| setLeftImageVisible(visible: Int)                        | 设置左侧图标是否可见         |
+| setLeftImageDrawable(drawable: Drawable)                 | 设置左侧图标                 |
+| setLeftText(text: String?)                               | 设置左侧文本                 |
+| setLeftText(text: String?,@ColorInt color: Int)          | 设置左侧文本和字体颜色       |
+| setRightEditTextVisible(isVisible: Boolean)              | 设置右侧输入框是否可见       |
+| setRightEditText(text: String?,@ColorInt color: Int)     | 设置右侧输入框文本和颜色     |
+| setRightEditText(text: String?)                          | 设置右侧输入框文本           |
+| setRightEditHintText(text: String?,@ColorInt color: Int) | 设置右侧输入框提示文本和颜色 |
+| setRightEditHintText(text: String?)                      | 设置右侧输入框提示文本       |
+| setRightImageVisible(visible: Int)                       | 设置右侧图标是否可见         |
+| setRightImageDrawable(drawable: Drawable)                | 设置右侧图标                 |
+
 
 
 # CustomMenu
@@ -626,7 +640,11 @@ class CustomAdapter(data: List<String>, layoutId: Int) :
 | csv_bottom_divider_color         | color\|reference     | 底部分割线颜色                                               |
 
 ## **公共方法:**
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+| 方法名称                                        | 作用             |
+| ----------------------------------------------- | ---------------- |
+| setOnSearchListener(listener: OnSearchListener) | 对各种操作的回调 |
+
 
 
 # CustomToolbar
@@ -1210,14 +1228,96 @@ PS: 一般右侧显示一个文本按钮(或者2个图标按钮,或者更多按�
 
 # ShadowLayout
 ## **用法:**
+
+具体参考:  cn.lvsong.lib.demo.CustomActivity3
+
+```xml
+    <cn.lvsong.lib.library.view.ShadowLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/padding_20"
+        app:sl_background_color="@color/color_E95C5B5B"
+        app:sl_layout_radius="@dimen/padding_10"
+        app:sl_offset_x="0dp"
+        app:sl_offset_y="5dp"
+        app:sl_shadow_color="@color/color_29b1b6d1"
+        app:sl_shadow_radius="@dimen/padding_12">
+
+```
+
+
+
 ## **属性介绍:**
+
+| 属性名称            | 取值类型         | 取值和作用                                                   |
+| ------------------- | ---------------- | ------------------------------------------------------------ |
+| sl_shadow_color     | color            | 阴影颜色,默认颜色 #22000000,==注意颜色值必须是8位,即有alpha== |
+| sl_background_color | color            | 背景颜色,默认Integer.MIN_VALUE                               |
+| sl_offset_x         | dimension\|float | 阴影水平偏移,默认0                                           |
+| sl_offset_y         | dimension\|float | 阴影垂直偏移,默认0                                           |
+| sl_shadow_radius    | dimension\|float | 阴影圆角,默认0                                               |
+| sl_layout_radius    | dimension\|float | ShadowLayout圆角,默认0                                       |
+
+
+
 ## **公共方法:**
+
+|      |      |
+| ---- | ---- |
+|      |      |
+|      |      |
+|      |      |
+
+
 
 
 # SmartPopupWindow
 ## **用法:**
+
+具体参考: cn.lvsong.lib.demo.CustomActivity1
+
+```java
+        val view = LayoutInflater.from(this).inflate(R.layout.item_top_menu, null)
+        view.background = SelectorFactory.newShapeSelector()
+            .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_FFFFFF))
+            .setCornerRadius(DensityUtil.dp2pxRtInt(10F))
+            .create()
+        view.setOnClickListener {
+            mPopupWindow.dismiss()
+        }
+        mPopupWindow = SmartPopupWindow.Builder
+            .build(this, view)
+            .setSize(DensityUtil.dp2pxRtInt(200), DensityUtil.dp2pxRtInt(168))
+            .setAlpha(0.4f)                   //背景灰度     默认全透明
+            .setOutsideTouchDismiss(false)    //点击外部消失  默认true（消失）
+            //            .setAnimationStyle() // 设置动画
+            .createPopupWindow()
+            
+            
+            // 点击按钮显示
+           fun onClick(view: View) {
+        // 后面2个参数控制 Popup 方向
+        mPopupWindow.showAtAnchorView(view, VerticalPosition.BELOW, HorizontalPosition.CENTER)
+
+    }     
+```
+
+
+
 ## **属性介绍:**
+
+暂无
+
 ## **公共方法:**
+
+| 方法名称                                | 作用                                     |
+| --------------------------------------- | ---------------------------------------- |
+| setSize(int width, int height)          | 设置 popup 宽高                          |
+| setAnimationStyle(int animationStyle)   | 设置动画资源                             |
+| setAlpha(float alpha)                   | 设置弹框透明度                           |
+| setOutsideTouchDismiss(boolean dismiss) | 设置点击弹框外面是否取dismiss,默认是true |
+
+
 
 
 # StarsView
@@ -1325,36 +1425,136 @@ setContentView(setContentView)
 # TopImgAndBottomTextView
 ## **用法:**
 
-具体参考: cn.lvsong.lib.demo.CustomMenuActivity
+具体参考: cn.lvsong.lib.demo.CustomActivity3
 
 ```xml
-        <cn.lvsong.lib.library.view.TopImgAndBottomTextView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/height_80"
-            android:layout_marginTop="@dimen/padding_10"
-            app:tibt_checked_drawable="@drawable/ic_baseline_assignment_returned_24"
-            app:tibt_normal_drawable="@drawable/ic_baseline_alarm_add_24"
-            app:tibt_tv_text="TopImgAndBottomTextView实现上面图片,下面文字" />
+    <cn.lvsong.lib.library.view.TopImgAndBottomTextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_80"
+        android:layout_marginTop="@dimen/padding_10"
+        app:tibt_checked_drawable="@drawable/ic_baseline_assignment_returned_24"
+        app:tibt_iv_checked="false"
+        app:tibt_iv_height="@dimen/height_20"
+        app:tibt_iv_width="@dimen/width_20"
+        app:tibt_normal_drawable="@drawable/ic_baseline_alarm_add_24"
+        app:tibt_tv_margin_top="@dimen/padding_2"
+        app:tibt_tv_text="TopImgAndBottomTextView实现上面图片,下面文字"
+        app:tibt_tv_text_color="@color/color_333333"
+        app:tibt_tv_text_size="@dimen/text_size_12" />
 ```
 
 
 
 ## **属性介绍:**
 
-
+| 属性名称                   | 取值类型           | 取值和作用                 |
+| -------------------------- | ------------------ | -------------------------- |
+| tibt_normal_drawable       | reference          | 未选中Drawable             |
+| tibt_checked_drawable      | reference          | 选中Drawable               |
+| tibt_iv_width              | integer\|dimension | 图片宽度,默认30dp          |
+| tibt_iv_height             | integer\|dimension | 图片高度,默认30dp          |
+| tibt_state_checked         | boolean            | 是否被选中,默认false       |
+| tibt_tv_margin_top         | integer\|dimension | 文本距离图片间隔,默认10dp  |
+| tibt_tv_text               | string\|reference  | 文本内容                   |
+| tibt_tv_text_color         | color              | 文字颜色,默认#999999       |
+| tibt_tv_text_checked_color | color              | 选中时文字颜色,默认#333333 |
+| tibt_tv_text_size          | float\|dimension   | 文字大小,默认14dp          |
 
 
 
 ## **公共方法:**
 
-
+| 方法名称                                      | 作用                     |
+| --------------------------------------------- | ------------------------ |
+| setChecked(isChecked: Boolean)                | 设置是否被选中,默认false |
+| setText(text: String)                         | 设置文本内容             |
+| setTextColor(@ColorRes textColor: Int)        | 设置文本颜色             |
+| setTextCheckedColor(@ColorRes textColor: Int) | 设置选中的文本颜色       |
+| setTextSize(textSize:Float)                   | 设置字体大小,默认14dp    |
+| setNormalImage(drawable: Drawable)            | 设置图标                 |
+| setCheckedImage(drawable: Drawable)           | 设置选中的图标           |
 
 
 
 # TopMenu
 ## **用法:**
+
+具体参考: cn.lvsong.lib.demo.CustomActivity1
+
+```java
+        val data = arrayListOf<MenuItem>(
+            MenuItem(R.drawable.ic_baseline_alarm_add_24, "举报"),
+            MenuItem(R.drawable.ic_baseline_assignment_returned_24, "拉黑"),
+            MenuItem(R.drawable.ic_baseline_alarm_add_24, "删除消息")
+        )
+        val adapter =
+            object : CommonAdapter<MenuItem>(this@CustomActivity1, R.layout.item_top_menu, data) {
+                override fun convert(holder: ViewHolder, bean: MenuItem, position: Int) {
+                    holder.getView<AppCompatImageView>(R.id.aiv_icon_left_image).visibility =
+                        View.GONE
+                    holder.getView<MediumTextView>(R.id.tv_text_right_text).text =
+                        data[position].text
+                }
+            }
+
+        adapter.setOnItemClickListener(object : MultiItemTypeAdapter.OnItemClickListener {
+            override fun onItemClick(view: View, holder: RecyclerView.ViewHolder, position: Int) {
+                Toast.makeText(
+                    this@CustomActivity1,
+                    "点击了${data[position].text}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        })
+
+        val itemDecoration = LinearDividerItemDecoration(
+            this@CustomActivity1,
+            DensityUtil.dp2pxRtInt(1F),
+            ContextCompat.getColor(this@CustomActivity1, R.color.color_EEEEEE)
+        )
+         // 作用间隔根据需要自己处理
+        itemDecoration.setDividerPaddingLeft(DensityUtil.dp2pxRtInt(14F))
+        itemDecoration.setDividerPaddingRight(DensityUtil.dp2pxRtInt(14F))
+        mTopMenu = TopMenu(this@CustomActivity1, adapter)
+            .setWidth(DensityUtil.dp2pxRtInt(125F))
+            .setHeight(DensityUtil.dp2pxRtInt(124F))
+            .setBackDark(false)
+            // 使得弹框右侧距离屏幕间隔, 如果间隔够了,箭头位置还没有对准控件中间,
+            // 可以在BubbleRecyclerView所在布局中使用 brv_arrow_offset
+            .setPopupXOffset(-DensityUtil.dp2pxRtInt(2F))
+            // 使得弹框上下偏移
+            .setPopupYOffset(-DensityUtil.dp2pxRtInt(5F))
+            .setItemDecoration(itemDecoration)
+            
+     // 显示
+      mTopMenu.show(it, null, null)       
+```
+
+
+
 ## **属性介绍:**
+
+暂无
+
 ## **公共方法:**
+
+| 方法名称                                                     | 作用                                                         |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| setWidth(int width)                                          | 设置宽度                                                     |
+| setHeight(int height)                                        | 设置高度                                                     |
+| setPopupXOffset(int popupOffset)                             | 设置弹窗偏X方向移距离,默认0                                  |
+| setPopupYOffset(int yOffset)                                 | 设置弹窗偏Y方向移距离,默认0                                  |
+| setBackDark(boolean isShowBackground)                        | 设置背景是否变暗,默认true                                    |
+| setShowAnimationStyle(boolean isShowAnimationStyle)          | 设置是否显示动画,默认true,如果没有调用 setAnimationStyle() 则使用默认动画 |
+| setAnimationStyle(int animationStyle)                        | 设置动画                                                     |
+| setArrowOffset(float offset)                                 | 设置箭头偏移量                                               |
+| setItemDecoration(RecyclerView.ItemDecoration itemDecoration) | 设置分割线                                                   |
+| showAsDropDown(View anchor)                                  | 显示弹框                                                     |
+| showAsDropDown(View anchor, int offsetX, int offsetY)        | 显示弹框                                                     |
+| show(View anchor, Rect frame, Point origin)                  | 显示弹框                                                     |
+| dismiss()                                                    | 取消弹框                                                     |
+
+
 
 
 # UnNestedRefreshLayout

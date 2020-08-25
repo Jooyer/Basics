@@ -173,14 +173,5 @@
             app:lirt_style="iconBottom"
             app:lirt_text="文字在上,图片在下" />
 
-
-        <cn.lvsong.lib.library.view.TopImgAndBottomTextView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/height_80"
-            android:layout_marginTop="@dimen/padding_10"
-            app:tibt_checked_drawable="@drawable/ic_baseline_assignment_returned_24"
-            app:tibt_normal_drawable="@drawable/ic_baseline_alarm_add_24"
-            app:tibt_tv_text="TopImgAndBottomTextView实现上面图片,下面文字" />
-
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

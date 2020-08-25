@@ -20,18 +20,18 @@ import cn.lvsong.lib.library.R;
 /**
  * 封装一个PopupWindow 实现类似QQ,支付宝等右上角弹框效果
  * Created by Jooyer on 2017/2/10
- *
- *         mTopMenu = TopMenu(this@ChatActivity, adapter)
- *                 .setWidth(DensityUtil.dp2px(125F).toInt())
- *                 .setHeight(DensityUtil.dp2px(124F).toInt())
- *                 .setShowBackground(false)
- *                 // 使得弹框右侧距离屏幕间隔, 如果间隔够了,箭头位置还没有对准控件中间,可以在BubbleRecyclerView所在布局中使用 brv_arrow_offset
- *                 .setPopupXOffset(-DensityUtil.dp2px(2F).toInt())
- *                 // 使得弹框上下偏移
- *                 .setPopupYOffset(-DensityUtil.dp2px(5F).toInt())
- *                 .setItemDecoration(itemDecoration)
- *
- *     mTopMenu.show(it, null, null)
+ * <p>
+ * mTopMenu = TopMenu(this@ChatActivity, adapter)
+ * .setWidth(DensityUtil.dp2px(125F).toInt())
+ * .setHeight(DensityUtil.dp2px(124F).toInt())
+ * .setShowBackground(false)
+ * // 使得弹框右侧距离屏幕间隔, 如果间隔够了,箭头位置还没有对准控件中间,可以在BubbleRecyclerView所在布局中使用 brv_arrow_offset
+ * .setPopupXOffset(-DensityUtil.dp2px(2F).toInt())
+ * // 使得弹框上下偏移
+ * .setPopupYOffset(-DensityUtil.dp2px(5F).toInt())
+ * .setItemDecoration(itemDecoration)
+ * <p>
+ * mTopMenu.show(it, null, null)
  */
 public class TopMenu {
     private static final String TAG = "TopRightMenu";
@@ -93,7 +93,6 @@ public class TopMenu {
      */
     private RecyclerView.ItemDecoration mItemDecoration;
 
-
     public TopMenu(Context context, RecyclerView.Adapter menuAdapter) {
         mContext = context;
         mMenuAdapter = menuAdapter;
@@ -107,43 +106,6 @@ public class TopMenu {
         mRecyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
     }
 
-    /**
-     * 设置高度
-     */
-    public TopMenu setHeight(int height) {
-        if (height > 0) {
-            this.mPopupHeight = height;
-        }
-        return this;
-    }
-
-    /**
-     * 设置弹窗偏移距离
-     */
-    public TopMenu setPopupXOffset(int popupOffset) {
-        mPopupXOffset = popupOffset;
-        return this;
-    }
-
-    /**
-     * 设置宽度
-     */
-    public TopMenu setWidth(int width) {
-        if (width > 0) {
-            this.mPopupWidth = width;
-        } else {
-            throw new IllegalArgumentException("宽度不能为空,且必须大于0!");
-        }
-        return this;
-    }
-
-    /**
-     * 设置背景是否变暗
-     */
-    public TopMenu setBackDark(boolean isShowBackground) {
-        this.isShowBackground = isShowBackground;
-        return this;
-    }
 
     /**
      * 设置背景颜色变化动画
@@ -166,94 +128,6 @@ public class TopMenu {
         animator.start();
     }
 
-
-    /**
-     * 设置是否显示动画
-     */
-    public TopMenu setShowAnimationStyle(boolean isShowAnimationStyle) {
-        this.isShowAnimationStyle = isShowAnimationStyle;
-        return this;
-    }
-
-    /**
-     * 设置动画
-     */
-    public TopMenu setAnimationStyle(int animationStyle) {
-        this.mAnimationStyle = animationStyle;
-        return this;
-    }
-
-    public TopMenu showAsDropDown(View anchor) {
-        showAsDropDown(anchor, 0, 0);
-        return this;
-    }
-
-    public TopMenu setArrowPosition(float value) {
-        if (mRecyclerView != null) {
-            ((BubbleRecyclerView) mRecyclerView).setArrowOffset(value);
-        }
-        return this;
-    }
-
-    public TopMenu setPopupYOffset(int yOffset) {
-        mPopupYOffset = yOffset;
-        return this;
-    }
-
-    public TopMenu setItemDecoration(RecyclerView.ItemDecoration itemDecoration) {
-        mItemDecoration = itemDecoration;
-        return this;
-    }
-
-    public TopMenu showAsDropDown(View anchor, int offsetX, int offsetY) {
-        if (null == mPopupWindow) {
-            mPopupWindow = getPopupWindow();
-        }
-
-        if (!mPopupWindow.isShowing()) {
-            mPopupWindow.showAsDropDown(anchor, offsetX, offsetY);
-            if (isShowBackground)
-                setBackgroundAlpha(1f, mAlpha, 300);
-        }
-
-        return this;
-    }
-
-    /**
-     * 显示 PopupWindow
-     *
-     * @param anchor
-     * @param frame
-     * @param origin
-     * @return https://blog.csdn.net/xiey94/article/details/93174035 --> 对showAsDropDown解析
-     */
-    public TopMenu show(View anchor, Rect frame, Point origin) {
-        if (null == mPopupWindow) {
-            mPopupWindow = getPopupWindow();
-        }
-
-        if (null == frame) frame = new Rect();
-        if (null == origin) origin = new Point(-1, -1);
-
-        int[] location = reviseFrameAndOrigin(anchor, frame, origin);
-        int x = location[0];
-        int y = location[1];
-        int width = anchor.getWidth();
-        int height = anchor.getHeight();
-
-        int contentHeight = mPopupWindow.getContentView().getMeasuredHeight();
-        if (!mPopupWindow.isShowing()) {
-            if (y + height + contentHeight < frame.bottom) {
-                mPopupWindow.showAsDropDown(anchor, -mPopupWidth + width + mPopupXOffset, mPopupYOffset);
-            }
-            if (isShowBackground) {
-                setBackgroundAlpha(1f, mAlpha, 300);
-            }
-        }
-        return this;
-    }
-
-
     /**
      * 确定 弹框的位置
      */
@@ -268,7 +142,6 @@ public class TopMenu {
         }
         return location;
     }
-
 
     private PopupWindow getPopupWindow() {
         mPopupWindow = new PopupWindow(mContext);
@@ -299,7 +172,151 @@ public class TopMenu {
         return mPopupWindow;
     }
 
+    ///////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
 
+
+    /**
+     * 设置宽度
+     */
+    public TopMenu setWidth(int width) {
+        if (width > 0) {
+            this.mPopupWidth = width;
+        } else {
+            throw new IllegalArgumentException("宽度不能为空,且必须大于0!");
+        }
+        return this;
+    }
+
+    /**
+     * 设置高度
+     */
+    public TopMenu setHeight(int height) {
+        if (height > 0) {
+            this.mPopupHeight = height;
+        }
+        return this;
+    }
+
+    /**
+     * 设置弹窗偏X方向移距离,默认0
+     */
+    public TopMenu setPopupXOffset(int popupOffset) {
+        mPopupXOffset = popupOffset;
+        return this;
+    }
+
+    /**
+     * 设置弹窗偏Y方向移距离,默认0
+     */
+    public TopMenu setPopupYOffset(int yOffset) {
+        mPopupYOffset = yOffset;
+        return this;
+    }
+
+    /**
+     * 设置背景是否变暗,默认true
+     */
+    public TopMenu setBackDark(boolean isShowBackground) {
+        this.isShowBackground = isShowBackground;
+        return this;
+    }
+
+    /**
+     * 设置是否显示动画,默认true,如果没有调用 setAnimationStyle() 则使用默认动画
+     */
+    public TopMenu setShowAnimationStyle(boolean isShowAnimationStyle) {
+        this.isShowAnimationStyle = isShowAnimationStyle;
+        return this;
+    }
+
+    /**
+     * 设置动画
+     */
+    public TopMenu setAnimationStyle(int animationStyle) {
+        this.mAnimationStyle = animationStyle;
+        return this;
+    }
+
+    /**
+     * 设置箭头偏移量
+     *
+     */
+    public TopMenu setArrowOffset(float offset) {
+        if (mRecyclerView != null) {
+            ((BubbleRecyclerView) mRecyclerView).setArrowOffset(offset);
+        }
+        return this;
+    }
+
+    /**
+     * 设置分割线
+     */
+    public TopMenu setItemDecoration(RecyclerView.ItemDecoration itemDecoration) {
+        mItemDecoration = itemDecoration;
+        return this;
+    }
+
+    /**
+     * 显示弹框
+     */
+    public TopMenu showAsDropDown(View anchor) {
+        showAsDropDown(anchor, 0, 0);
+        return this;
+    }
+
+    /**
+     * 显示弹框
+     */
+    public TopMenu showAsDropDown(View anchor, int offsetX, int offsetY) {
+        if (null == mPopupWindow) {
+            mPopupWindow = getPopupWindow();
+        }
+
+        if (!mPopupWindow.isShowing()) {
+            mPopupWindow.showAsDropDown(anchor, offsetX, offsetY);
+            if (isShowBackground)
+                setBackgroundAlpha(1f, mAlpha, 300);
+        }
+
+        return this;
+    }
+
+    /**
+     * 显示 PopupWindow
+     *
+     * @return https://blog.csdn.net/xiey94/article/details/93174035 --> 对showAsDropDown解析
+     */
+    public TopMenu show(View anchor, Rect frame, Point origin) {
+        if (null == mPopupWindow) {
+            mPopupWindow = getPopupWindow();
+        }
+
+        if (null == frame) frame = new Rect();
+        if (null == origin) origin = new Point(-1, -1);
+
+        int[] location = reviseFrameAndOrigin(anchor, frame, origin);
+        int x = location[0];
+        int y = location[1];
+        int width = anchor.getWidth();
+        int height = anchor.getHeight();
+
+        int contentHeight = mPopupWindow.getContentView().getMeasuredHeight();
+        if (!mPopupWindow.isShowing()) {
+            if (y + height + contentHeight < frame.bottom) {
+                mPopupWindow.showAsDropDown(anchor, -mPopupWidth + width + mPopupXOffset, mPopupYOffset);
+            }
+            if (isShowBackground) {
+                setBackgroundAlpha(1f, mAlpha, 300);
+            }
+        }
+        return this;
+    }
+
+    /**
+     * 取消弹框
+     */
     public void dismiss() {
         if (null != mPopupWindow && mPopupWindow.isShowing())
             mPopupWindow.dismiss();

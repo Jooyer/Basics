@@ -348,22 +348,38 @@ public class SmartPopupWindow extends PopupWindow {
             return new Builder(activity, view);
         }
 
+        /** 设置 popup 宽高
+         * @param width  --> popup 宽度
+         * @param height --> popup 高度
+         */
         public Builder setSize(int width, int height) {
             mWindow.mWidth = width;
             mWindow.mHeight = height;
             return this;
         }
 
+        /**
+         *  设置动画资源
+         * @param animationStyle --> 动画资源
+         */
         public Builder setAnimationStyle(int animationStyle) {
             mWindow.mAnimationStyle = animationStyle;
             return this;
         }
 
+        /**
+         * 设置弹框透明度
+         * @param alpha --> 弹框透明度
+         */
         public Builder setAlpha(float alpha) {
             mWindow.mAlpha = alpha;
             return this;
         }
 
+        /**
+         * 设置点击弹框外面是否取dismiss
+         * @param dismiss --> 点击外面是否消失,默认true
+         */
         public Builder setOutsideTouchDismiss(boolean dismiss) {
             mWindow.isTouchOutsideDismiss = dismiss;
             return this;

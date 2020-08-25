@@ -18,18 +18,17 @@ import kotlin.math.abs
  */
 
 /* 用法:  注意--> shadow_layout_shadow_color值必须是8位,即有alpha
-<cn.lvsong.lib.library.view.ShadowLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_130"
-        android:paddingStart="@dimen/padding_5"
-        android:paddingEnd="@dimen/padding_5"
-        app:shadow_layout_background_color="#FFFFFF"
-        app:shadow_layout_shadow_color="#D366BB6A"
-        app:shadow_layout_offsetX="0dp"
-        app:shadow_layout_offsetY="2dp"
-        app:shadow_layout_radius="5dp"
-        app:shadow_layout_blur="5dp"
-        >
+    <cn.lvsong.lib.library.view.ShadowLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/padding_20"
+        app:sl_background_color="@color/color_E95C5B5B"
+        app:sl_layout_radius="@dimen/padding_10"
+        app:sl_offset_x="0dp"
+        app:sl_offset_y="5dp"
+        app:sl_shadow_color="@color/color_29b1b6d1"
+        app:sl_shadow_radius="@dimen/padding_12">
+
  */
 class ShadowLayout : ConstraintLayout {
 
@@ -58,7 +57,14 @@ class ShadowLayout : ConstraintLayout {
      */
     private var mBackgroundColor: Int = 0
 
+    /**
+     * 尺寸变化时强制刷新
+     */
     private var mInvalidateShadowOnSizeChanged = true
+
+    /**
+     * 强制刷新
+     */
     private var mForceInvalidateShadow = false
 
     constructor(context: Context) : super(context) {
@@ -195,6 +201,9 @@ class ShadowLayout : ConstraintLayout {
     }
 
 
+    /**
+     *
+     */
     fun setInvalidateShadowOnSizeChanged(invalidateShadowOnSizeChanged: Boolean) {
         mInvalidateShadowOnSizeChanged = invalidateShadowOnSizeChanged
     }
@@ -208,6 +217,9 @@ class ShadowLayout : ConstraintLayout {
         requestLayout()
     }
 
+    /**
+     * 设置背景色
+     */
     fun setShadowBackgroundColor(@ColorRes color:Int){
         background = null
         mBackgroundColor = ContextCompat.getColor(context,color)

@@ -1,6 +1,7 @@
 package cn.lvsong.lib.library.view
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.text.InputFilter
 import android.text.TextUtils
 import android.util.AttributeSet
@@ -9,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.ColorInt
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import cn.lvsong.lib.library.R
@@ -61,19 +63,22 @@ class CustomEditMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
      * 最左侧图标
      */
     private lateinit var iv_left_icon_menu: ImageView
+
     /**
      * 紧挨着左侧图标的文本
      */
     private lateinit var tv_left_name_menu: TextView
+
     /**
-     * 紧挨着右侧的输入框
+     * 输入框
      */
     private lateinit var et_right_name_menu: FixedCursorEditText
 
     /**
      * 最右侧图标(一般是向右箭头 →)
      */
-    private lateinit var iv_right_arrow_menu: ImageView
+    private lateinit var iv_right_icon_menu: ImageView
+
     /**
      * 底部分割线
      */
@@ -91,7 +96,7 @@ class CustomEditMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         iv_left_icon_menu = findViewById(R.id.iv_left_icon_menu)
         tv_left_name_menu = findViewById(R.id.tv_left_name_menu)
         et_right_name_menu = findViewById(R.id.et_right_name_menu)
-        iv_right_arrow_menu = findViewById(R.id.iv_right_arrow_menu)
+        iv_right_icon_menu = findViewById(R.id.iv_right_arrow_menu)
         view_bottom_divider_menu = findViewById(R.id.view_bottom_divider_menu)
     }
 
@@ -124,9 +129,11 @@ class CustomEditMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         val rightTextWidth =
             arr.getDimension(R.styleable.CustomEditMenu_cem_right_input_width, dp2px(100F)).toInt()
         val rightTextLeftPadding =
-            arr.getDimension(R.styleable.CustomEditMenu_cem_right_input_left_padding, dp2px(5F)).toInt()
+            arr.getDimension(R.styleable.CustomEditMenu_cem_right_input_left_padding, dp2px(5F))
+                .toInt()
         val rightTextRightPadding =
-            arr.getDimension(R.styleable.CustomEditMenu_cem_right_input_right_padding, dp2px(5F)).toInt()
+            arr.getDimension(R.styleable.CustomEditMenu_cem_right_input_right_padding, dp2px(5F))
+                .toInt()
         val rightTextInfo = arr.getText(R.styleable.CustomEditMenu_cem_right_input_text)
         val rightHintTextInfo = arr.getText(R.styleable.CustomEditMenu_cem_right_input_hint_text)
         val rightTextSize =
@@ -205,7 +212,7 @@ class CustomEditMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         etLp.width = rightTextWidth
         if (rightTextVisible) {
             etLp.marginEnd = rightTextRightMargin
-        }else{
+        } else {
             etLp.goneEndMargin = rightTextRightMargin
         }
         et_right_name_menu.layoutParams = etLp
@@ -235,16 +242,16 @@ class CustomEditMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         et_right_name_menu.layoutParams = rightTextLp
 
 
-        iv_right_arrow_menu.visibility = if (rightDrawableVisible) View.VISIBLE else View.GONE
+        iv_right_icon_menu.visibility = if (rightDrawableVisible) View.VISIBLE else View.GONE
         val rightImageLp: ConstraintLayout.LayoutParams =
-            iv_right_arrow_menu.layoutParams as LayoutParams
+            iv_right_icon_menu.layoutParams as LayoutParams
         if (null != rightImageDrawable) {
-            iv_right_arrow_menu.setImageDrawable(rightImageDrawable)
+            iv_right_icon_menu.setImageDrawable(rightImageDrawable)
             rightImageLp.marginEnd = rightImageRightMargin
         }
         rightImageLp.width = rightImageWidth
         rightImageLp.height = rightImageHeight
-        iv_right_arrow_menu.layoutParams = rightImageLp
+        iv_right_icon_menu.layoutParams = rightImageLp
 
         view_bottom_divider_menu.visibility = if (bottomDividerVisible) View.VISIBLE else View.GONE
         view_bottom_divider_menu.setBackgroundColor(bottomDividerColor)
@@ -257,39 +264,6 @@ class CustomEditMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         arr.recycle()
     }
 
-    fun setRightTextVisible(isVisible: Boolean) {
-        et_right_name_menu.visibility = if (isVisible) View.VISIBLE else View.GONE
-    }
-
-    fun setLeftText(text: String?) {
-        text?.let {
-            tv_left_name_menu.text = text
-        }
-
-    }
-
-    fun setLeftText(text: String?, color: Int) {
-        text?.let {
-            tv_left_name_menu.text = text
-            tv_left_name_menu.setTextColor(color)
-        }
-    }
-
-    fun setRightText(text: String?, color: Int) {
-        text?.let {
-            et_right_name_menu.setText(it)
-            et_right_name_menu.setTextColor(color)
-        }
-    }
-
-    fun setRightText(text: String?) {
-        text?.let {
-            et_right_name_menu.setText(it)
-        }
-    }
-
-    fun getRightEditText() = et_right_name_menu
-
     private fun dp2px(def: Float): Float {
         return TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
@@ -297,5 +271,98 @@ class CustomEditMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
             context.resources.displayMetrics
         )
     }
+
+
+    /**
+     * 设置左侧图标是否可见
+     */
+    fun setLeftImageVisible(visible: Int) {
+        iv_left_icon_menu.visibility = visible
+    }
+
+    /**
+     * 设置左侧图标
+     */
+    fun setLeftImageDrawable(drawable: Drawable){
+        iv_left_icon_menu.setImageDrawable(drawable)
+    }
+
+    /**
+     * 设置左侧文本
+     */
+    fun setLeftText(text: String?) {
+        text?.let {
+            tv_left_name_menu.text = text
+        }
+    }
+
+    /**
+     * 设置左侧文本和字体颜色
+     */
+    fun setLeftText(text: String?,@ColorInt color: Int) {
+        text?.let {
+            tv_left_name_menu.text = text
+            tv_left_name_menu.setTextColor(color)
+        }
+    }
+
+    /**
+     * 设置右侧输入框是否可见
+     */
+    fun setRightEditTextVisible(isVisible: Boolean) {
+        et_right_name_menu.visibility = if (isVisible) View.VISIBLE else View.GONE
+    }
+
+    /**
+     * 设置右侧输入框文本和颜色
+     */
+    fun setRightEditText(text: String?,@ColorInt color: Int) {
+        text?.let {
+            et_right_name_menu.setText(it)
+            et_right_name_menu.setTextColor(color)
+        }
+    }
+
+    /**
+     * 设置右侧输入框文本
+     */
+    fun setRightEditText(text: String?) {
+        text?.let {
+            et_right_name_menu.setText(it)
+        }
+    }
+
+    /**
+     * 设置右侧输入框提示文本和颜色
+     */
+    fun setRightEditHintText(text: String?,@ColorInt color: Int) {
+        text?.let {
+            et_right_name_menu.setHint(it)
+            et_right_name_menu.setHintTextColor(color)
+        }
+    }
+
+    /**
+     * 设置右侧输入框提示文本
+     */
+    fun setRightEditHintText(text: String?) {
+        text?.let {
+            et_right_name_menu.setText(it)
+        }
+    }
+    /**
+     * 设置右侧图标是否可见
+     */
+    fun setRightImageVisible(visible: Int) {
+        iv_right_icon_menu.visibility = visible
+    }
+
+    /**
+     * 设置右侧图标
+     */
+    fun setRightImageDrawable(drawable: Drawable){
+        iv_right_icon_menu.setImageDrawable(drawable)
+    }
+
 
 }

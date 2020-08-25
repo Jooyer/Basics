@@ -124,6 +124,7 @@ class CustomActivity1 : BaseActivity() {
 
         adapter.setOnItemClickListener(object : MultiItemTypeAdapter.OnItemClickListener {
             override fun onItemClick(view: View, holder: RecyclerView.ViewHolder, position: Int) {
+                mTopMenu.dismiss()
                 Toast.makeText(
                     this@CustomActivity1,
                     "点击了${data[position].text}",
@@ -216,6 +217,7 @@ class CustomActivity1 : BaseActivity() {
             .setSize(DensityUtil.dp2pxRtInt(200), DensityUtil.dp2pxRtInt(168))
             .setAlpha(0.4f)                   //背景灰度     默认全透明
             .setOutsideTouchDismiss(false)    //点击外部消失  默认true（消失）
+//            .setAnimationStyle() // 设置动画
             .createPopupWindow()
 
         val view2 = LayoutInflater.from(this).inflate(R.layout.item_top_menu, null)
