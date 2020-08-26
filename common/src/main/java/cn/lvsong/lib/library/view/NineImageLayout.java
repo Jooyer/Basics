@@ -7,10 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
-
-import cn.lvsong.lib.library.adapter.NineImageAdapter;
 import cn.lvsong.lib.library.R;
+import cn.lvsong.lib.library.adapter.NineImageAdapter;
 
 /**
  * @ProjectName: android
@@ -53,6 +51,10 @@ public class NineImageLayout extends ViewGroup {
      */
     private int singleViewHeight = 0;
     /**
+     * 屏幕宽度
+     */
+    private int screenWidth;
+    /**
      * 计算此控件宽度
      */
     private int calcWidth;
@@ -64,6 +66,14 @@ public class NineImageLayout extends ViewGroup {
      * 图片之间间隔的大小
      */
     private int itemMargin = 5;
+    /**
+     * 控件 leftPadding
+     */
+    private int leftPadding = 5;
+    /**
+     * 控件 rightPadding
+     */
+    private int rightPadding = 5;
     /**
      * 单个图片的宽度和高度
      */
@@ -86,8 +96,11 @@ public class NineImageLayout extends ViewGroup {
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.NineImageLayout);
         singleImageWidthRatio = array.getFloat(R.styleable.NineImageLayout_nl_single_image_width_ratio, dip2px(getContext(), singleImageWidthRatio));
         itemMargin = array.getDimensionPixelSize(R.styleable.NineImageLayout_nl_image_gap, dip2px(getContext(), itemMargin));
-        needKeepPlace = array.getBoolean(R.styleable.NineImageLayout_nl_keep_place,needKeepPlace);
+        leftPadding = array.getDimensionPixelSize(R.styleable.NineImageLayout_nl_left_padding, dip2px(getContext(), leftPadding));
+        rightPadding = array.getDimensionPixelSize(R.styleable.NineImageLayout_nl_right_padding, dip2px(getContext(), rightPadding));
+        needKeepPlace = array.getBoolean(R.styleable.NineImageLayout_nl_keep_place, needKeepPlace);
         array.recycle();
+        screenWidth = getResources().getDisplayMetrics().widthPixels;
     }
 
     @Override
@@ -96,39 +109,44 @@ public class NineImageLayout extends ViewGroup {
         int viewHeight = 0;
         int viewWidth = 0;
 
-        // 获取父组件的宽度
-        ConstraintLayout.LayoutParams layoutParams = ((ConstraintLayout.LayoutParams) this.getLayoutParams());
-        calcWidth = getResources().getDisplayMetrics().widthPixels - layoutParams.leftMargin - layoutParams.rightMargin;
+        // 获取组件的宽度
+        calcWidth = screenWidth - leftPadding - rightPadding;
         itemWidth = (calcWidth - 2 * itemMargin) / 3;
         int count = getChildCount();
         if (count == 1) {  //一张图片的宽高
             //TODO 单独处理
             setMeasuredDimension(singleViewWidth, singleViewHeight);
             return;
-        } else if (count <= 3) {
-            viewHeight = itemWidth;
-            if (count == 2) {
-                if (needKeepPlace){ // 2张图和3张图宽度一样
-                    viewWidth = 2 * itemWidth + itemMargin;
-                }else { // 2张图和3张图宽度不一样时,2张占据整个父控件宽度
-                    viewWidth = calcWidth;
-                    itemWidth = (calcWidth -  itemMargin) / 2;
-                }
-            } else if (count == 3) {
-                viewWidth = calcWidth;
+        } else if (2 == count || 4 == count) {
+            if (needKeepPlace) {// 2张图(4张图) 和 3张图宽度一样
+                viewHeight = itemWidth * (4 == count ? 2 : 1);
+            } else {
+                viewHeight = (calcWidth - itemMargin) / 2 * (4 == count ? 2 : 1);
             }
+        } else if (count == 3) {
+            viewHeight = itemWidth;
+//            if (count == 2) {
+//                if (needKeepPlace) { // 2张图和3张图宽度一样
+//                    viewWidth = 2 * itemWidth + itemMargin;
+//                } else { // 2张图和3张图宽度不一样时,2张占据整个父控件宽度
+//                    viewWidth = calcWidth;
+//                    itemWidth = (calcWidth - itemMargin) / 2;
+//                }
+//            } else if (count == 3) {
+//                viewWidth = calcWidth;
+//            }
         } else if (count <= 6) {
             viewHeight = 2 * itemWidth + itemMargin;
-            if (count == 4) {
-                viewWidth = 2 * itemWidth + itemMargin;
-            } else {
-                viewWidth = calcWidth;
-            }
+//            if (count == 4) {
+//                viewWidth = 2 * itemWidth + itemMargin;
+//            } else {
+//                viewWidth = calcWidth;
+//            }
         } else if (count <= 9) {
-            viewHeight = calcWidth;
-            viewWidth = calcWidth;
+            viewHeight = screenWidth;
+//            viewWidth = calcWidth;
         }
-        setMeasuredDimension(viewWidth, viewHeight);
+        setMeasuredDimension(screenWidth, viewHeight);
     }
 
     @Override
@@ -140,80 +158,50 @@ public class NineImageLayout extends ViewGroup {
         int bottom = 0;
         for (int i = 0; i < count; i++) {
             View childView = getChildAt(i);
-            switch (i) {
-                case 0:
-                    left = 0;
-                    top = 0;
-                    if (count == 1) {
-                        //TODO 单独处理
-                        right = left + singleViewWidth;
-                        bottom = top + singleViewHeight;
-                    } else {
-                        right = left + itemWidth;
-                        bottom = top + itemWidth;
-                    }
-                    break;
-                case 1:
-                    left = itemWidth + itemMargin;
-                    top = 0;
-                    right = left + itemWidth;
-                    bottom = top + itemWidth;
-                    break;
-                case 2:
-                    if (count == 4) {
-                        left = 0;
+            if (1 == count) { // 只有一张图
+                //TODO 单独处理
+                left = leftPadding;
+                right = left + singleViewWidth;
+                bottom = top + singleViewHeight;
+            } else if (2 == count || 4 == count) {
+                if (needKeepPlace) {// 2张图(4张图) 和 3张图宽度一样
+                    if (3 == i) {
                         top = itemWidth + itemMargin;
-                        right = left + itemWidth;
-                    } else {
-                        left = itemWidth * 2 + itemMargin * 2;
-                        top = 0;
-                        right = calcWidth;
                     }
-                    bottom = top + itemWidth;
-//                    Log.e("NineImgLayout", "onLayout============count: " + count + " =====left: " + left + " =====top: " + top + " =====right: " + right + " =====bottom: " + bottom);
-                    break;
-                case 3:
-                    if (count == 4) {
-                        left = itemWidth + itemMargin;
+                    if (0 == i % 3) { // 左边第一张
+                        left = leftPadding;
                     } else {
-                        left = 0;
+                        left += itemWidth + itemMargin;
                     }
-                    top = itemWidth + itemMargin;
                     right = left + itemWidth;
                     bottom = top + itemWidth;
-                    break;
-                case 4:
-                    left = itemWidth + itemMargin;
-                    top = itemWidth + itemMargin;
+                } else {
+                    if (2 == i || 3 == i) {
+                        top = (calcWidth - itemMargin) / 2 + itemMargin;
+                    }
+                    if (0 == i % 2) { // 左边第一张
+                        left = leftPadding;
+                    } else {
+                        left += (calcWidth - itemMargin) / 2 + itemMargin;
+                    }
+                    right = left + (calcWidth - itemMargin) / 2;
+                    bottom = top + (calcWidth - itemMargin) / 2;
+                }
+            } else  {
+                if (0 == i % 3) { // 左边第一个
+                    left = leftPadding;
                     right = left + itemWidth;
-                    bottom = top + itemWidth;
-                    break;
-                case 5:
-                    left = (itemWidth + itemMargin) * 2;
-                    top = itemWidth + itemMargin;
-                    right = calcWidth;
-                    bottom = top + itemWidth;
-                    break;
-                case 6:
-                    left = 0;
-                    top = (itemWidth + itemMargin) * 2;
+                } else if (1 == i % 3) { // 中间
+                    left += itemWidth + itemMargin;
                     right = left + itemWidth;
-                    bottom = calcWidth;
-                    break;
-                case 7:
-                    left = itemWidth + itemMargin;
-                    top = (itemWidth + itemMargin) * 2;
-                    right = left + itemWidth;
-                    bottom = calcWidth;
-                    break;
-                case 8:
-                    left = (itemWidth + itemMargin) * 2;
-                    top = (itemWidth + itemMargin) * 2;
-                    right = calcWidth;
-                    bottom = calcWidth;
-                    break;
-                default:
-                    break;
+                } else { // 最后一个
+                    left += itemWidth + itemMargin;
+                    right = screenWidth - rightPadding;
+                }
+                if (3 == i || 6 == i) {
+                    top += itemWidth + itemMargin;
+                }
+                bottom = top + itemWidth;
             }
             childView.layout(left, top, right, bottom);
         }
