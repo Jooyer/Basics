@@ -1044,10 +1044,109 @@ PS: 一般右侧显示一个文本按钮(或者2个图标按钮,或者更多按�
 # NineImageLayout
 ## **用法:**
 
+具体参考: cn.lvsong.lib.demo.CustomActivity3
+
+步骤一:
+
+```xml
+        <cn.lvsong.lib.library.view.NineImageLayout
+            android:id="@+id/nl_images2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_50"
+            app:nl_image_gap="@dimen/padding_10"
+            app:nl_keep_place="false"
+            app:nl_left_padding="@dimen/padding_10"
+            app:nl_right_padding="@dimen/padding_10"
+            app:nl_single_image_width_ratio="0.8" />
+	
+```
+
+步骤二:
+
+```
+  // 数据集合
+  private val mImages2 = arrayListOf(
+        "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3820948238,3810516733&fm=26&gp=0.jpg",
+        "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1545980553,2413955112&fm=26&gp=0.jpg",
+        "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2412068931,3031791558&fm=26&gp=0.jpg",
+        "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=286946846,3770652173&fm=26&gp=0.jpg",
+        "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3820948238,3810516733&fm=26&gp=0.jpg",
+        "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1545980553,2413955112&fm=26&gp=0.jpg",
+        "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2412068931,3031791558&fm=26&gp=0.jpg",
+        "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=286946846,3770652173&fm=26&gp=0.jpg",
+        "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3820948238,3810516733&fm=26&gp=0.jpg"
+    )
+    
+    // 设置数据适配器
+          nl_images2.setAdapter(object : NineImageAdapter() {
+            override fun getItemCount() = mImages2.size
+
+            override fun bindView(view: View, pos: Int) {
+                if (1 == mImages2.size) { //处理单张图片
+                    Glide.with(view)
+                        .asBitmap()
+                        .load(mImages2[pos])
+                        .into(object : CustomTarget<Bitmap>() {
+                            override fun onResourceReady(
+                                resource: Bitmap,
+                                transition: Transition<in Bitmap>?
+                            ) {
+                                nl_images.setSingleImage(
+                                    resource.width,
+                                    resource.height,
+                                    view.findViewById(R.id.iv_nine_item)
+                                )
+                            }
+
+                            override fun onLoadCleared(placeholder: Drawable?) {
+                            }
+                        })
+                    ImageLoad.loader.loadImage(
+                        view.findViewById<AppCompatImageView>(R.id.iv_nine_item),
+                        mImages2[pos]
+                    )
+                } else {
+                    ImageLoad.loader.loadImage(
+                        view.findViewById<AppCompatImageView>(R.id.iv_nine_item),
+                        mImages2[pos]
+                    )
+                }
+            }
+
+            override fun OnItemClick(position: Int, view: View) {
+                // 点击事件,根据需要重写
+            }
+
+            override fun createView(inflater: LayoutInflater, parent: ViewGroup, position: Int) =
+                layoutInflater.inflate(R.layout.item_nine_image, parent, false)
+        })
+```
+
+
+
 
 
 ## **属性介绍:**
+
+| 属性名称                    | 取值类型           | 取值和作用                                                   |
+| --------------------------- | ------------------ | ------------------------------------------------------------ |
+| nl_single_image_width_ratio | float              | 单张图片时宽度与屏幕宽度比值,默认是0.8                       |
+| nl_left_padding             | dimension\|integer | 控件leftPadding,默认5dp,设置leftMargin无效                   |
+| nl_right_padding            | dimension\|integer | 控件rightPadding,默认5dp,设置rightMargin无效                 |
+| nl_item_gap                 | dimension\|integer | 图片之间间隙大小,非控件的,默认5dp                            |
+| nl_keep_place               | boolean            | 2张图或者4张图片时,是否要和3张图大小保持一致,其他张数无效,默认是false |
+
+
+
 ## **公共方法:**
+
+| 方法名称                                         | 作用               |
+| ------------------------------------------------ | ------------------ |
+| setSingleImage(int width, int height, View view) | 单张图片的展示处理 |
+| setAdapter(NineImageAdapter adapter)             | 设置数据源         |
+
+PS: ==一张图也需要设置适配器==
 
 
 # NestedRefreshLayout
@@ -1144,8 +1243,62 @@ PS: 一般右侧显示一个文本按钮(或者2个图标按钮,或者更多按�
 
 # PickerView
 ## **用法:**
+
+具体参考:cn.lvsong.lib.demo.CustomActivity2
+
+步骤一
+
+```xml
+
+    <cn.lvsong.lib.library.view.PickerView
+        android:id="@+id/pickerView"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/height_220"
+        android:layout_marginTop="@dimen/padding_20"
+        app:pv_max_alpha="255"
+        app:pv_max_text_size="@dimen/text_size_20"
+        app:pv_min_alpha="100"
+        app:pv_min_text_size="@dimen/text_size_14"
+        app:pv_text_color="@color/color_333333" />
+```
+
+步骤二:
+
+```kotlin
+    private fun setAddress(){
+        val data =  arrayListOf<String>(*resources.getStringArray(R.array.province_info))
+        mCurChoicePlace = data[3]
+        pickerView.setData(data)
+        pickerView.setSelected(3)
+        pickerView.setOnSelectListener {
+                text -> Log.e("Login", "======== $text");
+        }
+    }
+```
+
+
+
 ## **属性介绍:**
+
+| 属性名称         | 取值类型           | 取值和作用   |
+| ---------------- | ------------------ | ------------ |
+| pv_max_text_size | dimension\|integer | 字体最大值   |
+| pv_min_text_size | dimension\|integer | 字体最小值   |
+| pv_text_color    | color              | 文字颜色     |
+| pv_max_alpha     | integer            | 透明度最大值 |
+| pv_min_alpha     | integer            | 透明度最小值 |
+
+
+
 ## **公共方法:**
+
+| 方法名称                                       | 作用               |
+| ---------------------------------------------- | ------------------ |
+| setData(@NonNull List<String> data)            | 设置数据           |
+| setSelected(int selected)                      | 设置默认选中项     |
+| setOnSelectListener(onSelectListener listener) | 设置滑动选中项回调 |
+
+
 
 # PolygonSettingView
 ## **用法:**
@@ -1262,13 +1415,7 @@ PS: 一般右侧显示一个文本按钮(或者2个图标按钮,或者更多按�
 
 ## **公共方法:**
 
-|      |      |
-| ---- | ---- |
-|      |      |
-|      |      |
-|      |      |
-
-
+暂无
 
 
 # SmartPopupWindow

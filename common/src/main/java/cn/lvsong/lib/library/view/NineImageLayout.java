@@ -25,19 +25,16 @@ import cn.lvsong.lib.library.adapter.NineImageAdapter;
 
 /*
 
-    <cn.lvsong.lib.library.view.NineImageLayout
-        android:id="@+id/nl_image_item_dynamic"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/padding_14"
-        android:layout_marginTop="@dimen/padding_10"
-        android:layout_marginEnd="@dimen/padding_14"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/atv_text_item_dynamic"
-        app:nl_image_gap="10dp"
-        app:nl_keep_place="true"
-        app:nl_single_image_width_ratio="0.8" />
+   <cn.lvsong.lib.library.view.NineImageLayout
+            android:id="@+id/nl_images2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_50"
+            app:nl_item_gap="@dimen/padding_10"
+            app:nl_keep_place="false"
+            app:nl_left_padding="@dimen/padding_10"
+            app:nl_right_padding="@dimen/padding_10"
+            app:nl_single_image_width_ratio="0.8" />
 
  */
 
@@ -95,7 +92,7 @@ public class NineImageLayout extends ViewGroup {
         super(context, attrs, defStyleAttr);
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.NineImageLayout);
         singleImageWidthRatio = array.getFloat(R.styleable.NineImageLayout_nl_single_image_width_ratio, dip2px(getContext(), singleImageWidthRatio));
-        itemMargin = array.getDimensionPixelSize(R.styleable.NineImageLayout_nl_image_gap, dip2px(getContext(), itemMargin));
+        itemMargin = array.getDimensionPixelSize(R.styleable.NineImageLayout_nl_item_gap, dip2px(getContext(), itemMargin));
         leftPadding = array.getDimensionPixelSize(R.styleable.NineImageLayout_nl_left_padding, dip2px(getContext(), leftPadding));
         rightPadding = array.getDimensionPixelSize(R.styleable.NineImageLayout_nl_right_padding, dip2px(getContext(), rightPadding));
         needKeepPlace = array.getBoolean(R.styleable.NineImageLayout_nl_keep_place, needKeepPlace);
@@ -107,8 +104,6 @@ public class NineImageLayout extends ViewGroup {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int viewHeight = 0;
-        int viewWidth = 0;
-
         // 获取组件的宽度
         calcWidth = screenWidth - leftPadding - rightPadding;
         itemWidth = (calcWidth - 2 * itemMargin) / 3;
@@ -125,26 +120,10 @@ public class NineImageLayout extends ViewGroup {
             }
         } else if (count == 3) {
             viewHeight = itemWidth;
-//            if (count == 2) {
-//                if (needKeepPlace) { // 2张图和3张图宽度一样
-//                    viewWidth = 2 * itemWidth + itemMargin;
-//                } else { // 2张图和3张图宽度不一样时,2张占据整个父控件宽度
-//                    viewWidth = calcWidth;
-//                    itemWidth = (calcWidth - itemMargin) / 2;
-//                }
-//            } else if (count == 3) {
-//                viewWidth = calcWidth;
-//            }
         } else if (count <= 6) {
             viewHeight = 2 * itemWidth + itemMargin;
-//            if (count == 4) {
-//                viewWidth = 2 * itemWidth + itemMargin;
-//            } else {
-//                viewWidth = calcWidth;
-//            }
         } else if (count <= 9) {
             viewHeight = screenWidth;
-//            viewWidth = calcWidth;
         }
         setMeasuredDimension(screenWidth, viewHeight);
     }
@@ -159,7 +138,6 @@ public class NineImageLayout extends ViewGroup {
         for (int i = 0; i < count; i++) {
             View childView = getChildAt(i);
             if (1 == count) { // 只有一张图
-                //TODO 单独处理
                 left = leftPadding;
                 right = left + singleViewWidth;
                 bottom = top + singleViewHeight;
@@ -208,10 +186,11 @@ public class NineImageLayout extends ViewGroup {
     }
 
     /**
-     * 传入单张图片的宽高
+     * 单张图片的展示处理
      *
-     * @param width
-     * @param height
+     * @param width --> 图片的宽度
+     * @param height --> 图片的高度
+     * @param view --> 展示图片的ImageView
      */
     public void setSingleImage(int width, int height, View view) {
         if (getChildCount() != 1) {

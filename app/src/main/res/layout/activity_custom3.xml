@@ -11,6 +11,15 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <cn.lvsong.lib.library.view.CustomToolbar
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_50"
+            app:ct_bottom_divider_visible="false"
+            app:ct_center_text_color="@color/color_333333"
+            app:ct_center_text_info="自定义View3"
+            app:ct_center_text_size="@dimen/text_size_16" />
+
+
         <cn.lvsong.lib.library.view.PolygonSettingView
             android:id="@+id/psv_test"
             android:layout_width="@dimen/width_30"
@@ -100,7 +109,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_10"
-            app:nl_image_gap="@dimen/padding_10"
+            app:nl_item_gap="@dimen/padding_10"
             app:nl_keep_place="false"
             app:nl_left_padding="@dimen/padding_10"
             app:nl_right_padding="@dimen/padding_10"
@@ -111,7 +120,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_50"
-            app:nl_image_gap="@dimen/padding_10"
+            app:nl_item_gap="@dimen/padding_10"
             app:nl_keep_place="false"
             app:nl_left_padding="@dimen/padding_10"
             app:nl_right_padding="@dimen/padding_10"

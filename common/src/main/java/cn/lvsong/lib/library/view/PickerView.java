@@ -11,6 +11,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -35,12 +37,15 @@ import cn.lvsong.lib.library.R;
 /*
 
     <cn.lvsong.lib.library.view.PickerView
-        android:id="@+id/pv_test"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:id="@+id/pv_work_place_perfect"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/height_215"
+        app:pv_max_text_size="@dimen/text_size_20"
+        app:pv_min_text_size="@dimen/text_size_14"
+        app:pv_text_color="@color/color_333333"
+        app:pv_min_alpha="50"
+        app:pv_max_alpha="255"
+        />
 
  PickerView pv_test = findViewById(R.id.pv_test);
         List<String> data = new ArrayList<>();
@@ -120,23 +125,9 @@ public class PickerView extends View {
         init(context, attrs);
     }
 
-    public void setOnSelectListener(onSelectListener listener) {
-        mSelectListener = listener;
-    }
-
     private void performSelect() {
         if (mSelectListener != null)
             mSelectListener.onSelect(mDataList.get(mCurrentSelected));
-    }
-
-    public void setData(List<String> datas) {
-        mDataList = datas;
-        mCurrentSelected = datas.size() / 2;
-        invalidate();
-    }
-
-    public void setSelected(int selected) {
-        mCurrentSelected = selected;
     }
 
     private void moveHeadToTail() {
@@ -316,6 +307,31 @@ public class PickerView extends View {
         }
 
     }
+
+    /**
+     * 设置数据
+     */
+    public void setData(@NonNull List<String> data) {
+        mDataList = data;
+        mCurrentSelected = data.size() / 2;
+        invalidate();
+    }
+
+    /**
+     * 设置默认选中项
+     * @param selected --> 从0开始
+     */
+    public void setSelected(int selected) {
+        mCurrentSelected = selected;
+    }
+
+    /**
+     * 设置滑动选中项回调
+     */
+    public void setOnSelectListener(onSelectListener listener) {
+        mSelectListener = listener;
+    }
+
 
     public interface onSelectListener {
         void onSelect(String text);

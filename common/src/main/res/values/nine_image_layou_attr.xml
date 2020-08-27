@@ -5,11 +5,11 @@
         <!-- 单张图片时宽度与屏幕宽度比值,默认是0.8-->
         <attr name="nl_single_image_width_ratio" format="float" />
         <!-- 控件leftPadding,默认5dp,设置leftMargin无效-->
-        <attr name="nl_left_padding" format="dimension|reference" />
+        <attr name="nl_left_padding" format="dimension|integer" />
         <!-- 控件rightPadding,默认5dp,设置rightMargin无效 -->
-        <attr name="nl_right_padding" format="dimension|reference" />
+        <attr name="nl_right_padding" format="dimension|integer" />
         <!-- 图片之间间隙大小,非控件的,默认5dp -->
-        <attr name="nl_image_gap" format="dimension|reference" />
+        <attr name="nl_item_gap" format="dimension|integer" />
         <!-- 2张图或者4张图片时,是否要和3张图大小保持一致,其他张数无效,默认是false -->
         <attr name="nl_keep_place" format="boolean" />
     </declare-styleable>

@@ -16,9 +16,9 @@ import kotlinx.android.synthetic.main.activity_custom3.*
 
 class CustomActivity3 : BaseActivity() {
     private val mImages = arrayListOf(
-        "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3820948238,3810516733&fm=26&gp=0.jpg",
-        "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1545980553,2413955112&fm=26&gp=0.jpg",
-        "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2412068931,3031791558&fm=26&gp=0.jpg",
+//        "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3820948238,3810516733&fm=26&gp=0.jpg",
+//        "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1545980553,2413955112&fm=26&gp=0.jpg",
+//        "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2412068931,3031791558&fm=26&gp=0.jpg",
         "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=286946846,3770652173&fm=26&gp=0.jpg"
     )
 
@@ -112,6 +112,10 @@ class CustomActivity3 : BaseActivity() {
                         mImages2[pos]
                     )
                 }
+            }
+
+            override fun OnItemClick(position: Int, view: View) {
+                // 点击事件,根据需要重写
             }
 
             override fun createView(inflater: LayoutInflater, parent: ViewGroup, position: Int) =

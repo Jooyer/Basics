@@ -95,6 +95,12 @@ class MainActivity : BaseActivity() {
             .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
             .setCornerRadius(DensityUtil.dp2pxRtInt(5))
             .create()
+
+        btn_13.background = SelectorFactory.newShapeSelector()
+            .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
+            .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
+            .setCornerRadius(DensityUtil.dp2pxRtInt(5))
+            .create()
     }
 
     /**
@@ -176,6 +182,10 @@ class MainActivity : BaseActivity() {
 
     fun onCustomView3(view: View) {
         startActivity(Intent(this, CustomActivity3::class.java))
+    }
+
+    fun onCustomView4(view: View) {
+        startActivity(Intent(this, CustomActivity4::class.java))
     }
 
 

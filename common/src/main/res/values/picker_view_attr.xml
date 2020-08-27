@@ -3,11 +3,11 @@
 
     <declare-styleable name="PickerView">
         <!-- 字体最大值 -->
-        <attr name="pv_max_text_size" format="dimension|reference" />
+        <attr name="pv_max_text_size" format="dimension|integer" />
         <!-- 字体最小值 -->
-        <attr name="pv_min_text_size" format="dimension|reference" />
+        <attr name="pv_min_text_size" format="dimension|integer" />
         <!-- 文字颜色 -->
-        <attr name="pv_text_color" format="color|reference" />
+        <attr name="pv_text_color" format="color" />
         <!-- 透明度最大值 -->
         <attr name="pv_max_alpha" format="integer" />
         <!-- 透明度最小值 -->
