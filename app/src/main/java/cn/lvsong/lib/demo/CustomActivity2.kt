@@ -5,7 +5,7 @@ import android.view.View
 import android.widget.Toast
 import cn.lvsong.lib.library.utils.click
 import cn.lvsong.lib.library.utils.withTrigger
-import cn.lvsong.lib.ui.ui.BaseActivity
+import cn.lvsong.lib.ui.BaseActivity
 import kotlinx.android.synthetic.main.activity_custom2.*
 
 class CustomActivity2 : BaseActivity() {

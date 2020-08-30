@@ -982,7 +982,7 @@ PS: 一般右侧显示一个文本按钮(或者2个图标按钮,或者更多按�
 
 
 
-# MovingBallView
+# MovingBallView(在APP module中)
 ## **用法:**
 
 具体参考: cn.lvsong.lib.demo.CustomActivity2

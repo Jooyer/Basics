@@ -1,6 +1,6 @@
 package cn.lvsong.lib.demo
 
-import cn.lvsong.lib.ui.ui.BaseActivity
+import cn.lvsong.lib.ui.BaseActivity
 import kotlinx.android.synthetic.main.activity_custom4.*
 
 class CustomActivity4 : BaseActivity() {

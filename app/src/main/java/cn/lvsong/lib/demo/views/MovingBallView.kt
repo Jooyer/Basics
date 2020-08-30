@@ -1,4 +1,4 @@
-package cn.lvsong.lib.library.view
+package cn.lvsong.lib.demo.views
 
 import android.animation.ValueAnimator
 import android.content.Context
@@ -6,8 +6,8 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.LinearInterpolator
+import cn.lvsong.lib.demo.R
 import cn.lvsong.lib.library.utils.DensityUtil
-import cn.lvsong.lib.library.R
 
 /** https://www.jianshu.com/p/54b458d54ef8
  *
@@ -26,7 +26,7 @@ import cn.lvsong.lib.library.R
 /*
 
 
-            <cn.lvsong.lib.library.view.MovingBallView
+        <cn.lvsong.lib.demo.views.MovingBallView
                 android:id="@+id/mbv_audio_record_publish_dynamic"
                 android:layout_width="@dimen/width_100"
                 android:layout_height="@dimen/height_100"

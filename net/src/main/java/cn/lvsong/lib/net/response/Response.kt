@@ -8,7 +8,7 @@ data class Response<T>(
     // 请求的数据内容, Object/List
         val data: T?,
     // 请求状态码
-        val code: Int,
+        val errorCode: Int,
     // 提示信息
-        val msg: String=""
+        val errorMsg: String=""
 )

@@ -1,11 +1,9 @@
 package cn.lvsong.lib.demo
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import cn.lvsong.lib.library.view.CustomSearchView
-import cn.lvsong.lib.ui.ui.BaseActivity
+import cn.lvsong.lib.ui.BaseActivity
 import kotlinx.android.synthetic.main.activity_custom_menu.*
 
 /**

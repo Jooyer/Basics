@@ -39,4 +39,7 @@ dependencies {
     implementation rootProject.ext.dependencies.core_ktx
     implementation rootProject.ext.dependencies.constraintlayout
 
+    implementation rootProject.ext.dependencies.kotlinx_coroutines_android
+    implementation rootProject.ext.dependencies.lifecycle_viewmodel_ktx
+
 }

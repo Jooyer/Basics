@@ -1,4 +1,4 @@
-package cn.lvsong.lib.ui.ui
+package cn.lvsong.lib.ui
 
 import android.os.Build
 import android.os.Bundle
@@ -11,7 +11,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import cn.lvsong.lib.library.utils.OnLazyClickListener
 import cn.lvsong.lib.library.utils.StatusBarUtil
-import cn.lvsong.lib.ui.R
 import cn.lvsong.lib.library.state.OnRetryListener
 import cn.lvsong.lib.library.state.StatusManager
 
@@ -221,7 +220,7 @@ abstract class BaseActivity : AppCompatActivity(), OnRetryListener, OnLazyClickL
 
 
     /**
-     * 初始化 View
+     * 初始化 View, 在 Kotlin 中这个方法就没有必要重写了
      */
     fun initializedViews(savedInstanceState: Bundle?, contentView: View) {
 
@@ -252,7 +251,7 @@ abstract class BaseActivity : AppCompatActivity(), OnRetryListener, OnLazyClickL
     }
 
     /**
-     * 点击视图中重试按钮
+     * 点击StatusManager视图中重试按钮
      */
     override fun onRetry() {
 
@@ -310,7 +309,9 @@ abstract class BaseActivity : AppCompatActivity(), OnRetryListener, OnLazyClickL
         window.attributes = attr
     }
 
-
+    /**
+     * 带延迟过滤的点击事件监听,防抖动
+     */
     override fun onTriggerClick(view: View) {
 
     }

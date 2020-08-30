@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import cn.lvsong.lib.demo.util.ImageLoad
 import cn.lvsong.lib.library.adapter.NineImageAdapter
-import cn.lvsong.lib.ui.ui.BaseActivity
+import cn.lvsong.lib.ui.BaseActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition

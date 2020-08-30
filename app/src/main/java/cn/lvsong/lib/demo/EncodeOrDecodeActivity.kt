@@ -1,7 +1,7 @@
 package cn.lvsong.lib.demo
 
 import cn.lvsong.lib.net.utils.AESUtil
-import cn.lvsong.lib.ui.ui.BaseActivity
+import cn.lvsong.lib.ui.BaseActivity
 
 /**
  * 网络请求加密解密

@@ -1,4 +1,4 @@
-package cn.lvsong.lib.ui.ui
+package cn.lvsong.lib.ui
 
 /**
  * 数据加载状态,提供界面显示 加载/成功/失败UI 的依据

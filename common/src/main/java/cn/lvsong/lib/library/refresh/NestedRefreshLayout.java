@@ -559,7 +559,7 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
 
     @Override
     public void onStopNestedScroll(@NonNull View target, int type) {
-        Log.e("PowerRefreshLayout", "onStopNestedScroll=====getScrollY: " + getScrollY() + " ====mFling: " + mFlingScroll);
+//        Log.e("PowerRefreshLayout", "onStopNestedScroll=====getScrollY: " + getScrollY() + " ====mFling: " + mFlingScroll);
         mNestedScrollingParentHelper.onStopNestedScroll(target, type);
         stopNestedScroll();
         if (!mFlingScroll) {
@@ -585,7 +585,7 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
 
             // 此时判断是否是 FooterView 处理
             if (!mLoading && getScrollY() > 0) {
-                Log.e("PowerRefreshLayout", "onStopNestedScroll=====3");
+//                Log.e("PowerRefreshLayout", "onStopNestedScroll=====3");
                 if (mFooterViewHeight <= getScrollY()) { // 达到加载要求
                     if (noMoreData) { // 没有更多数据
                         updateStatus(RefreshState.FOOTER_NO_MORE);

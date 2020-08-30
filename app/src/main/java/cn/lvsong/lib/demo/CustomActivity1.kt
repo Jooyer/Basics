@@ -25,7 +25,7 @@ import cn.lvsong.lib.library.utils.DensityUtil
 import cn.lvsong.lib.library.utils.SelectorFactory
 import cn.lvsong.lib.library.view.ArrangeView
 import cn.lvsong.lib.library.view.MediumTextView
-import cn.lvsong.lib.ui.ui.BaseActivity
+import cn.lvsong.lib.ui.BaseActivity
 import kotlinx.android.synthetic.main.activity_custom1.*
 
 class CustomActivity1 : BaseActivity() {

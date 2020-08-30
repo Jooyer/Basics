@@ -1,8 +1,12 @@
-package cn.lvsong.lib.ui.ui
+package cn.lvsong.lib.ui
 
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import cn.lvsong.lib.net.response.Response
 
-open class BaseModel {
+open class BaseViewModel :ViewModel() {
+    // 储存网络请求状态
+    val mLoadState = MutableLiveData<LoadState>()
 
     /** https://blog.csdn.net/NJP_NJP/article/details/103524778
      * 对数据脱壳与预处理
@@ -10,7 +14,7 @@ open class BaseModel {
      * @param successCode --> 请求成功状态码,默认是 0
      */
     fun <T> processData(result: Response<T>, successCode:Int = 0): T? {
-        return if (successCode == result.code) result.data else throw Throwable(result.msg)
+        return if (successCode == result.errorCode) result.data else throw Throwable(result.errorMsg)
     }
 
 

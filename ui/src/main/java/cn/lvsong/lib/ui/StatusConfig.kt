@@ -1,4 +1,4 @@
-package cn.lvsong.lib.ui.ui
+package cn.lvsong.lib.ui
 
 import androidx.annotation.ColorRes
 import cn.lvsong.lib.library.utils.DensityUtil

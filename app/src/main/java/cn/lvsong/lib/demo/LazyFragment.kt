@@ -7,21 +7,31 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import cn.lvsong.lib.demo.viewmodel.NetModel
 import cn.lvsong.lib.library.refresh.OnNestedRefreshAndLoadListener
 import cn.lvsong.lib.library.refresh.NestedRefreshLayout
-import cn.lvsong.lib.ui.ui.BaseFragment
+import cn.lvsong.lib.ui.BaseFragment
+import cn.lvsong.lib.ui.BaseViewModel
 import kotlinx.android.synthetic.main.fragment_blank.*
 
 class LazyFragment : BaseFragment() {
 
     private val data = ArrayList<String>()
 
+    private lateinit var viewModel : NetModel
+
     override fun getLayoutId() = R.layout.fragment_blank
 
-    override fun setLogic() {
+    override fun getCurrentViewModel(): Class<out BaseViewModel>? {
+        return NetModel::class.java
+    }
 
+    override fun setLogic() {
+        viewModel = ViewModelProvider(this).get(NetModel::class.java)
         snl_container.setOnRefreshAndLoadListener(object : OnNestedRefreshAndLoadListener() {
             override fun onRefresh(refreshLayout: NestedRefreshLayout) {
                 data.clear()
@@ -68,6 +78,11 @@ class LazyFragment : BaseFragment() {
                 }
             }
         }
+
+        viewModel.mListData.observe(this, Observer {
+            Log.e("LazyFragment", "getData======== $it")
+        })
+
     }
 
     override fun onFirstUserVisible() {
@@ -75,7 +90,7 @@ class LazyFragment : BaseFragment() {
         snl_container.postDelayed({
             snl_container.setAutoRefresh()
         }, 300)
-
+        viewModel.getData()
     }
 
     inner class Holder(val view: View) : RecyclerView.ViewHolder(view) {

@@ -52,6 +52,12 @@ dependencies {
     implementation rootProject.ext.dependencies.glide
     kapt rootProject.ext.dependencies.glide_compiler
 
+    implementation rootProject.ext.dependencies.lifecycle_viewmodel_ktx
+    implementation rootProject.ext.dependencies.kotlinx_coroutines_android
+    implementation rootProject.ext.dependencies.retrofit2_kotlin_coroutines_adapter
+    implementation rootProject.ext.dependencies.retrofit
+    implementation rootProject.ext.dependencies.converter_gson
+
 //    api rootProject.ext.dependencies.room_runtime
 //    kapt rootProject.ext.dependencies.room_compiler
 //

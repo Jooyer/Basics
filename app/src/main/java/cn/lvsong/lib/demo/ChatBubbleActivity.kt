@@ -1,12 +1,11 @@
 package cn.lvsong.lib.demo
 
-import android.graphics.Color
 import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import cn.lvsong.lib.library.adapter.CommonAdapter
 import cn.lvsong.lib.library.adapter.ViewHolder
-import cn.lvsong.lib.ui.ui.BaseActivity
+import cn.lvsong.lib.ui.BaseActivity
 import kotlinx.android.synthetic.main.activity_chat_bubble.*
 
 class ChatBubbleActivity : BaseActivity() {

@@ -18,7 +18,7 @@ class LazyLoadActivity : AppCompatActivity() {
             fragments.add(LazyFragment())
         }
 
-        sl_viewpager.offscreenPageLimit = 3
+//        sl_viewpager.offscreenPageLimit = 3
         // FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT  --> 核心
         // 解析: https://juejin.im/post/5cdb7c15f265da036c57ac66
         sl_viewpager.adapter = object : FragmentPagerAdapter(supportFragmentManager,BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {

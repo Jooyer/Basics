@@ -9,7 +9,10 @@ import androidx.fragment.app.FragmentPagerAdapter
 import cn.lvsong.lib.net.network.NetWorkMonitor
 import cn.lvsong.lib.net.network.NetWorkMonitorManager
 import cn.lvsong.lib.net.network.NetworkType
+import kotlinx.android.synthetic.main.activity_lazy.*
 import kotlinx.android.synthetic.main.activity_nested_scroll_refresh.*
+import kotlinx.android.synthetic.main.activity_nested_scroll_refresh.sl_tab
+import kotlinx.android.synthetic.main.activity_nested_scroll_refresh.sl_viewpager
 
 /**
  * NestedScroll嵌套滑动刷新加载
@@ -28,8 +31,7 @@ class NestedScrollRefreshActivity : AppCompatActivity() {
             fragments.add(LazyFragment())
         }
         sl_viewpager.offscreenPageLimit = 3
-        sl_viewpager.adapter = object : FragmentPagerAdapter(supportFragmentManager) {
-
+        sl_viewpager.adapter = object : FragmentPagerAdapter(supportFragmentManager,BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
             override fun getCount() = 3
 
