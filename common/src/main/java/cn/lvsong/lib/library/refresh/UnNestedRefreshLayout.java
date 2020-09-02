@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -366,7 +365,7 @@ public class UnNestedRefreshLayout extends ViewGroup {
 
     @Override
     public void computeScroll() {
-//		Log.e("JRefreshLayout", "computeScroll====mScroller.getCurrX: " + mScroller.getCurrX() + " =====mScroller.getCurrY: " + mScroller.getCurrY());
+//		Log.e("UnNestedRefreshLayout", "computeScroll====mScroller.getCurrX: " + mScroller.getCurrX() + " =====mScroller.getCurrY: " + mScroller.getCurrY());
         if (mScroller.computeScrollOffset()) {
             scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
             invalidate();
@@ -430,7 +429,7 @@ public class UnNestedRefreshLayout extends ViewGroup {
         } else if (curRatio > 1F) {
             curRatio = 1F;
         }
-//        Log.e("JRefreshLayout", "calculateRefreshScrollY========>>>>>>>>>>>>>>>curRatio: " + curRatio);
+//        Log.e("UnNestedRefreshLayout", "calculateRefreshScrollY========>>>>>>>>>>>>>>>curRatio: " + curRatio);
 //        return overScroll;
         return (int) (curRatio * overScroll);
     }
@@ -443,7 +442,7 @@ public class UnNestedRefreshLayout extends ViewGroup {
         } else if (curRatio > 1F) {
             curRatio = 1F;
         }
-//        Log.e("JRefreshLayout", "calculateLoadScrollY========>>>>>>>>>>>>>>>curRatio: " + curRatio);
+//        Log.e("UnNestedRefreshLayout", "calculateLoadScrollY========>>>>>>>>>>>>>>>curRatio: " + curRatio);
 //        return overScroll;
         return (int) (curRatio * overScroll);
     }
@@ -467,7 +466,7 @@ public class UnNestedRefreshLayout extends ViewGroup {
         final int action = ev.getActionMasked();
         int pointerIndex;
 
-        Log.e("JRefreshLayout", "onInterceptTouchEvent========mIsBeingDragged: " + mIsBeingDragged + " ====action: " + action);
+//        Log.e("UnNestedRefreshLayout", "onInterceptTouchEvent========mIsBeingDragged: " + mIsBeingDragged + " ====action: " + action);
         switch (action) {
             case MotionEvent.ACTION_DOWN:
                 mActivePointerId = ev.getPointerId(0);
@@ -499,7 +498,7 @@ public class UnNestedRefreshLayout extends ViewGroup {
                 mActivePointerId = INVALID_POINTER;
                 break;
         }
-//        Log.e("JRefreshLayout", "onInterceptTouchEvent=========mIsBeingDragged: " + mIsBeingDragged);
+//        Log.e("UnNestedRefreshLayout", "onInterceptTouchEvent=========mIsBeingDragged: " + mIsBeingDragged);
         return mIsBeingDragged;
     }
 
@@ -515,7 +514,6 @@ public class UnNestedRefreshLayout extends ViewGroup {
         if (!isEnabled() || mRefreshing || mLoading) {
             return false;
         }
-        Log.e("JRefreshLayout", "onTouchEvent=======mIsBeingDragged: " + mIsBeingDragged + " ====action: " + action);
         switch (action) {
             case MotionEvent.ACTION_DOWN:
                 mActivePointerId = ev.getPointerId(0);
@@ -536,6 +534,7 @@ public class UnNestedRefreshLayout extends ViewGroup {
                         loadScroll(-(int) overScrollTop);
                     }
                 }
+//                Log.e("UnNestedRefreshLayout", "onTouchEvent=======y: " + y + " ====mRealMoveY: " + mRealMoveY);
                 mRealMoveY = y;
                 break;
             case MotionEvent.ACTION_POINTER_DOWN:
@@ -568,7 +567,7 @@ public class UnNestedRefreshLayout extends ViewGroup {
      * 不支持嵌套滑动时刷新滑动处理
      */
     private void refreshScroll(int dy) {
-        Log.e("JRefreshLayout", "refreshScroll=======dy: " + dy + " =====mRefreshScrollY: " + mRefreshScrollY + " =====ScrollY: " + getScrollY() + " ===mRefreshHeight: " + mRefreshHeight);
+//        Log.e("UnNestedRefreshLayout", "refreshScroll=======dy: " + dy + " =====mRefreshScrollY: " + mRefreshScrollY + " =====ScrollY: " + getScrollY() + " ===mRefreshHeight: " + mRefreshHeight);
         if (!mRefreshing && dy < 0 && mRefreshScrollY < mRefreshHeight && canChildScrollUp()) { // 下滑
             mRefreshScrollY += -dy;
             if (mRefreshScrollY > mHeaderViewHeight) { // 松手可以刷新
@@ -579,10 +578,10 @@ public class UnNestedRefreshLayout extends ViewGroup {
             if (mRefreshScrollY > mRefreshHeight) { //零界点,再加上本次滑动,大于了 HeaderView 允许滑动距离
                 int consumedY = mRefreshScrollY + dy - mRefreshHeight;
                 mRefreshScrollY = mRefreshHeight;
-                Log.e("JRefreshLayout", "refreshScroll=======  1 ");
+//                Log.e("UnNestedRefreshLayout", "refreshScroll=======  1 ");
                 scrollBy(0, consumedY);
             } else {
-                Log.e("JRefreshLayout", "refreshScroll=======  2 ");
+//                Log.e("UnNestedRefreshLayout", "refreshScroll=======  2 ");
                 scrollBy(0, dy);
             }
         } else if (!mRefreshing && dy > 0 && mRefreshScrollY > 0) { // 上滑
@@ -593,16 +592,14 @@ public class UnNestedRefreshLayout extends ViewGroup {
                 updateStatus(RefreshState.HEADER_DRAG);
             }
             if (mRefreshScrollY < 0) { // 此时将不能滑动, consumedY实际上为0
-                Log.e("JRefreshLayout", "refreshScroll=======  3 ");
-//                int consumedY = mRefreshScrollY + dy;
-//                scrollBy(0, consumedY);
+//                Log.e("UnNestedRefreshLayout", "refreshScroll=======  3 ");
                 mRefreshScrollY = 0;
             } else {
-                Log.e("JRefreshLayout", "refreshScroll=======  4 ");
+//                Log.e("UnNestedRefreshLayout", "refreshScroll=======  4 ");
                 scrollBy(0, dy);
             }
         } else if (0 == mRefreshScrollY && getScrollY() < 0) { // 修复误差
-            Log.e("JRefreshLayout", "refreshScroll=======ScrollY: " + getScrollY());
+//            Log.e("UnNestedRefreshLayout", "refreshScroll=======ScrollY: " + getScrollY());
             scrollBy(0, -getScrollY());
         }
     }
@@ -611,49 +608,47 @@ public class UnNestedRefreshLayout extends ViewGroup {
      * 不支持嵌套滑动时加载滑动处理
      */
     private void loadScroll(int dy) {
-        Log.e("JRefreshLayout", "loadScroll=====getScrollY: " + getScrollY() + " =====dy: " + dy + " ======mLoadScrollY: " + mLoadScrollY + " ===mFooterViewHeight: " + mFooterViewHeight);
-        if (!mLoading && dy < 0 && mLoadScrollY > 0 && canChildScrollDown()) { // 下滑
-            mLoadScrollY += dy;
+//        Log.e("UnNestedRefreshLayout", "loadScroll=====getScrollY: " + getScrollY() + " =====dy: " + dy + " ======mLoadScrollY: " + mLoadScrollY + " ===mFooterViewHeight: " + mFooterViewHeight + " ===mLoadHeight: " + mLoadHeight);
+        if (!mLoading && dy < 0 && mLoadScrollY < 0 && canChildScrollDown()) { // 下滑
+            mLoadScrollY += -dy;
             if (!noMoreData) { // 有更多数据则更新状态
-                if (mLoadScrollY > mFooterViewHeight) { // 松手可以加载
-                    Log.e("JRefreshLayout", "loadScroll=======  111 mStatus: " + mStatus);
+                if (Math.abs(mLoadScrollY) > mFooterViewHeight) { // 松手可以加载
+//                    Log.e("UnNestedRefreshLayout", "loadScroll=======  111 mStatus: " + mStatus);
                     updateStatus(RefreshState.FOOTER_RELEASE);
                 } else {
-                    Log.e("JRefreshLayout", "loadScroll=======  222 mStatus: " + mStatus);
+//                    Log.e("UnNestedRefreshLayout", "loadScroll=======  222 mStatus: " + mStatus);
                     updateStatus(RefreshState.FOOTER_PULL);
                 }
             }
-            if (mLoadScrollY < 0) {
-                Log.e("JRefreshLayout", "loadScroll=======  333 ");
-//                int consumedY = mLoadScrollY + dy;
-//                scrollBy(0,consumedY);
+            if (mLoadScrollY > 0) {
+//                Log.e("UnNestedRefreshLayout", "loadScroll=======  333 ");
                 mLoadScrollY = 0;
             } else {
-                Log.e("JRefreshLayout", "loadScroll=======  444 ");
+//                Log.e("UnNestedRefreshLayout", "loadScroll=======  444 ");
                 scrollBy(0, dy);
             }
         } else if (!mLoading && dy > 0 && mLoadScrollY < mLoadHeight) { // 上滑
             mLoadScrollY += -dy;
             if (!noMoreData) { // 有更多数据则更新状态
                 if (Math.abs(mLoadScrollY) > mFooterViewHeight) { // 松手可以加载
-                    Log.e("JRefreshLayout", "loadScroll=======  555 mStatus: " + mStatus);
+//                    Log.e("UnNestedRefreshLayout", "loadScroll=======  555 mStatus: " + mStatus);
                     updateStatus(RefreshState.FOOTER_RELEASE);
                 } else {
-                    Log.e("JRefreshLayout", "loadScroll=======  666 mStatus: " + mStatus);
+//                    Log.e("UnNestedRefreshLayout", "loadScroll=======  666 mStatus: " + mStatus);
                     updateStatus(RefreshState.FOOTER_PULL);
                 }
             }
             if (Math.abs(mLoadScrollY) > mLoadHeight) { //零界点,再加上本次滑动,大于了 FooterView 允许滑动距离
-                Log.e("JRefreshLayout", "loadScroll=======  777 ");
+//                Log.e("UnNestedRefreshLayout", "loadScroll=======  777 ");
                 int consumedY = mLoadHeight + mLoadScrollY + dy;
-                mLoadScrollY = mLoadHeight;
+                mLoadScrollY = -mLoadHeight;
                 scrollBy(0, consumedY);
             } else {
-                Log.e("JRefreshLayout", "loadScroll=======  888 ");
+//                Log.e("UnNestedRefreshLayout", "loadScroll=======  888 ");
                 scrollBy(0, dy);
             }
         } else if (0 == mLoadScrollY && getScrollY() > 0) { // 修复误差
-            Log.e("JRefreshLayout", "loadScroll=======ScrollY: " + getScrollY());
+//            Log.e("UnNestedRefreshLayout", "loadScroll=======ScrollY: " + getScrollY());
             scrollBy(0, -getScrollY());
         }
     }
@@ -661,7 +656,7 @@ public class UnNestedRefreshLayout extends ViewGroup {
     @SuppressLint("NewApi")
     private void startDragging(float y) {
         final float yDiff = y - mInitialDownY;
-        Log.e("JRefreshLayout", "startDragging=========mIsBeingDragged: " + mIsBeingDragged + " ====== " + (yDiff > mTouchSlop) + " ====yDiff: " + yDiff);
+//        Log.e("UnNestedRefreshLayout", "startDragging=========mIsBeingDragged: " + mIsBeingDragged + " ====== " + (yDiff > mTouchSlop) + " ====yDiff: " + yDiff);
         if (yDiff > 0 && yDiff > mTouchSlop && canChildScrollUp()) { // 下拉到底
             mRealMoveY = mInitialDownY + yDiff;
             mIsBeingDragged = true;
@@ -691,7 +686,7 @@ public class UnNestedRefreshLayout extends ViewGroup {
                 break;
             //没有更多数据
             case RefreshState.FOOTER_NO_MORE:
-            // 上拉加载
+                // 上拉加载
             case RefreshState.FOOTER_PULL:
                 scrollToFooterDefaultStatus();
                 break;
@@ -839,6 +834,7 @@ public class UnNestedRefreshLayout extends ViewGroup {
 
     /**
      * 是否可以刷新
+     *
      * @param refreshable --> 默认是true
      */
     public void setRefreshable(boolean refreshable) {
@@ -847,6 +843,7 @@ public class UnNestedRefreshLayout extends ViewGroup {
 
     /**
      * 是否可以加载
+     *
      * @param loadable --> 默认是true
      */
     public void setLoadable(boolean loadable) {
@@ -989,17 +986,19 @@ public class UnNestedRefreshLayout extends ViewGroup {
 
     /**
      * 是否正在刷新
+     *
      * @return true --> 正在刷新
      */
-    public boolean isRefreshing(){
+    public boolean isRefreshing() {
         return mRefreshing;
     }
 
     /**
      * 是否正在加载
+     *
      * @return true --> 正在加载
      */
-    public boolean isLoading(){
-        return  mLoading;
+    public boolean isLoading() {
+        return mLoading;
     }
 }

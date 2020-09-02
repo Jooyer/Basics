@@ -24,9 +24,8 @@ import cn.lvsong.lib.library.R;
  * https://blog.csdn.net/chaoyangsun/article/details/94398225  --> Scroller
  * https://www.jianshu.com/p/8be7458c644b --> NestedScrollingParent
  * https://github.com/baiduapp-tec/ELinkageScroll --> 多子view嵌套滚动通用解决方案
- * 1. 阻尼效果已完成
- * 2. TargetView 非 NestedScrollChild , 未完成(监听拦截里面处理)
- * 3. 如果分页没有记得调用 setNoMoreData(true) , 特别是在 CoordinatorLayout 嵌套中,如果列表数据不满一屏时(即加载首页手机下面还有留白),
+ * 1. 阻尼效果未完成
+ * 2. 如果分页没有记得调用 setNoMoreData(true) , 特别是在 CoordinatorLayout 嵌套中,如果列表数据不满一屏时(即加载首页手机下面还有留白),
  * 往上刷动会触发上拉加载,而不是先滑动AppBarLayout等内部控件
  */
 
@@ -393,8 +392,8 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
      */
     @Override
     public void onNestedPreScroll(@NonNull View target, int dx, int dy, @NonNull int[] consumed, int type) {
-//        Log.e("PowerRefreshLayout", "onNestedPreScroll=======dy: " + dy + " ====getScrollY: " + getScrollY() + " ====mHeaderScrollY: " + mRefreshScrollY + " ====mFooterScrollY: " + mLoadScrollY + " ====mLoading: " + mLoading + " ===type: " + type);
-//        Log.e("PowerRefreshLayout", "onNestedPreScroll=======到达顶部: " + canChildScrollUp() + " ====到达底部: " + canChildScrollDown());
+//        Log.e("NestedRefreshLayout", "onNestedPreScroll=======dy: " + dy + " ====getScrollY: " + getScrollY() + " ====mHeaderScrollY: " + mRefreshScrollY + " ====mFooterScrollY: " + mLoadScrollY + " ====mLoading: " + mLoading + " ===type: " + type);
+//        Log.e("NestedRefreshLayout", "onNestedPreScroll=======到达顶部: " + canChildScrollUp() + " ====到达底部: " + canChildScrollDown());
         if (ViewCompat.TYPE_TOUCH == type) {
             if (mRefreshable && mRefreshing && dy < 0 && canChildScrollUp() && !mLoading && 0 == mLoadScrollY) { // HeaderView隐藏着,正在刷新时下滑
                 int ddy = calculateRefreshScrollY(dy);
@@ -405,7 +404,7 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
                     scrollBy(0, ddy);
                     consumed[1] = ddy;
                 }
-//                Log.e("PowerRefreshLayout", "onNestedPreScroll=======  1 " + " =====ddy: " + ddy);
+//                Log.e("NestedRefreshLayout", "onNestedPreScroll=======  1 " + " =====ddy: " + ddy);
             } else if (mRefreshable && !mRefreshing && dy > 0 && mRefreshScrollY > 0 && !mLoading && 0 == mLoadScrollY) { // 还没达到刷新状态(可以是没有达到必要高度/达到高度没有松手)往上滑动
                 mRefreshScrollY -= dy;
                 if (mRefreshScrollY > mHeaderViewHeight) { // 松手可以刷新
@@ -422,7 +421,7 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
                     scrollBy(0, dy);
                     consumed[1] = dy;
                 }
-//                Log.e("PowerRefreshLayout", "onNestedPreScroll=======  2 ");
+//                Log.e("NestedRefreshLayout", "onNestedPreScroll=======  2 ");
             } else if (mRefreshable && mRefreshing && dy > 0 && getScrollY() < 0 && !mLoading && 0 == mLoadScrollY) { // 刷新时上滑
                 if (getScrollY() + dy > 0) { // 接近零界点,此时如果还滑动 dy, 则滑多了
                     scrollBy(0, -getScrollY());
@@ -431,7 +430,7 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
                     scrollBy(0, dy);
                     consumed[1] = dy;
                 }
-//                Log.e("PowerRefreshLayout", "onNestedPreScroll=======  3 ");
+//                Log.e("NestedRefreshLayout", "onNestedPreScroll=======  3 ");
             }
 
             /////////////////////////////////////////////////////////////////////////////////
@@ -441,7 +440,7 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
                 final int[] parentConsumed = mParentScrollConsumed;
                 // 之所以在这里先分发,因为在 CoordinatorLayout 嵌套中,不满一屏时会出现bug
                 if (noMoreData && dispatchNestedPreScroll(dx - consumed[0], dy - consumed[1], parentConsumed, null)) {
-//                    Log.e("PowerRefreshLayout", "onNestedPreScroll=======  4 ");
+//                    Log.e("NestedRefreshLayout", "onNestedPreScroll=======  4 ");
                     consumed[0] += parentConsumed[0];
                     consumed[1] += parentConsumed[1];
                 } else {
@@ -464,7 +463,7 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
                         consumed[1] = ddy;
                     }
                 }
-//                Log.e("PowerRefreshLayout", "onNestedPreScroll=======  5 ");
+//                Log.e("NestedRefreshLayout", "onNestedPreScroll=======  5 ");
             } else if (mLoadable && mLoading && dy > 0 && canChildScrollDown() && !mRefreshing && 0 == mRefreshScrollY) { // FooterView隐藏着,加载时上滑
                 int ddy = calculateLoadScrollY(dy);
                 if ((getScrollY() + ddy) > mFooterViewHeight) { // 当 FooterView 向上滑动时, getScrollY() =  mFooterViewHeight, 此时则不再滑动头部
@@ -474,7 +473,7 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
                     scrollBy(0, ddy);
                     consumed[1] = ddy;
                 }
-//                Log.e("PowerRefreshLayout", "onNestedPreScroll=======  6 ");
+//                Log.e("NestedRefreshLayout", "onNestedPreScroll=======  6 ");
             } else if (mLoadable && !mLoading && dy < 0 && mLoadScrollY > 0 && !mRefreshing && 0 == mRefreshScrollY) { // 还没达到加载状态(可以是没有达到必要高度/达到高度没有松手)往下滑动
                 mLoadScrollY += dy;
                 if (noMoreData) { // 没有更多数据
@@ -493,7 +492,7 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
                     scrollBy(0, dy);
                     consumed[1] = dy;
                 }
-//                Log.e("PowerRefreshLayout", "onNestedPreScroll=======  7 ");
+//                Log.e("NestedRefreshLayout", "onNestedPreScroll=======  7 ");
             } else if (mLoadable && mLoading && dy < 0 && getScrollY() > 0 && !mRefreshing && 0 == mRefreshScrollY) { // 加载时下滑
                 if (getScrollY() + dy < 0) { // 接近零界点,此时如果还滑动 dy, 则滑多了
                     scrollBy(0, -getScrollY());
@@ -502,14 +501,14 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
                     scrollBy(0, dy);
                     consumed[1] = dy;
                 }
-//                Log.e("PowerRefreshLayout", "onNestedPreScroll=======  8 ");
+//                Log.e("NestedRefreshLayout", "onNestedPreScroll=======  8 ");
             }
         }
 
         // 同样，将嵌套滑动向上传递
         final int[] parentConsumed = mParentScrollConsumed;
         if (dispatchNestedPreScroll(dx - consumed[0], dy - consumed[1], parentConsumed, null)) {
-//            Log.e("PowerRefreshLayout", "onNestedPreScroll=======  9 ");
+//            Log.e("NestedRefreshLayout", "onNestedPreScroll=======  9 ");
             consumed[0] += parentConsumed[0];
             consumed[1] += parentConsumed[1];
         }
@@ -524,8 +523,8 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
      * @param dxUnconsumed 水平方向嵌套滑动的子控件未滑动的距离(未消耗的距离)
      * @param dyUnconsumed 垂直方向嵌套滑动的子控件未滑动的距离(未消耗的距离)
      *                     <p>
-     *                     PS:将下拉刷新放这里,主要是当  PowerRefreshLayout 为 子控件,即实现了  NestedScrollingChild2,
-     *                     此时 PowerRefreshLayout 的父控件需要嵌套滑动,如 CoordinatorLayout,
+     *                     PS:将下拉刷新放这里,主要是当  NestedRefreshLayout 为 子控件,即实现了  NestedScrollingChild2,
+     *                     此时 NestedRefreshLayout 的父控件需要嵌套滑动,如 CoordinatorLayout,
      *                     如果在 onNestedPreScroll() 提前消费,会导致 CoordinatorLayout 中
      *                     AppBarLayout,CollapsingToolbarLayout 等协作滑动时异常
      */
@@ -533,7 +532,7 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
     public void onNestedScroll(@NonNull View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed, int type) {
         dispatchNestedScroll(dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed,
                 mParentOffsetInWindow);
-//        Log.e("PowerRefreshLayout", "onNestedScroll=======dyUnconsumed: " + dyUnconsumed + " ====getScrollY: " + getScrollY() + " ==== mParentOffsetInWindow[1]: " + mParentOffsetInWindow[1]);
+//        Log.e("NestedRefreshLayout", "onNestedScroll=======dyUnconsumed: " + dyUnconsumed + " ====getScrollY: " + getScrollY() + " ==== mParentOffsetInWindow[1]: " + mParentOffsetInWindow[1]);
         if (ViewCompat.TYPE_TOUCH == type) {
             final int dy = dyUnconsumed + mParentOffsetInWindow[1];
             if (mRefreshable && !mRefreshing && canChildScrollUp() && dy < 0 && !mLoading) { //准备刷新
@@ -551,20 +550,20 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
                 } else {
                     scrollBy(0, ddy);
                 }
-//                Log.e("PowerRefreshLayout", "onNestedScroll=====1====mHeaderScrollY: " + mRefreshScrollY + " ====ddy: " + ddy);
+//                Log.e("NestedRefreshLayout", "onNestedScroll=====1====mHeaderScrollY: " + mRefreshScrollY + " ====ddy: " + ddy);
             }
         }
     }
 
     @Override
     public void onStopNestedScroll(@NonNull View target, int type) {
-//        Log.e("PowerRefreshLayout", "onStopNestedScroll=====getScrollY: " + getScrollY() + " ====mFling: " + mFlingScroll);
+//        Log.e("NestedRefreshLayout", "onStopNestedScroll=====getScrollY: " + getScrollY() + " ====mFling: " + mFlingScroll);
         mNestedScrollingParentHelper.onStopNestedScroll(target, type);
         stopNestedScroll();
         if (!mFlingScroll) {
             // 此时判断是否是 HeaderView 处理
             if (!mRefreshing && getScrollY() < 0) {
-//                Log.e("PowerRefreshLayout", "onStopNestedScroll=====1");
+//                Log.e("NestedRefreshLayout", "onStopNestedScroll=====1");
                 if (mHeaderViewHeight <= -getScrollY()) { // 达到刷新要求
                     updateStatus(RefreshState.HEADER_REFRESHING);
                     // 松手后,向上滑动
@@ -574,7 +573,7 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
                     mScroller.startScroll(0, getScrollY(), 0, -getScrollY(), calculateTopScrollTime(-getScrollY()));
                 }
             } else if (mRefreshing && getScrollY() < 0) { // 刷新时往上滑动
-//                Log.e("PowerRefreshLayout", "onStopNestedScroll=====2");
+//                Log.e("NestedRefreshLayout", "onStopNestedScroll=====2");
                 if (mHeaderViewHeight > -getScrollY()) { // 隐藏 HeaderView
                     mScroller.startScroll(0, getScrollY(), 0, -getScrollY(), calculateTopScrollTime(-getScrollY()));
                 } else { // 停留在刷新处
@@ -584,7 +583,7 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
 
             // 此时判断是否是 FooterView 处理
             if (!mLoading && getScrollY() > 0) {
-//                Log.e("PowerRefreshLayout", "onStopNestedScroll=====3");
+//                Log.e("NestedRefreshLayout", "onStopNestedScroll=====3");
                 if (mFooterViewHeight <= getScrollY()) { // 达到加载要求
                     if (noMoreData) { // 没有更多数据
                         updateStatus(RefreshState.FOOTER_NO_MORE);
@@ -596,10 +595,10 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
                         mScroller.startScroll(0, getScrollY(), 0, -(getScrollY() - mFooterViewHeight), calculateBottomScrollTime(getScrollY() - mFooterViewHeight));
                     }
                 } else {
-                    mScroller.startScroll(0, getScrollY(), 0, -getScrollY(), calculateBottomScrollTime(getScrollY()) / 10);
+                    mScroller.startScroll(0, getScrollY(), 0, -getScrollY(), calculateBottomScrollTime(getScrollY()));
                 }
             } else if (mLoading && getScrollY() > 0) { // 加载时往下滑动
-//                Log.e("PowerRefreshLayout", "onStopNestedScroll=====4");
+//                Log.e("NestedRefreshLayout", "onStopNestedScroll=====4");
                 if (getScrollY() < mFooterViewHeight) { // 隐藏 FooterView
                     mScroller.startScroll(0, getScrollY(), 0, -getScrollY(), calculateBottomScrollTime(getScrollY()));
                 } else { // 停留在加载处
@@ -608,7 +607,8 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
             }
             invalidate();
         } else if (0 != getScrollY()) {
-            mScroller.startScroll(0, getScrollY(), 0, -getScrollY(), getScrollY() > 0 ? calculateBottomScrollTime(getScrollY()) / 2 : calculateTopScrollTime(-getScrollY()) / 2);
+//            Log.e("NestedRefreshLayout", "onStopNestedScroll=====5");
+            mScroller.startScroll(0, getScrollY(), 0, -getScrollY(), getScrollY() > 0 ? calculateBottomScrollTime(getScrollY())  : calculateTopScrollTime(-getScrollY()));
 //            mScroller.startScroll(0, getScrollY(), 0, -getScrollY(), 100);
             invalidate();
         }
@@ -668,17 +668,17 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
      */
     @Override
     public boolean onNestedPreFling(@NonNull View target, float velocityX, float velocityY) {
-//        Log.e("PowerRefreshLayout", "onNestedPreFling=====velocity: " + ViewConfiguration.get(getContext()).getScaledMinimumFlingVelocity() + " =====velocityY: " + velocityY);
+//        Log.e("NestedRefreshLayout", "onNestedPreFling=====velocity: " + ViewConfiguration.get(getContext()).getScaledMinimumFlingVelocity() + " =====velocityY: " + velocityY);
         mFlingScroll = dispatchNestedPreFling(velocityX, velocityY);
         if (getScrollY() < 0 && mHeaderViewHeight <= -getScrollY() && velocityY >= mRequiredVelocityY * 4) { // 达到刷新要求
-//            Log.e("PowerRefreshLayout", "onNestedPreFling===== 1 -->mRefreshing: " + mRefreshing + " ====mLoading: " + mLoading + " ====getScrollY: " + getScrollY());
+//            Log.e("NestedRefreshLayout", "onNestedPreFling===== 1 -->mRefreshing: " + mRefreshing + " ====mLoading: " + mLoading + " ====getScrollY: " + getScrollY());
 //            parentFling(velocityY);
             mFlingScroll = true;
         } else if (getScrollY() > 0 && mFooterViewHeight <= getScrollY() && -velocityY >= mRequiredVelocityY * 2) { // 达到加载要求
-//            Log.e("PowerRefreshLayout", "onNestedPreFling===== 2 -->mRefreshing: " + mRefreshing + " ====mLoading: " + mLoading + " ====getScrollY: " + getScrollY());
+//            Log.e("NestedRefreshLayout", "onNestedPreFling===== 2 -->mRefreshing: " + mRefreshing + " ====mLoading: " + mLoading + " ====getScrollY: " + getScrollY());
             mFlingScroll = true;
         }
-//        Log.e("PowerRefreshLayout", "onNestedPreFling===== 3 -->velocityY: " + velocityY + " ====getScrollY: " + getScrollY() + " ===mFlingScroll: " + mFlingScroll);
+//        Log.e("NestedRefreshLayout", "onNestedPreFling===== 3 -->velocityY: " + velocityY + " ====getScrollY: " + getScrollY() + " ===mFlingScroll: " + mFlingScroll);
         return mFlingScroll;
     }
 
@@ -694,7 +694,7 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
      */
     @Override
     public boolean onNestedFling(@NonNull View target, float velocityX, float velocityY, boolean consumed) {
-//        Log.e("PowerRefreshLayout", "onNestedFling=====");
+//        Log.e("NestedRefreshLayout", "onNestedFling=====");
         return dispatchNestedFling(velocityX, velocityY, consumed);
     }
 
@@ -709,7 +709,7 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
 
     @Override
     public void computeScroll() {
-//		Log.e("PowerRefreshLayout", "computeScroll====mScroller.getCurrX: " + mScroller.getCurrX() + " =====mScroller.getCurrY: " + mScroller.getCurrY());
+//		Log.e("NestedRefreshLayout", "computeScroll====mScroller.getCurrX: " + mScroller.getCurrX() + " =====mScroller.getCurrY: " + mScroller.getCurrY());
         if (mScroller.computeScrollOffset()) {
             scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
             invalidate();
@@ -789,7 +789,7 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
         } else if (curRatio > 1F) {
             curRatio = 1F;
         }
-//        Log.e("PowerRefreshLayout", "calculateRefreshScrollY========>>>>>>>>>>>>>>>curRatio: " + curRatio);
+//        Log.e("NestedRefreshLayout", "calculateRefreshScrollY========>>>>>>>>>>>>>>>curRatio: " + curRatio);
 //        return overScroll;
         return (int) (curRatio * overScroll);
     }
@@ -802,7 +802,7 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
         } else if (curRatio > 1F) {
             curRatio = 1F;
         }
-//        Log.e("PowerRefreshLayout", "calculateLoadScrollY========>>>>>>>>>>>>>>>curRatio: " + curRatio);
+//        Log.e("NestedRefreshLayout", "calculateLoadScrollY========>>>>>>>>>>>>>>>curRatio: " + curRatio);
 //        return overScroll;
         return (int) (curRatio * overScroll);
     }
@@ -898,11 +898,16 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
     ///////////////////////////// 对外公共方法 ///////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////
 
-
+    /**
+     * 设置是否可以刷新,默认true
+     */
     public void setRefreshable(boolean refreshable) {
         this.mRefreshable = refreshable;
     }
 
+    /**
+     * 设置社否可以加载,默认true
+     */
     public void setLoadable(boolean loadable) {
         this.mLoadable = loadable;
     }
@@ -1042,18 +1047,20 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
 
     /**
      * 是否正在刷新
+     *
      * @return true --> 正在刷新
      */
-    public boolean isRefreshing(){
+    public boolean isRefreshing() {
         return mRefreshing;
     }
 
     /**
      * 是否正在加载
+     *
      * @return true --> 正在加载
      */
-    public boolean isLoading(){
-        return  mLoading;
+    public boolean isLoading() {
+        return mLoading;
     }
 
 }
