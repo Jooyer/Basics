@@ -21,7 +21,7 @@ class StatusActivity : BaseActivity() {
 
     override fun useStatusManager() = true
 
-    override fun setLoadingViewBackgroundColor() = R.color.color_2878FF
+//    override fun setLoadingViewBackgroundColor() = R.color.color_2878FF
 
     override fun setLogic() {
         // 如果不调用 显示内容/显示错误等,一直会显示 loading
@@ -100,6 +100,23 @@ class StatusActivity : BaseActivity() {
             mStatusManager?.showEmptyData()
         }
     }
+
+    override fun getLoadingViewLayoutId(): Int {
+        return R.layout.status_loading_page
+    }
+
+    override fun getEmptyDataViewLayoutId(): Int {
+        return R.layout.status_empty_page
+    }
+
+    override fun getNetWorkErrorViewLayoutId(): Int {
+        return R.layout.status_neterror_page
+    }
+
+    override fun getErrorViewLayoutId(): Int {
+        return R.layout.status_error_page
+    }
+
 
     /**
      * 点击重试则会走这里
