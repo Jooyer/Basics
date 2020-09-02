@@ -42,13 +42,13 @@ import cn.lvsong.lib.library.R
         app:cem_left_text_color="@color/color_333333"
         app:cem_left_text_info="书籍名称"
         app:cem_left_text_left_margin="@dimen/padding_10"
-        app:cem_left_text_size="15"
+        app:cem_left_text_size="@dimen/text_size_14"
         app:cem_right_image_drawable="@mipmap/ic_launcher"
         app:cem_right_image_visible="false"
         app:cem_right_input_hint_text="请输入昵称"
         app:cem_right_input_right_margin="@dimen/padding_10"
         app:cem_right_input_right_padding="@dimen/padding_40"
-        app:cem_right_input_text_size="14"
+        app:cem_right_input_text_size="@dimen/text_size_14"
         app:cem_right_input_visible="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -114,7 +114,7 @@ class CustomEditMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
 
         val leftTextInfo = arr.getText(R.styleable.CustomEditMenu_cem_left_text_info)
         val leftTextSize =
-            arr.getInteger(R.styleable.CustomEditMenu_cem_left_text_size, 14).toFloat()
+            arr.getDimensionPixelSize(R.styleable.CustomEditMenu_cem_left_text_size, dp2px(14F).toInt()).toFloat()
         val leftTextLeftMargin =
             arr.getDimension(R.styleable.CustomEditMenu_cem_left_text_left_margin, dp2px(5F))
                 .toInt()
@@ -137,7 +137,7 @@ class CustomEditMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         val rightTextInfo = arr.getText(R.styleable.CustomEditMenu_cem_right_input_text)
         val rightHintTextInfo = arr.getText(R.styleable.CustomEditMenu_cem_right_input_hint_text)
         val rightTextSize =
-            arr.getInt(R.styleable.CustomEditMenu_cem_right_input_text_size, 14).toFloat()
+            arr.getDimensionPixelSize(R.styleable.CustomEditMenu_cem_right_input_text_size,  dp2px(14F).toInt()).toFloat()
         val rightTextLength = arr.getInt(R.styleable.CustomEditMenu_cem_right_input_text_length, 0)
         val rightTextColor = arr.getColor(
             R.styleable.CustomEditMenu_cem_right_input_text_color,
@@ -191,7 +191,7 @@ class CustomEditMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         if (!TextUtils.isEmpty(leftTextInfo)) {
             tv_left_name_menu.text = leftTextInfo
             tv_left_name_menu.setTextColor(leftTextColor)
-            tv_left_name_menu.setTextSize(TypedValue.COMPLEX_UNIT_DIP, leftTextSize)
+            tv_left_name_menu.setTextSize(TypedValue.COMPLEX_UNIT_PX, leftTextSize)
 
             val leftTextLp: ConstraintLayout.LayoutParams =
                 tv_left_name_menu.layoutParams as LayoutParams
@@ -206,7 +206,7 @@ class CustomEditMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         et_right_name_menu.visibility = if (rightTextVisible) View.VISIBLE else View.GONE
         et_right_name_menu.setHintTextColor(rightTextHintColor)
         et_right_name_menu.setTextColor(rightTextColor)
-        et_right_name_menu.setTextSize(TypedValue.COMPLEX_UNIT_DIP, rightTextSize)
+        et_right_name_menu.setTextSize(TypedValue.COMPLEX_UNIT_PX, rightTextSize)
         et_right_name_menu.setPadding(rightTextLeftPadding, 0, rightTextRightPadding, 0)
         val etLp = et_right_name_menu.layoutParams as LayoutParams
         etLp.width = rightTextWidth

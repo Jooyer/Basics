@@ -40,12 +40,12 @@ import cn.lvsong.lib.library.R
         app:cm_left_text_color="@color/color_333333"
         app:cm_left_text_info="个人认证"
         app:cm_left_text_left_margin="@dimen/padding_5"
-        app:cm_left_text_size="14"
+        app:cm_left_text_size="@dimen/text_size_14"
         app:cm_right_arrow_visible="false"
         app:cm_right_near_image_visible="false"
         app:cm_right_text_info="www.123.com"
         app:cm_right_text_right_margin="@dimen/padding_10"
-        app:cm_right_text_size="14"
+        app:cm_right_text_size="@dimen/text_size_14"
         app:cm_right_text_visible="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -137,7 +137,7 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
             arr.getDimension(R.styleable.CustomMenu_cm_left_image_left_margin, dp2px(20F)).toInt()
 
         val leftTextInfo = arr.getText(R.styleable.CustomMenu_cm_left_text_info)
-        val leftTextSize = arr.getInteger(R.styleable.CustomMenu_cm_left_text_size, 14).toFloat()
+        val leftTextSize = arr.getDimensionPixelSize(R.styleable.CustomMenu_cm_left_text_size, dp2px(14F).toInt()).toFloat()
         val leftTextLeftMargin =
             arr.getDimension(R.styleable.CustomMenu_cm_left_text_left_margin, dp2px(5F)).toInt()
         val leftTextColor = arr.getColor(
@@ -148,7 +148,7 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         val rightTextInfo = arr.getText(R.styleable.CustomMenu_cm_right_text_info)
 //        val rightHintTextInfo = arr.getText(R.styleable.CustomMenu_cm_right_hint_text_info)
         val rightTextVisible = arr.getBoolean(R.styleable.CustomMenu_cm_right_text_visible, true)
-        val rightTextSize = arr.getInt(R.styleable.CustomMenu_cm_right_text_size, 14).toFloat()
+        val rightTextSize = arr.getDimensionPixelSize(R.styleable.CustomMenu_cm_right_text_size, dp2px(14F).toInt()).toFloat()
         rightTextRightMargin =
             arr.getDimension(R.styleable.CustomMenu_cm_right_text_right_margin, dp2px(5F)).toInt()
         val rightTextColor = arr.getColor(
@@ -226,7 +226,7 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         if (!TextUtils.isEmpty(leftTextInfo)) {
             tv_left_name_menu.text = leftTextInfo
             tv_left_name_menu.setTextColor(leftTextColor)
-            tv_left_name_menu.setTextSize(TypedValue.COMPLEX_UNIT_DIP, leftTextSize)
+            tv_left_name_menu.setTextSize(TypedValue.COMPLEX_UNIT_PX, leftTextSize)
             val leftTextLp: ConstraintLayout.LayoutParams =
                 tv_left_name_menu.layoutParams as LayoutParams
             if (leftImageVisible) {
@@ -239,7 +239,7 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
 
         tv_right_name_menu.visibility = if (rightTextVisible) View.VISIBLE else View.GONE
         tv_right_name_menu.setTextColor(rightTextColor)
-        tv_right_name_menu.setTextSize(TypedValue.COMPLEX_UNIT_DIP, rightTextSize)
+        tv_right_name_menu.setTextSize(TypedValue.COMPLEX_UNIT_PX, rightTextSize)
         tv_right_name_menu.setHintTextColor(rightTextHintColor)
 
 //        if (1 == rightInputType) {

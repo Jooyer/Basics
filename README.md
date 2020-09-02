@@ -19,7 +19,7 @@
 
 ```groovy
 	dependencies {
-	        implementation 'com.github.Jooyer:Basics:1.0.0'
+	        implementation 'com.github.Jooyer.Basics:common:1.0.0'
 	}
 ```
 
@@ -648,9 +648,9 @@ class CustomAdapter(data: List<String>, layoutId: Int) :
 | csv_input_container_margin_left  | dimension\|reference | 中间搜索容器leftMargin                                       |
 | csv_input_container_margin_right | dimension\|reference | 中间搜索容器rightMargin                                      |
 | csv_input_container_drawable     | reference            | 中间搜索容器drawable,也就是容器的背景                        |
-| csv_input_left_padding           | dimension\|reference | 中间搜索输入框leftPadding                                    |
+| csv_input_left_padding           | dimension\|float     | 中间搜索输入框leftPadding                                    |
 | csv_default_search_text          | string\|reference    | 默认的搜索文本                                               |
-| csv_input_text_size              | dimension\|reference | 中间搜索输入框文本大小                                       |
+| csv_input_text_size              | dimension\|float     | 中间搜索输入框文本大小                                       |
 | csv_input_text_color             | color\|reference     | 中间搜索输入框文本颜色                                       |
 | csv_input_hint_text              | string\|reference    | 中间搜索输入框提示文本                                       |
 | csv_input_hint_color             | color\|reference     | 中间搜索输入框提示文本颜色                                   |
@@ -658,7 +658,7 @@ class CustomAdapter(data: List<String>, layoutId: Int) :
 | csv_need_jump                    | boolean              | 点击整个搜索控件,此时如果需要跳转,则设置为true               |
 | csv_search_btn_visible           | boolean              | 是否显示搜索按钮,默认显示                                    |
 | csv_search_btn_text              | string\|reference    | 搜索按钮显示文本                                             |
-| csv_search_btn_text_size         | dimension\|reference | 搜索按钮文本大小                                             |
+| csv_search_btn_text_size         | dimension\|float     | 搜索按钮文本大小                                             |
 | csv_search_btn_text_color        | color\|reference     | 搜索按钮文本颜色                                             |
 | csv_search_btn_bg_color          | color\|reference     | 搜索按钮背景颜色                                             |
 | csv_search_btn_width             | dimension\|reference | 搜索按钮宽度                                                 |
@@ -900,28 +900,36 @@ PS: 一般右侧显示一个文本按钮(或者2个图标按钮,或者更多按�
 
 ```xml
     <cn.lvsong.lib.library.view.LeftImgAndRightTextView
+            android:id="@+id/lirt_test"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/height_50"
             android:layout_marginTop="@dimen/padding_10"
-            app:lirt_iconDrawable="@drawable/ic_baseline_alarm_add_24"
-            app:lirt_spacing="@dimen/padding_5"
-            app:lirt_style="iconBottom"
-            app:lirt_text="文字在上,图片在下" />
+            app:lirt_icon_drawable="@drawable/ic_baseline_alarm_add_24"
+        app:lirt_icon_drawable_checked="@drawable/ic_baseline_assignment_returned_24"
+            app:lirt_text_color="@color/color_999999"
+            app:lirt_text_color_checked="@color/color_333333"
+            app:lirt_back_color="@color/color_DDDDDD"
+            app:lirt_back_color_checked="@color/color_8A8EA3"
+            app:lirt_spacing="@dimen/padding_15"
+            app:lirt_text_size="@dimen/text_size_14"
+            app:lirt_text="左边图片,右边文字"
+            app:lirt_checked="false"
+            />
 ```
 
 ## **属性介绍:**
 
 | 属性名称               | 取值类型           | 取值和作用                                                |
 | ---------------------- | ------------------ | --------------------------------------------------------- |
-| lirt_backColor         | color              | 控件默认背景色                                            |
-| lirt_backColorPress    | color              | 控件点击后背景色                                          |
-| lirt_textColor         | color              | 文本默认颜色                                              |
-| lirt_textColorPress    | color              | 文本点击后颜色                                            |
-| lirt_iconDrawable      | reference          | 默认图标                                                  |
-| lirt_checked           | boolean            | 是否被选中                                                |
-| lirt_iconDrawablePress | reference          | 点击后图片                                                |
+| lirt_checked           | boolean            | 是否被选中,默认false                                                |
+| lirt_back_color         | color              | 控件默认背景色                                            |
+| lirt_back_color_checked    | color              | 控件点击后背景色                                          |
+| lirt_text_color         | color              | 文本默认颜色                                              |
+| lirt_text_color_checked    | color              | 文本点击后颜色                                            |
+| lirt_icon_drawable      | reference          | 默认图标                                                  |
+| lirt_icon_drawable_checked | reference          | 点击后图片                                                |
 | lirt_text              | string             | 文本内容                                                  |
-| lirt_textSize          | float\|dimension   | 文本大小                                                  |
+| lirt_text_size          | float\|dimension   | 文本大小                                                  |
 | lirt_spacing           | dimension\|integer | 文本和图片的间隔                                          |
 | lirt_style             | enum               | 设置图片所在方向,可取iconLeft,iconRight,iconUp,iconBottom |
 
@@ -1391,7 +1399,8 @@ PS: ==一张图也需要设置适配器==
 | riv_round_radius | dimension\|integer | 四周圆角半径,默认10px, 在圆角类型为 ROUNDRECTANGLE或者ROUNDRECTANGLETOP时有效 |
 | riv_border_width | dimension\|float   | 边框半径,默认0,在圆角类型为 ROUNDRECTANGLE或者ROUNDRECTANGLETOP时有效 |
 | riv_border_color | color              | 边框颜色,默认透明,在圆角类型为 ROUNDRECTANGLE或者ROUNDRECTANGLETOP时有效 |
-| riv_mask_type    | enum               | 圆角的类型,矩形(RECTANGLE),CIRCLE(圆形),ROUNDRECTANGLE(四周圆角),ROUNDRECTANGLETOP(左上和右上有圆角) |
+| riv_mask_type    | enum               | 圆角的类型,当取 CIRCLE 时,riv_round_radius无效;当取 ROUNDRECTANGLETOP 时riv_border_color,riv_border_width无效, 矩形(RECTANGLE),CIRCLE(圆形),ROUNDRECTANGLE(四周圆角),ROUNDRECTANGLETOP(左上和右上有圆角) |
+
 
 
 

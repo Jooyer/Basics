@@ -38,11 +38,11 @@
 
 
         <!--中间搜索输入框leftPadding-->
-        <attr name="csv_input_left_padding" format="dimension|reference" />
+        <attr name="csv_input_left_padding" format="dimension|float" />
         <!--默认的搜索文本-->
         <attr name="csv_default_search_text" format="string|reference" />
         <!--中间搜索输入框文本大小-->
-        <attr name="csv_input_text_size" format="dimension|reference" />
+        <attr name="csv_input_text_size" format="dimension|float" />
         <!-- 中间搜索输入框文本颜色-->
         <attr name="csv_input_text_color" format="color|reference" />
         <!-- 中间搜索输入框提示文本-->
@@ -60,7 +60,7 @@
         <!--搜索按钮显示文本-->
         <attr name="csv_search_btn_text" format="string|reference" />
         <!--搜索按钮文本大小-->
-        <attr name="csv_search_btn_text_size" format="dimension|reference" />
+        <attr name="csv_search_btn_text_size" format="dimension|float" />
         <!--搜索按钮文本颜色-->
         <attr name="csv_search_btn_text_color" format="color|reference" />
         <!--搜索按钮背景颜色-->

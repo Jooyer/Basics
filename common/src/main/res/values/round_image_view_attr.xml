@@ -9,7 +9,8 @@
         <attr name="riv_border_width" format="dimension|float" />
         <!-- 边框颜色,默认透明 -->
         <attr name="riv_border_color" format="color" />
-        <!-- 圆角的类型 -->
+        <!-- 圆角的类型,当取 CIRCLE 时,riv_round_radius无效;当取 ROUNDRECTANGLETOP 时riv_border_color,riv_border_width无效
+        矩形(RECTANGLE),CIRCLE(圆形),ROUNDRECTANGLE(四周圆角),ROUNDRECTANGLETOP(左上和右上有圆角) -->
         <attr name="riv_mask_type" format="enum">
             <enum name="RECTANGLE" value="0" />
             <enum name="CIRCLE" value="1" />

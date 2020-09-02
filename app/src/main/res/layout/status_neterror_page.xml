@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_FFFFFF">
+    android:clickable="true"
+    android:focusable="true"
+    android:background="@color/main_theme_color">
 
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -11,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="网络错误"
+        android:text="网络错误,点此显示布局"
         android:textColor="@color/color_333333"
         android:textSize="@dimen/text_size_30"
         app:layout_constraintBottom_toBottomOf="parent"

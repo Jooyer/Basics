@@ -8,8 +8,7 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
+import android.widget.Checkable;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.ColorRes;
@@ -27,7 +26,28 @@ import cn.lvsong.lib.library.R;
  * Date: 2019-05-24
  * Time: 23:12
  */
-public class LeftImgAndRightTextView extends RelativeLayout {
+
+/* 用法:
+            <cn.lvsong.lib.library.view.LeftImgAndRightTextView
+            android:id="@+id/lirt_test"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/height_50"
+            android:layout_marginTop="@dimen/padding_10"
+            app:lirt_icon_drawable="@drawable/ic_baseline_alarm_add_24"
+            app:lirt_icon_drawable_checked="@drawable/ic_baseline_assignment_returned_24"
+            app:lirt_text_color="@color/color_999999"
+            app:lirt_text_color_checked="@color/color_333333"
+            app:lirt_back_color="@color/color_DDDDDD"
+            app:lirt_back_color_checked="@color/color_8A8EA3"
+            app:lirt_spacing="@dimen/padding_15"
+            app:lirt_text_size="@dimen/text_size_14"
+            app:lirt_text="左边图片,右边文字"
+            app:lirt_checked="false"
+            />
+
+ */
+
+public class LeftImgAndRightTextView extends RelativeLayout implements Checkable {
     /**
      * 左右结构，图片在左，文字在右
      */
@@ -61,7 +81,7 @@ public class LeftImgAndRightTextView extends RelativeLayout {
     /**
      * View被按下时的背景色
      */
-    private int backColorPress = 0;
+    private int backColorChecked = 0;
     /**
      * icon的背景图片
      */
@@ -69,7 +89,7 @@ public class LeftImgAndRightTextView extends RelativeLayout {
     /**
      * icon被按下时显示的背景图片
      */
-    private Drawable iconDrawablePress = null;
+    private Drawable iconDrawableChecked = null;
     /**
      * View文字的颜色
      */
@@ -77,7 +97,7 @@ public class LeftImgAndRightTextView extends RelativeLayout {
     /**
      * View被按下时文字的颜色
      */
-    private ColorStateList textColorPress = null;
+    private ColorStateList textColorChecked = null;
     /**
      * 两个控件之间的间距，默认为8dp
      */
@@ -89,11 +109,7 @@ public class LeftImgAndRightTextView extends RelativeLayout {
     /**
      * 是否被选中
      */
-    private boolean mChecked;
-    /**
-     * 标示onTouch方法的返回值，用来解决onClick和onTouch冲突问题
-     */
-    private boolean isCost = true;
+    private boolean isChecked;
 
     public LeftImgAndRightTextView(Context context) {
         super(context);
@@ -122,32 +138,25 @@ public class LeftImgAndRightTextView extends RelativeLayout {
                 attrs, R.styleable.LeftImgAndRightTextView, defStyle, 0);
         if (a != null) {
             //设置背景色
-            ColorStateList colorList = a.getColorStateList(R.styleable.LeftImgAndRightTextView_lirt_backColor);
+            ColorStateList colorList = a.getColorStateList(R.styleable.LeftImgAndRightTextView_lirt_back_color);
             if (colorList != null) {
                 backColor = colorList.getColorForState(getDrawableState(), 0);
-                if (backColor != 0) {
-                    setBackgroundColor(backColor);
-                }
             }
             //记录View被按下时的背景色
-            ColorStateList colorListPress = a.getColorStateList(R.styleable.LeftImgAndRightTextView_lirt_backColorPress);
-            if (colorListPress != null) {
-                backColorPress = colorListPress.getColorForState(getDrawableState(), 0);
+            ColorStateList colorListChecked = a.getColorStateList(R.styleable.LeftImgAndRightTextView_lirt_back_color_checked);
+            if (colorListChecked != null) {
+                backColorChecked = colorListChecked.getColorForState(getDrawableState(), 0);
             }
             //设置icon
-            iconDrawable = a.getDrawable(R.styleable.LeftImgAndRightTextView_lirt_iconDrawable);
-            if (iconDrawable != null) {
-                ivIcon.setImageDrawable(iconDrawable);
-            }
+            iconDrawable = a.getDrawable(R.styleable.LeftImgAndRightTextView_lirt_icon_drawable);
+
             //记录View被按下时的icon的图片
-            iconDrawablePress = a.getDrawable(R.styleable.LeftImgAndRightTextView_lirt_iconDrawablePress);
+            iconDrawableChecked = a.getDrawable(R.styleable.LeftImgAndRightTextView_lirt_icon_drawable_checked);
             //设置文字的颜色
-            textColor = a.getColorStateList(R.styleable.LeftImgAndRightTextView_lirt_textColor);
-            if (textColor != null) {
-                tvContent.setTextColor(textColor);
-            }
+            textColor = a.getColorStateList(R.styleable.LeftImgAndRightTextView_lirt_text_color);
+
             //记录View被按下时文字的颜色
-            textColorPress = a.getColorStateList(R.styleable.LeftImgAndRightTextView_lirt_textColorPress);
+            textColorChecked = a.getColorStateList(R.styleable.LeftImgAndRightTextView_lirt_text_color_checked);
             //设置显示的文本内容
             String text = a.getString(R.styleable.LeftImgAndRightTextView_lirt_text);
             if (text != null) {
@@ -156,72 +165,28 @@ public class LeftImgAndRightTextView extends RelativeLayout {
                 tvContent.setText(text);
             }
             //设置文本字体大小
-            float textSize = a.getDimension(R.styleable.LeftImgAndRightTextView_lirt_textSize, 0);
+            float textSize = a.getDimensionPixelSize(R.styleable.LeftImgAndRightTextView_lirt_text_size,  dp2px(context, 14));
             if (textSize != 0) {
-                tvContent.setTextSize(textSize);
+                tvContent.setTextSize(TypedValue.COMPLEX_UNIT_PX,textSize);
             }
             //设置两个控件之间的间距
             spacing = a.getDimensionPixelSize(R.styleable.LeftImgAndRightTextView_lirt_spacing, dp2px(context, 8));
             //设置两个控件的位置结构
             mPosition = a.getInt(R.styleable.LeftImgAndRightTextView_lirt_style, 0);
 
-            mChecked = a.getBoolean(R.styleable.LeftImgAndRightTextView_lirt_checked, false);
-            if (mChecked){// TODO
-
-            }
+            isChecked = a.getBoolean(R.styleable.LeftImgAndRightTextView_lirt_checked, false);
+            setChecked(isChecked);
 
             setIconPosition(mPosition);
             a.recycle();
         }
-
-        setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View arg0, MotionEvent event) {
-                //根据touch事件设置按下抬起的样式
-                setTouchStyle(event.getAction());
-                return LeftImgAndRightTextView.super.onTouchEvent(event);
-            }
-        });
-
-    }
-
-    /**
-     * 根据按下或者抬起来改变背景和文字样式
-     *
-     * @param state
-     * @return isCost
-     */
-    private boolean setTouchStyle(int state) {
-        if (state == MotionEvent.ACTION_DOWN) {
-            if (backColorPress != 0) {
-                setBackgroundColor(backColorPress);
-            }
-            if (iconDrawablePress != null) {
-                ivIcon.setImageDrawable(iconDrawablePress);
-            }
-            if (textColorPress != null) {
-                tvContent.setTextColor(textColorPress);
-            }
-        }
-        if (state == MotionEvent.ACTION_UP) {
-            if (backColor != 0) {
-                setBackgroundColor(backColor);
-            }
-            if (iconDrawable != null) {
-                ivIcon.setImageDrawable(iconDrawable);
-            }
-            if (textColor != null) {
-                tvContent.setTextColor(textColor);
-            }
-        }
-        return isCost;
     }
 
     /**
      * 设置图标位置
      * 通过重置LayoutParams来设置两个控件的摆放位置
      *
-     * @param position
+     * @param position --> 取值: STYLE_ICON_LEFT...
      */
     public void setIconPosition(int position) {
         mPosition = position;
@@ -278,17 +243,17 @@ public class LeftImgAndRightTextView extends RelativeLayout {
      * @param backColor
      */
     public void setBackColor(@ColorRes int backColor) {
-        this.backColor = ContextCompat.getColor(getContext(),backColor);
+        this.backColor = ContextCompat.getColor(getContext(), backColor);
         setBackgroundColor(this.backColor);
     }
 
     /**
      * 设置控件被按下时的背景色
      *
-     * @param backColorPress
+     * @param backColorChecked
      */
-    public void setBackColorPress(@ColorRes int backColorPress) {
-        this.backColorPress = backColorPress;
+    public void setBackColorChecked(@ColorRes int backColorChecked) {
+        this.backColorChecked = backColorChecked;
     }
 
     /**
@@ -304,11 +269,11 @@ public class LeftImgAndRightTextView extends RelativeLayout {
     /**
      * 设置被按下时的icon的图片
      *
-     * @param iconDrawablePress
+     * @param iconDrawableChecked
      */
-    public void setIconDrawablePress(Drawable iconDrawablePress) {
-        this.iconDrawablePress = iconDrawablePress;
-        ivIcon.setImageDrawable(iconDrawablePress);
+    public void setIconDrawableChecked(Drawable iconDrawableChecked) {
+        this.iconDrawableChecked = iconDrawableChecked;
+        ivIcon.setImageDrawable(iconDrawableChecked);
     }
 
     /**
@@ -316,20 +281,20 @@ public class LeftImgAndRightTextView extends RelativeLayout {
      *
      * @param textColor
      */
-    public void setTextColor(@ColorRes  int textColor) {
+    public void setTextColor(@ColorRes int textColor) {
         if (textColor == 0) return;
-        this.textColor = ColorStateList.valueOf(ContextCompat.getColor(getContext(),textColor));
+        this.textColor = ColorStateList.valueOf(ContextCompat.getColor(getContext(), textColor));
         tvContent.setTextColor(this.textColor);
     }
 
     /**
      * 设置被按下时文字的颜色
      *
-     * @param textColorPress
+     * @param textColorChecked
      */
-    public void setTextColorPress(@ColorRes int textColorPress) {
-        if (textColorPress == 0) return;
-        this.textColorPress = ColorStateList.valueOf(ContextCompat.getColor(getContext(),textColorPress));
+    public void setTextColorChecked(@ColorRes int textColorChecked) {
+        if (textColorChecked == 0) return;
+        this.textColorChecked = ColorStateList.valueOf(ContextCompat.getColor(getContext(), textColorChecked));
     }
 
     /**
@@ -377,4 +342,39 @@ public class LeftImgAndRightTextView extends RelativeLayout {
     }
 
 
+    @Override
+    public void setChecked(boolean checked) {
+        isChecked = checked;
+        if (isChecked) {
+            if (backColorChecked != 0) {
+                setBackgroundColor(backColorChecked);
+            }
+            if (iconDrawableChecked != null) {
+                ivIcon.setImageDrawable(iconDrawableChecked);
+            }
+            if (textColorChecked != null) {
+                tvContent.setTextColor(textColorChecked);
+            }
+        } else {
+            if (backColor != 0) {
+                setBackgroundColor(backColor);
+            }
+            if (iconDrawable != null) {
+                ivIcon.setImageDrawable(iconDrawable);
+            }
+            if (textColor != null) {
+                tvContent.setTextColor(textColor);
+            }
+        }
+    }
+
+    @Override
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    @Override
+    public void toggle() {
+        setChecked(!isChecked);
+    }
 }

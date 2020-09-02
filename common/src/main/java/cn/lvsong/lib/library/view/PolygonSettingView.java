@@ -87,7 +87,7 @@ public class PolygonSettingView extends View implements Checkable {
      */
     private float mLineWidth;
     /**
-     * 是否点击
+     * 是否被选中
      */
     private boolean isChecked;
 

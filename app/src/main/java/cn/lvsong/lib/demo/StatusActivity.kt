@@ -1,5 +1,6 @@
 package cn.lvsong.lib.demo
 
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import cn.lvsong.lib.library.utils.DensityUtil
 import cn.lvsong.lib.library.utils.SelectorFactory
@@ -20,6 +21,7 @@ class StatusActivity : BaseActivity() {
     override fun needUseImmersive() = 1
 
     override fun useStatusManager() = true
+
 
 //    override fun setLoadingViewBackgroundColor() = R.color.color_2878FF
 
@@ -69,7 +71,7 @@ class StatusActivity : BaseActivity() {
     override fun getStatusBarColor() = R.color.main_theme_color
 
     // 根据需要重写
-    override fun getTransY() = DensityUtil.dp2pxRtInt(0)
+    override fun getTransY() = DensityUtil.dp2pxRtInt(50) // 本例 toolbar高度 50dp
 
     override fun bindEvent() {
 
@@ -82,6 +84,7 @@ class StatusActivity : BaseActivity() {
         // 显示内容
         acb_content.setOnClickListener {
             mStatusManager?.showContent()
+            Toast.makeText(this@StatusActivity,"调用showContent()显示内容",Toast.LENGTH_LONG).show()
         }
 
         // 显示错误

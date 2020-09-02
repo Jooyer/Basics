@@ -2,6 +2,8 @@ package cn.lvsong.lib.demo
 
 import android.view.View
 import android.widget.Toast
+import cn.lvsong.lib.library.utils.click
+import cn.lvsong.lib.library.utils.withTrigger
 import cn.lvsong.lib.library.view.CustomSearchView
 import cn.lvsong.lib.ui.BaseActivity
 import kotlinx.android.synthetic.main.activity_custom_menu.*
@@ -50,6 +52,9 @@ class CustomMenuActivity : BaseActivity() {
             }
         })
 
+        lirt_test.withTrigger().click {
+            lirt_test.isChecked = !lirt_test.isChecked
+        }
     }
 
 

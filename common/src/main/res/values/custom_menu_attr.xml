@@ -16,7 +16,7 @@
         <!-- 紧靠左侧的文本 -->
         <attr name="cm_left_text_info" format="reference|string"/>
         <!-- 紧靠左侧的文本大小 -->
-        <attr name="cm_left_text_size" format="dimension|integer"/>
+        <attr name="cm_left_text_size" format="dimension|float"/>
         <!-- 紧靠左侧的文本颜色 -->
         <attr name="cm_left_text_color" format="color|reference"/>
         <!-- 紧靠左侧的文本LeftMargin -->
@@ -29,7 +29,7 @@
         <!-- 紧靠右侧的提示文本 -->
 <!--        <attr name="cm_right_hint_text_info" format="reference|string"/>-->
         <!-- 紧靠右侧的文本大小 -->
-        <attr name="cm_right_text_size" format="dimension|integer"/>
+        <attr name="cm_right_text_size" format="dimension|float"/>
         <!-- 紧靠右侧的文本颜色 -->
         <attr name="cm_right_text_color" format="color|reference"/>
         <!-- 紧靠右侧的提示文本颜色 -->
@@ -110,7 +110,7 @@
         <!-- 紧靠左侧的文本 -->
         <attr name="cem_left_text_info" format="reference|string"/>
         <!-- 紧靠左侧的文本大小 -->
-        <attr name="cem_left_text_size" format="dimension|integer"/>
+        <attr name="cem_left_text_size" format="dimension|float"/>
         <!-- 紧靠左侧的文本颜色 -->
         <attr name="cem_left_text_color" format="color|reference"/>
         <!-- 紧靠左侧的文本leftMargin -->
@@ -129,7 +129,7 @@
         <!-- 右侧输入框的提示文本 -->
         <attr name="cem_right_input_hint_text" format="reference|string"/>
         <!-- 右侧输入框的文本大小 -->
-        <attr name="cem_right_input_text_size" format="dimension|integer"/>
+        <attr name="cem_right_input_text_size" format="dimension|float"/>
         <!-- 右侧输入框的文本长度 -->
         <attr name="cem_right_input_text_length" format="integer"/>
         <!-- 右侧输入框的文本颜色 -->
