@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
@@ -679,7 +678,7 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
 //            Log.e("PowerRefreshLayout", "onNestedPreFling===== 2 -->mRefreshing: " + mRefreshing + " ====mLoading: " + mLoading + " ====getScrollY: " + getScrollY());
             mFlingScroll = true;
         }
-        Log.e("PowerRefreshLayout", "onNestedPreFling===== 3 -->velocityY: " + velocityY + " ====getScrollY: " + getScrollY() + " ===mFlingScroll: " + mFlingScroll);
+//        Log.e("PowerRefreshLayout", "onNestedPreFling===== 3 -->velocityY: " + velocityY + " ====getScrollY: " + getScrollY() + " ===mFlingScroll: " + mFlingScroll);
         return mFlingScroll;
     }
 
@@ -1040,4 +1039,21 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
     public void setLoadRatio(float loadRatio) {
         this.mLoadRatio = loadRatio;
     }
+
+    /**
+     * 是否正在刷新
+     * @return true --> 正在刷新
+     */
+    public boolean isRefreshing(){
+        return mRefreshing;
+    }
+
+    /**
+     * 是否正在加载
+     * @return true --> 正在加载
+     */
+    public boolean isLoading(){
+        return  mLoading;
+    }
+
 }

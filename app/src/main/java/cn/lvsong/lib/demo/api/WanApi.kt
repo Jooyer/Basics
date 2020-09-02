@@ -1,7 +1,7 @@
 package cn.lvsong.lib.demo.api
 
 import cn.lvsong.lib.demo.data.HomeData
-import cn.lvsong.lib.net.response.Response
+import cn.lvsong.lib.demo.data.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -14,7 +14,7 @@ import retrofit2.http.Path
 interface WanApi {
 
     @GET("article/list/{page}/json")
-    suspend fun getList(@Path("page") page: Int):Response<HomeData>
+    suspend fun getList(@Path("page") page: Int): Response<HomeData>
 
 
 }

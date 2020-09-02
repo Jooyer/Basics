@@ -1,5 +1,7 @@
 package cn.lvsong.lib.demo.viewmodel
 
+import android.app.Application
+import androidx.annotation.NonNull
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import cn.lvsong.lib.demo.data.Data
@@ -16,20 +18,37 @@ import kotlinx.coroutines.launch
  * Date: 2020-08-29
  * Time: 22:07
  */
-class NetModel : BaseViewModel() {
+class NetModel(@NonNull application: Application) : BaseViewModel(application) {
 
     val mListData = MutableLiveData<List<Data>>()
 
-    fun getData(){
-
+    fun getData(page:Int){
         launch({
             //更新加载状态
             mLoadState.value = LoadState.Loading()
             // 请求数据
-            val data = NetUtil.apiService.getList(1)
+            val data = NetUtil.apiService.getList(page)
             mListData.value = data.data?.datas
             //更新加载状态
-            mLoadState.value = LoadState.Success()
+            mLoadState.value = LoadState.Success(type = 1)
+        },{
+            //加载失败的状态
+            mLoadState.value = LoadState.Failure(it.message ?: "加载失败")
+        })
+    }
+
+
+    fun getDetail(){
+        launch({
+            //更新加载状态
+            mLoadState.value = LoadState.Loading()
+            // 请求数据
+            ////////////////////
+            ////////////////////  具体略,参考上面 getData
+            ////////////////////
+
+            //更新加载状态
+            mLoadState.value = LoadState.Success(type = 2)
         },{
             //加载失败的状态
             mLoadState.value = LoadState.Failure(it.message ?: "加载失败")

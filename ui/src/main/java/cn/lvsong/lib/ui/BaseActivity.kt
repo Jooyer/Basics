@@ -59,17 +59,17 @@ abstract class BaseActivity : AppCompatActivity(), OnRetryListener, OnLazyClickL
         /**
          * 当请求状态发生变化时,进行分发
          */
-        getCurrentViewModel()?.let { viewModelClass ->
-            ViewModelProvider(this).get(viewModelClass).mLoadState.observe(this, Observer {
-                when (it) {
+        getCurrentViewModel()?.let {
+            it.mLoadState.observe(this, Observer { loadState ->
+                when (loadState) {
                     is LoadState.Loading -> {
-                        onLoading(it.msg)
+                        onLoading(loadState.msg, loadState.type)
                     }
                     is LoadState.Failure -> {
-                        onFailure(it.msg)
+                        onFailure(loadState.msg, loadState.type)
                     }
                     else -> {
-                        onSuccess(it.msg)
+                        onSuccess(loadState.msg, loadState.type)
                     }
                 }
             })
@@ -103,7 +103,7 @@ abstract class BaseActivity : AppCompatActivity(), OnRetryListener, OnLazyClickL
      * 返回当前 Activity/Fragment 的 ViewModel
      * 需要根据请求不同状态显示UI效果时,则可以重写此方法
      */
-    open fun getCurrentViewModel(): Class<out BaseViewModel>? = null
+    open fun getCurrentViewModel(): BaseViewModel? = null
 
     /**
      * 初始化状态管理器
@@ -197,20 +197,29 @@ abstract class BaseActivity : AppCompatActivity(), OnRetryListener, OnLazyClickL
 
     /**
      * 加载中,按需重写
+     * @param msg --> 提示信息
+     * @param type --> 区别不同请求接口
      */
-    open fun onLoading(msg: String = "") {
+    open fun onLoading(msg: String = "", type: Int = 0) {
+
     }
 
     /**
      * 加载成功,按需重写
+     * @param msg --> 提示信息
+     * @param type --> 区别不同请求接口
      */
-    open fun onSuccess(msg: String = "") {
+    open fun onSuccess(msg: String = "", type: Int = 0) {
+
     }
 
     /**
      * 加载失败,按需重写
+     * @param msg --> 提示信息
+     * @param type --> 区别不同请求接口
      */
-    open fun onFailure(msg: String = "") {
+    open fun onFailure(msg: String = "", type: Int = 0) {
+
     }
 
     /**

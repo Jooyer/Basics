@@ -15,7 +15,7 @@ class LazyLoadActivity : AppCompatActivity() {
         val title = arrayListOf<String>("语文", "数学", "英语")
         val fragments = ArrayList<LazyFragment>()
         for (i in 0..2) {
-            fragments.add(LazyFragment())
+            fragments.add(LazyFragment.newInstance())
         }
 
 //        sl_viewpager.offscreenPageLimit = 3

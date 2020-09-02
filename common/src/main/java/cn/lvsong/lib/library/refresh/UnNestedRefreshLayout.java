@@ -985,4 +985,21 @@ public class UnNestedRefreshLayout extends ViewGroup {
     public void setLoadRatio(float loadRatio) {
         this.mLoadRatio = loadRatio;
     }
+
+
+    /**
+     * 是否正在刷新
+     * @return true --> 正在刷新
+     */
+    public boolean isRefreshing(){
+        return mRefreshing;
+    }
+
+    /**
+     * 是否正在加载
+     * @return true --> 正在加载
+     */
+    public boolean isLoading(){
+        return  mLoading;
+    }
 }

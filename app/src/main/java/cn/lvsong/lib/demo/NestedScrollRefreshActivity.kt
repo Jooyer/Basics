@@ -28,7 +28,7 @@ class NestedScrollRefreshActivity : AppCompatActivity() {
 
         val fragments = ArrayList<LazyFragment>()
         for (i in 0..2) {
-            fragments.add(LazyFragment())
+            fragments.add(LazyFragment.newInstance())
         }
         sl_viewpager.offscreenPageLimit = 3
         sl_viewpager.adapter = object : FragmentPagerAdapter(supportFragmentManager,BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import cn.lvsong.lib.library.utils.OnLazyClickListener
 import cn.lvsong.lib.library.state.OnRetryListener
@@ -23,18 +24,21 @@ import cn.lvsong.lib.library.state.StatusManager
  * Date: 2018-07-30
  * Time: 11:16
  */
-abstract class BaseFragment  : Fragment(),
+abstract class BaseFragment : Fragment(),
     OnLazyClickListener, OnRetryListener {
 
     open lateinit var mActivity: FragmentActivity
+
     /**
      * 判断是不是第一次resume
      */
     private var isFirstResume = true
+
     /**
      * 根布局
      */
     private var mRoot: View? = null
+
     /**
      * 请求网络异常等界面管理
      */
@@ -105,17 +109,17 @@ abstract class BaseFragment  : Fragment(),
             /**
              * 当请求状态发生变化时,进行分发
              */
-            getCurrentViewModel()?.let { viewModelClass ->
-                ViewModelProvider(this).get(viewModelClass).mLoadState.observe(this, Observer {
-                    when (it) {
+            getCurrentViewModel()?.let {
+                it.mLoadState.observe(viewLifecycleOwner, Observer { loadState ->
+                    when (loadState) {
                         is LoadState.Loading -> {
-                            onLoading(it.msg)
+                            onLoading(loadState.msg, loadState.type)
                         }
                         is LoadState.Failure -> {
-                            onFailure(it.msg)
+                            onFailure(loadState.msg, loadState.type)
                         }
                         else -> {
-                            onSuccess(it.msg)
+                            onSuccess(loadState.msg, loadState.type)
                         }
                     }
                 })
@@ -129,7 +133,7 @@ abstract class BaseFragment  : Fragment(),
         super.onActivityCreated(savedInstanceState)
         if (null != savedInstanceState) {
             // 可以做一些初始化工作
-            val ft = fragmentManager!!.beginTransaction()
+            val ft = parentFragmentManager.beginTransaction()
             if (isHidden) {
                 ft.hide(this)
             } else {
@@ -169,7 +173,7 @@ abstract class BaseFragment  : Fragment(),
     abstract fun getLayoutId(): Int
 
     // 在 Kotlin 中这个方法就没有必要重写了
-   open fun initializedViews(savedInstanceState: Bundle?, contentView: View) {
+    open fun initializedViews(savedInstanceState: Bundle?, contentView: View) {
 
     }
 
@@ -250,26 +254,32 @@ abstract class BaseFragment  : Fragment(),
      * 返回当前 Activity/Fragment 的 ViewModel
      * 需要根据请求不同状态显示UI效果时,则可以重写此方法
      */
-    open fun getCurrentViewModel(): Class<out BaseViewModel>? = null
+    open fun getCurrentViewModel(): BaseViewModel? = null
 
     /**
      * 加载中,按需重写
+     * @param msg --> 提示信息
+     * @param type --> 区别不同请求接口
      */
-    open fun onLoading(msg: String = "") {
+    open fun onLoading(msg: String = "", type: Int = 0) {
 
     }
 
     /**
      * 加载成功,按需重写
+     * @param msg --> 提示信息
+     * @param type --> 区别不同请求接口
      */
-    open fun onSuccess(msg: String = "") {
+    open fun onSuccess(msg: String = "", type: Int = 0) {
 
     }
 
     /**
      * 加载失败,按需重写
+     * @param msg --> 提示信息
+     * @param type --> 区别不同请求接口
      */
-    open fun onFailure(msg: String = "") {
+    open fun onFailure(msg: String = "", type: Int = 0) {
 
     }
 

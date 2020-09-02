@@ -21,6 +21,6 @@ object NetUtil {
         .build()
 
 
-    val apiService = retrofit.create(WanApi::class.java)
+    val apiService: WanApi = retrofit.create(WanApi::class.java)
 
 }

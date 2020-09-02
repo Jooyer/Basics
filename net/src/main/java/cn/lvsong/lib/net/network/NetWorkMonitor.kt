@@ -3,6 +3,11 @@ package cn.lvsong.lib.net.network
 /**
  * https://www.jianshu.com/p/1821eb89bdfd
  * 标记哪个方法需要监听网络变化
+ * eg:
+ *     @NetWorkMonitor([NetworkType.NETWORK_4G, NetworkType.NETWORK_WIFI, NetworkType.NETWORK_NONE])
+ *      fun onNetWorkStateChange(state: NetworkType) {
+ *      Log.e("NestedRefresh","onNetWorkStateChange============state: ${state.name}")
+ *      }
  */
 @Retention(AnnotationRetention.RUNTIME) //运行时注解
 @Target(AnnotationTarget.FUNCTION) //标记在方法上
