@@ -1,5 +1,7 @@
 # 在common库中,封装了大家常用的控件,有部分控件直接使用部分大佬的,网络请求使用wanandroid开放api,在此感谢诸位大佬!感谢开源!,感谢如果用得上记得点赞收藏
 
+![非嵌套滑动加载](https://github.com/Jooyer/Basics/blob/master/gif/1.gif)
+
 [![](https://jitpack.io/v/Jooyer/Basics.svg)](https://jitpack.io/#Jooyer/Basics)
 
 ## 依赖步骤:
