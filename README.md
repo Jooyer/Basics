@@ -225,7 +225,7 @@
 
 
 
-# Banner
+# Banner(RecyclerView实现)
 ## **用法:**
 
 具体参考: cn.lvsong.lib.demo.BannerActivity
