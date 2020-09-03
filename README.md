@@ -1,6 +1,17 @@
 # 在common库中,封装了大家常用的控件,有部分控件直接使用部分大佬的,网络请求使用wanandroid开放api,在此感谢诸位大佬!感谢开源!,感谢如果用得上记得点赞收藏
 
 ![非嵌套滑动加载](https://github.com/Jooyer/Basics/blob/master/gif/1.gif)
+![NestedScroll嵌套滑动刷新加载](https://github.com/Jooyer/Basics/blob/master/gif/2.gif)
+![懒加载](https://github.com/Jooyer/Basics/blob/master/gif/3.gif)
+![使用StatusManager](https://github.com/Jooyer/Basics/blob/master/gif/4.gif)
+![Banner](https://github.com/Jooyer/Basics/blob/master/gif/5.gif)
+![自定义ToolBar](https://github.com/Jooyer/Basics/blob/master/gif/6.gif)
+![自定义Menu](https://github.com/Jooyer/Basics/blob/master/gif/7.gif)
+![聊天气泡](https://github.com/Jooyer/Basics/blob/master/gif/8.gif)
+![自定义View集合1](https://github.com/Jooyer/Basics/blob/master/gif/9.gif)
+![自定义View集合2](https://github.com/Jooyer/Basics/blob/master/gif/10.gif)
+![自定义View集合3](https://github.com/Jooyer/Basics/blob/master/gif/11.gif)
+![自定义View集合4](https://github.com/Jooyer/Basics/blob/master/gif/12.gif)
 
 [![](https://jitpack.io/v/Jooyer/Basics.svg)](https://jitpack.io/#Jooyer/Basics)
 
