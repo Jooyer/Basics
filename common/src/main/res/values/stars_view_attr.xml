@@ -5,7 +5,7 @@
         <attr name="stv_default_color" format="color" />
         <!-- 星星的选中颜色,Color.RED -->
         <attr name="stv_checked_color" format="color" />
-        <!-- 星星的角个数,默认5个 -->
+        <!-- 星星的角个数,默认5个,至少3条边，如果小于3条，会强制3条 -->
         <attr name="stv_num" format="integer" />
         <!-- 边的线宽,默认1dp -->
         <attr name="stv_edge_line_width" format="float|dimension" />

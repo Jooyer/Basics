@@ -2,26 +2,26 @@
 <resources>
 
     <declare-styleable name="TopImgAndBottomTextView">
-        <!-- 未选中Drawable -->
-        <attr name="tibt_normal_drawable" format="reference" />
-        <!-- 选中Drawable -->
-        <attr name="tibt_checked_drawable" format="reference" />
         <!-- 是否被选中,默认false -->
-        <attr name="tibt_state_checked" format="boolean" />
+        <attr name="tibt_checked" format="boolean" />
+        <!-- 未选中Drawable -->
+        <attr name="tibt_icon_drawable" format="reference" />
+        <!-- 选中Drawable -->
+        <attr name="tibt_icon_drawable_checked" format="reference" />
         <!-- 图片宽度,默认30dp -->
-        <attr name="tibt_iv_width" format="integer|dimension" />
+        <attr name="tibt_icon_width" format="integer|dimension" />
         <!-- 图片高度,默认30dp -->
-        <attr name="tibt_iv_height" format="integer|dimension" />
+        <attr name="tibt_icon_height" format="integer|dimension" />
         <!-- 文本距离图片间隔,默认10dp -->
-        <attr name="tibt_tv_margin_top" format="integer|dimension" />
+        <attr name="tibt_spacing" format="integer|dimension" />
         <!-- 文本内容 -->
-        <attr name="tibt_tv_text" format="string|reference" />
+        <attr name="tibt_text_info" format="string|reference" />
         <!-- 文字颜色,默认#999999 -->
-        <attr name="tibt_tv_text_color" format="color" />
+        <attr name="tibt_text_color" format="color" />
         <!-- 选中时文字颜色,默认#333333 -->
-        <attr name="tibt_tv_text_checked_color" format="color" />
+        <attr name="tibt_text_color_checked" format="color" />
         <!-- 文字大小,默认14dp -->
-        <attr name="tibt_tv_text_size" format="float|dimension" />
+        <attr name="tibt_text_size" format="float|dimension" />
     </declare-styleable>
 
 </resources>

@@ -23,17 +23,20 @@ import cn.lvsong.lib.library.R
 
 /*
   用法
-    <cn.lvsong.lib.library.view.BadgeView
+       <cn.lvsong.lib.library.view.BadgeView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="@dimen/padding_5"
+        app:bv_background_color="@android:color/holo_red_light"
+        app:bv_lr_padding="@dimen/padding_8"
+        app:bv_more_style="plus"
         app:bv_number="111"
+        app:bv_stoke_width="2dp"
+        app:bv_tb_padding="@dimen/padding_5"
+        app:bv_text_medium="false"
         app:bv_text_size="@dimen/text_size_14"
-        app:bv_stoke_width="1.5dp"
-        app:bv_more_style="dot"
+        app:bv_stoke_color="@color/main_theme_color"
+        />
     />
 
  */

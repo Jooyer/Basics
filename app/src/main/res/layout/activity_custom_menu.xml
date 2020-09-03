@@ -161,9 +161,11 @@
             app:lirt_text_color_checked="@color/color_333333"
             app:lirt_back_color="@color/color_DDDDDD"
             app:lirt_back_color_checked="@color/color_8A8EA3"
+            app:lirt_icon_width="@dimen/width_20"
+            app:lirt_icon_height="@dimen/height_20"
             app:lirt_spacing="@dimen/padding_15"
             app:lirt_text_size="@dimen/text_size_14"
-            app:lirt_text="左边图片,右边文字,点击试试"
+            app:lirt_text_info="左边图片,右边文字,点击试试"
             app:lirt_checked="false"
             />
 
@@ -172,17 +174,19 @@
             android:layout_height="@dimen/height_50"
             android:layout_marginTop="@dimen/padding_10"
             app:lirt_icon_drawable="@drawable/ic_baseline_alarm_add_24"
-            app:lirt_style="iconRight"
-            app:lirt_text="文字在左,图片在右" />
+            app:lirt_icon_location="iconRight"
+            app:lirt_text_info="文字在左,图片在右" />
 
         <cn.lvsong.lib.library.view.LeftImgAndRightTextView
             android:layout_width="wrap_content"
             android:layout_height="@dimen/height_50"
             android:layout_marginTop="@dimen/padding_10"
-            app:lirt_icon_drawable="@drawable/ic_baseline_alarm_add_24"
+            app:lirt_icon_drawable="@drawable/ic_launcher_background"
             app:lirt_spacing="@dimen/padding_2"
-            app:lirt_style="iconUp"
-            app:lirt_text="图片在上,文字在下" />
+            app:lirt_icon_width="@dimen/width_25"
+            app:lirt_icon_height="@dimen/height_20"
+            app:lirt_icon_location="iconUp"
+            app:lirt_text_info="图片在上,文字在下" />
 
         <cn.lvsong.lib.library.view.LeftImgAndRightTextView
             android:layout_width="wrap_content"
@@ -190,8 +194,8 @@
             android:layout_marginTop="@dimen/padding_10"
             app:lirt_icon_drawable="@drawable/ic_baseline_alarm_add_24"
             app:lirt_spacing="@dimen/padding_5"
-            app:lirt_style="iconBottom"
-            app:lirt_text="文字在上,图片在下" />
+            app:lirt_icon_location="iconBottom"
+            app:lirt_text_info="文字在上,图片在下" />
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

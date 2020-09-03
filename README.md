@@ -191,7 +191,7 @@
 | ------------------- | ------------------ | ------------------------------------------------------- |
 | bv_tb_padding       | dimension\|integer | 上下间隔,默认3dp                                        |
 | bv_lr_padding       | dimension\|integer | 左右间隔,默认5dp                                        |
-| bv_stoke_width      | dimension\|integer | 轮廓宽度,默认1dp,                                       |
+| bv_stoke_width      | dimension\|float | 轮廓宽度,默认1dp,                                       |
 | bv_stoke_color      | color              | 裸辞颜色,默认白色                                       |
 | bv_text_size        | dimension\|integer | 文字大小,默认14dp                                       |
 | bv_text_color       | color              | 文字颜色,默认白色                                       |
@@ -899,20 +899,22 @@ PS: 一般右侧显示一个文本按钮(或者2个图标按钮,或者更多按�
 具体参考: cn.lvsong.lib.demo.CustomMenuActivity
 
 ```xml
-    <cn.lvsong.lib.library.view.LeftImgAndRightTextView
+            <cn.lvsong.lib.library.view.LeftImgAndRightTextView
             android:id="@+id/lirt_test"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/height_50"
             android:layout_marginTop="@dimen/padding_10"
             app:lirt_icon_drawable="@drawable/ic_baseline_alarm_add_24"
-        app:lirt_icon_drawable_checked="@drawable/ic_baseline_assignment_returned_24"
+            app:lirt_icon_drawable_checked="@drawable/ic_baseline_assignment_returned_24"
             app:lirt_text_color="@color/color_999999"
             app:lirt_text_color_checked="@color/color_333333"
             app:lirt_back_color="@color/color_DDDDDD"
             app:lirt_back_color_checked="@color/color_8A8EA3"
+            app:lirt_icon_width="@dimen/width_20"
+            app:lirt_icon_height="@dimen/height_20"
             app:lirt_spacing="@dimen/padding_15"
             app:lirt_text_size="@dimen/text_size_14"
-            app:lirt_text="左边图片,右边文字"
+            app:lirt_text_info="左边图片,右边文字,点击试试"
             app:lirt_checked="false"
             />
 ```
@@ -922,34 +924,38 @@ PS: 一般右侧显示一个文本按钮(或者2个图标按钮,或者更多按�
 | 属性名称               | 取值类型           | 取值和作用                                                |
 | ---------------------- | ------------------ | --------------------------------------------------------- |
 | lirt_checked           | boolean            | 是否被选中,默认false                                                |
-| lirt_back_color         | color              | 控件默认背景色                                            |
-| lirt_back_color_checked    | color              | 控件点击后背景色                                          |
+| lirt_back_color         | color              | 控件默认背景色,不设置则没有                              |
+| lirt_back_color_checked    | color              | 控件选中后背景色,不设置则没有                           |
 | lirt_text_color         | color              | 文本默认颜色                                              |
 | lirt_text_color_checked    | color              | 文本点击后颜色                                            |
 | lirt_icon_drawable      | reference          | 默认图标                                                  |
 | lirt_icon_drawable_checked | reference          | 点击后图片                                                |
-| lirt_text              | string             | 文本内容                                                  |
+| lirt_icon_width | integer\|dimension | 图片宽度,默认30dp |
+| lirt_icon_height | integer\|dimension | 图片高度,默认30dp |
+| lirt_text_info | string             | 文本内容                                                  |
 | lirt_text_size          | float\|dimension   | 文本大小                                                  |
-| lirt_spacing           | dimension\|integer | 文本和图片的间隔                                          |
-| lirt_style             | enum               | 设置图片所在方向,可取iconLeft,iconRight,iconUp,iconBottom |
+| lirt_spacing           | dimension\|integer | 文本和图片的间隔,默认8dp                                    |
+| lirt_icon_location | enum               | 设置图片所在方向,可取iconLeft(默认值),iconRight,iconUp,iconBottom |
 
 
 
 ## **公共方法:**
 
-| 方法名称                                         | 作用                              |
-| ------------------------------------------------ | --------------------------------- |
-| setIconPosition(int position)                    | 设置图片所在方向                  |
-| setBackColor(int backColor)                      | 设置控件背景色                    |
-| setBackColorPress(int backColorPress)            | 设置控件被按下时的背景色          |
-| setIconDrawable(Drawable iconDrawable)           | 设置icon的图片                    |
-| setIconDrawablePress(Drawable iconDrawablePress) | 设置被按下时的icon的图片          |
-| setTextColor(@ColorRes  int textColor)           | 设置文字的颜色                    |
-| setTextColorPress(@ColorRes int textColorPress)  | 设置被按下时文字的颜色            |
-| setText(CharSequence text)                       | 设置显示的文本内容                |
-| getText()                                        | 获取显示的文本                    |
-| setTextSize(float size)                          | 设置文本字体大小                  |
-| setSpacing(int spacing)                          | 设置两个控件之间的间距,单位==dp== |
+| 方法名称                                            | 作用                              |
+| --------------------------------------------------- | --------------------------------- |
+| setIconPosition(int position)                       | 设置图片所在方向                  |
+| setBackColor(int backColor)                         | 设置控件背景色                    |
+| setBackColorChecked(int backColorChecked)           | 设置控件被按下时的背景色          |
+| setIconDrawable(Drawable iconDrawable)              | 设置icon的图片                    |
+| setIconDrawablePress(Drawable iconDrawableChecked)  | 设置被按下时的icon的图片          |
+| setTextColor(@ColorRes  int textColor)              | 设置文字的颜色                    |
+| setTextColorChecked(@ColorRes int textColorChecked) | 设置被按下时文字的颜色            |
+| setText(CharSequence text)                          | 设置显示的文本内容                |
+| setTextSize(float size)                             | 设置文本字体大小                  |
+| setSpacing(int spacing)                             | 设置两个控件之间的间距,单位==dp== |
+| setChecked(checked: Boolean)                        | 设置是否选中                      |
+| isChecked()                                         | 是否选中                          |
+| toggle()                                            | 切换当前check状态                 |
 
 
 
@@ -1357,17 +1363,23 @@ PS: ==一张图也需要设置适配器==
 
 ## **属性介绍:**
 
-| 属性名称       | 取值类型         | 取值和作用                                        |
-| -------------- | ---------------- | ------------------------------------------------- |
-| psv_color      | color            | 颜色,必须设置                                     |
-| psv_num        | integer          | 多边形多少条边，至少3条边，如果小于3条，会强制3条 |
-| psv_line_width | float\|dimension | 边的线宽,默认1.5dp                                |
+| 属性名称       | 取值类型         | 取值和作用                                                   |
+| -------------- | ---------------- | ------------------------------------------------------------ |
+| psv_color      | color            | 颜色,必须设置                                                |
+| psv_num        | integer          | 多边形多少条边，至少4条边，如果小于4条，会强制4条,如果图形没有摆正,可以设置android:rotation="xx" |
+| psv_line_width | float\|dimension | 边的线宽,默认1.5dp                                           |
 
 
 
 ## **公共方法:**
 
-暂无
+| 方法名称                    | 作用              |
+| --------------------------- | ----------------- |
+| setChecked(boolean checked) | 设置是否选中      |
+| isChecked()                 | 是否选中          |
+| toggle()                    | 切换当前check状态 |
+
+
 
 
 # RoundImageView
@@ -1526,22 +1538,28 @@ PS: ==一张图也需要设置适配器==
 
 ## **属性介绍:**
 
-| 属性名称            | 取值类型         | 取值和作用                                |
-| ------------------- | ---------------- | ----------------------------------------- |
-| stv_default_color   | color            | 星星的默认颜色,默认Color.GREEN            |
-| stv_checked_color   | color            | 星星的选中颜色,Color.RED                  |
-| stv_num             | integer          | 星星的角个数,默认5个                      |
-| stv_edge_line_width | float\|dimension | 边的线宽,默认1dp                          |
-| stv_style           | enum             | 填充风格,fill(填满),stroke(描边),默认描边 |
+| 属性名称            | 取值类型         | 取值和作用                                             |
+| ------------------- | ---------------- | ------------------------------------------------------ |
+| stv_default_color   | color            | 星星的默认颜色,默认Color.GREEN                         |
+| stv_checked_color   | color            | 星星的选中颜色,Color.RED                               |
+| stv_num             | integer          | 星星的角个数,默认5个,至少3条边，如果小于3条，会强制3条 |
+| stv_edge_line_width | float\|dimension | 边的线宽,默认1dp                                       |
+| stv_style           | enum             | 填充风格,fill(填满),stroke(描边),默认描边              |
 
 
 
 ## **公共方法:**
 
+| 方法名称                    | 作用              |
+| --------------------------- | ----------------- |
+| setChecked(boolean checked) | 设置是否选中      |
+| isChecked()                 | 是否选中          |
+| toggle()                    | 切换当前check状态 |
 
 
 
 # StatusManager
+
 ## **用法:**
 
 具体参考: cn.lvsong.lib.demo.StatusActivity
@@ -1612,19 +1630,19 @@ setContentView(setContentView)
 具体参考: cn.lvsong.lib.demo.CustomActivity3
 
 ```xml
-    <cn.lvsong.lib.library.view.TopImgAndBottomTextView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_80"
-        android:layout_marginTop="@dimen/padding_10"
-        app:tibt_checked_drawable="@drawable/ic_baseline_assignment_returned_24"
-        app:tibt_iv_checked="false"
-        app:tibt_iv_height="@dimen/height_20"
-        app:tibt_iv_width="@dimen/width_20"
-        app:tibt_normal_drawable="@drawable/ic_baseline_alarm_add_24"
-        app:tibt_tv_margin_top="@dimen/padding_2"
-        app:tibt_tv_text="TopImgAndBottomTextView实现上面图片,下面文字"
-        app:tibt_tv_text_color="@color/color_333333"
-        app:tibt_tv_text_size="@dimen/text_size_12" />
+          <cn.lvsong.lib.library.view.TopImgAndBottomTextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_80"
+            android:layout_marginTop="@dimen/padding_10"
+            app:tibt_icon_drawable_checked="@drawable/ic_baseline_assignment_returned_24"
+            app:tibt_icon_height="@dimen/height_20"
+            app:tibt_icon_width="@dimen/width_20"
+            app:tibt_icon_drawable="@drawable/ic_baseline_alarm_add_24"
+            app:tibt_checked="false"
+            app:tibt_spacing="@dimen/padding_2"
+            app:tibt_text_info="TopImgAndBottomTextView实现上面图片,下面文字"
+            app:tibt_text_color="@color/color_333333"
+            app:tibt_text_size="@dimen/text_size_12" />
 ```
 
 
@@ -1633,16 +1651,16 @@ setContentView(setContentView)
 
 | 属性名称                   | 取值类型           | 取值和作用                 |
 | -------------------------- | ------------------ | -------------------------- |
-| tibt_normal_drawable       | reference          | 未选中Drawable             |
-| tibt_checked_drawable      | reference          | 选中Drawable               |
-| tibt_iv_width              | integer\|dimension | 图片宽度,默认30dp          |
-| tibt_iv_height             | integer\|dimension | 图片高度,默认30dp          |
 | tibt_state_checked         | boolean            | 是否被选中,默认false       |
-| tibt_tv_margin_top         | integer\|dimension | 文本距离图片间隔,默认10dp  |
-| tibt_tv_text               | string\|reference  | 文本内容                   |
-| tibt_tv_text_color         | color              | 文字颜色,默认#999999       |
-| tibt_tv_text_checked_color | color              | 选中时文字颜色,默认#333333 |
-| tibt_tv_text_size          | float\|dimension   | 文字大小,默认14dp          |
+| tibt_icon_drawable         | reference          | 未选中Drawable             |
+| tibt_icon_drawable_checked | reference          | 选中Drawable               |
+| tibt_icon_width            | integer\|dimension | 图片宽度,默认30dp          |
+| tibt_icon_height           | integer\|dimension | 图片高度,默认30dp          |
+| tibt_spacing               | integer\|dimension | 文本距离图片间隔,默认10dp  |
+| tibt_text_info             | string\|reference  | 文本内容                   |
+| tibt_text_color            | color              | 文字颜色,默认#999999       |
+| tibt_text_color_checked    | color              | 选中时文字颜色,默认#333333 |
+| tibt_text_size             | float\|dimension   | 文字大小,默认14dp          |
 
 
 
@@ -1657,6 +1675,9 @@ setContentView(setContentView)
 | setTextSize(textSize:Float)                   | 设置字体大小,默认14dp    |
 | setNormalImage(drawable: Drawable)            | 设置图标                 |
 | setCheckedImage(drawable: Drawable)           | 设置选中的图标           |
+| setChecked(checked: Boolean)                  | 设置是否选中             |
+| isChecked()                                   | 是否选中                 |
+| toggle()                                      | 切换当前check状态        |
 
 
 

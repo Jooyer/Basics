@@ -3,7 +3,7 @@
     <declare-styleable name="PolygonSettingView">
         <!-- 颜色,必须设置 -->
         <attr name="psv_color" format="color" />
-        <!-- 多边形多少条边，至少3条边，如果小于3条，会强制3条 -->
+        <!-- 多边形多少条边，至少4条边，如果小于4条，会强制4条,如果图形没有摆正,可以设置android:rotation="xx" -->
         <attr name="psv_num" format="integer" />
         <!-- 边的线宽,默认1.5dp -->
         <attr name="psv_line_width" format="float|dimension" />

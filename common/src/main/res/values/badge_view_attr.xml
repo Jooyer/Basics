@@ -7,7 +7,7 @@
         <!-- 左右间隔 -->
         <attr name="bv_lr_padding" format="dimension|integer" />
         <!-- 轮廓宽度 -->
-        <attr name="bv_stoke_width" format="dimension|integer" />
+        <attr name="bv_stoke_width" format="dimension|float" />
         <!-- 轮廓颜色 -->
         <attr name="bv_stoke_color" format="color" />
         <!-- 文字大小 -->

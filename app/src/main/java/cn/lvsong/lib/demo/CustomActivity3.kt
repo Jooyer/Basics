@@ -2,9 +2,11 @@ package cn.lvsong.lib.demo
 
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
 import cn.lvsong.lib.demo.util.ImageLoad
 import cn.lvsong.lib.library.adapter.NineImageAdapter
@@ -126,6 +128,12 @@ class CustomActivity3 : BaseActivity() {
     override fun bindEvent() {
         sv_star.setOnClickListener {
             sv_star.toggle()
+            Toast.makeText(this@CustomActivity3, "点击了星星图标", Toast.LENGTH_SHORT).show()
+        }
+
+        psv_test.setOnClickListener {
+            psv_test.toggle()
+            Toast.makeText(this@CustomActivity3, "点击了设置图标", Toast.LENGTH_SHORT).show()
         }
 
     }

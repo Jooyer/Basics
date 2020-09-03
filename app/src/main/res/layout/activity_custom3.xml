@@ -19,16 +19,42 @@
             app:ct_center_text_info="自定义View3"
             app:ct_center_text_size="@dimen/text_size_16" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-        <cn.lvsong.lib.library.view.PolygonSettingView
-            android:id="@+id/psv_test"
-            android:layout_width="@dimen/width_30"
-            android:layout_height="@dimen/height_30"
-            android:layout_marginStart="@dimen/padding_20"
-            android:layout_marginTop="@dimen/padding_20"
-            app:psv_color="@color/color_666666"
-            app:psv_line_width="@dimen/padding_2"
-            app:psv_num="6" />
+            <cn.lvsong.lib.library.view.PolygonSettingView
+                android:id="@+id/psv_test"
+                android:layout_width="@dimen/width_30"
+                android:layout_height="@dimen/height_30"
+                android:layout_marginStart="@dimen/padding_20"
+                android:layout_marginTop="@dimen/padding_20"
+                app:psv_color="@color/color_666666"
+                app:psv_line_width="@dimen/padding_2"
+                app:psv_num="6" />
+
+            <cn.lvsong.lib.library.view.PolygonSettingView
+                android:layout_width="@dimen/width_30"
+                android:layout_height="@dimen/height_30"
+                android:layout_marginStart="@dimen/padding_20"
+                android:layout_marginTop="@dimen/padding_20"
+                android:rotation="-18"
+                app:psv_color="@color/color_2878FF"
+                app:psv_line_width="@dimen/padding_2"
+                app:psv_num="5" />
+
+            <cn.lvsong.lib.library.view.PolygonSettingView
+                android:layout_width="@dimen/width_30"
+                android:layout_height="@dimen/height_30"
+                android:layout_marginStart="@dimen/padding_20"
+                android:layout_marginTop="@dimen/padding_20"
+                android:rotation="45"
+                app:psv_color="@android:color/holo_red_light"
+                app:psv_line_width="@dimen/padding_2"
+                app:psv_num="4" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -56,9 +82,8 @@
                 android:layout_marginTop="@dimen/padding_20"
                 android:src="@drawable/ic_launcher_background"
                 app:riv_border_color="@android:color/holo_blue_bright"
-                app:riv_mask_type="CIRCLE"
                 app:riv_border_width="@dimen/padding_5"
-                />
+                app:riv_mask_type="CIRCLE" />
 
 
             <cn.lvsong.lib.library.view.RoundImageView
@@ -67,12 +92,11 @@
                 android:layout_height="@dimen/height_70"
                 android:layout_marginStart="@dimen/padding_14"
                 android:layout_marginTop="@dimen/padding_20"
-                android:src="@drawable/ic_launcher_background"
                 android:scaleType="centerCrop"
-                app:riv_mask_type="ROUNDRECTANGLETOP"
+                android:src="@drawable/ic_launcher_background"
                 app:riv_border_width="@dimen/padding_5"
-                app:riv_round_radius="@dimen/padding_5"
-                />
+                app:riv_mask_type="ROUNDRECTANGLETOP"
+                app:riv_round_radius="@dimen/padding_5" />
 
         </LinearLayout>
 
@@ -97,12 +121,12 @@
                 android:layout_marginStart="@dimen/padding_5"
                 android:layout_marginEnd="@dimen/padding_5"
                 app:cm_left_image_visible="false"
-                app:cm_left_text_color="@color/color_333333"
-                app:cm_left_text_info="客服电话"
+                app:cm_left_text_color="@android:color/holo_red_light"
+                app:cm_left_text_info="ShadowLayout阴影效果"
                 app:cm_left_text_size="@dimen/text_size_16"
                 app:cm_right_arrow_visible="false"
                 app:cm_right_text_color="@color/color_666666"
-                app:cm_right_text_info="12345467890"
+                app:cm_right_text_info="ShadowLayout"
                 app:cm_right_text_visible="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -111,31 +135,75 @@
 
         </cn.lvsong.lib.library.view.ShadowLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-        <cn.lvsong.lib.library.view.StarsView
-            android:id="@+id/sv_star"
-            android:layout_width="@dimen/width_30"
-            android:layout_height="@dimen/height_30"
-            android:layout_margin="@dimen/padding_20"
-            app:stv_checked_color="@color/main_theme_color"
-            app:stv_default_color="@color/color_2878FF"
-            app:stv_edge_line_width="@dimen/padding_2"
-            app:stv_num="5"
-            app:stv_style="stroke" />
+            <cn.lvsong.lib.library.view.StarsView
+                android:id="@+id/sv_star"
+                android:layout_width="@dimen/width_30"
+                android:layout_height="@dimen/height_30"
+                android:layout_margin="@dimen/padding_20"
+                app:stv_checked_color="@color/main_theme_color"
+                app:stv_default_color="@color/color_2878FF"
+                app:stv_edge_line_width="@dimen/padding_2"
+                app:stv_num="6"
+                app:stv_style="stroke" />
+
+            <cn.lvsong.lib.library.view.StarsView
+                android:layout_width="@dimen/width_30"
+                android:layout_height="@dimen/height_30"
+                android:layout_margin="@dimen/padding_20"
+                app:stv_checked_color="@color/main_theme_color"
+                app:stv_default_color="@android:color/holo_red_light"
+                app:stv_edge_line_width="@dimen/padding_2"
+                app:stv_num="5"
+                app:stv_style="stroke" />
+
+            <cn.lvsong.lib.library.view.StarsView
+                android:layout_width="@dimen/width_30"
+                android:layout_height="@dimen/height_30"
+                android:layout_margin="@dimen/padding_20"
+                app:stv_checked_color="@color/main_theme_color"
+                app:stv_default_color="@color/color_333333"
+                app:stv_edge_line_width="@dimen/padding_2"
+                app:stv_num="4"
+                app:stv_style="stroke" />
+
+            <cn.lvsong.lib.library.view.StarsView
+                android:layout_width="@dimen/width_30"
+                android:layout_height="@dimen/height_30"
+                android:layout_margin="@dimen/padding_20"
+                app:stv_checked_color="@color/main_theme_color"
+                app:stv_default_color="@color/main_theme_color"
+                app:stv_edge_line_width="@dimen/padding_2"
+                app:stv_num="3"
+                app:stv_style="stroke" />
+
+        </LinearLayout>
 
         <cn.lvsong.lib.library.view.TopImgAndBottomTextView
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_80"
             android:layout_marginTop="@dimen/padding_10"
-            app:tibt_checked_drawable="@drawable/ic_baseline_assignment_returned_24"
-            app:tibt_iv_height="@dimen/height_20"
-            app:tibt_iv_width="@dimen/width_20"
-            app:tibt_normal_drawable="@drawable/ic_baseline_alarm_add_24"
-            app:tibt_state_checked="false"
-            app:tibt_tv_margin_top="@dimen/padding_2"
-            app:tibt_tv_text="TopImgAndBottomTextView实现上面图片,下面文字"
-            app:tibt_tv_text_color="@color/color_333333"
-            app:tibt_tv_text_size="@dimen/text_size_12" />
+            app:tibt_checked="false"
+            app:tibt_icon_drawable="@drawable/ic_baseline_alarm_add_24"
+            app:tibt_icon_drawable_checked="@drawable/ic_baseline_assignment_returned_24"
+            app:tibt_icon_height="@dimen/height_20"
+            app:tibt_icon_width="@dimen/width_20"
+            app:tibt_spacing="@dimen/padding_2"
+            app:tibt_text_color="@color/color_333333"
+            app:tibt_text_info="TopImgAndBottomTextView实现上面图片,下面文字"
+            app:tibt_text_size="@dimen/text_size_12" />
+
+
+        <cn.lvsong.lib.library.view.MediumTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_10"
+            android:text="下面演示了仿朋友圈图片展示效果"
+            />
 
         <!-- 2张图/4张图效果 -->
         <cn.lvsong.lib.library.view.NineImageLayout

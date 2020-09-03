@@ -119,7 +119,7 @@ public class PolygonSettingView extends View implements Checkable {
     private void initAttr(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         //默认边数和最小边数
         int defaultNum = 6;
-        int minNum = 3;
+        int minNum = 4;
         int defaultColor = Color.argb(255, 0, 0, 0);
         int defaultLineWidth = dip2px(context, 1.5f);
         if (attrs != null) {
@@ -201,6 +201,13 @@ public class PolygonSettingView extends View implements Checkable {
         setMeasuredDimension(handleMeasure(widthMeasureSpec), handleMeasure(heightMeasureSpec));
     }
 
+
+    private int dip2px(Context context, float dipValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dipValue * scale + 0.5f);
+    }
+
+
     /**
      * 实现自定义点击的方式一: 重写 onTouchEvent()
      * 实现自定义点击的方式二: 实现checkable
@@ -239,23 +246,28 @@ public class PolygonSettingView extends View implements Checkable {
         return result;
     }
 
-    public static int dip2px(Context context, float dipValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dipValue * scale + 0.5f);
-    }
-
+    /**
+     * 设置是否选中
+     */
     @Override
     public void setChecked(boolean checked) {
         isChecked = checked;
     }
 
+    /**
+     * 是否选中
+     */
     @Override
     public boolean isChecked() {
         return isChecked;
     }
 
+    /**
+     * 切换当前check状态
+     */
     @Override
     public void toggle() {
         setChecked(!isChecked);
     }
+
 }

@@ -97,7 +97,7 @@
         android:layout_marginStart="@dimen/padding_10"
         android:layout_marginTop="@dimen/padding_20"
         android:layout_marginEnd="@dimen/padding_10"
-        android:text="如果布局给了重试控件,则ID必须为:  view_retry_load_data"
+        android:text="如果布局给了重试控件,则ID必须为:  view_retry_load_data,\n空视图.网络错误视图,错误视图都需自定义"
         android:textColor="@color/color_FFFFFF"
         android:textSize="20sp"
         android:gravity="center_vertical"

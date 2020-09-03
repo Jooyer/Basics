@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
+import android.widget.Checkable
 import android.widget.LinearLayout
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
@@ -29,23 +30,24 @@ import kotlinx.android.synthetic.main.common_ui_top_img_bottom_text_view.view.*
 
 /* 用法:
 
-    <cn.lvsong.lib.library.view.TopImgAndBottomTextView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_80"
-        android:layout_marginTop="@dimen/padding_10"
-        app:tibt_checked_drawable="@drawable/ic_baseline_assignment_returned_24"
-        app:tibt_state_checked="false"
-        app:tibt_iv_height="@dimen/height_20"
-        app:tibt_iv_width="@dimen/width_20"
-        app:tibt_normal_drawable="@drawable/ic_baseline_alarm_add_24"
-        app:tibt_tv_margin_top="@dimen/padding_2"
-        app:tibt_tv_text="TopImgAndBottomTextView实现上面图片,下面文字"
-        app:tibt_tv_text_color="@color/color_333333"
-        app:tibt_tv_text_size="@dimen/text_size_12" />
+            <cn.lvsong.lib.library.view.TopImgAndBottomTextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_80"
+            android:layout_marginTop="@dimen/padding_10"
+            app:tibt_icon_drawable_checked="@drawable/ic_baseline_assignment_returned_24"
+            app:tibt_icon_height="@dimen/height_20"
+            app:tibt_icon_width="@dimen/width_20"
+            app:tibt_icon_drawable="@drawable/ic_baseline_alarm_add_24"
+            app:tibt_checked="false"
+            app:tibt_spacing="@dimen/padding_2"
+            app:tibt_text_info="TopImgAndBottomTextView实现上面图片,下面文字"
+            app:tibt_text_color="@color/color_333333"
+            app:tibt_text_size="@dimen/text_size_12" />
 
  */
 
-class TopImgAndBottomTextView(context: Context, attr: AttributeSet) : LinearLayout(context, attr) {
+class TopImgAndBottomTextView(context: Context, attr: AttributeSet) : LinearLayout(context, attr),
+    Checkable {
 
     private var mNormalDrawable: Drawable? = null
     private var mCheckedDrawable: Drawable? = null
@@ -66,35 +68,35 @@ class TopImgAndBottomTextView(context: Context, attr: AttributeSet) : LinearLayo
             .inflate(R.layout.common_ui_top_img_bottom_text_view, this, true)
 
         val arr = context.obtainStyledAttributes(attr, R.styleable.TopImgAndBottomTextView)
-        mNormalDrawable = arr.getDrawable(R.styleable.TopImgAndBottomTextView_tibt_normal_drawable)
+        mNormalDrawable = arr.getDrawable(R.styleable.TopImgAndBottomTextView_tibt_icon_drawable)
         mCheckedDrawable =
-            arr.getDrawable(R.styleable.TopImgAndBottomTextView_tibt_checked_drawable)
-        mChecked = arr.getBoolean(R.styleable.TopImgAndBottomTextView_tibt_state_checked, mChecked)
+            arr.getDrawable(R.styleable.TopImgAndBottomTextView_tibt_icon_drawable_checked)
+        mChecked = arr.getBoolean(R.styleable.TopImgAndBottomTextView_tibt_checked, mChecked)
         mImgWidth = arr.getDimensionPixelOffset(
-            R.styleable.TopImgAndBottomTextView_tibt_iv_width,
+            R.styleable.TopImgAndBottomTextView_tibt_icon_width,
             mImgWidth
         )
         mImgHeight = arr.getDimensionPixelOffset(
-            R.styleable.TopImgAndBottomTextView_tibt_iv_height,
+            R.styleable.TopImgAndBottomTextView_tibt_icon_height,
             mImgHeight
         )
-        val marginTop = arr.getDimensionPixelSize(
-            R.styleable.TopImgAndBottomTextView_tibt_tv_margin_top,
+        val spacing = arr.getDimensionPixelSize(
+            R.styleable.TopImgAndBottomTextView_tibt_spacing,
             DensityUtil.dp2pxRtInt(10F)
         )
-        val text = arr.getString(R.styleable.TopImgAndBottomTextView_tibt_tv_text)
+        val text = arr.getString(R.styleable.TopImgAndBottomTextView_tibt_text_info)
 
         mTextColor = arr.getColor(
-            R.styleable.TopImgAndBottomTextView_tibt_tv_text_color,
+            R.styleable.TopImgAndBottomTextView_tibt_text_color,
             ContextCompat.getColor(context, R.color.color_999999)
         )
 
         mTextCheckedColor = arr.getColor(
-            R.styleable.TopImgAndBottomTextView_tibt_tv_text_checked_color,
+            R.styleable.TopImgAndBottomTextView_tibt_text_color_checked,
             ContextCompat.getColor(context, R.color.color_333333)
         )
         val textSize = arr.getDimensionPixelSize(
-            R.styleable.TopImgAndBottomTextView_tibt_tv_text_size,
+            R.styleable.TopImgAndBottomTextView_tibt_text_size,
             DensityUtil.sp2pxRtFloat(14F).toInt()
         ).toFloat()
 
@@ -104,21 +106,14 @@ class TopImgAndBottomTextView(context: Context, attr: AttributeSet) : LinearLayo
         aiv_icon_top_image.setImageDrawable(if (mChecked) mCheckedDrawable else mNormalDrawable)
 
         val tvLp = tv_text_bottom_text.layoutParams as LinearLayout.LayoutParams
-        tvLp.topMargin = marginTop
+        tvLp.topMargin = spacing
         tv_text_bottom_text.setTextColor(if (mChecked) mTextCheckedColor else mTextColor)
         tv_text_bottom_text.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize)
         tv_text_bottom_text.text = text
         arr.recycle()
     }
 
-    /**
-     * 设置是否被选中,默认false
-     */
-    fun setChecked(isChecked: Boolean) {
-        mChecked = isChecked
-        aiv_icon_top_image.setImageDrawable(if (mChecked) mCheckedDrawable else mNormalDrawable)
-        tv_text_bottom_text.setTextColor(if (mChecked) mTextCheckedColor else mTextColor)
-    }
+
 
     /**
      * 设置文本内容
@@ -164,6 +159,27 @@ class TopImgAndBottomTextView(context: Context, attr: AttributeSet) : LinearLayo
     fun setCheckedImage(drawable: Drawable) {
         mCheckedDrawable = drawable
         aiv_icon_top_image.setImageDrawable(drawable)
+    }
+    /**
+     * 是否选中
+     */
+    override fun isChecked(): Boolean {
+       return mChecked
+    }
+    /**
+     * 切换当前check状态
+     */
+    override fun toggle() {
+        setChecked(!mChecked)
+    }
+
+    /**
+     * 设置是否选中
+     */
+    override fun setChecked(checked: Boolean) {
+        mChecked = checked
+        aiv_icon_top_image.setImageDrawable(if (mChecked) mCheckedDrawable else mNormalDrawable)
+        tv_text_bottom_text.setTextColor(if (mChecked) mTextCheckedColor else mTextColor)
     }
 
 }
