@@ -833,18 +833,14 @@ public class UnNestedRefreshLayout extends ViewGroup {
 
 
     /**
-     * 是否可以刷新
-     *
-     * @param refreshable --> 默认是true
+     * 设置是否可以刷新,默认true
      */
     public void setRefreshable(boolean refreshable) {
         this.mRefreshable = refreshable;
     }
 
     /**
-     * 是否可以加载
-     *
-     * @param loadable --> 默认是true
+     * 设置是否可以加载,默认true
      */
     public void setLoadable(boolean loadable) {
         this.mLoadable = loadable;

@@ -165,9 +165,9 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
                     height += mTargetView.getChildAt(i).getHeight();
                 }
                 if (height < mTargetView.getHeight()) { // 列表实际高度小于控件高度
-                    if (2 == mShowStyleFirstTime) { // 模式二显示更多
+                    if (2 == mShowStyleFirstTime) { // 模式二显示没有更多
                         setNoMoreData(true);
-                    } else { // 模式一没有加载更多
+                    } else { // 模式一不显示加载更多
                         setLoadable(false);
                     }
                 } else {
@@ -906,7 +906,7 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
     }
 
     /**
-     * 设置社否可以加载,默认true
+     * 设置是否可以加载,默认true
      */
     public void setLoadable(boolean loadable) {
         this.mLoadable = loadable;
