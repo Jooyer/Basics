@@ -14,12 +14,11 @@
         <cn.lvsong.lib.library.view.CustomToolbar
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_50"
+            app:ct_bottom_divider_color="@color/color_EEEEEE"
             app:ct_bottom_divider_visible="true"
             app:ct_center_text_color="@color/color_333333"
             app:ct_center_text_info="CustomMenu"
-            app:ct_center_text_size="@dimen/text_size_16"
-            app:ct_bottom_divider_color="@color/color_EEEEEE"
-            />
+            app:ct_center_text_size="@dimen/text_size_16" />
 
         <cn.lvsong.lib.library.view.CustomMenu
             android:layout_width="match_parent"
@@ -129,8 +128,10 @@
             android:layout_marginTop="@dimen/padding_10"
             app:csv_input_container_drawable="@drawable/ic_gray_solid_rectangle_r5"
             app:csv_input_container_margin_right="@dimen/padding_10"
+            app:csv_input_cursor_visible="true"
             app:csv_input_hint_text="请输入搜索内容"
             app:csv_search_btn_bg_color="@color/color_2878FF"
+            app:csv_search_btn_text_bold="true"
             app:csv_search_btn_text_color="@color/color_FFFFFF"
             app:csv_search_btn_width="@dimen/width_40" />
 
@@ -155,19 +156,18 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/height_50"
             android:layout_marginTop="@dimen/padding_10"
-            app:lirt_icon_drawable="@drawable/ic_baseline_alarm_add_24"
-            app:lirt_icon_drawable_checked="@drawable/ic_baseline_assignment_returned_24"
-            app:lirt_text_color="@color/color_999999"
-            app:lirt_text_color_checked="@color/color_333333"
             app:lirt_back_color="@color/color_DDDDDD"
             app:lirt_back_color_checked="@color/color_8A8EA3"
-            app:lirt_icon_width="@dimen/width_20"
-            app:lirt_icon_height="@dimen/height_20"
-            app:lirt_spacing="@dimen/padding_15"
-            app:lirt_text_size="@dimen/text_size_14"
-            app:lirt_text_info="左边图片,右边文字,点击试试"
             app:lirt_checked="false"
-            />
+            app:lirt_icon_drawable="@drawable/ic_baseline_alarm_add_24"
+            app:lirt_icon_drawable_checked="@drawable/ic_baseline_assignment_returned_24"
+            app:lirt_icon_height="@dimen/height_20"
+            app:lirt_icon_width="@dimen/width_20"
+            app:lirt_spacing="@dimen/padding_15"
+            app:lirt_text_color="@color/color_999999"
+            app:lirt_text_color_checked="@color/color_333333"
+            app:lirt_text_info="左边图片,右边文字,点击试试"
+            app:lirt_text_size="@dimen/text_size_14" />
 
         <cn.lvsong.lib.library.view.LeftImgAndRightTextView
             android:layout_width="wrap_content"
@@ -182,10 +182,10 @@
             android:layout_height="@dimen/height_50"
             android:layout_marginTop="@dimen/padding_10"
             app:lirt_icon_drawable="@drawable/ic_launcher_background"
-            app:lirt_spacing="@dimen/padding_2"
-            app:lirt_icon_width="@dimen/width_25"
             app:lirt_icon_height="@dimen/height_20"
             app:lirt_icon_location="iconUp"
+            app:lirt_icon_width="@dimen/width_25"
+            app:lirt_spacing="@dimen/padding_2"
             app:lirt_text_info="图片在上,文字在下" />
 
         <cn.lvsong.lib.library.view.LeftImgAndRightTextView
@@ -193,8 +193,8 @@
             android:layout_height="@dimen/height_50"
             android:layout_marginTop="@dimen/padding_10"
             app:lirt_icon_drawable="@drawable/ic_baseline_alarm_add_24"
-            app:lirt_spacing="@dimen/padding_5"
             app:lirt_icon_location="iconBottom"
+            app:lirt_spacing="@dimen/padding_5"
             app:lirt_text_info="文字在上,图片在下" />
 
     </LinearLayout>

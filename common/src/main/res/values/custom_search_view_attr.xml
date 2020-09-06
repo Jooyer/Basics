@@ -27,14 +27,14 @@
         <attr name="csv_clear_icon_color" format="color|reference" />
 
 
-        <!-- 中间搜索容器高度,最小高度 30dp -->
+        <!-- 中间搜索容器高度,最小高度 30dp,默认36dp -->
         <attr name="csv_input_container_height" format="dimension|reference" />
         <!-- 中间搜索容器leftMargin -->
         <attr name="csv_input_container_margin_left" format="dimension|reference" />
         <!-- 中间搜索容器rightMargin -->
         <attr name="csv_input_container_margin_right" format="dimension|reference" />
         <!-- 中间搜索容器背景drawable -->
-        <attr name="csv_input_container_drawable" format="reference"/>
+        <attr name="csv_input_container_drawable" format="reference" />
 
 
         <!--中间搜索输入框leftPadding-->
@@ -51,6 +51,11 @@
         <attr name="csv_input_hint_color" format="color|reference" />
         <!-- 中间搜索输入框最大输入文本长度,默认不限制-->
         <attr name="csv_input_max_length" format="integer" />
+        <!-- 中间搜索输入框光标是否显示,默认显示 -->
+        <attr name="csv_input_cursor_visible" format="boolean" />
+        <!-- 中间搜索输入框光标自定义drawable,不需要可以不设置,也可以设置一个自定义的drawable -->
+        <!-- 参考: https://www.jianshu.com/p/dc20e3ee3c7e -->
+        <attr name="csv_input_cursor_drawable" format="reference" />
 
         <!-- 点击整个搜索控件,此时如果需要跳转,则设置为true -->
         <attr name="csv_need_jump" format="boolean" />
@@ -63,6 +68,8 @@
         <attr name="csv_search_btn_text_size" format="dimension|float" />
         <!--搜索按钮文本颜色-->
         <attr name="csv_search_btn_text_color" format="color|reference" />
+        <!-- 右侧文本是否加粗,类似苹果中黑效果,默认是true(加粗的) -->
+        <attr name="csv_search_btn_text_bold" format="boolean" />
         <!--搜索按钮背景颜色-->
         <attr name="csv_search_btn_bg_color" format="color|reference" />
         <!-- 搜索按钮宽度 -->
@@ -75,7 +82,7 @@
         <!-- 底部分割线 ,默认隐藏-->
         <attr name="csv_bottom_divider_visible" format="boolean" />
         <!-- 底部分割线颜色 -->
-        <attr name="csv_bottom_divider_color" format="color|reference"/>
+        <attr name="csv_bottom_divider_color" format="color|reference" />
 
     </declare-styleable>
 

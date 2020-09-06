@@ -634,15 +634,17 @@ class CustomAdapter(data: List<String>, layoutId: Int) :
 具体参考: cn.lvsong.lib.demo.CustomMenuActivity
 
 ```xml
-        <cn.lvsong.lib.library.view.CustomSearchView
+                <cn.lvsong.lib.library.view.CustomSearchView
             android:id="@+id/csv_1"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_50"
             android:layout_marginTop="@dimen/padding_10"
             app:csv_input_container_drawable="@drawable/ic_gray_solid_rectangle_r5"
             app:csv_input_container_margin_right="@dimen/padding_10"
+            app:csv_input_cursor_visible="true"
             app:csv_input_hint_text="请输入搜索内容"
             app:csv_search_btn_bg_color="@color/color_2878FF"
+            app:csv_search_btn_text_bold="true"
             app:csv_search_btn_text_color="@color/color_FFFFFF"
             app:csv_search_btn_width="@dimen/width_40" />
 ```
@@ -661,7 +663,7 @@ class CustomAdapter(data: List<String>, layoutId: Int) :
 | csv_search_icon_color            | color\|reference     | 搜索图标颜色                                                 |
 | csv_show_clear_icon              | boolean              | 是否显示清除图标,默认显示                                    |
 | csv_clear_icon_color             | color\|reference     | 清除图标颜色                                                 |
-| csv_input_container_height       | dimension\|reference | 中间搜索容器高度,最小高度 30dp                               |
+| csv_input_container_height       | dimension\|reference | 中间搜索容器高度,最小高度 30dp,默认36dp                      |
 | csv_input_container_margin_left  | dimension\|reference | 中间搜索容器leftMargin                                       |
 | csv_input_container_margin_right | dimension\|reference | 中间搜索容器rightMargin                                      |
 | csv_input_container_drawable     | reference            | 中间搜索容器drawable,也就是容器的背景                        |
@@ -672,11 +674,14 @@ class CustomAdapter(data: List<String>, layoutId: Int) :
 | csv_input_hint_text              | string\|reference    | 中间搜索输入框提示文本                                       |
 | csv_input_hint_color             | color\|reference     | 中间搜索输入框提示文本颜色                                   |
 | csv_input_max_length             | integer              | 中间搜索输入框最大输入文本长度,默认不限制                    |
+| csv_input_cursor_visible         | boolean              | 中间搜索输入框光标是否显示,默认显示                          |
+| csv_input_cursor_drawable        | reference            | 中间搜索输入框光标自定义drawable,不需要可以不设置,也可以设置一个自定义的drawable |
 | csv_need_jump                    | boolean              | 点击整个搜索控件,此时如果需要跳转,则设置为true               |
 | csv_search_btn_visible           | boolean              | 是否显示搜索按钮,默认显示                                    |
 | csv_search_btn_text              | string\|reference    | 搜索按钮显示文本                                             |
 | csv_search_btn_text_size         | dimension\|float     | 搜索按钮文本大小                                             |
 | csv_search_btn_text_color        | color\|reference     | 搜索按钮文本颜色                                             |
+| csv_search_btn_text_bold         | boolean              | 右侧文本是否加粗,类似苹果中黑效果,默认是true(加粗的)         |
 | csv_search_btn_bg_color          | color\|reference     | 搜索按钮背景颜色                                             |
 | csv_search_btn_width             | dimension\|reference | 搜索按钮宽度                                                 |
 | csv_search_btn_height            | dimension\|reference | 搜索按钮高度                                                 |

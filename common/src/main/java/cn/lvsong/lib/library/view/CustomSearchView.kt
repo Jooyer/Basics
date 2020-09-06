@@ -9,14 +9,16 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import androidx.appcompat.widget.AppCompatButton
+import android.widget.TextView
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import cn.lvsong.lib.library.R
 import cn.lvsong.lib.library.listener.EditTextWatcher
 import cn.lvsong.lib.library.listener.OnClickFastListener
-import cn.lvsong.lib.library.R
+import java.lang.reflect.Field
+
 
 /**
  * https://blog.csdn.net/qq_33666539/article/details/82421491 --> EditText与父控件点击事件冲突问题
@@ -94,7 +96,8 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
 
     private fun parseAttrs(context: Context, attr: AttributeSet) {
         val arr = context.obtainStyledAttributes(attr, R.styleable.CustomSearchView)
-        val showLeftArrow = arr.getBoolean(R.styleable.CustomSearchView_csv_left_arrow_visible, true)
+        val showLeftArrow =
+            arr.getBoolean(R.styleable.CustomSearchView_csv_left_arrow_visible, true)
         val leftArrowColor = arr.getColor(
             R.styleable.CustomSearchView_csv_left_arrow_color,
             ContextCompat.getColor(context, R.color.color_666666)
@@ -150,6 +153,11 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
         )
         val inputTextLength = arr.getInt(R.styleable.CustomSearchView_csv_input_max_length, 0)
 
+        val cursorVisible =
+            arr.getBoolean(R.styleable.CustomSearchView_csv_input_cursor_visible, true)
+        val cursorDrawableId =
+            arr.getResourceId(R.styleable.CustomSearchView_csv_input_cursor_drawable, 0)
+
         val showClearIcon = arr.getBoolean(R.styleable.CustomSearchView_csv_show_clear_icon, true)
         val clearIconColor = arr.getColor(
             R.styleable.CustomSearchView_csv_search_icon_color,
@@ -157,6 +165,8 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
         )
 
         val showBtn = arr.getBoolean(R.styleable.CustomSearchView_csv_search_btn_visible, true)
+        val btnTextBold =
+            arr.getBoolean(R.styleable.CustomSearchView_csv_search_btn_text_bold, true)
         val btnText = arr.getString(R.styleable.CustomSearchView_csv_search_btn_text)
         val btnTextSize = arr.getDimensionPixelSize(
             R.styleable.CustomSearchView_csv_search_btn_text_size,
@@ -245,6 +255,16 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
         } else {
             et_search_view_search.setPadding(inputLeftPadding, dp2px(1F).toInt(), 0, 0)
         }
+
+        et_search_view_search.isCursorVisible = cursorVisible
+        try {
+            val f: Field = TextView::class.java.getDeclaredField("mCursorDrawableRes")
+            f.isAccessible = true
+            f.set(et_search_view_search, cursorDrawableId)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
         if (inputTextLength > 0) {
             et_search_view_search.filters = arrayOf(InputFilter.LengthFilter(inputTextLength))
         }
@@ -258,6 +278,8 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
         } else {
             act_search_right_btn.text = btnText
         }
+
+        act_search_right_btn.paint.isFakeBoldText = btnTextBold //  medium 效果
 
         if (showBtn) {
             act_search_right_btn.setTextSize(TypedValue.COMPLEX_UNIT_PX, btnTextSize.toFloat())
