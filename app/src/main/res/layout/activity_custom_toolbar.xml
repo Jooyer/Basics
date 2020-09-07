@@ -131,39 +131,89 @@
         android:id="@+id/ct_7"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_50"
+        app:ct_bottom_divider_color="@color/color_333333"
+        app:ct_bottom_divider_visible="true"
         app:ct_center_text_color="@color/color_333333"
         app:ct_center_text_info="设置底部分割线颜色"
-        app:ct_center_text_size="@dimen/text_size_16"
-        app:ct_bottom_divider_visible="true"
-        app:ct_bottom_divider_color="@color/color_333333"
-        />
+        app:ct_center_text_size="@dimen/text_size_16" />
 
     <cn.lvsong.lib.library.view.CustomToolbar
         android:id="@+id/ct_8"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_50"
+        android:layout_height="wrap_content"
+        app:ct_bottom_divider_color="@color/color_333333"
+        app:ct_bottom_divider_visible="true"
         app:ct_center_text_color="@color/color_333333"
-        app:ct_center_text_info="隐藏底部分割线"
+        app:ct_center_text_info="右侧显示文本"
         app:ct_center_text_size="@dimen/text_size_16"
-        app:ct_bottom_divider_visible="false"
-        />
+        app:ct_right_image_drawable="@drawable/ic_baseline_alarm_add_24"
+        app:ct_right_image_right_margin="@dimen/padding_45"
+        app:ct_right_image_visible="true"
+        app:ct_right_text_color="@color/color_2878FF"
+        app:ct_right_text_info="反馈"
+        app:ct_right_text_right_margin="@dimen/padding_10"
+        app:ct_right_text_visible="true" />
 
     <cn.lvsong.lib.library.view.CustomToolbar
         android:id="@+id/ct_9"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_50"
         app:ct_center_text_color="@color/color_333333"
-        app:ct_center_text_info="右侧显示文本"
+        app:ct_center_text_info="将底部分割线style改为line"
         app:ct_center_text_size="@dimen/text_size_16"
-        app:ct_right_text_visible="true"
-        app:ct_right_text_info="反馈"
-        app:ct_right_text_color="@color/color_2878FF"
-        app:ct_right_text_right_margin="@dimen/padding_10"
-        app:ct_bottom_divider_visible="true"
-        app:ct_bottom_divider_color="@color/color_333333"
-        app:ct_right_image_visible="true"
-        app:ct_right_image_right_margin="@dimen/padding_40"
-        app:ct_right_image_drawable="@drawable/ic_baseline_alarm_add_24"
+        app:ct_left_arrow_color="@color/color_2878FF"
+        app:ct_left_arrow_height="@dimen/height_50"
+        app:ct_left_arrow_padding="@dimen/padding_3"
+        app:ct_left_arrow_style="material_design"
+        app:ct_left_arrow_width="@dimen/width_40"
+        app:ct_right_image2_drawable="@drawable/ic_baseline_assignment_returned_24"
+        app:ct_right_image2_right_margin="@dimen/padding_30"
+        app:ct_right_image2_visible="true"
+        app:ct_right_image2_width="@dimen/width_40"
+        app:ct_right_mav_color="@color/color_666666"
+        app:ct_right_mav_dot_radius="@dimen/padding_2"
+        app:ct_right_mav_height="@dimen/height_50"
+        app:ct_right_mav_orientation="vertical"
+        app:ct_right_mav_right_margin="@dimen/padding_2"
+        app:ct_right_mav_visible="true"
+        app:ct_right_mav_width="@dimen/width_40"
+        app:ct_bottom_divider_style="LINE"
+        app:ct_bottom_divider_color="@color/color_666666"
+        />
+
+    <cn.lvsong.lib.library.view.CustomToolbar
+        android:id="@+id/ct_10"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_50"
+        app:ct_bottom_divider_visible="false"
+        app:ct_center_text_color="@color/color_333333"
+        app:ct_center_text_info="将底部分割线style改为line并设置背景色"
+        app:ct_center_text_size="@dimen/text_size_16" />
+
+    <cn.lvsong.lib.library.view.CustomToolbar
+        android:id="@+id/ct_11"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_50"
+        app:ct_bottom_divider_visible="false"
+        app:ct_center_text_color="@color/color_333333"
+        app:ct_center_text_info="隐藏底部分割线"
+        app:ct_center_text_size="@dimen/text_size_16" />
+
+    <cn.lvsong.lib.library.view.CustomToolbar
+        android:id="@+id/ct_12"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_50"
+        app:ct_center_text_color="@color/color_FFFFFF"
+        app:ct_center_text_info="将底部分割线style改为shadow并设置背景色"
+        app:ct_center_text_size="@dimen/text_size_16"
+        app:ct_left_arrow_color="@color/color_FFFFFF"
+        app:ct_left_arrow_height="@dimen/height_50"
+        app:ct_left_arrow_padding="@dimen/padding_3"
+        app:ct_left_arrow_style="material_design"
+        app:ct_left_arrow_width="@dimen/width_40"
+        app:ct_bottom_divider_style="SHADOW"
+        app:ct_bottom_divider_color="@color/color_666666"
+        app:ct_background_color="@color/main_theme_color"
         />
 
 

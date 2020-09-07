@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ShadowViewCard">
+        <!--圆角度-->
+        <attr name="shadowRound" format="dimension" />
+        <!--阴影的高度-->
+        <attr name="shadowLeftHeight" format="dimension" />
+        <attr name="shadowTopHeight" format="dimension" />
+        <attr name="shadowRightHeight" format="dimension" />
+        <attr name="shadowBottomHeight" format="dimension" />
+        <!--上方阴影的偏离度-->
+        <attr name="shadowOffsetY" format="dimension" />
+        <attr name="shadowOffsetX" format="dimension" />
+        <!--阴影颜色-->
+        <attr name="shadowCardColor" format="color" />
+        <attr name="shadowColor" format="color" />
+        <!--阴影颜色模糊度，越大越模糊-->
+        <attr name="shadowRadius" format="integer" />
+    </declare-styleable>
+
+
+</resources>

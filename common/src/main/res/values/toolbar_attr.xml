@@ -3,17 +3,17 @@
 
     <declare-styleable name="CustomToolbar">
         <!-- 左侧箭头是否显示 -->
-        <attr name="ct_left_arrow_visible" format="boolean"/>
+        <attr name="ct_left_arrow_visible" format="boolean" />
         <!-- 左侧箭头宽度 -->
-        <attr name="ct_left_arrow_width" format="dimension|integer"/>
+        <attr name="ct_left_arrow_width" format="dimension|integer" />
         <!-- 左侧箭头高度 -->
-        <attr name="ct_left_arrow_height" format="dimension|integer"/>
+        <attr name="ct_left_arrow_height" format="dimension|integer" />
         <!-- 左侧箭头 Padding(上下左右) -->
-        <attr name="ct_left_arrow_padding" format="dimension|integer"/>
+        <attr name="ct_left_arrow_padding" format="dimension|integer" />
         <!-- 左侧箭头左侧 Margin -->
-        <attr name="ct_left_arrow_left_margin" format="dimension|integer"/>
+        <attr name="ct_left_arrow_left_margin" format="dimension|integer" />
         <!-- 左侧箭头的 颜色 -->
-        <attr name="ct_left_arrow_color" format="color|reference"/>
+        <attr name="ct_left_arrow_color" format="color|reference" />
         <!-- 左侧箭头模式 -->
         <attr name="ct_left_arrow_style" format="enum">
             <!-- Google Material Design -->
@@ -23,74 +23,74 @@
         </attr>
 
         <!-- 左侧文本是否显示 -->
-        <attr name="ct_left_text_visible" format="boolean"/>
+        <attr name="ct_left_text_visible" format="boolean" />
         <!-- 左侧文本 -->
-        <attr name="ct_left_text_info" format="reference|string"/>
+        <attr name="ct_left_text_info" format="reference|string" />
         <!-- 左侧文本大小 -->
-        <attr name="ct_left_text_size" format="dimension"/>
+        <attr name="ct_left_text_size" format="dimension" />
         <!-- 左侧文本颜色 -->
-        <attr name="ct_left_text_color" format="color|reference"/>
+        <attr name="ct_left_text_color" format="color|reference" />
         <!-- 左侧文本左侧 Margin -->
-        <attr name="ct_left_text_left_margin" format="dimension|integer"/>
+        <attr name="ct_left_text_left_margin" format="dimension|integer" />
 
         <!-- 中间文本 -->
-        <attr name="ct_center_text_info" format="reference|string"/>
+        <attr name="ct_center_text_info" format="reference|string" />
         <!-- 中间文本的leftDrawable -->
-<!--        <attr name="ct_center_text_drawable" format="reference"/>-->
+        <!--        <attr name="ct_center_text_drawable" format="reference"/>-->
         <!-- 中间文本的drawablePadding -->
-<!--        <attr name="ct_center_text_drawable_padding" format="dimension|integer"/>-->
+        <!--        <attr name="ct_center_text_drawable_padding" format="dimension|integer"/>-->
         <!-- 中间文本大小 -->
-        <attr name="ct_center_text_size" format="dimension"/>
+        <attr name="ct_center_text_size" format="dimension" />
         <!-- 中间文本颜色 -->
-        <attr name="ct_center_text_color" format="color|reference"/>
+        <attr name="ct_center_text_color" format="color|reference" />
 
         <!-- 右侧文本是否可见 -->
-        <attr name="ct_right_text_visible" format="boolean"/>
+        <attr name="ct_right_text_visible" format="boolean" />
         <!-- 右侧文本 -->
-        <attr name="ct_right_text_info" format="reference|string"/>
+        <attr name="ct_right_text_info" format="reference|string" />
         <!-- 右侧文本大小 -->
-        <attr name="ct_right_text_size" format="dimension"/>
+        <attr name="ct_right_text_size" format="dimension" />
         <!-- 右侧文本颜色 -->
-        <attr name="ct_right_text_color" format="color|reference"/>
+        <attr name="ct_right_text_color" format="color|reference" />
         <!-- 右侧文本右侧 Margin -->
-        <attr name="ct_right_text_right_margin" format="dimension|integer"/>
+        <attr name="ct_right_text_right_margin" format="dimension|integer" />
         <!-- 右侧文本是否加粗,类似苹果中黑效果,默认是加粗的 -->
-        <attr name="ct_right_text_bold" format="boolean"/>
+        <attr name="ct_right_text_bold" format="boolean" />
 
         <!-- 右侧图片是否可见 -->
-        <attr name="ct_right_image_visible" format="boolean"/>
+        <attr name="ct_right_image_visible" format="boolean" />
         <!-- 右侧图片 Drawable -->
-        <attr name="ct_right_image_drawable" format="reference"/>
+        <attr name="ct_right_image_drawable" format="reference" />
         <!-- 右侧图片宽度 -->
-        <attr name="ct_right_image_width" format="dimension|integer"/>
+        <attr name="ct_right_image_width" format="dimension|integer" />
         <!-- 右侧图片高度 -->
-        <attr name="ct_right_image_height" format="dimension|integer"/>
+        <attr name="ct_right_image_height" format="dimension|integer" />
         <!-- 右侧图片 Padding(上下左右) -->
-        <attr name="ct_right_image_padding" format="dimension|integer"/>
+        <attr name="ct_right_image_padding" format="dimension|integer" />
         <!-- 右侧图片右侧 rightMargin -->
-        <attr name="ct_right_image_right_margin" format="dimension|integer"/>
+        <attr name="ct_right_image_right_margin" format="dimension|integer" />
 
         <!-- 右侧图片2是否可见 -->
-        <attr name="ct_right_image2_visible" format="boolean"/>
+        <attr name="ct_right_image2_visible" format="boolean" />
         <!-- 右侧图片2 Drawable -->
-        <attr name="ct_right_image2_drawable" format="reference"/>
+        <attr name="ct_right_image2_drawable" format="reference" />
         <!-- 右侧图片2宽度 -->
-        <attr name="ct_right_image2_width" format="dimension|integer"/>
+        <attr name="ct_right_image2_width" format="dimension|integer" />
         <!-- 右侧图片2高度 -->
-        <attr name="ct_right_image2_height" format="dimension|integer"/>
+        <attr name="ct_right_image2_height" format="dimension|integer" />
         <!-- 右侧图片2 Padding(上下左右) -->
-        <attr name="ct_right_image2_padding" format="dimension|integer"/>
+        <attr name="ct_right_image2_padding" format="dimension|integer" />
         <!-- 右侧图片2右侧 rightMargin -->
-        <attr name="ct_right_image2_right_margin" format="dimension|integer"/>
+        <attr name="ct_right_image2_right_margin" format="dimension|integer" />
 
         <!-- 右侧更多按钮是否可见,默认不可见 -->
-        <attr name="ct_right_mav_visible" format="boolean"/>
+        <attr name="ct_right_mav_visible" format="boolean" />
         <!-- 右侧更多按钮宽度 -->
-        <attr name="ct_right_mav_width" format="dimension|integer"/>
+        <attr name="ct_right_mav_width" format="dimension|integer" />
         <!-- 右侧更多按钮高度 -->
-        <attr name="ct_right_mav_height" format="dimension|integer"/>
+        <attr name="ct_right_mav_height" format="dimension|integer" />
         <!-- 右侧更多按钮rightMargin -->
-        <attr name="ct_right_mav_right_margin" format="dimension|integer"/>
+        <attr name="ct_right_mav_right_margin" format="dimension|integer" />
         <!-- 右侧更多按钮的颜色 -->
         <attr name="ct_right_mav_color" format="color|reference" />
         <!-- 右侧更多按钮大小,圆点半径 -->
@@ -101,12 +101,18 @@
             <enum name="vertical" value="2" />
         </attr>
 
-
-        <!-- 底部分割线是否可见 -->
-        <attr name="ct_bottom_divider_visible" format="boolean"/>
-        <!-- 底部分割线颜色 -->
-        <attr name="ct_bottom_divider_color" format="color|reference"/>
-        <!-- 底部分割线是否可见 -->
-
+        <!-- 底部分割线是否可见,默认可见 -->
+        <attr name="ct_bottom_divider_visible" format="boolean" />
+        <!-- 底部分割线颜色,如果分割线不可见(或者ct_bottom_divider_style = SHADOW)则此属性无效 -->
+        <attr name="ct_bottom_divider_color" format="color|reference" />
+        <!-- 底部shadow颜色(推荐颜色值必须是8位,即有alpha),默认#26000000,如果分割线不可见(或者ct_bottom_divider_style = LINE)则此属性无效 -->
+        <attr name="ct_bottom_shadow_color" format="color|reference" />
+        <!-- 底部分割线样式,SHADOW(阴影效果),默认值; LINE(分割线效果),如果分割线不可见则此属性无效-->
+        <attr name="ct_bottom_divider_style" format="enum">
+            <enum name="SHADOW" value="1" />
+            <enum name="LINE" value="2" />
+        </attr>
+           <!-- 背景色,默认白色,如果设置了ct_bottom_divider_style = SHADOW会导致xml中设置的背景色失效,如果需要背景色,则根据需要设置 -->
+        <attr name="ct_background_color" format="color|reference" />
     </declare-styleable>
 </resources>

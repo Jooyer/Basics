@@ -44,6 +44,12 @@
 4.TopImgAndBottomTextView属性进行调整
 5.其他控件文字大小属性调整
 
+## v1.0.2变化:
+1.CustomSearchView增加光标是否显示属性
+2.CustomSearchView增加设置cursorDrawable
+3.CustomToolbar增加底部分割线为阴影同时保留设置为线
+4.CustomToolbar增加设置阴影颜色
+5.CustomToolbar增加设置背景颜色,Shadow模式下有效
 
 
 [toc]
@@ -705,14 +711,31 @@ class CustomAdapter(data: List<String>, layoutId: Int) :
 PS: 一般右侧显示一个文本按钮(或者2个图标按钮,或者更多按钮),如果需要同时设置多个,发现重叠,有margin_right的属性,可以通过调节大小
 
 ```xml
-  <cn.lvsong.lib.library.view.CustomToolbar
-        android:id="@+id/ct_8"
+    <cn.lvsong.lib.library.view.CustomToolbar
+        android:id="@+id/ct_9"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_50"
         app:ct_center_text_color="@color/color_333333"
-        app:ct_center_text_info="隐藏底部分割线"
+        app:ct_center_text_info="将底部分割线style改为line"
         app:ct_center_text_size="@dimen/text_size_16"
-        app:ct_bottom_divider_visible="false"
+        app:ct_left_arrow_color="@color/color_2878FF"
+        app:ct_left_arrow_height="@dimen/height_50"
+        app:ct_left_arrow_padding="@dimen/padding_3"
+        app:ct_left_arrow_style="material_design"
+        app:ct_left_arrow_width="@dimen/width_40"
+        app:ct_right_image2_drawable="@drawable/ic_baseline_assignment_returned_24"
+        app:ct_right_image2_right_margin="@dimen/padding_30"
+        app:ct_right_image2_visible="true"
+        app:ct_right_image2_width="@dimen/width_40"
+        app:ct_right_mav_color="@color/color_666666"
+        app:ct_right_mav_dot_radius="@dimen/padding_2"
+        app:ct_right_mav_height="@dimen/height_50"
+        app:ct_right_mav_orientation="vertical"
+        app:ct_right_mav_right_margin="@dimen/padding_2"
+        app:ct_right_mav_visible="true"
+        app:ct_right_mav_width="@dimen/width_40"
+        app:ct_bottom_divider_style="LINE"
+        app:ct_bottom_divider_color="@color/color_666666"
         />
 ```
 
@@ -762,7 +785,11 @@ PS: 一般右侧显示一个文本按钮(或者2个图标按钮,或者更多按�
 | ct_right_mav_color           | color\|reference   | 右侧更多按钮的颜色                                           |
 | ct_right_mav_dot_radius      | dimension\|integer | 右侧更多按钮大小,圆点半径                                    |
 | ct_right_mav_orientation     | enum               | 右侧更多按钮排列方向，水平或垂直, horizontal(水平),vertical(垂直),默认垂直 |
-|                              |                    |                                                              |
+| ct_bottom_divider_visible    | boolean            | 底部分割线是否可见,默认可见                                  |
+| ct_bottom_divider_color      | color\|reference   | 底部分割线颜色,如果分割线不可见(或者ct_bottom_divider_style = SHADOW)则此属性无效 |
+| ct_bottom_shadow_color       | color\|reference   | 底部shadow颜色(推荐颜色值必须是8位,即有alpha),默认#26000000,如果分割线不可见(或者ct_bottom_divider_style = LINE)则此属性无效 |
+| ct_bottom_divider_style      | enum               | 底部分割线样式,SHADOW(阴影效果),默认值; LINE(分割线效果),如果分割线不可见则此属性无效 |
+| ct_background_color          | color\|reference   | 背景色,默认白色,如果设置了ct_bottom_divider_style = SHADOW会导致xml中设置的背景色失效,如果需要背景色,则根据需要设置 |
 
 ## **公共方法:**
 

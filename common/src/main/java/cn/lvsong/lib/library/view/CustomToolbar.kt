@@ -2,8 +2,13 @@ package cn.lvsong.lib.library.view
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.RectF
 import android.text.TextUtils
 import android.util.AttributeSet
+import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +19,7 @@ import androidx.annotation.DrawableRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import cn.lvsong.lib.library.R
+
 
 /**
  * Desc: 自定义 Toolbar ,格式如下:
@@ -132,6 +138,38 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
      */
     lateinit var view_bottom_divider_menu: View
 
+
+    private val mPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
+
+    /**
+     * 阴影颜色模糊度，越大越模糊
+     */
+    private var mShadowRadius = 0F
+
+    /**
+     * 阴影颜色
+     */
+    private var mShadowColor = 0
+
+    /**
+     * 当显示阴影时,如果需要设置控件背景色,则需要设置属性 ct_background_color
+     */
+    private var mBackgroundColor = 0
+
+    /**
+     * 阴影的垂直偏移量
+     */
+    private var mOffsetY = 0F
+
+    /**
+     * 底部阴影高度
+     */
+    private var mBottomShadowHeight = 0
+
+    private var mBottomDividerVisible = true
+
+    private var mBottomDividerStyle = 1
+
     constructor(context: Context, attr: AttributeSet) : this(context, attr, 0)
 
     init {
@@ -149,6 +187,13 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         iv_right_icon_menu2 = findViewById(R.id.iv_right_icon_menu2)
         mav_right_icon_menu = findViewById(R.id.mav_right_icon_menu)
         view_bottom_divider_menu = findViewById(R.id.view_bottom_divider_menu)
+
+        mBottomShadowHeight = dp2px(5F).toInt()
+        mShadowRadius = dp2px(3F)
+        mOffsetY = dp2px(2F)
+
+        //取消硬件加速
+        setLayerType(View.LAYER_TYPE_SOFTWARE, null)
     }
 
     private fun parseAttrs(context: Context, attr: AttributeSet) {
@@ -192,7 +237,6 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
             ContextCompat.getColor(context, R.color.color_FFFFFF)
         )
 
-
         val rightImageVisible =
             arr.getBoolean(R.styleable.CustomToolbar_ct_right_image_visible, false)
         val rightImageDrawable = arr.getDrawable(R.styleable.CustomToolbar_ct_right_image_drawable)
@@ -234,30 +278,40 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
             ContextCompat.getColor(context, R.color.color_FFFFFF)
         )
 
-        val rightMoveViewVisible =
+        val rightMoreViewVisible =
             arr.getBoolean(R.styleable.CustomToolbar_ct_right_mav_visible, false)
-        val rightMoveViewWidth =
+        val rightMoreViewWidth =
             arr.getDimension(R.styleable.CustomToolbar_ct_right_mav_width, dp2px(40F)).toInt()
-        val rightMoveViewHeight =
+        val rightMoreViewHeight =
             arr.getDimension(R.styleable.CustomToolbar_ct_right_mav_height, dp2px(40F)).toInt()
-        val rightMoveViewRightMargin =
+        val rightMoreViewRightMargin =
             arr.getDimension(R.styleable.CustomToolbar_ct_right_mav_right_margin, dp2px(5F)).toInt()
-        val rightMoveViewColor = arr.getColor(
+        val rightMoreViewColor = arr.getColor(
             R.styleable.CustomToolbar_ct_right_mav_color,
             ContextCompat.getColor(context, R.color.color_2878FF)
         )
-        val rightMoveViewDotRadius =
+        val rightMoreViewDotRadius =
             arr.getDimension(R.styleable.CustomToolbar_ct_right_mav_dot_radius, dp2px(2F))
-        val rightMoveViewOrientation =
+        val rightMoreViewOrientation =
             arr.getInt(R.styleable.CustomToolbar_ct_right_mav_orientation, ORIENTATION_VERTICAL)
 
-        val bottomDividerVisible =
+        mBottomDividerVisible =
             arr.getBoolean(R.styleable.CustomToolbar_ct_bottom_divider_visible, true)
         val bottomDividerColor = arr.getColor(
             R.styleable.CustomToolbar_ct_bottom_divider_color,
             ContextCompat.getColor(context, R.color.color_EEEEEE)
         )
-        iv_left_icon_menu.visibility = if (leftArrowVisible) View.VISIBLE else View.GONE
+        mBottomDividerStyle = arr.getInt(R.styleable.CustomToolbar_ct_bottom_divider_style, 1)
+        mShadowColor = arr.getColor(
+            R.styleable.CustomToolbar_ct_bottom_shadow_color,
+            ContextCompat.getColor(context, R.color.color_26000000)
+        )
+        mBackgroundColor = arr.getColor(
+            R.styleable.CustomToolbar_ct_background_color,
+            ContextCompat.getColor(context, R.color.color_FFFFFF)
+        )
+
+                iv_left_icon_menu.visibility = if (leftArrowVisible) View.VISIBLE else View.GONE
         iv_left_icon_menu.setArrowColor(leftArrowColor)
         iv_left_icon_menu.setArrowStyle(leftArrowStyle)
         iv_left_icon_menu.setArrowPadding(leftArrowPadding)
@@ -372,85 +426,160 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         rightTextLp.rightMargin = rightTextRightMargin
         tv_right_name_menu.layoutParams = rightTextLp
 
-        mav_right_icon_menu.visibility = if (rightMoveViewVisible) View.VISIBLE else View.GONE
-        val moveViewLP = mav_right_icon_menu.layoutParams as ConstraintLayout.LayoutParams
-        moveViewLP.width = rightMoveViewWidth
-        moveViewLP.height = rightMoveViewHeight
-        moveViewLP.rightMargin = rightMoveViewRightMargin
-        mav_right_icon_menu.layoutParams = moveViewLP
-        mav_right_icon_menu.setColor(rightMoveViewColor)
-        mav_right_icon_menu.setDotRadius(rightMoveViewDotRadius)
-        mav_right_icon_menu.setOrientation(rightMoveViewOrientation)
+        mav_right_icon_menu.visibility = if (rightMoreViewVisible) View.VISIBLE else View.GONE
+        val moreViewLP = mav_right_icon_menu.layoutParams as ConstraintLayout.LayoutParams
+        moreViewLP.width = rightMoreViewWidth
+        moreViewLP.height = rightMoreViewHeight
+        moreViewLP.rightMargin = rightMoreViewRightMargin
+        mav_right_icon_menu.layoutParams = moreViewLP
+        mav_right_icon_menu.setColor(rightMoreViewColor)
+        mav_right_icon_menu.setDotRadius(rightMoreViewDotRadius)
+        mav_right_icon_menu.setOrientation(rightMoreViewOrientation)
 
-        view_bottom_divider_menu.visibility = if (bottomDividerVisible) View.VISIBLE else View.GONE
-        view_bottom_divider_menu.setBackgroundColor(bottomDividerColor)
-
+        if (mBottomDividerVisible) {
+            view_bottom_divider_menu.visibility = View.VISIBLE
+            if (1 == mBottomDividerStyle) {
+                view_bottom_divider_menu.setBackgroundColor(Color.TRANSPARENT)
+                setPadding(0, 0, 0, mBottomShadowHeight)
+            } else {
+                view_bottom_divider_menu.setBackgroundColor(bottomDividerColor)
+            }
+        } else {
+            view_bottom_divider_menu.visibility = View.GONE
+        }
         arr.recycle()
     }
 
+    /**
+     * 绘制 Toolbar 底部阴影
+     */
+    override fun dispatchDraw(canvas: Canvas) {
+        if (1 == mBottomDividerStyle && mBottomDividerVisible) {
+            val shadowRectF = RectF()
+            shadowRectF.set(
+                (-mBottomShadowHeight).toFloat(),
+                0F,
+                (width + mBottomShadowHeight).toFloat(),
+                (height - mBottomShadowHeight).toFloat()
+            )
+            mPaint.style = Paint.Style.FILL
+            mPaint.color = mBackgroundColor
+            mPaint.setShadowLayer(mShadowRadius, 0F, mOffsetY, mShadowColor)
+            canvas.drawRect(shadowRectF, mPaint)
+        }
+        super.dispatchDraw(canvas)
+    }
+
+    /**
+     * 设置最右侧图片点击
+     */
     fun setRightImageListener(listener: View.OnClickListener) {
         iv_right_icon_menu.setOnClickListener(listener)
     }
 
+    /**
+     * 设置右起倒数第二图片点击
+     */
     fun setRightImage2Listener(listener: View.OnClickListener) {
         iv_right_icon_menu2.setOnClickListener(listener)
     }
 
+    /**
+     * 设置更多点击
+     */
     fun setMoreViewListener(listener: View.OnClickListener) {
         mav_right_icon_menu.setOnClickListener(listener)
     }
 
+    /**
+     * 设置右侧显示的文本
+     */
     fun setRightTextListener(listener: View.OnClickListener) {
         tv_right_name_menu.setOnClickListener(listener)
     }
 
-    fun setLeftArrowColor(@ColorRes leftArrowColor: Int) {
-        iv_left_icon_menu.setArrowColor(ContextCompat.getColor(context, leftArrowColor))
-    }
-
-    fun setRightTextVisible(visable: Int) {
-        tv_right_name_menu.visibility = visable
-    }
-
-    fun setRightImageVisible(visible: Int) {
-        iv_right_icon_menu.visibility = visible
-    }
-
-    fun setRightImage2Visible(visible: Int) {
-        iv_right_icon_menu2.visibility = visible
-    }
-
-    fun setRightText(text: String) {
-        tv_right_name_menu.text = text
-    }
-
-    fun setRightImage(@DrawableRes resource: Int) {
-        iv_right_icon_menu.setImageResource(resource)
-    }
-
-    fun setRightImage2(@DrawableRes resource: Int) {
-        iv_right_icon_menu2.setImageResource(resource)
-    }
-
-    fun setCenterText(text: String) {
-        tv_center_title_menu.text = text
-    }
-
-    fun setLeftText(text: String) {
-        tv_left_name_menu.text = text
-    }
-
-    fun setLeftArrowVisible(visible: Int) {
-        iv_left_icon_menu.visibility = visible
-    }
-
+    /**
+     * 设置左侧箭头点击
+     */
     fun setLeftArrowClickListener(listener: View.OnClickListener) {
         iv_left_icon_menu.setOnClickListener(listener)
     }
 
-
+    /**
+     * 设置左侧文本点击
+     */
     fun setLeftTextViewClickListener(listener: View.OnClickListener) {
         tv_left_name_menu.setOnClickListener(listener)
+    }
+
+    /**
+     * 设置左侧箭头颜色
+     */
+    fun setLeftArrowColor(@ColorRes leftArrowColor: Int) {
+        iv_left_icon_menu.setArrowColor(ContextCompat.getColor(context, leftArrowColor))
+    }
+
+    /**
+     * 设置右侧文本控件是否显示
+     */
+    fun setRightTextVisible(visible: Int) {
+        tv_right_name_menu.visibility = visible
+    }
+
+    /**
+     * 设置最右侧图片控件是否显示
+     */
+    fun setRightImageVisible(visible: Int) {
+        iv_right_icon_menu.visibility = visible
+    }
+
+    /**
+     * 设置右起倒数第二图片控件是否显示
+     */
+    fun setRightImage2Visible(visible: Int) {
+        iv_right_icon_menu2.visibility = visible
+    }
+
+    /**
+     * 设置右侧显示文本
+     */
+    fun setRightText(text: String) {
+        tv_right_name_menu.text = text
+    }
+
+    /**
+     * 设置右侧图片控件显示图片
+     */
+    fun setRightImage(@DrawableRes resource: Int) {
+        iv_right_icon_menu.setImageResource(resource)
+    }
+
+    /**
+     * 设置右起倒数第二图片控件显示图片
+     */
+    fun setRightImage2(@DrawableRes resource: Int) {
+        iv_right_icon_menu2.setImageResource(resource)
+    }
+
+    /**
+     * 设置中间文本内容
+     */
+    fun setCenterText(text: String) {
+        tv_center_title_menu.text = text
+    }
+
+    /**
+     * 设置左侧文本内容
+     */
+    fun setLeftText(text: String) {
+        tv_left_name_menu.text = text
+    }
+
+    /**
+     * 设置左侧箭头是否显示
+     */
+    fun setLeftArrowVisible(visible: Int) {
+        iv_left_icon_menu.visibility = visible
     }
 
 
