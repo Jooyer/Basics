@@ -311,7 +311,7 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
             ContextCompat.getColor(context, R.color.color_FFFFFF)
         )
 
-                iv_left_icon_menu.visibility = if (leftArrowVisible) View.VISIBLE else View.GONE
+        iv_left_icon_menu.visibility = if (leftArrowVisible) View.VISIBLE else View.GONE
         iv_left_icon_menu.setArrowColor(leftArrowColor)
         iv_left_icon_menu.setArrowStyle(leftArrowStyle)
         iv_left_icon_menu.setArrowPadding(leftArrowPadding)

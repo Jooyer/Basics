@@ -71,7 +71,8 @@ class StatusActivity : BaseActivity() {
     override fun getStatusBarColor() = R.color.main_theme_color
 
     // 根据需要重写
-    override fun getTransY() = DensityUtil.dp2pxRtInt(50) // 本例 toolbar高度 50dp
+//    override fun getTransY() = DensityUtil.dp2pxRtInt(50) // 本例 CustomToolbar 高度 50dp
+    override fun getTransY() = DensityUtil.dp2pxRtInt(45) // 本例 toolbar高度 50dp,但是 CustomToolbar 使用阴影效果,为了美观 少移5dp
 
     override fun bindEvent() {
 

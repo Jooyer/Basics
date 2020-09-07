@@ -47,9 +47,9 @@
 ## v1.0.2变化:
 1.CustomSearchView增加光标是否显示属性
 2.CustomSearchView增加设置cursorDrawable
-3.CustomToolbar增加底部分割线为阴影同时保留设置为线
+3.CustomToolbar增加底部分割线为阴影同时保留设置为线,(阴影高度为5dp,会挤压标题等显示)
 4.CustomToolbar增加设置阴影颜色
-5.CustomToolbar增加设置背景颜色,Shadow模式下有效
+5.CustomToolbar增加设置背景颜色(ct_background_color),Shadow模式下有效,反之直接用系统android:background即可
 
 
 [toc]
@@ -739,7 +739,7 @@ PS: 一般右侧显示一个文本按钮(或者2个图标按钮,或者更多按�
         />
 ```
 
-如上在xml中写入,就可以完成点击左侧返回并设置title
+
 
 ## **属性介绍:**
 
@@ -790,6 +790,8 @@ PS: 一般右侧显示一个文本按钮(或者2个图标按钮,或者更多按�
 | ct_bottom_shadow_color       | color\|reference   | 底部shadow颜色(推荐颜色值必须是8位,即有alpha),默认#26000000,如果分割线不可见(或者ct_bottom_divider_style = LINE)则此属性无效 |
 | ct_bottom_divider_style      | enum               | 底部分割线样式,SHADOW(阴影效果),默认值; LINE(分割线效果),如果分割线不可见则此属性无效 |
 | ct_background_color          | color\|reference   | 背景色,默认白色,如果设置了ct_bottom_divider_style = SHADOW会导致xml中设置的背景色失效,如果需要背景色,则根据需要设置 |
+
+==PS: ct_bottom_divider_style = SHADOW会压缩内容高度,在使用 StatusMananger时,会发现多视图布局与CustomToolbar存在一个间隔(阴影高度5dp),如果想遮盖掉, 请参考 cn.lvsong.lib.demo.StatusActivity==
 
 ## **公共方法:**
 
@@ -1612,6 +1614,8 @@ PS: ==一张图也需要设置适配器==
 ## **用法:**
 
 具体参考: cn.lvsong.lib.demo.StatusActivity
+
+==PS: 在使用 StatusMananger时又使用CustomToolbar,会发现多视图布局与CustomToolbar存在一个间隔(阴影高度5dp),如果想遮盖掉, 请参考 cn.lvsong.lib.demo.StatusActivity==
 
 ```kotlin
     val statusManager = StatusManager.newBuilder(this)
