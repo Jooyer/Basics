@@ -19,6 +19,7 @@ import androidx.annotation.DrawableRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import cn.lvsong.lib.library.R
+import cn.lvsong.lib.library.other.StatusProvider
 
 
 /**
@@ -76,7 +77,7 @@ import cn.lvsong.lib.library.R
  */
 
 class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
-    ConstraintLayout(context, attr, defStyleAttr) {
+    ConstraintLayout(context, attr, defStyleAttr), StatusProvider {
 
     /**
      * Material Design风格

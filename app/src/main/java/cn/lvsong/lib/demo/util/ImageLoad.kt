@@ -159,11 +159,19 @@ class ImageLoad {
         Glide.with(iv)
             .load(path)
             .apply(
-                RequestOptions.bitmapTransform(
-                    RoundedCorners(
-                        DensityUtil.dp2pxRtFloat(radius).toInt()
+                // 注释掉这个,是因为不能给 ImageView 在xml中设置 scanType=centerCrop
+//                RequestOptions.bitmapTransform(
+//                    RoundedCorners(
+//                        DensityUtil.dp2pxRtFloat(radius).toInt()
+//                    )
+//                )
+                RequestOptions()
+                    .transform(
+                        CenterCrop(),
+                        RoundedCorners(
+                            DensityUtil.dp2pxRtFloat(radius).toInt()
+                        )
                     )
-                )
             )
             .into(iv)
     }

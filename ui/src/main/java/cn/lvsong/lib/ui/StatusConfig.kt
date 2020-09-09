@@ -11,10 +11,6 @@ import cn.lvsong.lib.library.R
  * Time: 22:17
  */
 class StatusConfig {
-    /**
-     * 当需要将根布局下移时,可以设置此值
-     */
-    private var mTransY: Int = DensityUtil.dp2pxRtInt(48)
 
     /**
      *
@@ -46,16 +42,6 @@ class StatusConfig {
             StatusConfig()
         }
     }
-
-    /**
-     * 当 Activity / Fragment 存在 Toolbar 时,需将StatusManager往下移动 Toolbar高度
-     */
-    fun setTranslateY(transY: Int): StatusConfig {
-        mTransY = transY
-        return this
-    }
-
-    fun getTranslateY() = mTransY
 
     /**
      * 设置状态栏颜色,默认是白色

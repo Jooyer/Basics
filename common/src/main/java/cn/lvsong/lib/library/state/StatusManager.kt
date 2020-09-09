@@ -115,10 +115,6 @@ class StatusManager(builder: Builder) {
     @ColorRes
      var mLoadingViewBackgroundColor = R.color.main_theme_color
 
-    fun setTransY(transY: Int) {
-        mRootFrameLayout.setTransY(transY)
-    }
-
     /**
      * 显示loading
      */

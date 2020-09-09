@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import cn.lvsong.lib.library.utils.OnLazyClickListener
 import cn.lvsong.lib.library.state.OnRetryListener
 import cn.lvsong.lib.library.state.StatusManager
@@ -98,7 +96,6 @@ abstract class BaseFragment : Fragment(),
             .setLoadingViewBackgroundColor(if (-1 == setLoadingViewBackgroundColor()) StatusConfig.INSTANCE.getLoadingViewBackgroundColor() else setLoadingViewBackgroundColor())
             .onRetryListener(this)
             .build()
-        mStatusManager?.setTransY(if (-1 == getTransY()) StatusConfig.INSTANCE.getTranslateY() else getTransY())
         mStatusManager?.showLoading()
         return mStatusManager?.getRootLayout()!!
     }
@@ -187,18 +184,6 @@ abstract class BaseFragment : Fragment(),
      */
     open fun bindEvent() {
 
-    }
-
-
-    /**
-     *  当 Activity / Fragment 存在 Toolbar 时,需将StatusManager往下移动 Toolbar高度
-     *  可以使用全局配置
-     *  {@link cn.lvsong.lib.ui.mvp.StatusConfig }
-     *  如果全局不合适,可以重写下面方法
-     *  PS: 注意,返回的是 px
-     */
-    open fun getTransY(): Int {
-        return -1
     }
 
     /**

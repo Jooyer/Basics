@@ -1,7 +1,9 @@
 package cn.lvsong.lib.library.state
 
 import android.content.Context
+import android.graphics.Color
 import android.util.AttributeSet
+import android.util.Log
 import android.util.SparseArray
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -12,6 +14,8 @@ import androidx.annotation.LayoutRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import cn.lvsong.lib.library.listener.OnClickFastListener
+import cn.lvsong.lib.library.other.StatusProvider
+import cn.lvsong.lib.library.view.CustomToolbar
 
 
 /**
@@ -53,11 +57,6 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
     private val LAYOUT_EMPTY_ID = 5
 
     /**
-     * 当需要将此根布局下移时,可以设置此值
-     */
-    private var mTransY: Int = 0
-
-    /**
      * 存放布局集合
      */
     private val mLayoutViews = SparseArray<View>()
@@ -71,11 +70,6 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
      * 点击重试按钮回调
      */
     private var onRetryListener: OnRetryListener? = null
-
-
-    fun setTransY(transY: Int) {
-        mTransY = transY
-    }
 
     fun setStatusManager(manager: StatusManager) {
         mStatusLayoutManager = manager
@@ -110,6 +104,33 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
             addView(mStatusLayoutManager.mNetworkErrorVs, params)
         }
 
+        getCustomToolbar(this)
+    }
+
+    private fun getCustomToolbar(viewGroup: ViewGroup) {
+        for (i in 0 until viewGroup.childCount) {
+            val child = viewGroup.getChildAt(i)
+            Log.e("Test", "-------><---------${child::class.java.simpleName}")
+            if (child is ViewGroup) {
+                if (child is StatusProvider) {
+                    val params = child.layoutParams
+                    val childParent = child.parent as ViewGroup
+                    Log.e("Test", "-------><---------${params.height}")
+                    // 移除掉原来的,则会导致界面错位,添加一个占位的
+                    childParent.removeView(child)
+                    // 占位View
+                    val view = View(context)
+                    view.setBackgroundColor(Color.TRANSPARENT)
+                    view.id = child.id
+                    view.visibility = View.INVISIBLE
+                    childParent.addView(view,0,params)
+                    addView(child, params)
+                    break
+                } else {
+                    getCustomToolbar(child)
+                }
+            }
+        }
     }
 
     private fun addLayoutView(
@@ -198,9 +219,8 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
                     if (layoutId == key) {   // 显示该 View
                         value.visibility = View.VISIBLE
                         val param = value.layoutParams as LayoutParams
-                        param.topMargin = mTransY
                         value.layoutParams = param
-                    } else if (View.VISIBLE == value.visibility){
+                    } else if (View.VISIBLE == value.visibility) {
                         value.animate()
                             .alpha(0F)
                             .setDuration(300)
@@ -218,7 +238,6 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
                     if (layoutId == key) {   // 显示该 View
                         value.visibility = View.VISIBLE
                         val param = value.layoutParams as LayoutParams
-                        param.topMargin = mTransY
                         value.layoutParams = param
                     } else {
                         value.visibility = View.GONE
@@ -228,7 +247,6 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
                     if (layoutId == key) {   // 显示该 View
                         value.visibility = View.VISIBLE
                         val param = value.layoutParams as LayoutParams
-                        param.topMargin = mTransY
                         value.layoutParams = param
                     } else {
                         value.visibility = View.GONE
@@ -238,7 +256,6 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
                     if (layoutId == key) {   // 显示该 View
                         value.visibility = View.VISIBLE
                         val param = value.layoutParams as LayoutParams
-                        param.topMargin = mTransY
                         value.layoutParams = param
                     } else {
                         value.visibility = View.GONE
@@ -332,10 +349,10 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
         ) ?: return
 
         retryView?.setOnClickListener(object : OnClickFastListener(1200L) {
-                override fun onFastClick(v: View) {
-                    onRetryListener?.onRetry()
-                }
-            })
+            override fun onFastClick(v: View) {
+                onRetryListener?.onRetry()
+            }
+        })
     }
 
     private fun dp2px(def: Float): Float {

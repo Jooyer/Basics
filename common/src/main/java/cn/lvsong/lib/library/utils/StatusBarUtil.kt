@@ -1,6 +1,5 @@
 package cn.lvsong.lib.library.utils
 
-import android.R
 import android.app.Activity
 import android.content.Context
 import android.os.Build
@@ -11,6 +10,7 @@ import android.view.WindowManager
 import androidx.annotation.ColorRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import cn.lvsong.lib.library.R
 
 /**
  * Desc: https://blog.csdn.net/smileiam/article/details/73603840
@@ -52,7 +52,7 @@ object StatusBarUtil {
             activity.window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         }
 
-        val contentView = activity.findViewById(R.id.content) as ViewGroup
+        val contentView = activity.findViewById(android.R.id.content) as ViewGroup
         if (fitsSystemWindows) {
             contentView.setPadding(0, getStatusBarHeight(activity), 0, 0)
         } else {
@@ -192,7 +192,7 @@ object StatusBarUtil {
      * @param enable --> true 表示显示状态栏文字
      */
     fun setStatusBarVisibility(activity: Activity, enable: Boolean) {
-        setStatusBarColor(activity, ContextCompat.getColor(activity, R.color.white))
+        setStatusBarColor(activity, ContextCompat.getColor(activity, android.R.color.white))
         val lp = activity.window.attributes
         if (enable) {
             lp.flags = lp.flags or WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN

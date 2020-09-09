@@ -791,7 +791,6 @@ PS: 一般右侧显示一个文本按钮(或者2个图标按钮,或者更多按�
 | ct_bottom_divider_style      | enum               | 底部分割线样式,SHADOW(阴影效果),默认值; LINE(分割线效果),如果分割线不可见则此属性无效 |
 | ct_background_color          | color\|reference   | 背景色,默认白色,如果设置了ct_bottom_divider_style = SHADOW会导致xml中设置的背景色失效,如果需要背景色,则根据需要设置 |
 
-==PS: ct_bottom_divider_style = SHADOW会压缩内容高度,在使用 StatusMananger时,会发现多视图布局与CustomToolbar存在一个间隔(阴影高度5dp),如果想遮盖掉, 请参考 cn.lvsong.lib.demo.StatusActivity==
 
 ## **公共方法:**
 
@@ -1615,7 +1614,6 @@ PS: ==一张图也需要设置适配器==
 
 具体参考: cn.lvsong.lib.demo.StatusActivity
 
-==PS: 在使用 StatusMananger时又使用CustomToolbar,会发现多视图布局与CustomToolbar存在一个间隔(阴影高度5dp),如果想遮盖掉, 请参考 cn.lvsong.lib.demo.StatusActivity==
 
 ```kotlin
     val statusManager = StatusManager.newBuilder(this)
@@ -1666,7 +1664,6 @@ setContentView(setContentView)
 
 | Statusmanager方法名称         | 作用                                                         |
 | ----------------------------- | ------------------------------------------------------------ |
-| setTransY(transY: Int)        | 将loading,error等view上下移动,如果你希望loading时显示自定义的toolbar,那么可以试试此方法 |
 | showLoading()                 | 显示loading                                                  |
 | showContent()                 | 显示内容,默认延迟显示1200ms                                  |
 | delayShowContent(delay: Long) | 延迟显示内容                                                 |
