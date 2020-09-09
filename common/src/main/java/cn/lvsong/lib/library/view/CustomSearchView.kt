@@ -1,6 +1,7 @@
 package cn.lvsong.lib.library.view
 
 import android.content.Context
+import android.os.Build
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextUtils
@@ -257,13 +258,23 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
         }
 
         et_search_view_search.isCursorVisible = cursorVisible
-        try {
-            val f: Field = TextView::class.java.getDeclaredField("mCursorDrawableRes")
-            f.isAccessible = true
-            f.set(et_search_view_search, cursorDrawableId)
-        } catch (e: Exception) {
-            e.printStackTrace()
+
+        // API >= 29,新增 setTextCursorDrawable(resId/drawable)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+            if (0 != cursorDrawableId){
+                et_search_view_search.setTextCursorDrawable(cursorDrawableId)
+            }
+        }else{
+            try { // API >= 29,会报 java.lang.NoSuchFieldException: No field mCursorDrawableRes
+                // mCursorDrawableRes 被 @UnsupportedAppUsage标记无法被外部应用访问
+                val f: Field = TextView::class.java.getDeclaredField("mCursorDrawableRes")
+                f.isAccessible = true
+                f.set(et_search_view_search, cursorDrawableId)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
+
 
         if (inputTextLength > 0) {
             et_search_view_search.filters = arrayOf(InputFilter.LengthFilter(inputTextLength))

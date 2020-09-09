@@ -40,9 +40,9 @@ abstract class BaseActivity : AppCompatActivity(), OnRetryListener, OnLazyClickL
         )
 
         if (-1 == getDarkModel()) {
-            StatusBarUtil.changeStatusTextColor(this, 1 == StatusConfig.INSTANCE.getDarkModel())
+            StatusBarUtil.changeStatusTextColor(this, 2 == StatusConfig.INSTANCE.getDarkModel())
         } else {
-            StatusBarUtil.changeStatusTextColor(this, 1 == getDarkModel())
+            StatusBarUtil.changeStatusTextColor(this, 2 == getDarkModel())
         }
 
         requestWindowFeature()

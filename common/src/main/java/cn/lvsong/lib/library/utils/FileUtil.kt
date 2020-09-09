@@ -25,7 +25,8 @@ import java.text.DecimalFormat
  * Time: 14:29
  */
 object FileUtil {
-    val FILE_DIR = Environment.getExternalStorageDirectory().absolutePath + File.separator + "Beauty"
+    val FILE_DIR =
+        Environment.getExternalStorageDirectory().absolutePath + File.separator + "Beauty"
     val SCREEN_SHOT_NAME = "screen_shot.png"
 
     /**
@@ -54,11 +55,13 @@ object FileUtil {
     /**
      * 通过文件路路径获取其 Uri
      */
-    fun getImageContentUri(context: Context, path: String): Uri {
-        val cursor = context.contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                arrayOf(MediaStore.Images.Media._ID),
-                MediaStore.Images.Media.DATA + "=? ",
-                arrayOf(path), null)
+    fun getImageContentUri(context: Context, path: String): Uri? {
+        val cursor = context.contentResolver.query(
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            arrayOf(MediaStore.Images.Media._ID),
+            MediaStore.Images.Media.DATA + "=? ",
+            arrayOf(path), null
+        )
         if (cursor != null && cursor.moveToFirst()) {
             val id = cursor.getInt(cursor.getColumnIndex(MediaStore.Images.Media._ID))
             val baseUri = Uri.parse("content://media/external/images/media")
@@ -67,7 +70,10 @@ object FileUtil {
         } else {
             val contentValues = ContentValues(1)
             contentValues.put(MediaStore.Images.Media.DATA, path)
-            return context.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+            return context.contentResolver.insert(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                contentValues
+            )
         }
     }
 
@@ -119,12 +125,14 @@ object FileUtil {
         var data: String = ""
 
         if (scheme == null)
-            data = uri.path
+            data = uri.path ?: ""
         else if (ContentResolver.SCHEME_FILE == scheme) {
-            data = uri.path
+            data = uri.path ?: ""
         } else if (ContentResolver.SCHEME_CONTENT == scheme) {
-            val cursor = context.contentResolver.query(uri, arrayOf(ImageColumns.DATA),
-                    null, null, null)
+            val cursor = context.contentResolver.query(
+                uri, arrayOf(ImageColumns.DATA),
+                null, null, null
+            )
             if (null != cursor) {
                 if (cursor.moveToFirst()) {
                     val index = cursor.getColumnIndex(ImageColumns.DATA)
@@ -226,20 +234,20 @@ object FileUtil {
      * @param size -> 文件大小
      * @param pattern -> 1. 不要小数 "#"; 2.一位小数 "#.0"; 3. 两位小数 "#.00", 默认两位小数
      */
-    fun formatFileSize(size: Long,pattern:String = "#.00"): String {
+    fun formatFileSize(size: Long, pattern: String = "#.00"): String {
         val decimalFormat = DecimalFormat(pattern)
         return when {
             size < 1024L -> {
                 "${decimalFormat.format(size)} B"
             }
             size < 1204L * 1204L -> {
-                "${decimalFormat.format(size/1024)} KB"
+                "${decimalFormat.format(size / 1024)} KB"
             }
             size < 1204L * 1204L * 1204L -> {
-                "${decimalFormat.format(size/1048576)} MB"
+                "${decimalFormat.format(size / 1048576)} MB"
             }
             else -> {
-                "${decimalFormat.format(size/1073741824)} GB"
+                "${decimalFormat.format(size / 1073741824)} GB"
             }
         }
     }
@@ -248,27 +256,26 @@ object FileUtil {
      * 删除某个文件|目录
      * @param filePath -> 目录|文件 路径
      */
-    fun deleteFiles(filePath: String):Boolean{
+    fun deleteFiles(filePath: String): Boolean {
         val file = File(filePath)
-        if (!file.exists()){
+        if (!file.exists()) {
             return false
         }
-        if (file.isFile){
+        if (file.isFile) {
             file.delete()
             return true
         }
         val listFiles = file.listFiles()
         listFiles?.forEach {
-            if (it.isFile){
+            if (it.isFile) {
                 it.delete()
-            }else{
+            } else {
                 deleteFiles(it.absolutePath)
             }
         }
         file.delete() // 删除目录本身
         return true
     }
-
 
 
     /**
@@ -309,7 +316,7 @@ object FileUtil {
      */
     fun getFilePath(context: Context, uri: Uri): String? {
         // DocumentProvider
-        if ( DocumentsContract.isDocumentUri(context, uri)) {
+        if (DocumentsContract.isDocumentUri(context, uri)) {
             // ExternalStorageProvider
             if (isExternalStorageDocument(uri)) {
                 val docId = DocumentsContract.getDocumentId(uri)
@@ -322,7 +329,8 @@ object FileUtil {
             } else if (isDownloadsDocument(uri)) {
                 val id = DocumentsContract.getDocumentId(uri)
                 val contentUri = ContentUris.withAppendedId(
-                    Uri.parse("content://downloads/public_downloads"), java.lang.Long.valueOf(id))
+                    Uri.parse("content://downloads/public_downloads"), java.lang.Long.valueOf(id)
+                )
                 return getDataColumn(context, contentUri, null, null)
             } else if (isMediaDocument(uri)) {
                 val docId = DocumentsContract.getDocumentId(uri)
@@ -345,7 +353,12 @@ object FileUtil {
         } else if ("content".equals(uri.scheme, ignoreCase = true)) {
 
             // Return the remote address
-            return if (isGooglePhotosUri(uri)) uri.lastPathSegment else getDataColumn(context, uri, null, null)
+            return if (isGooglePhotosUri(uri)) uri.lastPathSegment else getDataColumn(
+                context,
+                uri,
+                null,
+                null
+            )
         } else if ("file".equals(uri.scheme, ignoreCase = true)) {
             return uri.path
         }
@@ -363,16 +376,20 @@ object FileUtil {
      * @param selectionArgs (Optional) Selection arguments used in the query.
      * @return The value of the _data column, which is typically a file path.
      */
-    fun getDataColumn(context: Context, uri: Uri?, selection: String?,
-                      selectionArgs: Array<String>?): String? {
+    fun getDataColumn(
+        context: Context, uri: Uri?, selection: String?,
+        selectionArgs: Array<String>?
+    ): String? {
         var cursor: Cursor? = null
         val column = "_data"
         val projection = arrayOf(
             column
         )
         try {
-            cursor = context.contentResolver.query(uri!!, projection, selection, selectionArgs,
-                null)
+            cursor = context.contentResolver.query(
+                uri!!, projection, selection, selectionArgs,
+                null
+            )
             if (cursor != null && cursor.moveToFirst()) {
                 val index = cursor.getColumnIndexOrThrow(column)
                 return cursor.getString(index)

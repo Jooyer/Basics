@@ -28,7 +28,7 @@ class StatusConfig {
      * 1 --> 状态栏文本是黑色, 2 --> 状态栏文本是白色
      * 默认黑色
      */
-    private var mDarkModel = 2
+    private var mDarkModel = 1
 
     /**
      * 设置全局状态栏颜色

@@ -11,6 +11,8 @@ group='com.github.Jooyer'// 比加,com.github.<用户名>,如 https://github.com
 android {
 
     compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+
     defaultConfig {
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
