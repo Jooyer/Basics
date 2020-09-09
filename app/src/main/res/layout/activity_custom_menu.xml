@@ -131,6 +131,7 @@
             app:csv_input_cursor_visible="true"
             app:csv_input_hint_text="请输入搜索内容"
             app:csv_search_btn_bg_color="@color/color_2878FF"
+            app:csv_input_cursor_drawable="@drawable/ic_gray_solid_rectangle"
             app:csv_search_btn_text_bold="true"
             app:csv_search_btn_text_color="@color/color_FFFFFF"
             app:csv_search_btn_width="@dimen/width_40" />

@@ -9,7 +9,7 @@
     <cn.lvsong.lib.library.view.CustomToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_50"
+        android:layout_height="wrap_content"
         app:ct_center_text_color="@color/color_333333"
         app:ct_center_text_info="状态管理器"
         app:ct_center_text_size="@dimen/text_size_16"

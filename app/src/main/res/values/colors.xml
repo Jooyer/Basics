@@ -3,6 +3,7 @@
 
     <color name="shadow_default_color">#1a000000</color>
     <color name="shadow_card_default_color">#ffffff</color>
+    <color name="color_FF2121">#FF2121</color>
 
 
 </resources>
