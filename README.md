@@ -32,7 +32,7 @@
 
 ```groovy
 	dependencies {
-	        implementation 'com.github.Jooyer.Basics:common:1.0.3'
+	        implementation 'com.github.Jooyer.Basics:common:1.0.4'
 	}
 ```
 
@@ -54,6 +54,32 @@
 ## v1.0.3变化:
 1. 对CustomSearchView的cursorDrawable适配9.0
 2. 完善多视图StatusManager控件
+
+## v1.0.4变化:
+1. 紧急修复由于StatusManager中将 CustomToolbar 或者 自定义的Toolbar 等实现  StatusProvider 接口的控件,移除原有的父容器,添加到RootStatusLayout容器中,导致UI界面无法使 CustomToolbar 或者 自定义的Toolbar 等实现  StatusProvider 接口的控件.
+
+   ```kotlin
+   ... 省略部分 ...
+   
+   	                val childParent = child.parent as ViewGroup
+                   // 移除掉原来的,则会导致界面错位,添加一个占位的,但是占位视图设置为 View.INVISIBLE(不可见的)
+                   childParent.removeView(child)
+                   // 占位View
+                   val view = View(context)
+                   view.setBackgroundColor(Color.TRANSPARENT)
+                   // 保证原来的ID不变,是防止其他控件对此控件有依赖或者位置关系
+                   view.id = child.id
+                   view.visibility = View.INVISIBLE
+                   childParent.addView(view, 0, params)
+                   child.id = R.id.ct_tool_bar
+                   addView(child, params)
+   
+   ... 省略部分 ...
+   PS: 具体源码请参考: cn.lvsong.lib.library.state.RootStatusLayout.getCustomToolbar(viewGroup: ViewGroup)
+   ```
+
+   
+
 
 
 [toc]

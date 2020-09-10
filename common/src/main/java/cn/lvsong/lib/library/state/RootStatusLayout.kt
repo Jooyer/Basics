@@ -126,11 +126,12 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
                     (params.height - dp2px(5F)).toInt()
                 }
                 val childParent = child.parent as ViewGroup
-                // 移除掉原来的,则会导致界面错位,添加一个占位的
+                // 移除掉原来的,则会导致界面错位,添加一个占位的,但是占位视图设置为 View.INVISIBLE(不可见的)
                 childParent.removeView(child)
                 // 占位View
                 val view = View(context)
                 view.setBackgroundColor(Color.TRANSPARENT)
+                // 保证原来的ID不变,是防止其他控件对此控件有依赖或者位置关系
                 view.id = child.id
                 view.visibility = View.INVISIBLE
                 childParent.addView(view, 0, params)
