@@ -37,7 +37,7 @@ class StatusManager(builder: Builder) {
     /**
      * 内容视图
      */
-    internal var mContentLayoutView: View
+    var mContentLayoutView: View?
 
     /**
      * 内容视图布局
@@ -113,7 +113,7 @@ class StatusManager(builder: Builder) {
      * LoadingView背景色
      */
     @ColorRes
-     var mLoadingViewBackgroundColor = R.color.main_theme_color
+    var mLoadingViewBackgroundColor = R.color.main_theme_color
 
     /**
      * 显示loading
@@ -141,7 +141,7 @@ class StatusManager(builder: Builder) {
     /**
      * 立刻显示内容
      */
-    fun showContentImmediately(){
+    fun showContentImmediately() {
         mRootFrameLayout.showContent()
     }
 
@@ -184,7 +184,7 @@ class StatusManager(builder: Builder) {
     /**
      * 返回 CustomToolbar 或者 自定义的Toolbar 等实现  StatusProvider 接口的控件
      */
-    fun getCustomView():View {
+    fun getCustomView(): View {
         return mRootFrameLayout.findViewById(R.id.ct_tool_bar)
     }
 
@@ -192,7 +192,7 @@ class StatusManager(builder: Builder) {
         var loadingLayoutResId: Int = 0
         var contentLayoutResId: Int = 0
 
-        lateinit var contentLayoutView: View
+        var contentLayoutView: View?=null
 
         lateinit var netWorkErrorVs: ViewStub
 
@@ -263,7 +263,7 @@ class StatusManager(builder: Builder) {
             return this
         }
 
-            fun errorRetryViewId(@IdRes errorRetryViewId: Int): Builder {
+        fun errorRetryViewId(@IdRes errorRetryViewId: Int): Builder {
             this.errorRetryViewId = errorRetryViewId
             return this
         }

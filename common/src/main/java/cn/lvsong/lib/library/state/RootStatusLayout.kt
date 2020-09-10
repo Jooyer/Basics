@@ -90,8 +90,8 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
 
         if (0 != mStatusLayoutManager.mContentLayoutResId) {
             addLayoutResId(mStatusLayoutManager.mContentLayoutResId, LAYOUT_CONTENT_ID, params)
-        } else {
-            addLayoutView(mStatusLayoutManager.mContentLayoutView, LAYOUT_CONTENT_ID, params)
+        } else if (null != mStatusLayoutManager.mContentLayoutView) {
+            addLayoutView(mStatusLayoutManager.mContentLayoutView!!, LAYOUT_CONTENT_ID, params)
         }
 
         if (0 != mStatusLayoutManager.mLoadingLayoutResId) {

@@ -30,10 +30,6 @@ class StatusActivity : BaseActivity() {
 
     override fun getLayoutId() = R.layout.activity_status
 
-    /**
-     *  可以自行测试  1/0 效果
-     */
-    override fun needUseImmersive() = 0
 
     override fun useStatusManager() = true
 
@@ -41,8 +37,10 @@ class StatusActivity : BaseActivity() {
 //    override fun setLoadingViewBackgroundColor() = R.color.color_2878FF
 
     override fun setLogic() {
-
-        StatusBarUtil.changeStatusBarColor(this,android.R.color.white)
+        // 设置状态栏背景色透明,并在顶部添加一个padding,高度为statusBarHeight
+        StatusBarUtil.transparentStatusBar(this, android.R.color.transparent, true)
+        // 改变状态栏文字颜色
+        StatusBarUtil.changeStatusTextColor(this,false)
 
         initTopMenu()
         // 如果不调用 显示内容/显示错误等,一直会显示 loading
