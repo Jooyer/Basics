@@ -3,5 +3,6 @@
 
     <item name="banner_view" type="id"/>
     <item name="ll_indicator_container" type="id"/>
+    <item name="ct_tool_bar" type="id"/>
 
 </resources>

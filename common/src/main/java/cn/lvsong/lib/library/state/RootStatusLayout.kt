@@ -13,6 +13,7 @@ import android.widget.FrameLayout
 import androidx.annotation.LayoutRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import cn.lvsong.lib.library.R
 import cn.lvsong.lib.library.listener.OnClickFastListener
 import cn.lvsong.lib.library.other.StatusProvider
 import cn.lvsong.lib.library.view.CustomToolbar
@@ -133,6 +134,7 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
                 view.id = child.id
                 view.visibility = View.INVISIBLE
                 childParent.addView(view, 0, params)
+                child.id = R.id.ct_tool_bar
                 addView(child, params)
                 break
             } else {

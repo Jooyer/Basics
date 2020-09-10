@@ -181,6 +181,9 @@ class StatusManager(builder: Builder) {
         return mRootFrameLayout
     }
 
+    fun getCustomView():View {
+        return mRootFrameLayout.findViewById(R.id.ct_tool_bar)
+    }
 
     class Builder(val context: Context) {
         var loadingLayoutResId: Int = 0

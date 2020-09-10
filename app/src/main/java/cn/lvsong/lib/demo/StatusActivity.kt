@@ -1,9 +1,12 @@
 package cn.lvsong.lib.demo
 
+import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import cn.lvsong.lib.library.listener.OnClickFastListener
 import cn.lvsong.lib.library.utils.DensityUtil
 import cn.lvsong.lib.library.utils.SelectorFactory
+import cn.lvsong.lib.library.view.CustomToolbar
 import cn.lvsong.lib.ui.BaseActivity
 import kotlinx.android.synthetic.main.activity_status.*
 
@@ -81,7 +84,7 @@ class StatusActivity : BaseActivity() {
         // 显示内容
         acb_content.setOnClickListener {
             mStatusManager?.showContent()
-            Toast.makeText(this@StatusActivity,"调用showContent()显示内容",Toast.LENGTH_LONG).show()
+            Toast.makeText(this@StatusActivity, "调用showContent()显示内容", Toast.LENGTH_LONG).show()
         }
 
         // 显示错误
@@ -99,6 +102,21 @@ class StatusActivity : BaseActivity() {
         acb_empty.setOnClickListener {
             mStatusManager?.showEmptyData()
         }
+
+        /**
+         * 注意,如果希望Toolbar不给遮挡,有以下2种解决办法
+         * 1. 使用本库自带的 CustomToolbar,
+         * 2. 自定义的Toolbar实现StatusProvider接口
+         * PS: 无论上面哪种方式,都将导致控件被添加到了 RootStatusLayout 中,
+         * 此时在UI界面是无法正常使用的, 不过只需使用 mStatusManager.getCustomView()
+         * 即可获取 CustomToolbar 或者 自定义的Toolbar (需自行强转)
+         */
+        (mStatusManager!!.getCustomView() as CustomToolbar).setMoreViewListener(object :
+            OnClickFastListener() {
+            override fun onFastClick(v: View) {
+                Toast.makeText(this@StatusActivity,"点击了更多按钮",Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     override fun getLoadingViewLayoutId(): Int {
