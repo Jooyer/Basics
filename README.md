@@ -32,7 +32,7 @@
 
 ```groovy
 	dependencies {
-	        implementation 'com.github.Jooyer.Basics:common:1.0.2'
+	        implementation 'com.github.Jooyer.Basics:common:1.0.3'
 	}
 ```
 
@@ -50,6 +50,10 @@
 3.CustomToolbar增加底部分割线为阴影同时保留设置为线,(阴影高度为5dp,会挤压标题等显示)
 4.CustomToolbar增加设置阴影颜色
 5.CustomToolbar增加设置背景颜色(ct_background_color),Shadow模式下有效,反之直接用系统android:background即可
+
+## v1.0.3变化:
+1. 对CustomSearchView的cursorDrawable适配9.0
+2. 完善多视图StatusManager控件
 
 
 [toc]
