@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
+import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -70,13 +71,20 @@ object StatusBarUtil {
     }
 
     /**
-     * 更改状态栏高度
+     * 更改状态栏颜色
      */
     fun changeStatusBarColor(activity: AppCompatActivity, @ColorRes colorRes: Int) {
+        changeStatusBarColorII(activity, ContextCompat.getColor(activity, colorRes))
+    }
+
+    /**
+     * 更改状态栏颜色
+     */
+    fun changeStatusBarColorII(activity: AppCompatActivity, @ColorInt colorId: Int) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             activity.window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             activity.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            activity.window.statusBarColor = ContextCompat.getColor(activity, colorRes)
+            activity.window.statusBarColor = colorId
         }
     }
 

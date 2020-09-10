@@ -24,13 +24,13 @@ abstract class OnClickFastListener(private val delay:Long = 900) : View.OnClickL
     }
 
 
-    override fun onClick(v: View) {
+    override fun onClick(view: View) {
         // 判断当前点击事件与前一次点击事件时间间隔是否小于阙值
         if (isFastDoubleClick()) {
             return
         }
 
-        onFastClick(v)
+        onFastClick(view)
     }
 
     /**

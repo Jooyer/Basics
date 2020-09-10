@@ -10,101 +10,73 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_26"
+        app:ct_bottom_divider_color="@color/color_333333"
+        app:ct_bottom_divider_visible="true"
         app:ct_center_text_color="@color/color_333333"
         app:ct_center_text_info="状态管理器"
         app:ct_center_text_size="@dimen/text_size_16"
-        app:ct_bottom_divider_visible="true"
-        app:ct_bottom_divider_color="@color/color_333333"
+        app:ct_right_mav_visible="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:ct_right_mav_visible="true"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/acb_loading"
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/acb_tips1"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_50"
+        android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/padding_10"
         android:layout_marginTop="@dimen/padding_20"
         android:layout_marginEnd="@dimen/padding_10"
-        android:text="loading"
+        android:gravity="center_vertical"
+        android:lineSpacingMultiplier="1.2"
+        android:padding="@dimen/padding_5"
+        android:text="如果布局给了重试控件,则ID必须为:  view_retry_load_data,\n空视图.网络错误视图,错误视图需自定义,参考 StatusActivity 内用法"
         android:textColor="@color/color_FFFFFF"
-        android:textSize="20sp"
+        android:textSize="@dimen/text_size_15"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/acb_content"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_50"
-        android:layout_marginStart="@dimen/padding_10"
-        android:layout_marginTop="@dimen/padding_20"
-        android:layout_marginEnd="@dimen/padding_10"
-        android:text="content"
-        android:textColor="@color/color_FFFFFF"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/acb_loading" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/acb_error"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_50"
-        android:layout_marginStart="@dimen/padding_10"
-        android:layout_marginTop="@dimen/padding_20"
-        android:layout_marginEnd="@dimen/padding_10"
-        android:text="error"
-        android:textColor="@color/color_FFFFFF"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/acb_content" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/acb_net_error"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_50"
-        android:layout_marginStart="@dimen/padding_10"
-        android:layout_marginTop="@dimen/padding_20"
-        android:layout_marginEnd="@dimen/padding_10"
-        android:text="net_error"
-        android:textColor="@color/color_FFFFFF"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/acb_error" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/acb_empty"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_50"
-        android:layout_marginStart="@dimen/padding_10"
-        android:layout_marginTop="@dimen/padding_20"
-        android:layout_marginEnd="@dimen/padding_10"
-        android:text="empty"
-        android:textColor="@color/color_FFFFFF"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/acb_net_error" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/acb_tips"
+        android:id="@+id/acb_tips2"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_140"
+        android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/padding_10"
-        android:layout_marginTop="@dimen/padding_20"
+        android:layout_marginTop="@dimen/padding_30"
         android:layout_marginEnd="@dimen/padding_10"
-        android:text="如果布局给了重试控件,则ID必须为:  view_retry_load_data,\n空视图.网络错误视图,错误视图都需自定义"
-        android:textColor="@color/color_FFFFFF"
-        android:textSize="20sp"
         android:gravity="center_vertical"
+        android:lineSpacingMultiplier="1.2"
+        android:padding="@dimen/padding_5"
+        android:text="注意,如果希望Toolbar不给遮挡,有以下2种解决办法\n
+1. 使用本库自带的 CustomToolbar,\n
+2. 自定义的Toolbar实现 StatusProvider 接口\n
+PS: 无论上面哪种方式,都将导致控件被添加到了 RootStatusLayout 中,
+此时在UI界面是无法正常使用的, 不过只需使用 mStatusManager.getCustomView()
+即可获取 CustomToolbar 或者 自定义的Toolbar (需自行强转)"
+        android:textColor="@color/color_FFFFFF"
+        android:textSize="@dimen/text_size_15"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/acb_empty" />
+        app:layout_constraintTop_toBottomOf="@id/acb_tips1" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/acb_tips3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/padding_10"
+        android:layout_marginTop="@dimen/padding_30"
+        android:layout_marginEnd="@dimen/padding_10"
+        android:gravity="center_vertical"
+        android:lineSpacingMultiplier="1.2"
+        android:padding="@dimen/padding_5"
+        android:text="如果布局延伸到状态栏内,此时需要在实现 StatusProvider 接口的控件中添加 layout_marginTop,防止状态栏文字遮挡控件, 推荐值 26dp,一般手机均可适配 "
+        android:textColor="@color/color_FFFFFF"
+        android:textSize="@dimen/text_size_15"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/acb_tips2" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

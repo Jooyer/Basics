@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:clickable="true"
     android:focusable="true"
-    android:background="#B5494949">
+    android:background="#838383">
 
 
     <cn.lvsong.lib.library.refresh.ChrysanthemumView

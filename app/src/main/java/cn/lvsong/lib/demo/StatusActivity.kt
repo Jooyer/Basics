@@ -2,11 +2,21 @@ package cn.lvsong.lib.demo
 
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
+import cn.lvsong.lib.library.adapter.CommonAdapter
+import cn.lvsong.lib.library.adapter.MultiItemTypeAdapter
+import cn.lvsong.lib.library.adapter.ViewHolder
 import cn.lvsong.lib.library.listener.OnClickFastListener
+import cn.lvsong.lib.library.other.LinearDividerItemDecoration
+import cn.lvsong.lib.library.topmenu.MenuItem
+import cn.lvsong.lib.library.topmenu.TopMenu
 import cn.lvsong.lib.library.utils.DensityUtil
 import cn.lvsong.lib.library.utils.SelectorFactory
+import cn.lvsong.lib.library.utils.StatusBarUtil
 import cn.lvsong.lib.library.view.CustomToolbar
+import cn.lvsong.lib.library.view.MediumTextView
 import cn.lvsong.lib.ui.BaseActivity
 import kotlinx.android.synthetic.main.activity_status.*
 
@@ -16,12 +26,14 @@ import kotlinx.android.synthetic.main.activity_status.*
  */
 class StatusActivity : BaseActivity() {
 
+    private lateinit var mTopMenu: TopMenu
+
     override fun getLayoutId() = R.layout.activity_status
 
     /**
      *  可以自行测试  1/0 效果
      */
-    override fun needUseImmersive() = 1
+    override fun needUseImmersive() = 0
 
     override fun useStatusManager() = true
 
@@ -29,41 +41,27 @@ class StatusActivity : BaseActivity() {
 //    override fun setLoadingViewBackgroundColor() = R.color.color_2878FF
 
     override fun setLogic() {
+
+        StatusBarUtil.changeStatusBarColor(this,android.R.color.white)
+
+        initTopMenu()
         // 如果不调用 显示内容/显示错误等,一直会显示 loading
 //        mStatusManager?.showContent() // 默认1200毫秒延时,其实一般网络请求成功差不多
-        mStatusManager?.delayShowContent(3000)
+        mStatusManager?.delayShowContent(2000)
 
-        acb_loading.background = SelectorFactory.newShapeSelector()
+        acb_tips1.background = SelectorFactory.newShapeSelector()
             .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
             .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
             .setCornerRadius(DensityUtil.dp2pxRtInt(5))
             .create()
 
-        acb_content.background = SelectorFactory.newShapeSelector()
+        acb_tips2.background = SelectorFactory.newShapeSelector()
             .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
             .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
             .setCornerRadius(DensityUtil.dp2pxRtInt(5))
             .create()
 
-        acb_error.background = SelectorFactory.newShapeSelector()
-            .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
-            .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
-            .setCornerRadius(DensityUtil.dp2pxRtInt(5))
-            .create()
-
-        acb_net_error.background = SelectorFactory.newShapeSelector()
-            .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
-            .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
-            .setCornerRadius(DensityUtil.dp2pxRtInt(5))
-            .create()
-
-        acb_empty.background = SelectorFactory.newShapeSelector()
-            .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
-            .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
-            .setCornerRadius(DensityUtil.dp2pxRtInt(5))
-            .create()
-
-        acb_tips.background = SelectorFactory.newShapeSelector()
+        acb_tips3.background = SelectorFactory.newShapeSelector()
             .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
             .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
             .setCornerRadius(DensityUtil.dp2pxRtInt(5))
@@ -74,35 +72,6 @@ class StatusActivity : BaseActivity() {
     override fun getStatusBarColor() = R.color.main_theme_color
 
     override fun bindEvent() {
-
-        // 显示Loading
-        acb_loading.setOnClickListener {
-            mStatusManager?.showLoading()
-            mStatusManager?.delayShowContent(3000)
-        }
-
-        // 显示内容
-        acb_content.setOnClickListener {
-            mStatusManager?.showContent()
-            Toast.makeText(this@StatusActivity, "调用showContent()显示内容", Toast.LENGTH_LONG).show()
-        }
-
-        // 显示错误
-        acb_error.setOnClickListener {
-            mStatusManager?.showError()
-        }
-
-        // 显示网络错误
-        acb_net_error.setOnClickListener {
-            mStatusManager?.showNetWorkError()
-        }
-
-
-        // 显示空数据
-        acb_empty.setOnClickListener {
-            mStatusManager?.showEmptyData()
-        }
-
         /**
          * 注意,如果希望Toolbar不给遮挡,有以下2种解决办法
          * 1. 使用本库自带的 CustomToolbar,
@@ -114,7 +83,7 @@ class StatusActivity : BaseActivity() {
         (mStatusManager!!.getCustomView() as CustomToolbar).setMoreViewListener(object :
             OnClickFastListener() {
             override fun onFastClick(v: View) {
-                Toast.makeText(this@StatusActivity,"点击了更多按钮",Toast.LENGTH_SHORT).show()
+                mTopMenu.show(v, null, null)
             }
         })
     }
@@ -133,6 +102,64 @@ class StatusActivity : BaseActivity() {
 
     override fun getErrorViewLayoutId(): Int {
         return R.layout.status_error_page
+    }
+
+
+    private fun initTopMenu() {
+        val data = arrayListOf<MenuItem>(
+            MenuItem(R.drawable.ic_baseline_alarm_add_24, "展示加载"),
+            MenuItem(R.drawable.ic_baseline_assignment_returned_24, "展示空视图"),
+            MenuItem(R.drawable.ic_baseline_alarm_add_24, "展示错误"),
+            MenuItem(R.drawable.ic_baseline_assignment_returned_24, "展示网络异常"),
+            MenuItem(R.drawable.ic_baseline_alarm_add_24, "展示内容")
+        )
+        val adapter =
+            object : CommonAdapter<MenuItem>(
+                mStatusManager!!.getRootLayout().context,
+                R.layout.item_top_menu,
+                data
+            ) {
+                override fun convert(holder: ViewHolder, bean: MenuItem, position: Int) {
+                    holder.getView<AppCompatImageView>(R.id.aiv_icon_left_image).visibility =
+                        View.GONE
+                    holder.getView<MediumTextView>(R.id.tv_text_right_text).text =
+                        data[position].text
+                }
+            }
+
+        adapter.setOnItemClickListener(object : MultiItemTypeAdapter.OnItemClickListener {
+            override fun onItemClick(view: View, holder: RecyclerView.ViewHolder, position: Int) {
+                mTopMenu.dismiss()
+                when (position) {
+                    0 -> {
+                        mStatusManager?.showLoading()
+                        mStatusManager?.delayShowContent(3000)
+                    }
+                    1 -> mStatusManager?.showEmptyData()
+                    2 -> mStatusManager?.showError()
+                    3 -> mStatusManager?.showNetWorkError()
+                    else -> mStatusManager?.showContent()
+                }
+            }
+        })
+
+        val itemDecoration = LinearDividerItemDecoration(
+            mStatusManager!!.getRootLayout().context,
+            DensityUtil.dp2pxRtInt(1F),
+            ContextCompat.getColor(mStatusManager!!.getRootLayout().context, R.color.color_EEEEEE)
+        )
+        itemDecoration.setDividerPaddingLeft(DensityUtil.dp2pxRtInt(14F))
+        itemDecoration.setDividerPaddingRight(DensityUtil.dp2pxRtInt(14F))
+        mTopMenu = TopMenu(mStatusManager!!.getRootLayout().context, adapter)
+            .setWidth(DensityUtil.dp2pxRtInt(150F))
+            .setHeight(DensityUtil.dp2pxRtInt(200F))
+            .setBackDark(true)
+            // 使得弹框右侧距离屏幕间隔, 如果间隔够了,箭头位置还没有对准控件中间,
+            // 可以在BubbleRecyclerView所在布局中使用 brv_arrow_offset
+            .setPopupXOffset(-DensityUtil.dp2pxRtInt(2F))
+            // 使得弹框上下偏移
+            .setPopupYOffset(-DensityUtil.dp2pxRtInt(5F))
+            .setItemDecoration(itemDecoration)
     }
 
 
