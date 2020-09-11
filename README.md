@@ -32,7 +32,7 @@
 
 ```groovy
 	dependencies {
-	        implementation 'com.github.Jooyer.Basics:common:1.0.4'
+	        implementation 'com.github.Jooyer.Basics:common:1.0.5'
 	}
 ```
 
@@ -58,6 +58,9 @@
 ## v1.0.4变化:
 1. 紧急修复由于StatusManager中将 CustomToolbar 或者 自定义的Toolbar 等实现  StatusProvider 接口的控件,移除原有的父容器,添加到RootStatusLayout容器中,导致UI界面无法使 CustomToolbar 或者 自定义的Toolbar 等实现  StatusProvider 接口的控件.
 
+
+
+
    ```kotlin
    ... 省略部分 ...
    
@@ -79,7 +82,10 @@
    ```
 
    
-
+## v1.0.5变化:
+1. 对CustomMenu添加设置底部分割线高度
+2. 对CustomMenu添加设右侧箭头线宽
+3. 修复StatusManager如果使用contentView(contentLayoutView: View) 因其内部未初始化造成异常
 
 
 [toc]
