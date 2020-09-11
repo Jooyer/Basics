@@ -75,7 +75,7 @@
     <View
         android:id="@+id/view_bottom_divider_menu"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/divider_2"
+        android:layout_height="@dimen/divider_1"
         android:layout_marginStart="@dimen/padding_20"
         android:background="@color/color_EEEEEE"
         app:layout_constraintBottom_toBottomOf="parent"

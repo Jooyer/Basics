@@ -201,10 +201,10 @@
 
 | 属性名称          | 取值类型           | 取值和作用                                                   |
 | ----------------- | ------------------ | ------------------------------------------------------------ |
-| bav_arrow_color   | color              | 箭头颜色                                                     |
-| bav_stroke_width  | integer\|dimension | 箭头线宽                                                     |
-| bav_arrow_padding | dimension\|integer | padding 使得里面 × 变小                                      |
-| bav_arrow_style   | enum               | 箭头模式, material_design(Material Design),wechat_design(微信风格) |
+| bav_arrow_color   | color              | 箭头颜色,默认#666666                                         |
+| bav_stroke_width  | integer\|dimension | 箭头线宽,默认2dp                                             |
+| bav_arrow_padding | dimension\|integer | padding 使得里面 × 变小,默认1dp                              |
+| bav_arrow_style   | enum               | 箭头模式, material_design(Material Design),默认值; wechat_design(微信风格) |
 
 ## **公共方法:**
 
@@ -637,13 +637,15 @@ class CustomAdapter(data: List<String>, layoutId: Int) :
 | cm_right_near_image_top_margin   | dimension\|integer | 紧靠右侧图标顶部Margin,距离最上面,默认0dp                    |
 | cm_right_arrow_visible           | boolean            | 最右侧箭头的是否可见                                         |
 | cm_right_arrow_color             | color\|reference"  | 最右侧箭头的 颜色                                            |
-| cm_right_arrow_padding           | dimension\|integer | 最右侧箭头 Padding(上下左右)                                 |
+| cm_right_arrow_padding           | dimension\|integer | 最右侧箭头 Padding(上下左右),默认1dp                         |
 | cm_right_arrow_orientation       | enum               | 最右侧箭头方向, 向左(left)或向右(right),默认right            |
 | cm_right_arrow_style             | enum               | 最右侧箭头模式,material_design(Material Design),wechat_design(微信风格),默认material_design |
 | cm_right_arrow_width             | dimension\|integer | 最右侧箭头宽度,方便点击区域                                  |
 | cm_right_arrow_height            | dimension\|integer | 最右侧箭头高度,方便点击区域                                  |
+| cm_right_arrow_stroke            | dimension\|float   | 最右侧箭头线条宽度,默认2dp                                   |
 | cm_right_arrow_right_margin      | dimension\|integer | 最右侧箭头rightMargin                                        |
 | cm_bottom_divider_visible        | boolean            | 底部分割线是否可见                                           |
+| cm_bottom_divider_height         | dimension\|float   | 底部分割线高度,默认1px                                       |
 | cm_bottom_divider_color          | color\|reference   | 底部分割线颜色                                               |
 | cm_bottom_divider_left_margin    | dimension\|integer | 底部分割线leftMargin                                         |
 | cm_bottom_divider_right_margin   | dimension\|integer | 底部分割线rightMargin                                        |
@@ -1642,6 +1644,25 @@ PS: ==一张图也需要设置适配器==
 
 ## **用法:**
 
+==注意: 请仔细看下面这段代码==
+
+```kotlin
+   /**
+         * 如果希望Toolbar不给遮挡,有以下2种解决办法
+         * 1. 使用本库自带的 CustomToolbar,
+         * 2. 自定义的Toolbar实现 StatusProvider 接口
+         * PS: 无论上面哪种方式,都将导致控件被添加到了 RootStatusLayout 中,
+         * 此时在UI界面是无法正常使用上面定义的控件, 只需使用 mStatusManager.getCustomView()
+         * 即可获取 CustomToolbar 或者 自定义的Toolbar (需自行强转)
+         */
+        (mStatusManager!!.getCustomView() as CustomToolbar).setMoreViewListener(object :
+            OnClickFastListener() {
+            override fun onFastClick(v: View) {
+               // TODO 
+            }
+        })
+```
+
 具体参考: cn.lvsong.lib.demo.StatusActivity
 
 
@@ -1701,6 +1722,7 @@ setContentView(setContentView)
 | showError()                   | 显示错误视图                                                 |
 | showNetWorkError()            | 显示网络异常                                                 |
 | getRootLayout()               | 返回StatusManager容器                                        |
+| getCustomView()               | 返回 CustomToolbar 或者 自定义的Toolbar 等实现  StatusProvider 接口的控件, ==如果需要操作原xml中的控件,只能通过此方法== |
 
 
 

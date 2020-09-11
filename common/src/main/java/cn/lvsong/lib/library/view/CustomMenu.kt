@@ -177,9 +177,9 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         val rightNearImageTopMargin =
             arr.getDimension(R.styleable.CustomMenu_cm_right_near_image_top_margin, 0F).toInt()
 
+
         val rightArrowVisible =
             arr.getBoolean(R.styleable.CustomMenu_cm_right_arrow_visible, true)
-
         val rightArrowColor = arr.getColor(
             R.styleable.CustomMenu_cm_right_arrow_color,
             ContextCompat.getColor(context, R.color.color_999999)
@@ -191,16 +191,19 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
             arr.getInt(R.styleable.CustomMenu_cm_right_arrow_style, ARROW_STYLE_MATERIAL_DESIGN)
         val rightArrowPadding =
             arr.getDimension(R.styleable.CustomMenu_cm_right_arrow_padding, dp2px(1F))
-
-        val rightImageWidth =
+        val rightArrowWidth =
             arr.getDimension(R.styleable.CustomMenu_cm_right_arrow_width, dp2px(22F)).toInt()
-        val rightImageHeight =
+        val rightArrowHeight =
             arr.getDimension(R.styleable.CustomMenu_cm_right_arrow_height, dp2px(22F)).toInt()
-        val rightImageRightMargin =
+        val rightArrowStroke =
+            arr.getDimension(R.styleable.CustomMenu_cm_right_arrow_stroke, dp2px(2F))
+        val rightArrowRightMargin =
             arr.getDimension(R.styleable.CustomMenu_cm_right_arrow_right_margin, dp2px(5F)).toInt()
 
         val bottomDividerVisible =
             arr.getBoolean(R.styleable.CustomMenu_cm_bottom_divider_visible, false)
+        val bottomDividerHeight =
+            arr.getDimension(R.styleable.CustomMenu_cm_bottom_divider_height,1F).toInt()
         val bottomDividerColor = arr.getColor(
             R.styleable.CustomMenu_cm_bottom_divider_color,
             ContextCompat.getColor(context, R.color.color_EEEEEE)
@@ -283,7 +286,7 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
 
 
         iv_right_arrow_menu.visibility = if (rightArrowVisible) View.VISIBLE else View.GONE
-        val rightImageLp: ConstraintLayout.LayoutParams =
+        val rightArrowLp: ConstraintLayout.LayoutParams =
             iv_right_arrow_menu.layoutParams as LayoutParams
         iv_right_arrow_menu.setArrowColor(rightArrowColor)
         if (ORIENTATION_RIGHT == rightArrowOrientation) {
@@ -293,11 +296,13 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         }
         iv_right_arrow_menu.setArrowStyle(rightArrowStyle)
         iv_right_arrow_menu.setArrowPadding(rightArrowPadding)
+        iv_right_arrow_menu.setArrowStrokeWidth(rightArrowStroke)
 
-        rightImageLp.marginEnd = rightImageRightMargin
-        rightImageLp.width = rightImageWidth
-        rightImageLp.height = rightImageHeight
-        iv_right_arrow_menu.layoutParams = rightImageLp
+        rightArrowLp.marginEnd = rightArrowRightMargin
+        rightArrowLp.width = rightArrowWidth
+        rightArrowLp.height = rightArrowHeight
+        iv_right_arrow_menu.layoutParams = rightArrowLp
+
 
         view_bottom_divider_menu.visibility = if (bottomDividerVisible) View.VISIBLE else View.GONE
         view_bottom_divider_menu.setBackgroundColor(bottomDividerColor)
@@ -305,6 +310,7 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
             view_bottom_divider_menu.layoutParams as LayoutParams
         bottomDividerLp.leftMargin = bottomDividerLeftMargin
         bottomDividerLp.rightMargin = bottomDividerRightMargin
+        bottomDividerLp.height = bottomDividerHeight
         view_bottom_divider_menu.layoutParams = bottomDividerLp
 
         arr.recycle()

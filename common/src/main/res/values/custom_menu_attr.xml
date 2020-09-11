@@ -56,11 +56,12 @@
         <!-- 紧靠右侧是否垂直居中,模式是的 -->
 <!--        <attr name="cm_right_near_image_center_vertical" format="boolean"/>-->
 
+
         <!-- 最右侧箭头的是否可见 -->
         <attr name="cm_right_arrow_visible" format="boolean"/>
         <!-- 最右侧箭头的 颜色 -->
         <attr name="cm_right_arrow_color" format="color|reference"/>
-        <!-- 最右侧箭头 Padding(上下左右) -->
+        <!-- 最右侧箭头 Padding(上下左右),默认1dp -->
         <attr name="cm_right_arrow_padding" format="dimension|integer"/>
         <!-- 最右侧箭头方向, 向左或向右 -->
         <attr name="cm_right_arrow_orientation" format="enum">
@@ -78,11 +79,16 @@
         <attr name="cm_right_arrow_width" format="dimension|integer"/>
         <!-- 最右侧箭头高度 -->
         <attr name="cm_right_arrow_height" format="dimension|integer"/>
+        <!-- 最右侧箭头线条宽度,默认2dp -->
+        <attr name="cm_right_arrow_stroke" format="dimension|float"/>
         <!-- 最右侧箭头rightMargin -->
         <attr name="cm_right_arrow_right_margin" format="dimension|integer"/>
 
+
         <!-- 底部分割线是否可见 -->
         <attr name="cm_bottom_divider_visible" format="boolean"/>
+        <!-- 底部分割线高度,默认1px-->
+        <attr name="cm_bottom_divider_height" format="dimension|float"/>
         <!-- 底部分割线颜色 -->
         <attr name="cm_bottom_divider_color" format="color|reference"/>
         <!-- 底部分割线leftMargin -->

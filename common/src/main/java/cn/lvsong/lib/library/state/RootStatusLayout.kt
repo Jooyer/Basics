@@ -91,7 +91,7 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
         if (0 != mStatusLayoutManager.mContentLayoutResId) {
             addLayoutResId(mStatusLayoutManager.mContentLayoutResId, LAYOUT_CONTENT_ID, params)
         } else if (null != mStatusLayoutManager.mContentLayoutView) {
-            addLayoutView(mStatusLayoutManager.mContentLayoutView!!, LAYOUT_CONTENT_ID, params)
+            addLayoutView(mStatusLayoutManager.mContentLayoutView!!, params)
         }
 
         if (0 != mStatusLayoutManager.mLoadingLayoutResId) {
@@ -174,10 +174,9 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
 
     private fun addLayoutView(
         layoutView: View,
-        layoutId: Int,
         param: ConstraintLayout.LayoutParams
     ) {
-        mLayoutViews.put(layoutId, layoutView)
+        mLayoutViews.put(LAYOUT_CONTENT_ID, layoutView)
         addView(layoutView, param)
     }
 

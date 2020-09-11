@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="BackArrowView">
-        <!-- 箭头颜色 -->
+        <!-- 箭头颜色,默认#666666 -->
         <attr name="bav_arrow_color" format="color" />
-        <!-- 箭头线宽 -->
-        <attr name="bav_stroke_width" format="integer|dimension" />
-        <!--  padding 使得里面 × 变小  -->
+        <!-- 箭头线宽,默认2dp -->
+        <attr name="bav_stroke_width" format="float|dimension" />
+        <!--  padding 使得里面 × 变小,默认1dp  -->
         <attr name="bav_arrow_padding" format="dimension|integer"/>
-        <!-- 模式 -->
+        <!-- 模式,默认 Material Design -->
         <attr name="bav_arrow_style" format="enum">
             <!-- Google Material Design -->
             <enum name="material_design" value="1" />

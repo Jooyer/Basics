@@ -134,7 +134,7 @@ public class BackArrowView extends View {
     private void initAttr(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.BackArrowView, defStyleAttr, 0);
         mPadding = array.getDimension(R.styleable.BackArrowView_bav_arrow_padding, dip2px(context, 1f));
-        mArrowColor = array.getColor(R.styleable.BackArrowView_bav_arrow_color, ContextCompat.getColor(context, R.color.color_333333));
+        mArrowColor = array.getColor(R.styleable.BackArrowView_bav_arrow_color, ContextCompat.getColor(context, R.color.color_666666));
         mArrowStrokeWidth = array.getDimension(R.styleable.BackArrowView_bav_stroke_width, dip2px(context, 2f));
         mArrowStyle = array.getInt(R.styleable.BackArrowView_bav_arrow_style, ARROW_STYLE_MATERIAL_DESIGN);
         array.recycle();
@@ -215,31 +215,50 @@ public class BackArrowView extends View {
         return result;
     }
 
-    public static int dip2px(Context context, float dipValue) {
+    private static int dip2px(Context context, float dipValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dipValue * scale + 0.5f);
     }
 
+    /**
+     * 设置箭头颜色
+     */
     public void setArrowColor(int arrowColor) {
         if (arrowColor != mArrowColor) {
             this.mArrowColor = arrowColor;
             mPaint.setColor(mArrowColor);
-            postInvalidate();
+            invalidate();
         }
     }
 
+    /**
+     * 设置箭头样式,默认 Google Material
+     */
     public void setArrowStyle(int arrowStyle) {
         if (arrowStyle != mArrowStyle) {
             this.mArrowStyle = arrowStyle;
-            postInvalidate();
+            invalidate();
         }
     }
 
-
+    /**
+     * 设置padding,是的箭头变小,默认1dp
+     */
     public void setArrowPadding(float padding) {
         if (padding != mPadding) {
             this.mPadding = padding;
-            postInvalidate();
+            invalidate();
+        }
+    }
+
+    /**
+     * 设置线条宽度,默认2dp
+     */
+    public void setArrowStrokeWidth(float arrowStrokeWidth) {
+        if (arrowStrokeWidth != mArrowStrokeWidth) {
+            mArrowStrokeWidth = arrowStrokeWidth;
+            mPaint.setStrokeWidth(mArrowStrokeWidth);
+           invalidate();
         }
     }
 }

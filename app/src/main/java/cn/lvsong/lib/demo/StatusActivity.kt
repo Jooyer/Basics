@@ -75,7 +75,7 @@ class StatusActivity : BaseActivity() {
          * 1. 使用本库自带的 CustomToolbar,
          * 2. 自定义的Toolbar实现 StatusProvider 接口
          * PS: 无论上面哪种方式,都将导致控件被添加到了 RootStatusLayout 中,
-         * 此时在UI界面是无法正常使用的, 不过只需使用 mStatusManager.getCustomView()
+         * 此时在UI界面是无法正常使用上面定义的控件, 只需使用 mStatusManager.getCustomView()
          * 即可获取 CustomToolbar 或者 自定义的Toolbar (需自行强转)
          */
         (mStatusManager!!.getCustomView() as CustomToolbar).setMoreViewListener(object :
