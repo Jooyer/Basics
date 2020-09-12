@@ -81,7 +81,7 @@
    PS: 具体源码请参考: cn.lvsong.lib.library.state.RootStatusLayout.getCustomToolbar(viewGroup: ViewGroup)
    ```
 
-   
+
 ## v1.0.5变化:
 1. 对CustomMenu添加设置底部分割线高度
 2. 对CustomMenu添加设右侧箭头线宽
@@ -781,74 +781,86 @@ PS: 一般右侧显示一个文本按钮(或者2个图标按钮,或者更多按�
 
 ## **属性介绍:**
 
-| 属性名称                     | 取值类型           | 取值和作用                                                   |
-| ---------------------------- | ------------------ | ------------------------------------------------------------ |
-| ct_left_arrow_visible        | boolean            | 左侧箭头是否显示                                             |
-| ct_left_arrow_width          | dimension\|integer | 左侧箭头宽度                                                 |
-| ct_left_arrow_height         | dimension\|integer | 左侧箭头高度                                                 |
-| ct_left_arrow_padding        | dimension\|integer | 左侧箭头 Padding(上下左右)                                   |
-| ct_left_arrow_left_margin    | dimension\|integer | 左侧箭头左侧 Margin                                          |
-| ct_left_arrow_color          | color\|reference   | 左侧箭头的颜色                                               |
-| ct_left_arrow_style          | enum               | 左侧箭头模式, material_design(Material Design),wechat_design(微信风格) |
-| ct_left_text_visible         | boolean            | 左侧文本是否显示                                             |
-| ct_left_text_info            | reference\|string  | 左侧文本                                                     |
-| ct_left_text_size            | dimension          | 左侧文本大小                                                 |
-| ct_left_text_color           | color\|reference   | 左侧文本颜色                                                 |
-| ct_left_text_left_margin     | dimension\|integer | 左侧文本左侧 Margin                                          |
-| ct_center_text_info          | reference\|string  | 中间文本                                                     |
-| ct_center_text_size          | dimension          | 中间文本大小                                                 |
-| ct_center_text_color         | color\|reference   | 中间文本颜色                                                 |
-| ct_right_text_visible        | boolean            | 右侧文本是否可见                                             |
-| ct_right_text_info           | reference\|string  | 右侧文本                                                     |
-| ct_right_text_size           | dimension          | 右侧文本大小                                                 |
-| ct_right_text_color          | color\|reference   | 右侧文本颜色                                                 |
-| ct_right_text_right_margin   | dimension\|integer | 右侧文本右侧 Margin                                          |
-| ct_right_text_bold           | boolean            | 右侧文本是否加粗,类似苹果中黑效果,默认是加粗的               |
-| ct_right_image_visible       | boolean            | 右侧图片1是否可见                                            |
-| ct_right_image_drawable      | reference          | 右侧图片1 Drawable                                           |
-| ct_right_image_width         | dimension\|integer | 右侧图片1宽度                                                |
-| ct_right_image_height        | dimension\|integer | 右侧图片1高度                                                |
-| ct_right_image_padding       | dimension\|integer | 右侧图片1 Padding(上下左右)                                  |
-| ct_right_image_right_margin  | dimension\|integer | 右侧图片1右侧 rightMargin                                    |
-| ct_right_image2_visible      | boolean            | 右侧图片2是否可见                                            |
-| ct_right_image2_drawable     | reference          | 右侧图片2 Drawable                                           |
-| ct_right_image2_width        | dimension\|integer | 右侧图片2宽度                                                |
-| ct_right_image2_height       | dimension\|integer | 右侧图片2高度                                                |
-| ct_right_image2_padding      | dimension\|integer | 右侧图片2 Padding(上下左右)                                  |
-| ct_right_image2_right_margin | dimension\|integer | 右侧图片2右侧 rightMargin                                    |
-| ct_right_mav_visible         | boolean            | 右侧更多按钮是否可见,默认不可见                              |
-| ct_right_mav_width           | dimension\|integer | 右侧更多按钮宽度,主要是设置点击范围                          |
-| ct_right_mav_height          | dimension\|integer | 右侧更多按钮高度,主要是设置点击范围                          |
-| ct_right_mav_right_margin    | dimension\|integer | 右侧更多按钮rightMargin                                      |
-| ct_right_mav_color           | color\|reference   | 右侧更多按钮的颜色                                           |
-| ct_right_mav_dot_radius      | dimension\|integer | 右侧更多按钮大小,圆点半径                                    |
-| ct_right_mav_orientation     | enum               | 右侧更多按钮排列方向，水平或垂直, horizontal(水平),vertical(垂直),默认垂直 |
-| ct_bottom_divider_visible    | boolean            | 底部分割线是否可见,默认可见                                  |
-| ct_bottom_divider_color      | color\|reference   | 底部分割线颜色,如果分割线不可见(或者ct_bottom_divider_style = SHADOW)则此属性无效 |
-| ct_bottom_shadow_color       | color\|reference   | 底部shadow颜色(推荐颜色值必须是8位,即有alpha),默认#26000000,如果分割线不可见(或者ct_bottom_divider_style = LINE)则此属性无效 |
-| ct_bottom_divider_style      | enum               | 底部分割线样式,SHADOW(阴影效果),默认值; LINE(分割线效果),如果分割线不可见则此属性无效 |
-| ct_background_color          | color\|reference   | 背景色,默认白色,如果设置了ct_bottom_divider_style = SHADOW会导致xml中设置的背景色失效,如果需要背景色,则根据需要设置 |
-
+| 属性名称                         | 取值类型           | 取值和作用                                                   |
+| -------------------------------- | ------------------ | ------------------------------------------------------------ |
+| ct_left_arrow_visible            | boolean            | 左侧箭头是否显示, 默认true                                   |
+| ct_left_arrow_width              | dimension\|integer | 左侧箭头宽度, 默认40dp                                       |
+| ct_left_arrow_height             | dimension\|integer | 左侧箭头高度, 默认50dp                                       |
+| ct_left_arrow_padding            | dimension\|integer | 左侧箭头 Padding(上下左右), 默认3dp                          |
+| ct_left_arrow_left_margin        | dimension\|integer | 左侧箭头左侧 Margin, 默认0dp                                 |
+| ct_left_arrow_color              | color\|reference   | 左侧箭头的颜色, 默认#999999                                  |
+| ct_left_arrow_style              | enum               | 左侧箭头模式, ,默认Material Design, material_design(Material Design),wechat_design(微信风格) |
+| ct_left_text_visible             | boolean            | 左侧文本是否显示, 默认false                                  |
+| ct_left_text_info                | reference\|string  | 左侧文本                                                     |
+| ct_left_text_size                | dimension          | 左侧文本大小, 默认15dp                                       |
+| ct_left_text_color               | color\|reference   | 左侧文本颜色, 默认#333333                                    |
+| ct_left_text_left_margin         | dimension\|integer | 左侧文本左侧 Margin, 默认25dp                                |
+| ct_center_text_info              | reference\|string  | 中间文本                                                     |
+| ct_center_text_size              | dimension          | 中间文本大小, 默认18dp                                       |
+| ct_center_text_color             | color\|reference   | 中间文本颜色,默认 #333333                                    |
+| ct_right_text_visible            | boolean            | 右侧文本是否可见, 默认false                                  |
+| ct_right_text_info               | reference\|string  | 右侧文本                                                     |
+| ct_right_text_size               | dimension          | 右侧文本大小, 默认15dp                                       |
+| ct_right_text_color              | color\|reference   | 右侧文本颜色, 默认#333333                                    |
+| ct_right_text_right_margin       | dimension\|integer | 右侧文本右侧 Margin, 默认12dp                                |
+| ct_right_text_bold               | boolean            | 右侧文本是否加粗,类似苹果中黑效果,默认是加粗的               |
+| ct_right_image_visible           | boolean            | 右侧图片1是否可见,默认false                                  |
+| ct_right_image_checked           | boolean            | 右侧图片是否选中,默认false                                   |
+| ct_right_image_drawable          | reference          | 右侧图片1 Drawable                                           |
+| ct_right_image_drawable_checked  | reference          | 右侧图片1 选中后Drawable                                     |
+| ct_right_image_width             | dimension\|integer | 右侧图片1宽度,默认22dp                                       |
+| ct_right_image_height            | dimension\|integer | 右侧图片1高度,默认22dp                                       |
+| ct_right_image_padding           | dimension\|integer | 右侧图片1 Padding(上下左右),默认0dp                          |
+| ct_right_image_right_margin      | dimension\|integer | 右侧图片1右侧 rightMargin,默认5dp                            |
+| ct_right_image2_visible          | boolean            | 右侧图片2是否可见,默认false                                  |
+| ct_right_image2_checked          | boolean            | 右侧图片2是否选中,默认false                                  |
+| ct_right_image2_drawable         | reference          | 右侧图片2 Drawable                                           |
+| ct_right_image2_drawable_checked | reference          | 右侧图片2 选中后Drawable                                     |
+| ct_right_image2_width            | dimension\|integer | 右侧图片2宽度,默认22dp                                       |
+| ct_right_image2_height           | dimension\|integer | 右侧图片2高度,默认22dp                                       |
+| ct_right_image2_padding          | dimension\|integer | 右侧图片2 Padding(上下左右),默认0dp                          |
+| ct_right_image2_right_margin     | dimension\|integer | 右侧图片2右侧 rightMargin,默认10dp                           |
+| ct_right_mav_visible             | boolean            | 右侧更多按钮是否可见,默认不可见,默认false                    |
+| ct_right_mav_width               | dimension\|integer | 右侧更多按钮宽度,主要是设置点击范围, 默认40dp                |
+| ct_right_mav_height              | dimension\|integer | 右侧更多按钮高度,主要是设置点击范围, 默认40dp                |
+| ct_right_mav_right_margin        | dimension\|integer | 右侧更多按钮rightMargin,默认5dp                              |
+| ct_right_mav_color               | color\|reference   | 右侧更多按钮的颜色, 默认#2878FF                              |
+| ct_right_mav_dot_radius          | dimension\|integer | 右侧更多按钮大小,圆点半径,默认2dp                            |
+| ct_right_mav_orientation         | enum               | 右侧更多按钮排列方向，水平或垂直, horizontal(水平),vertical(垂直), 默认垂直 |
+| ct_bottom_divider_visible        | boolean            | 底部分割线是否可见, 默认true                                 |
+| ct_bottom_divider_color          | color\|reference   | 底部分割线颜色,如果分割线不可见(或者ct_bottom_divider_style = SHADOW)则此属性无效 |
+| ct_bottom_shadow_color           | color\|reference   | 底部shadow颜色(推荐颜色值必须是8位,即有alpha),默认#26000000,如果分割线不可见(或者ct_bottom_divider_style = LINE)则此属性无效 |
+| ct_bottom_divider_style          | enum               | 底部分割线样式,SHADOW(阴影效果),默认值; LINE(分割线效果),如果分割线不可见则此属性无效 |
+| ct_background_color              | color\|reference   | 背景色,默认白色,如果设置了ct_bottom_divider_style = SHADOW会导致xml中设置android:background失效,如果需要背景色,则根据需要设置 |
 
 ## **公共方法:**
 
-| 方法名称                                                     | 作用                                 |
-| ------------------------------------------------------------ | ------------------------------------ |
-| setRightTextVisible(visable: Int)                            | 右侧文本是否显示                     |
-| setRightImageVisible(visible: Int)                           | 右侧图一显示                         |
-| setRightImage2Visible(visible: Int)                          | 右侧图二显示                         |
-| setRightText(text: String)                                   | 设置右侧文字                         |
-| setRightImage(resource: Int)                                 | 设置右侧图一图片                     |
-| setRightImage2(resource: Int)                                | 设置右侧图二图片                     |
-| setCenterText(text: String)                                  | 设置标题                             |
-| setLeftText(text: String)                                    | 设置左侧文字                         |
-| setLeftArrowVisible(visible: Int)                            | 左侧箭头是否可见                     |
-| setLeftArrowClickListener(listener: OnClickListener)         | 左侧箭头点击,默认有点击,设置则会覆盖 |
-| setLeftTextViewClickListener(listener: View.OnClickListener) | 左侧文本点击,默认有点击,设置则会覆盖 |
-| setRightImageListener(listener: View.OnClickListener)        | 右侧图一点击                         |
-| setRightImage2Listener(listener: View.OnClickListener)       | 右侧图二点击                         |
-| setMoreViewListener(listener: View.OnClickListener)          | 右侧更多点击                         |
-| setRightTextListener(listener: View.OnClickListener)         | 右侧文本点击                         |
+| 方法名称                                                     | 作用                                                       |
+| ------------------------------------------------------------ | ---------------------------------------------------------- |
+| setRightImageListener(listener: View.OnClickListener)        | 设置最右侧图片点击                                         |
+| setRightImage2Listener(listener: View.OnClickListener)       | 设置右起倒数第二图片点击                                   |
+| setMoreViewListener(listener: View.OnClickListener)          | 设置更多点击                                               |
+| setRightTextListener(listener: View.OnClickListener)         | 设置右侧显示的文本                                         |
+| setLeftArrowClickListener(listener: View.OnClickListener)    | 设置左侧箭头点击,默认有点击事件,点击后结束当前所在Activity |
+| setLeftTextViewClickListener(listener: View.OnClickListener) | 设置左侧文本点击,默认有点击事件,点击后结束当前所在Activity |
+| setLeftArrowColor(@ColorRes leftArrowColor: Int)             | 设置左侧箭头颜色                                           |
+| setRightTextVisible(visible: Int)                            | 设置右侧文本控件是否显示                                   |
+| setRightImageVisible(visible: Int)                           | 设置最右侧图片控件是否显示                                 |
+| setRightImage2Visible(visible: Int)                          | 设置右起倒数第二图片控件是否显示                           |
+| setRightText(text: String)                                   | 设置右侧显示文本                                           |
+| setRightImageDrawable(@DrawableRes drawableId: Int)          | 设置右侧图片控件显示图片                                   |
+| setRightImageCheckedDrawable(@DrawableRes drawableId: Int)   | 设置右侧图片控件显示选中图片                               |
+| setRightImageChecked(checked:Boolean)                        | 设置右侧图片控件是否显示选中效果                           |
+| getRightImageChecked()                                       | 获取右侧图片控件是否选中                                   |
+| setRightImage2Drawable(@DrawableRes drawableId: Int)         | 设置右起倒数第二图片控件显示图片                           |
+| setRightImage2CheckedDrawable(@DrawableRes drawableId: Int)  | 设置右起倒数第二图片控件显示选中图片                       |
+| setRightImage2Checked(checked:Boolean)                       | 设置右起倒数第二图片控件是否显示选中效果                   |
+| getRightImage2Checked()                                      | 获取右起倒数第二图片控件是否选中                           |
+| setCenterText(text: String)                                  | 设置中间文本内容                                           |
+| setLeftText(text: String)                                    | 设置左侧文本内容                                           |
+| setLeftArrowVisible(visible: Int)                            | 设置左侧箭头是否显示                                       |
+
+
 
 
 # DanceView

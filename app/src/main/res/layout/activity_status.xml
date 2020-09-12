@@ -8,7 +8,7 @@
 
     <cn.lvsong.lib.library.view.CustomToolbar
         android:id="@+id/toolbar"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:ct_bottom_divider_color="@color/color_333333"
         app:ct_bottom_divider_visible="true"

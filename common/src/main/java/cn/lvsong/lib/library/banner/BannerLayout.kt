@@ -175,6 +175,7 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
      * 添加指示器
      */
     private fun addIndicatorView(position: Int) {
+        mIndicatorContainer.removeAllViews()
         val indicatorView = AppCompatImageView(context)
         val indicatorViewLp = LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,

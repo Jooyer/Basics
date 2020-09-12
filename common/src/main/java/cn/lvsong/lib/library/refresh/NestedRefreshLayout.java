@@ -170,9 +170,6 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
                     } else { // 模式一不显示加载更多
                         setLoadable(false);
                     }
-                } else {
-                    setLoadable(true);
-                    setNoMoreData(false);
                 }
             }
         }

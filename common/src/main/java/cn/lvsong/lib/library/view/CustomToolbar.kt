@@ -6,6 +6,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
+import android.graphics.drawable.Drawable
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.util.Log
@@ -166,9 +167,27 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
      * 底部阴影高度
      */
     private var mBottomShadowHeight = 0
+    /**
+     * 最右侧图片是否选中
+     */
+    private var mRightImageChecked = false
+    private var mRightImageDrawable:Drawable?=null
+    private var mRightImageCheckedDrawable:Drawable?=null
+    /**
+     * 最右侧图片2是否选中
+     */
+    private var mRightImage2Checked = false
+    private var mRightImage2Drawable:Drawable?=null
+    private var mRightImage2CheckedDrawable:Drawable?=null
 
+    /**
+     * 底部分割线是否显示
+     */
     private var mBottomDividerVisible = true
 
+    /**
+     * 底部分割线样式,SHADOW(阴影效果),默认值; LINE(分割线效果),如果分割线不可见则此属性无效
+     */
     private var mBottomDividerStyle = 1
 
     constructor(context: Context, attr: AttributeSet) : this(context, attr, 0)
@@ -223,7 +242,7 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
             arr.getDimension(R.styleable.CustomToolbar_ct_left_text_left_margin, dp2px(25F)).toInt()
         val leftTextColor = arr.getColor(
             R.styleable.CustomToolbar_ct_left_text_color,
-            ContextCompat.getColor(context, R.color.color_FFFFFF)
+            ContextCompat.getColor(context, R.color.color_333333)
         )
 
         val centerTextInfo = arr.getText(R.styleable.CustomToolbar_ct_center_text_info)
@@ -235,16 +254,19 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
             arr.getDimension(R.styleable.CustomToolbar_ct_center_text_size, dp2px(18F))
         val centerTextColor = arr.getColor(
             R.styleable.CustomToolbar_ct_center_text_color,
-            ContextCompat.getColor(context, R.color.color_FFFFFF)
+            ContextCompat.getColor(context, R.color.color_333333)
         )
 
         val rightImageVisible =
             arr.getBoolean(R.styleable.CustomToolbar_ct_right_image_visible, false)
-        val rightImageDrawable = arr.getDrawable(R.styleable.CustomToolbar_ct_right_image_drawable)
+        mRightImageChecked =
+            arr.getBoolean(R.styleable.CustomToolbar_ct_right_image_checked, false)
+        mRightImageDrawable = arr.getDrawable(R.styleable.CustomToolbar_ct_right_image_drawable)
+        mRightImageCheckedDrawable = arr.getDrawable(R.styleable.CustomToolbar_ct_right_image_drawable_checked)
         val rightImageWidth =
-            arr.getDimension(R.styleable.CustomToolbar_ct_right_image_width, dp2px(20F)).toInt()
+            arr.getDimension(R.styleable.CustomToolbar_ct_right_image_width, dp2px(22F)).toInt()
         val rightImageHeight =
-            arr.getDimension(R.styleable.CustomToolbar_ct_right_image_height, dp2px(20F)).toInt()
+            arr.getDimension(R.styleable.CustomToolbar_ct_right_image_height, dp2px(22F)).toInt()
         val rightImagePadding =
             arr.getDimension(R.styleable.CustomToolbar_ct_right_image_padding, dp2px(0F)).toInt()
         val rightImageRightMargin =
@@ -253,8 +275,10 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
 
         val rightImage2Visible =
             arr.getBoolean(R.styleable.CustomToolbar_ct_right_image2_visible, false)
-        val rightImage2Drawable =
-            arr.getDrawable(R.styleable.CustomToolbar_ct_right_image2_drawable)
+        mRightImage2Checked =
+            arr.getBoolean(R.styleable.CustomToolbar_ct_right_image2_checked, false)
+        mRightImage2Drawable = arr.getDrawable(R.styleable.CustomToolbar_ct_right_image2_drawable)
+        mRightImage2CheckedDrawable = arr.getDrawable(R.styleable.CustomToolbar_ct_right_image2_drawable_checked)
         val rightImage2Width =
             arr.getDimension(R.styleable.CustomToolbar_ct_right_image2_width, dp2px(22F)).toInt()
         val rightImage2Height =
@@ -276,7 +300,7 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
                 .toInt()
         val rightTextColor = arr.getColor(
             R.styleable.CustomToolbar_ct_right_text_color,
-            ContextCompat.getColor(context, R.color.color_FFFFFF)
+            ContextCompat.getColor(context, R.color.color_333333)
         )
 
         val rightMoreViewVisible =
@@ -376,9 +400,7 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
 
 
         iv_right_icon_menu.visibility = if (rightImageVisible) View.VISIBLE else View.GONE
-        if (null != rightImageDrawable) {
-            iv_right_icon_menu.setImageDrawable(rightImageDrawable)
-        }
+        changeRightImageDrawable()
         val rightImageLp: ConstraintLayout.LayoutParams =
             iv_right_icon_menu.layoutParams as LayoutParams
         rightImageLp.width = rightImageWidth
@@ -394,9 +416,8 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
 
 
         iv_right_icon_menu2.visibility = if (rightImage2Visible) View.VISIBLE else View.GONE
-        if (null != rightImage2Drawable) {
-            iv_right_icon_menu2.setImageDrawable(rightImage2Drawable)
-        }
+        changeRightImage2Drawable()
+
         val rightImageLp2: ConstraintLayout.LayoutParams =
             iv_right_icon_menu2.layoutParams as LayoutParams
         rightImageLp2.width = rightImage2Width
@@ -471,6 +492,31 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         super.dispatchDraw(canvas)
     }
 
+    private fun changeRightImageDrawable(){
+        if (mRightImageChecked){
+            if (null != mRightImageCheckedDrawable) {
+                iv_right_icon_menu.setImageDrawable(mRightImageCheckedDrawable)
+            }
+        }else{
+            if (null != mRightImageDrawable) {
+                iv_right_icon_menu.setImageDrawable(mRightImageDrawable)
+            }
+        }
+    }
+
+    private fun changeRightImage2Drawable(){
+        if (mRightImage2Checked){
+            if (null != mRightImage2CheckedDrawable) {
+                iv_right_icon_menu2.setImageDrawable(mRightImage2CheckedDrawable)
+            }
+        }else{
+            if (null != mRightImage2Drawable) {
+                iv_right_icon_menu2.setImageDrawable(mRightImage2Drawable)
+            }
+        }
+    }
+
+
     /**
      * 设置最右侧图片点击
      */
@@ -500,14 +546,14 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
     }
 
     /**
-     * 设置左侧箭头点击
+     * 设置左侧箭头点击,默认有点击事件,点击后结束当前所在Activity
      */
     fun setLeftArrowClickListener(listener: View.OnClickListener) {
         iv_left_icon_menu.setOnClickListener(listener)
     }
 
     /**
-     * 设置左侧文本点击
+     * 设置左侧文本点击,默认有点击事件,点击后结束当前所在Activity
      */
     fun setLeftTextViewClickListener(listener: View.OnClickListener) {
         tv_left_name_menu.setOnClickListener(listener)
@@ -551,16 +597,64 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
     /**
      * 设置右侧图片控件显示图片
      */
-    fun setRightImage(@DrawableRes resource: Int) {
-        iv_right_icon_menu.setImageResource(resource)
+    fun setRightImageDrawable(@DrawableRes drawableId: Int) {
+        mRightImageChecked = false
+        mRightImageDrawable = ContextCompat.getDrawable(context,drawableId)
+        iv_right_icon_menu.setImageResource(drawableId)
     }
+
+    /**
+     * 设置右侧图片控件显示选中图片
+     */
+    fun setRightImageCheckedDrawable(@DrawableRes drawableId: Int) {
+        mRightImageChecked = true
+        mRightImageCheckedDrawable = ContextCompat.getDrawable(context,drawableId)
+        iv_right_icon_menu.setImageResource(drawableId)
+    }
+
+    /**
+     * 设置右侧图片控件是否显示选中效果
+     */
+    fun setRightImageChecked(checked:Boolean){
+        mRightImageChecked = checked
+        changeRightImageDrawable()
+    }
+
+    /**
+     * 获取右侧图片控件是否选中
+     */
+    fun getRightImageChecked() = mRightImageChecked
 
     /**
      * 设置右起倒数第二图片控件显示图片
      */
-    fun setRightImage2(@DrawableRes resource: Int) {
-        iv_right_icon_menu2.setImageResource(resource)
+    fun setRightImage2Drawable(@DrawableRes drawableId: Int) {
+        mRightImage2Checked = false
+        mRightImage2Drawable = ContextCompat.getDrawable(context,drawableId)
+        iv_right_icon_menu2.setImageResource(drawableId)
     }
+
+    /**
+     * 设置右起倒数第二图片控件显示选中图片
+     */
+    fun setRightImage2CheckedDrawable(@DrawableRes drawableId: Int) {
+        mRightImage2Checked = true
+        mRightImage2CheckedDrawable = ContextCompat.getDrawable(context,drawableId)
+        iv_right_icon_menu2.setImageResource(drawableId)
+    }
+
+    /**
+     * 设置右起倒数第二图片控件是否显示选中效果
+     */
+    fun setRightImage2Checked(checked:Boolean){
+        mRightImage2Checked = checked
+        changeRightImage2Drawable()
+    }
+
+    /**
+     * 获取右起倒数第二图片控件是否选中
+     */
+    fun getRightImage2Checked() = mRightImage2Checked
 
     /**
      * 设置中间文本内容

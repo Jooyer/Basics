@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat
 import cn.lvsong.lib.library.R
 import cn.lvsong.lib.library.listener.OnClickFastListener
 import cn.lvsong.lib.library.other.StatusProvider
+import cn.lvsong.lib.library.utils.ScreenUtils
 import cn.lvsong.lib.library.view.CustomToolbar
 
 
@@ -125,6 +126,10 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
                 } else {
                     (params.height - dp2px(5F)).toInt()
                 }
+                if (0 == params.width){ // 解决 ConstraintLayout 中使用时,给 android:layout_width="0dp" 导致视图宽度为0
+                    params.width = ScreenUtils.getRealWidth(context)
+                }
+
                 val childParent = child.parent as ViewGroup
                 // 移除掉原来的,则会导致界面错位,添加一个占位的,但是占位视图设置为 View.INVISIBLE(不可见的)
                 childParent.removeView(child)

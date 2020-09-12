@@ -170,9 +170,6 @@ public class UnNestedRefreshLayout extends ViewGroup {
                     } else { // 模式一没有加载更多
                         setLoadable(false);
                     }
-                } else {
-                    setLoadable(true);
-                    setNoMoreData(false);
                 }
             }
         }
