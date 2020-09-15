@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/color_FFFFFF"
     android:orientation="vertical"
     tools:context=".CustomActivity4">
 
@@ -12,8 +13,7 @@
         android:layout_height="@dimen/height_50"
         app:ct_center_text_color="@color/color_333333"
         app:ct_center_text_info="自定义View4"
-        app:ct_center_text_size="@dimen/text_size_16"
-        />
+        app:ct_center_text_size="@dimen/text_size_16" />
 
     <cn.lvsong.lib.library.view.CountDownView
         android:id="@+id/cdv"

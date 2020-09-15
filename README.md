@@ -848,6 +848,7 @@ PS: 一般右侧显示一个文本按钮(或者2个图标按钮,或者更多按�
 | setRightImageVisible(visible: Int)                           | 设置最右侧图片控件是否显示                                 |
 | setRightImage2Visible(visible: Int)                          | 设置右起倒数第二图片控件是否显示                           |
 | setRightText(text: String)                                   | 设置右侧显示文本                                           |
+| setRightTextColor(@ColorInt rightTextColor: Int)             | 设置右侧文颜色                                             |
 | setRightImageDrawable(@DrawableRes drawableId: Int)          | 设置右侧图片控件显示图片                                   |
 | setRightImageCheckedDrawable(@DrawableRes drawableId: Int)   | 设置右侧图片控件显示选中图片                               |
 | setRightImageChecked(checked:Boolean)                        | 设置右侧图片控件是否显示选中效果                           |
@@ -857,8 +858,11 @@ PS: 一般右侧显示一个文本按钮(或者2个图标按钮,或者更多按�
 | setRightImage2Checked(checked:Boolean)                       | 设置右起倒数第二图片控件是否显示选中效果                   |
 | getRightImage2Checked()                                      | 获取右起倒数第二图片控件是否选中                           |
 | setCenterText(text: String)                                  | 设置中间文本内容                                           |
+| setCenterTextColor(@ColorInt centerTextColor: Int)           | 设置中间文颜色                                             |
 | setLeftText(text: String)                                    | 设置左侧文本内容                                           |
+| setLeftTextColor(@ColorInt leftTextColor: Int)               | 设置左侧文颜色                                             |
 | setLeftArrowVisible(visible: Int)                            | 设置左侧箭头是否显示                                       |
+| setMoveViewVisible(visible: Int)                             | 设置右边更多按钮是否显示                                   |
 
 
 
