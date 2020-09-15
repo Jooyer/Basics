@@ -32,7 +32,7 @@
 
 ```groovy
 	dependencies {
-	        implementation 'com.github.Jooyer.Basics:common:1.0.5'
+	        implementation 'com.github.Jooyer.Basics:common:1.0.6'
 	}
 ```
 
@@ -86,6 +86,11 @@
 1. 对CustomMenu添加设置底部分割线高度
 2. 对CustomMenu添加设右侧箭头线宽
 3. 修复StatusManager如果使用contentView(contentLayoutView: View) 因其内部未初始化造成异常
+
+## v1.0.6变化:
+1. 增加折叠控件ExpandableTextView
+2. 对CustomToolbar增加动态设置字体颜色
+3. 修复其他bug
 
 
 [toc]
