@@ -14,6 +14,8 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 
+import androidx.annotation.ColorInt;
+
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -316,7 +318,7 @@ public class BubbleDrawable extends Drawable {
             return this;
         }
 
-        public Builder bubbleColor(int bubbleColor) {
+        public Builder bubbleColor(@ColorInt  int bubbleColor) {
             this.bubbleColor = bubbleColor;
             bubbleType(BubbleType.COLOR);
             return this;

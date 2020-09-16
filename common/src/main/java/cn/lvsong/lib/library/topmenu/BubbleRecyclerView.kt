@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.util.TypedValue
+import androidx.annotation.ColorInt
 import androidx.recyclerview.widget.RecyclerView
 import cn.lvsong.lib.library.R
 import cn.lvsong.lib.library.bubble.BubbleDrawable
@@ -175,7 +176,7 @@ class BubbleRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(
     /**
      * 设置Bubble颜色
      */
-    fun setBubbleColor(bubbleColor: Int): BubbleRecyclerView {
+    fun setBubbleColor(@ColorInt bubbleColor: Int): BubbleRecyclerView {
         mBubbleColor = bubbleColor
         return this
     }
@@ -185,11 +186,12 @@ class BubbleRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(
      */
     fun setPaddingTop(paddingTop: Int): BubbleRecyclerView {
         mPaddingTop = paddingTop
+        setPadding(0, mPaddingTop, 0, 0)
         return this
     }
 
     /**
-     * 更新背景
+     * 清除背景色
      */
     fun setUpBubbleDrawable() {
         background = null

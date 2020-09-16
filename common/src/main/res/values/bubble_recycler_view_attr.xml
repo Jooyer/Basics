@@ -8,7 +8,7 @@
         <attr name="brv_around_radius" format="dimension" />
         <!-- 箭头高度,默认25px -->
         <attr name="brv_arrow_height" format="dimension" />
-        <!-- 箭头位置,当arrowLocation确定时箭头初始位置的偏移量,,默认50px -->
+        <!-- 箭头位置,当arrowLocation确定时箭头初始位置的偏移量,默认50px -->
         <attr name="brv_arrow_offset" format="dimension" />
         <!-- 气泡背景色 -->
         <attr name="brv_bubble_color" format="color" />

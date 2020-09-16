@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
 
+import androidx.annotation.ColorInt;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -87,12 +88,6 @@ public class TopMenu {
      */
     private int mPopupXOffset = 0;
 
-
-    /**
-     * 分割线
-     */
-    private RecyclerView.ItemDecoration mItemDecoration;
-
     public TopMenu(Context context, RecyclerView.Adapter menuAdapter) {
         mContext = context;
         mMenuAdapter = menuAdapter;
@@ -161,13 +156,7 @@ public class TopMenu {
                     setBackgroundAlpha(mAlpha, 1f, 300);
             }
         });
-        // 防止重复添加
-        if (mRecyclerView.getItemDecorationCount() > 0) {
-            mRecyclerView.removeItemDecorationAt(0);
-        }
-        if (null != mItemDecoration) {
-            mRecyclerView.addItemDecoration(mItemDecoration);
-        }
+
         mRecyclerView.setAdapter(mMenuAdapter);
         return mPopupWindow;
     }
@@ -241,7 +230,7 @@ public class TopMenu {
 
     /**
      * 设置箭头偏移量
-     *
+     * @param offset  --> 箭头位置,当arrowLocation确定时箭头初始位置的偏移量,默认50px
      */
     public TopMenu setArrowOffset(float offset) {
         if (mRecyclerView != null) {
@@ -254,7 +243,79 @@ public class TopMenu {
      * 设置分割线
      */
     public TopMenu setItemDecoration(RecyclerView.ItemDecoration itemDecoration) {
-        mItemDecoration = itemDecoration;
+        // 防止重复添加
+        if (mRecyclerView.getItemDecorationCount() > 0) {
+            mRecyclerView.removeItemDecorationAt(0);
+        }
+        if (null != itemDecoration) {
+            mRecyclerView.addItemDecoration(itemDecoration);
+        }
+        return this;
+    }
+
+    /**
+     * 设置四周圆角大小
+     * @param aroundRadius --> 默认20px
+     */
+    public TopMenu setAroundRadius(float aroundRadius) {
+        if (mRecyclerView != null) {
+            ((BubbleRecyclerView) mRecyclerView).setAroundRadius(aroundRadius);
+        }
+        return this;
+    }
+
+    /**
+     * 设置箭头高度
+     * @param arrowHeight  --> 默认25px
+     */
+    public TopMenu setArrowHeight(float arrowHeight) {
+        if (mRecyclerView != null) {
+            ((BubbleRecyclerView) mRecyclerView).setArrowHeight(arrowHeight);
+        }
+        return this;
+    }
+
+    /**
+     * 设置箭头宽度
+     * @param arrowWidth --> 默认25px
+     */
+    public TopMenu setArrowWidth(float arrowWidth) {
+        if (mRecyclerView != null) {
+            ((BubbleRecyclerView) mRecyclerView).setArrowWidth(arrowWidth);
+        }
+        return this;
+    }
+
+    /**
+     * 设置箭头是否在中心位置
+     * @param arrowCenter  --> 默认false
+     */
+    public TopMenu setArrowCenter(boolean arrowCenter) {
+        if (mRecyclerView != null) {
+            ((BubbleRecyclerView) mRecyclerView).setArrowCenter(arrowCenter);
+        }
+        return this;
+    }
+
+    /**
+     * 设置Bubble颜色
+     * @param bubbleColor --> 默认红色(Color.RED)
+     */
+    public TopMenu setBubbleColor(@ColorInt int bubbleColor) {
+        if (mRecyclerView != null) {
+            ((BubbleRecyclerView) mRecyclerView).setBubbleColor(bubbleColor);
+        }
+        return this;
+    }
+
+    /**
+     * 设置控件顶部内边距
+     * @param paddingTop  --> 默认10dp
+     */
+    public TopMenu setPaddingTop(int paddingTop) {
+        if (mRecyclerView != null) {
+            ((BubbleRecyclerView) mRecyclerView).setPaddingTop(paddingTop);
+        }
         return this;
     }
 
