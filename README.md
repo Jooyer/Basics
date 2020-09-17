@@ -32,7 +32,7 @@
 
 ```groovy
 	dependencies {
-	        implementation 'com.github.Jooyer.Basics:common:1.0.5'
+	        implementation 'com.github.Jooyer.Basics:common:1.0.6'
 	}
 ```
 
@@ -86,6 +86,11 @@
 1. 对CustomMenu添加设置底部分割线高度
 2. 对CustomMenu添加设右侧箭头线宽
 3. 修复StatusManager如果使用contentView(contentLayoutView: View) 因其内部未初始化造成异常
+
+## v1.0.6变化:
+1. 增加折叠控件ExpandableTextView
+2. 对CustomToolbar增加动态设置字体颜色
+3. 修复其他bug
 
 
 [toc]
@@ -1851,6 +1856,8 @@ setContentView(setContentView)
             .setWidth(DensityUtil.dp2pxRtInt(125F))
             .setHeight(DensityUtil.dp2pxRtInt(124F))
             .setBackDark(false)
+             .setBubbleColor(Color.GREEN)
+            .setPaddingTop(DensityUtil.dp2pxRtInt(15))
             // 使得弹框右侧距离屏幕间隔, 如果间隔够了,箭头位置还没有对准控件中间,
             // 可以在BubbleRecyclerView所在布局中使用 brv_arrow_offset
             .setPopupXOffset(-DensityUtil.dp2pxRtInt(2F))
@@ -1879,8 +1886,14 @@ setContentView(setContentView)
 | setBackDark(boolean isShowBackground)                        | 设置背景是否变暗,默认true                                    |
 | setShowAnimationStyle(boolean isShowAnimationStyle)          | 设置是否显示动画,默认true,如果没有调用 setAnimationStyle() 则使用默认动画 |
 | setAnimationStyle(int animationStyle)                        | 设置动画                                                     |
-| setArrowOffset(float offset)                                 | 设置箭头偏移量                                               |
+| setArrowOffset(float offset)                                 | 箭头位置,当arrowLocation确定时箭头初始位置的偏移量,默认50px  |
 | setItemDecoration(RecyclerView.ItemDecoration itemDecoration) | 设置分割线                                                   |
+| setAroundRadius(float aroundRadius)                          | 设置四周圆角大小,默认20px                                    |
+| setArrowHeight(float arrowHeight)                            | 设置箭头高度,默认25px                                        |
+| setArrowWidth(float arrowWidth)                              | 设置箭头宽度,默认25px                                        |
+| setArrowCenter(boolean arrowCenter)                          | 设置箭头是否在中心位置,默认false,此属性在右上角弹框模式下用不上 |
+| setBubbleColor(@ColorInt int bubbleColor)                    | 设置Bubble颜色,默认红色(Color.RED)                           |
+| setPaddingTop(int paddingTop)                                | 设置控件顶部内边距                                           |
 | showAsDropDown(View anchor)                                  | 显示弹框                                                     |
 | showAsDropDown(View anchor, int offsetX, int offsetY)        | 显示弹框                                                     |
 | show(View anchor, Rect frame, Point origin)                  | 显示弹框                                                     |

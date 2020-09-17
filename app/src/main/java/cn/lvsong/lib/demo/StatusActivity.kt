@@ -1,5 +1,6 @@
 package cn.lvsong.lib.demo
 
+import android.graphics.Color
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
@@ -152,6 +153,8 @@ class StatusActivity : BaseActivity() {
             .setWidth(DensityUtil.dp2pxRtInt(150F))
             .setHeight(DensityUtil.dp2pxRtInt(200F))
             .setBackDark(true)
+            .setBubbleColor(Color.DKGRAY)
+            .setPaddingTop(DensityUtil.dp2pxRtInt(15))
             // 使得弹框右侧距离屏幕间隔, 如果间隔够了,箭头位置还没有对准控件中间,
             // 可以在BubbleRecyclerView所在布局中使用 brv_arrow_offset
             .setPopupXOffset(-DensityUtil.dp2pxRtInt(2F))

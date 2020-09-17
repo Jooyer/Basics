@@ -10,6 +10,5 @@
     app:brv_arrow_height="@dimen/padding_8"
     app:brv_arrow_offset="@dimen/padding_12"
     app:brv_arrow_width="@dimen/padding_8"
-    app:brv_bubble_color="@color/color_8A8EA3"
     app:brv_top_padding="@dimen/padding_8"
    />
