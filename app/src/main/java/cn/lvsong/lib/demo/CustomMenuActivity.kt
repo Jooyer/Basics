@@ -46,7 +46,7 @@ class CustomMenuActivity : BaseActivity() {
 
         })
 
-        csv_2.setOnSearchListener(object :CustomSearchView.OnSearchListener{
+        csv_3.setOnSearchListener(object :CustomSearchView.OnSearchListener{
             override fun onJump(view: View) {
                 Toast.makeText(this@CustomMenuActivity,"点击可以在此执行跳转逻辑",Toast.LENGTH_SHORT).show()
             }

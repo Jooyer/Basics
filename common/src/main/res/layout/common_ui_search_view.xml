@@ -55,8 +55,8 @@
 
         <cn.lvsong.lib.library.view.CloseView
             android:id="@+id/cv_search_view_clean"
-            android:layout_width="@dimen/width_36"
-            android:layout_height="match_parent"
+            android:layout_width="@dimen/width_30"
+            android:layout_height="@dimen/height_30"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

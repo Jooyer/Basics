@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/color_FFFFFF"
+    android:orientation="vertical"
     tools:context=".CustomActivity2">
 
     <cn.lvsong.lib.library.view.CustomToolbar
@@ -29,34 +29,57 @@
         app:bv_lr_padding="@dimen/padding_8"
         app:bv_more_style="plus"
         app:bv_number="111"
+        app:bv_stoke_color="@color/main_theme_color"
         app:bv_stoke_width="2dp"
         app:bv_tb_padding="@dimen/padding_5"
         app:bv_text_medium="false"
-        app:bv_text_size="@dimen/text_size_14"
-        app:bv_stoke_color="@color/main_theme_color"
-        />
+        app:bv_text_size="@dimen/text_size_14" />
 
-    <cn.lvsong.lib.library.view.CloseView
-        android:id="@+id/cv1"
-        android:layout_width="@dimen/width_40"
-        android:layout_height="@dimen/height_40"
-        android:layout_margin="@dimen/padding_5"
-        app:cv_line_padding="@dimen/padding_2"
-        app:cv_line_width="1.5dp"
-        app:cv_mode="normal" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_100"
+        android:layout_marginTop="@dimen/padding_20"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-    <cn.lvsong.lib.library.view.CloseView
-        android:id="@+id/cv2"
-        android:layout_width="@dimen/width_40"
-        android:layout_height="@dimen/height_40"
-        android:layout_margin="@dimen/padding_5"
-        app:cv_circle_bg_color="@color/color_8A8EA3"
-        app:cv_circle_bg_padding="2dp"
-        app:cv_circle_has_bg="true"
-        app:cv_circle_line_color="@color/main_theme_color"
-        app:cv_circle_line_width="2dp"
-        app:cv_line_width="1.5dp"
-        app:cv_mode="circle" />
+        <cn.lvsong.lib.library.view.CloseView
+            android:id="@+id/cv1"
+            android:layout_width="@dimen/width_40"
+            android:layout_height="@dimen/height_40"
+            android:layout_margin="@dimen/padding_5"
+            app:cv_line_padding="@dimen/padding_2"
+            app:cv_line_width="1.5dp"
+            app:cv_mode="normal" />
+
+        <!-- cv_circle_line_width = 0 不绘制圆环-->
+        <cn.lvsong.lib.library.view.CloseView
+            android:id="@+id/cv2"
+            android:layout_width="@dimen/width_40"
+            android:layout_height="@dimen/height_40"
+            android:layout_marginStart="@dimen/padding_10"
+            app:cv_circle_bg_color="@color/color_8A8EA3"
+            app:cv_circle_bg_padding="2dp"
+            app:cv_circle_has_bg="true"
+            app:cv_circle_line_color="@color/main_theme_color"
+            app:cv_circle_line_width="0dp"
+            app:cv_line_width="1.5dp"
+            app:cv_mode="circle" />
+
+        <cn.lvsong.lib.library.view.CloseView
+            android:id="@+id/cv3"
+            android:layout_width="@dimen/width_40"
+            android:layout_height="@dimen/height_40"
+            android:layout_marginStart="@dimen/padding_10"
+            app:cv_circle_bg_color="@color/color_8A8EA3"
+            app:cv_circle_bg_padding="2dp"
+            app:cv_circle_has_bg="true"
+            app:cv_circle_line_color="@color/main_theme_color"
+            app:cv_circle_line_width="2dp"
+            app:cv_line_width="1.5dp"
+            app:cv_mode="circle" />
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"

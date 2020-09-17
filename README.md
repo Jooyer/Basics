@@ -474,9 +474,14 @@ class CustomAdapter(data: List<String>, layoutId: Int) :
 
 ## **公共方法:**
 
-| 方法名称            | 作用           |
-| ------------------- | -------------- |
-| setColor(int color) | 设置叉叉的颜色 |
+| 方法名称                      | 作用                                                         |
+| ----------------------------- | ------------------------------------------------------------ |
+| setColor(int color)           | 设置叉叉的颜色,默认#444444                                   |
+| setLineWidth(float lineWidth) | 设置叉叉线的宽度(厚度),默认1.5dp                             |
+| setLinePadding(float padding) | 使得里面 × 变小,这样不影响点击范围,默认4dp                   |
+| setMode(int mode)             | 设置控件是圆形(此时背景色和圆环才有效果)还是方形,默认方形(1) |
+| setHasBg(boolean hasBg)       | 设置控件是否拥有背景色,默认false                             |
+| setBgColor(int bgColor)       | 设置控件背景色.默认透明                                      |
 
 
 
@@ -710,10 +715,17 @@ class CustomAdapter(data: List<String>, layoutId: Int) :
 | csv_left_arrow_color             | color\|reference     | 左侧箭头的颜色                                               |
 | csv_left_arrow_padding           | dimension\|integer   | 左侧箭头 Padding(上下左右)                                   |
 | csv_left_arrow_style             | enum                 | 左侧箭头模式,material_design(Material Design),wechat_design(微信风格),默认是material_design |
-| csv_show_search_icon             | boolean              | 是否显示搜索图标,默认显示                                    |
+| csv_search_icon_show             | boolean              | 是否显示搜索图标,默认显示                                    |
 | csv_search_icon_color            | color\|reference     | 搜索图标颜色                                                 |
-| csv_show_clear_icon              | boolean              | 是否显示清除图标,默认显示                                    |
+| csv_clear_icon_show              | boolean              | 是否显示清除图标,默认显示                                    |
 | csv_clear_icon_color             | color\|reference     | 清除图标颜色                                                 |
+| csv_clear_icon_line_width        | integer\|dimension   | 清除图标线宽(厚度),默认1.5dp                                 |
+| csv_clear_icon_line_padding      | dimension\|integer   | 使得里面 × 变小同时点击面积没有变小,默认0dp                  |
+| csv_clear_icon_margin_right      | dimension\|integer   | 清除图标rightMargin,默认6dp                                  |
+| csv_clear_icon_mode              | enum                 | 清除图标模式，普通模式normal(默认)、圆形模式circle           |
+| csv_clear_icon_circle_radius     | integer\|dimension   | 清除图标半径,只有在 cv_mode = circle才有效,且此时必须设置,否则图标较大,默认为10dp |
+| csv_clear_icon_has_bg            | boolean              | 是否绘制背景,默认不绘制,只有在 cv_mode = circle才有效,此时就不要再设置 android:background |
+| csv_clear_icon_bg_color          | color                | 背景色,只有在 cv_mode = circle才有效,默认透明                |
 | csv_input_container_height       | dimension\|reference | 中间搜索容器高度,最小高度 30dp,默认36dp                      |
 | csv_input_container_margin_left  | dimension\|reference | 中间搜索容器leftMargin                                       |
 | csv_input_container_margin_right | dimension\|reference | 中间搜索容器rightMargin                                      |

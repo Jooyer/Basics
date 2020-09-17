@@ -1,11 +1,13 @@
 package cn.lvsong.lib.library.view
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Build
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextUtils
 import android.util.AttributeSet
+import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -113,7 +115,7 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
             ARROW_STYLE_MATERIAL_DESIGN
         )
 
-        val showSearchIcon = arr.getBoolean(R.styleable.CustomSearchView_csv_show_search_icon, true)
+        val showSearchIcon = arr.getBoolean(R.styleable.CustomSearchView_csv_search_icon_show, true)
         val searchIconColor = arr.getColor(
             R.styleable.CustomSearchView_csv_search_icon_color,
             ContextCompat.getColor(context, R.color.color_666666)
@@ -159,10 +161,29 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
         val cursorDrawableId =
             arr.getResourceId(R.styleable.CustomSearchView_csv_input_cursor_drawable, 0)
 
-        val showClearIcon = arr.getBoolean(R.styleable.CustomSearchView_csv_show_clear_icon, true)
+
+        val showClearIcon = arr.getBoolean(R.styleable.CustomSearchView_csv_clear_icon_show, true)
+        val clearIconHasBg =
+            arr.getBoolean(R.styleable.CustomSearchView_csv_clear_icon_has_bg, false)
         val clearIconColor = arr.getColor(
-            R.styleable.CustomSearchView_csv_search_icon_color,
+            R.styleable.CustomSearchView_csv_clear_icon_line_color,
             ContextCompat.getColor(context, R.color.color_666666)
+        )
+        val cleanIconLineWidth =
+            arr.getDimension(R.styleable.CustomSearchView_csv_clear_icon_line_width, dp2px(1.5F))
+        val cleanIconLinePadding =
+            arr.getDimension(R.styleable.CustomSearchView_csv_clear_icon_line_padding, dp2px(0F))
+        val cleanIconRightMargin =
+            arr.getDimensionPixelOffset(
+                R.styleable.CustomSearchView_csv_clear_icon_margin_right,
+                dp2px(6F).toInt()
+            )
+        val cleanIconCircleRadius =
+            arr.getDimension(R.styleable.CustomSearchView_csv_clear_icon_circle_radius, dp2px(10F))
+        val cleanIconMode = arr.getInt(R.styleable.CustomSearchView_csv_clear_icon_mode, 1)
+        val cleanIconBackgroundColor = arr.getColor(
+            R.styleable.CustomSearchView_csv_clear_icon_bg_color,
+            Color.TRANSPARENT
         )
 
         val showBtn = arr.getBoolean(R.styleable.CustomSearchView_csv_search_btn_visible, true)
@@ -260,11 +281,11 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
         et_search_view_search.isCursorVisible = cursorVisible
 
         // API >= 29,新增 setTextCursorDrawable(resId/drawable)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
-            if (0 != cursorDrawableId){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            if (0 != cursorDrawableId) {
                 et_search_view_search.setTextCursorDrawable(cursorDrawableId)
             }
-        }else{
+        } else {
             try { // API >= 29,会报 java.lang.NoSuchFieldException: No field mCursorDrawableRes
                 // mCursorDrawableRes 被 @UnsupportedAppUsage标记无法被外部应用访问
                 val f: Field = TextView::class.java.getDeclaredField("mCursorDrawableRes")
@@ -281,7 +302,19 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
         }
 
         cv_search_view_clean.visibility = View.GONE
+        val closeViewParams = cv_search_view_clean.layoutParams as LayoutParams
+        if (2 == cleanIconMode) {
+            closeViewParams.width = (cleanIconCircleRadius * 2).toInt()
+            closeViewParams.height = (cleanIconCircleRadius * 2).toInt()
+            closeViewParams.rightMargin = cleanIconRightMargin
+            cv_search_view_clean.layoutParams = closeViewParams
+        }
+        cv_search_view_clean.setHasBg(clearIconHasBg)
         cv_search_view_clean.setColor(clearIconColor)
+        cv_search_view_clean.setBgColor(cleanIconBackgroundColor)
+        cv_search_view_clean.setMode(cleanIconMode)
+        cv_search_view_clean.setLineWidth(cleanIconLineWidth)
+        cv_search_view_clean.setLinePadding(cleanIconLinePadding)
 
 
         if (TextUtils.isEmpty(btnText)) {

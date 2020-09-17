@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="CloseView">
-        <!-- 叉叉的线高 -->
+        <!-- 叉叉的线宽(厚度),默认1.5dp -->
         <attr name="cv_line_width" format="integer|dimension" />
-        <!-- 叉叉的颜色 -->
+        <!-- 叉叉的颜色,默认#444444 -->
         <attr name="cv_line_color" format="color" />
-        <!--  padding 使得里面 × 变小  -->
+        <!--  padding 使得里面 × 变小,默认4dp,这样不影响点击范围  -->
         <attr name="cv_line_padding" format="dimension|integer"/>
-        <!-- 模式，普通模式、圆边模式 -->
+        <!-- 模式，普通模式(默认)、圆形模式,默认normal -->
         <attr name="cv_mode" format="enum">
             <enum name="normal" value="1" />
             <enum name="circle" value="2" />
         </attr>
-        <!-- 圆的轮廓线颜色 -->
+        <!-- 圆的轮廓线颜色,默认#444444 -->
         <attr name="cv_circle_line_color" format="color" />
-        <!-- 圆的轮廓线宽,如果指定为0 ,则不绘制圆环 -->
+        <!-- 圆的轮廓线宽,如果指定为0 ,则不绘制圆环,默认1.5dp -->
         <attr name="cv_circle_line_width" format="dimension|integer" />
         <!-- 是否绘制背景,默认不绘制,只有在 cv_mode = circle才有效,此时就不要再设置 android:background -->
         <attr name="cv_circle_has_bg" format="boolean" />
-        <!-- 背景色,只有在 cv_mode = circle才有效 -->
+        <!-- 背景色,只有在 cv_mode = circle才有效,默认透明色 -->
         <attr name="cv_circle_bg_color" format="color" />
-        <!--  padding 使得在 cv_mode = circle 时,轮廓线往内变小,同时点击面积没有变小   -->
+        <!--  padding 使得在 cv_mode = circle 时,轮廓线往内变小,同时点击面积没有变小,默认0dp   -->
         <attr name="cv_circle_bg_padding" format="dimension|integer"/>
     </declare-styleable>
+
 </resources>

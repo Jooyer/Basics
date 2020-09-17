@@ -119,18 +119,18 @@ public class CloseView extends View {
 
     private void initAttr(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.CloseView, defStyleAttr, 0);
-        mColor = array.getColor(R.styleable.CloseView_cv_line_color, Color.argb(255, 0, 0, 0));
+        mColor = array.getColor(R.styleable.CloseView_cv_line_color, Color.DKGRAY);
         mPadding = array.getDimension(R.styleable.CloseView_cv_line_padding, dip2px(context, 4F));
         mLineWidth = array.getDimension(R.styleable.CloseView_cv_line_width, dip2px(context, 1.5F));
         mMode = array.getInt(R.styleable.CloseView_cv_mode, MODE_NORMAL);
         //如果不指定圆的颜色，颜色和线的颜色一致
         mCircleColor = array.getColor(R.styleable.CloseView_cv_circle_line_color, mColor);
         //如果不指定圆的线宽，则和线的线宽的一致
-        mCircleLineWidth = array.getDimension(R.styleable.CloseView_cv_circle_line_width, mLineWidth);
+        mCircleLineWidth = array.getDimension(R.styleable.CloseView_cv_circle_line_width, 0);
         mHasBg = array.getBoolean(R.styleable.CloseView_cv_circle_has_bg, mHasBg);
         mBgColor = array.getColor(R.styleable.CloseView_cv_circle_bg_color, mBgColor);
-        mBgPadding = array.getDimension(R.styleable.CloseView_cv_circle_bg_padding, mCircleLineWidth);
-        if (mBgPadding < mCircleLineWidth){
+        mBgPadding = array.getDimension(R.styleable.CloseView_cv_circle_bg_padding, 0);
+        if (mBgPadding < mCircleLineWidth) {
             mBgPadding = mCircleLineWidth;
         }
         array.recycle();
@@ -138,7 +138,6 @@ public class CloseView extends View {
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
         mViewWidth = w;
         mViewHeight = h;
         mLineLength = (Math.min(mViewWidth, mViewHeight) * 0.65f) / 2f - mPadding;
@@ -146,7 +145,6 @@ public class CloseView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
         //将画布中心移动到中心点
         canvas.translate(mViewWidth / 2F, mViewHeight / 2F);
         //线旋转45，将十字旋转
@@ -178,7 +176,7 @@ public class CloseView extends View {
         mPaint.setColor(mColor);
         mPaint.setStrokeWidth(mLineWidth);
         for (int i = 0; i < count; i++) {
-            //旋转4次，每次画一条线，每次45度，合起来就是一个十字了
+            //旋转4次，每次画一条线，每次90度，合起来就是一个十字了
             canvas.rotate(angle * i);
             canvas.drawLine(0, 0, mLineLength, 0, mPaint);
         }
@@ -223,11 +221,52 @@ public class CloseView extends View {
 
     /**
      * 叉叉的颜色
+     * @param color --> 默认#444444
      */
     public void setColor(@ColorInt int color) {
         this.mColor = color;
         mPaint.setColor(mColor);
         postInvalidate();
+    }
+
+    /**
+     * 设置叉叉线的宽度(厚度)
+     * @param lineWidth --> 默认1.5dp
+     */
+    public void setLineWidth(float lineWidth) {
+        mLineWidth = lineWidth;
+    }
+
+    /**
+     *  使得里面 × 变小,这样不影响点击范围
+     * @param padding --> 默认4dp
+     */
+    public void setLinePadding(float padding) {
+        mPadding = padding;
+    }
+
+    /**
+     * 设置控件是圆形(此时背景色和圆环才有效果)还是方形
+     * @param mode --> 默认方形(1)
+     */
+    public void setMode(int mode) {
+        mMode = mode;
+    }
+
+    /**
+     * 设置控件是否拥有背景色
+     * @param hasBg --> 默认false
+     */
+    public void setHasBg(boolean hasBg) {
+        this.mHasBg = hasBg;
+    }
+
+    /**
+     * 设置控件背景色
+     * @param bgColor --> 默认透明
+     */
+    public void setBgColor(int bgColor) {
+        mBgColor = bgColor;
     }
 
     public static int dip2px(Context context, float dipValue) {

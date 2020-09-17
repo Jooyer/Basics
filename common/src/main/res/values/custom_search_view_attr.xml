@@ -18,13 +18,32 @@
         </attr>
 
         <!--  是否显示搜索图标,默认显示-->
-        <attr name="csv_show_search_icon" format="boolean" />
+        <attr name="csv_search_icon_show" format="boolean" />
         <!--  搜索图标颜色 -->
         <attr name="csv_search_icon_color" format="color|reference" />
+
+
         <!--是否显示清除图标,默认显示-->
-        <attr name="csv_show_clear_icon" format="boolean" />
+        <attr name="csv_clear_icon_show" format="boolean" />
         <!--  清除图标颜色 -->
-        <attr name="csv_clear_icon_color" format="color|reference" />
+        <attr name="csv_clear_icon_line_color" format="color|reference" />
+        <!-- 清除图标线宽(厚度),默认1.5dp -->
+        <attr name="csv_clear_icon_line_width" format="integer|dimension" />
+        <!--  padding 使得里面 × 变小同时点击面积没有变小,默认0dp  -->
+        <attr name="csv_clear_icon_line_padding" format="dimension|integer"/>
+        <!-- 清除图标rightMargin,默认6dp  -->
+        <attr name="csv_clear_icon_margin_right" format="dimension|integer"/>
+        <!-- 清除图标模式，普通模式normal(默认)、圆形模式circle -->
+        <attr name="csv_clear_icon_mode" format="enum">
+            <enum name="normal" value="1" />
+            <enum name="circle" value="2" />
+        </attr>
+        <!-- 清除图标半径,只有在 cv_mode = circle才有效,且此时必须设置,否则图标较大,默认为10dp -->
+        <attr name="csv_clear_icon_circle_radius" format="integer|dimension" />
+        <!-- 是否绘制背景,默认不绘制,只有在 cv_mode = circle才有效,此时就不要再设置 android:background -->
+        <attr name="csv_clear_icon_has_bg" format="boolean" />
+        <!-- 背景色,只有在 cv_mode = circle才有效,默认透明 -->
+        <attr name="csv_clear_icon_bg_color" format="color" />
 
 
         <!-- 中间搜索容器高度,最小高度 30dp,默认36dp -->
