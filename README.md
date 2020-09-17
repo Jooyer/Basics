@@ -97,25 +97,26 @@
 具体参考: cn.lvsong.lib.demo.CustomActivity1
 
 ```xml
-    <cn.lvsong.lib.library.view.ArcView
+        <cn.lvsong.lib.library.view.ArcView
         android:id="@+id/btn_5"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_200"
         android:layout_margin="@dimen/padding_5"
-        app:av_bezier_ratio="1.2"
-        app:av_color="@color/color_2878FF"
-        app:av_rectangle_height="@dimen/height_150" />
+        app:av_arc_control_offset="@dimen/padding_20"
+        app:av_arc_offset="@dimen/padding_20"
+        app:av_background_color="@color/color_2878FF" />
+
 ```
 
 ## **属性介绍:**
 
-| 属性名称            | 取值类型             | 取值和作用                                  |
-| ------------------- | -------------------- | ------------------------------------------- |
-| av_rectangle_height | reference\|dimension | 矩形的高度,非圆弧部分高度                   |
-| av_color            | reference\|color     | 背景色                                      |
-| av_bezier_ratio     | float                | 贝塞尔曲线y点高度与控件高度的比值,默认是1.0 |
+| 属性名称              | 取值类型         | 取值和作用                                    |
+| --------------------- | ---------------- | --------------------------------------------- |
+| av_arc_offset         | float\|dimension | 曲线与直线交点处 相对于图形高度的偏移量,默认0 |
+| av_background_color   | reference\|color | 背景色                                        |
+| av_arc_control_offset | float\|dimension | 曲线控制点相对于控件高度偏移量,默认0          |
 
-==PS: 如果设置控件高度为200,矩形高度(av_rectangle_height)为150,则弧形高度最大200 -150, 通过av_bezier_ratio可以改变其高度==
+==PS: 如果设置控件高度为200dp, av_arc_offset = 20dp,则相当于矩形部分高度是180dp, av_arc_control_offset取值<=av_arc_offset,也就是如果想弧度更大,则av_arc_offset取值更大==
 
 ## **公共方法:**
 
@@ -311,14 +312,15 @@ class CustomAdapter(data: List<String>, layoutId: Int) :
 ```
 
 ## **属性介绍:**
-| 属性名称                         | 取值类型             | 取值和作用                  |
-| -------------------------------- | -------------------- | --------------------------- |
-| banner_indicator_height          | reference\|dimension | 指示器高度                  |
-| banner_indicator_margin          | reference\|dimension | 指示器内部 View  左右Margin |
-| banner_show_indicator            | boolean              | 是否显示指示器              |
-| banner_loop_time                 | integer              | 轮播时间间隔,默认3000ms     |
-| banner_select_indicator_drawable | reference            | 指示器选中状态图片          |
-| banner_normal_indicator_drawable | reference            | 指示器默认状态图片          |
+| 属性名称                         | 取值类型             | 取值和作用                                                   |
+| -------------------------------- | -------------------- | ------------------------------------------------------------ |
+| banner_indicator_height          | reference\|dimension | 指示器高度                                                   |
+| banner_indicator_margin          | reference\|dimension | 指示器内部 View  左右Margin                                  |
+| banner_show_indicator            | boolean              | 是否显示指示器                                               |
+| banner_loop_time                 | integer              | 轮播时间间隔,默认3000ms                                      |
+| banner_select_indicator_drawable | reference            | 指示器选中状态图片                                           |
+| banner_normal_indicator_drawable | reference            | 指示器默认状态图片                                           |
+| banner_auto_scroll_always        | boolean              | 是否在列表中使用此控件(默认false,列表建议true),因为有判断 onAttachedToWindow/onDetachedFromWindow,那么在列表滑动时会发现banner不自动滑动,卡两个Item中间 |
 
 
 
@@ -1003,24 +1005,24 @@ PS: 一般右侧显示一个文本按钮(或者2个图标按钮,或者更多按�
 具体参考: cn.lvsong.lib.demo.CustomMenuActivity
 
 ```xml
-            <cn.lvsong.lib.library.view.LeftImgAndRightTextView
+          <cn.lvsong.lib.library.view.LeftImgAndRightTextView
             android:id="@+id/lirt_test"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/height_50"
             android:layout_marginTop="@dimen/padding_10"
-            app:lirt_icon_drawable="@drawable/ic_baseline_alarm_add_24"
-            app:lirt_icon_drawable_checked="@drawable/ic_baseline_assignment_returned_24"
-            app:lirt_text_color="@color/color_999999"
-            app:lirt_text_color_checked="@color/color_333333"
             app:lirt_back_color="@color/color_DDDDDD"
             app:lirt_back_color_checked="@color/color_8A8EA3"
-            app:lirt_icon_width="@dimen/width_20"
-            app:lirt_icon_height="@dimen/height_20"
-            app:lirt_spacing="@dimen/padding_15"
-            app:lirt_text_size="@dimen/text_size_14"
-            app:lirt_text_info="左边图片,右边文字,点击试试"
             app:lirt_checked="false"
-            />
+            app:lirt_icon_drawable="@drawable/ic_baseline_alarm_add_24"
+            app:lirt_icon_drawable_checked="@drawable/ic_baseline_assignment_returned_24"
+            app:lirt_icon_height="@dimen/height_20"
+            app:lirt_icon_width="@dimen/width_20"
+            app:lirt_spacing="@dimen/padding_15"
+            app:lirt_text_color="@color/color_999999"
+            app:lirt_text_color_checked="@color/color_333333"
+            app:lirt_text_info="左边图片,右边文字,点击试试"
+            app:lirt_text_info_checked="此时显示的是被选中时文本"
+            app:lirt_text_size="@dimen/text_size_14" />
 ```
 
 ## **属性介绍:**
@@ -1037,6 +1039,7 @@ PS: 一般右侧显示一个文本按钮(或者2个图标按钮,或者更多按�
 | lirt_icon_width | integer\|dimension | 图片宽度,默认30dp |
 | lirt_icon_height | integer\|dimension | 图片高度,默认30dp |
 | lirt_text_info | string             | 文本内容                                                  |
+| lirt_text_info_checked | string | 选中后文本内容 |
 | lirt_text_size          | float\|dimension   | 文本大小                                                  |
 | lirt_spacing           | dimension\|integer | 文本和图片的间隔,默认8dp                                    |
 | lirt_icon_location | enum               | 设置图片所在方向,可取iconLeft(默认值),iconRight,iconUp,iconBottom |

@@ -1,5 +1,6 @@
 package cn.lvsong.lib.library.banner
 
+import android.util.Log
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 
@@ -40,6 +41,10 @@ class LooperSnapHelper(private val callback: OnPositionChangeListener) : PagerSn
     ): Int {
         val pos = super.findTargetSnapPosition(layoutManager, velocityX, velocityY)
         val nextPos = pos % layoutManager.itemCount
+        Log.e(
+            "LooperSnapHelper",
+            "==========pos: $pos, nextPos: $nextPos, itemCount: ${layoutManager.itemCount}"
+        )
         callback.onPositionChange(nextPos)
         return nextPos
     }

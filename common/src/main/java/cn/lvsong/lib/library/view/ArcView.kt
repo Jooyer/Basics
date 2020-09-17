@@ -41,12 +41,18 @@ import cn.lvsong.lib.library.R
 class ArcView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     private var mPaint = Paint(Paint.ANTI_ALIAS_FLAG)
-    private var mRectangleHeight = DensityUtil.dp2pxRtFloat(100F)
-    private val mPath = Path()
+
     /**
-     * 贝塞尔曲线y点高度与控件高度的比值,默认是1.0
+     * 曲线与直线交点处 相对于图形高度的偏移量
      */
-    private var mRatio = 1F
+    private var mArcOffset = 0F
+
+    /**
+     * 曲线控制点相对于控件高度偏移量
+     */
+    private var mArcControlOffset = 0F
+
+    private val mPath = Path()
 
     init {
         mPaint.style = Paint.Style.FILL
@@ -55,20 +61,25 @@ class ArcView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     private fun parse(context: Context, attrs: AttributeSet) {
         val arr = context.obtainStyledAttributes(attrs, R.styleable.ArcView)
-        mRectangleHeight = arr.getDimensionPixelOffset(R.styleable.ArcView_av_rectangle_height, mRectangleHeight.toInt()).toFloat()
-        mRatio = arr.getFloat(R.styleable.ArcView_av_bezier_ratio, mRatio)
-        val color = arr.getColor(R.styleable.ArcView_av_color, Color.RED)
+        mArcOffset = arr.getDimension(R.styleable.ArcView_av_arc_offset, 0F)
+        mArcControlOffset = arr.getDimension(R.styleable.ArcView_av_arc_control_offset, 0F)
+        val color = arr.getColor(R.styleable.ArcView_av_background_color, Color.WHITE)
         arr.recycle()
         mPaint.color = color
 
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        Log.e("Test", "onSizeChanged=========w: $w =====h: $h =====mRectangleHeight: $mRectangleHeight")
+        mPath.reset()
         mPath.moveTo(0F, 0F)
-        mPath.lineTo(0F, mRectangleHeight)
-        mPath.quadTo(w / 2F, h * mRatio, w.toFloat(), mRectangleHeight)
-        mPath.lineTo(w.toFloat(), 0F)
+        mPath.lineTo(0F, height - mArcOffset)
+
+        mPath.quadTo(
+            width / 2F, height + mArcControlOffset,
+            width.toFloat(), height - mArcOffset
+        )
+        mPath.lineTo(width.toFloat(), height - mArcOffset)
+        mPath.lineTo(width.toFloat(), 0F)
         mPath.close()
     }
 

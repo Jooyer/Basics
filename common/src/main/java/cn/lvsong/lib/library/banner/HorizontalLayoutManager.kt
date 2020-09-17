@@ -11,6 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 
 /**
  * https://www.jianshu.com/p/3994bbdcc624  --> 滑动大小渐变
+ * https://www.jianshu.com/p/ba8ad2ab9a57
+ * https://blog.csdn.net/qq_40861368/article/details/101199470
+ *
  * https://blog.csdn.net/myself0719/article/details/79795624  --> 分析透彻
  * https://blog.csdn.net/ww897532167/article/details/86585214
  * Desc: 无限循环 , 和上一个思路一致
@@ -18,20 +21,21 @@ import androidx.recyclerview.widget.RecyclerView
  * Date: 2019-08-28
  * Time: 18:25
  */
-class HorizontalLayoutManager(private val spaceWidth: Int, private var mLoopTime: Long) : RecyclerView.LayoutManager(),
-        RecyclerView.SmoothScroller.ScrollVectorProvider {
+class HorizontalLayoutManager(private val spaceWidth: Int, private var loopTime: Long) :
+    RecyclerView.LayoutManager(),
+    RecyclerView.SmoothScroller.ScrollVectorProvider {
+
+    private val scrollDirection = PointF(1F, 0f)
+
     /**
      * 记录 onLayoutChildren 次数,因为首次手动滑动时,会在抬起手来,还会回调一次 onLayoutChildren()
      * 如果有小伙伴知道更优解决方法,记得提 issue , 先谢过!!!
      */
     private var mLayoutCount = 1
-    private var mSpaceWidth = spaceWidth
 
-
-    override
-    fun computeScrollVectorForPosition(targetPosition: Int): PointF? {
+    override fun computeScrollVectorForPosition(targetPosition: Int): PointF {
         if (childCount == 0) {
-            return null
+            return scrollDirection
         }
         // 下面这个决定了RecyclerView 左右滑动的方向,只有自动滚动时才会触发此方法
         // 由于手动滑动改变了 targetPosition, 所以下面判断会导致
@@ -39,12 +43,12 @@ class HorizontalLayoutManager(private val spaceWidth: Int, private var mLoopTime
         // 所以强制自动滑动向右
 //        val firstChildPos = getPosition(getChildAt(0)!!)
 //        val direction = if (targetPosition < firstChildPos) -1 else 1
-        return PointF(1F, 0f) // 强制右滑,不能返回null否则界面将不会自动滑动了
+        return scrollDirection // 强制右滑,不能返回null否则界面将不会自动滑动了
     }
 
     override fun generateDefaultLayoutParams(): RecyclerView.LayoutParams {
         return RecyclerView.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
+            ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
         )
     }
 
@@ -82,7 +86,7 @@ class HorizontalLayoutManager(private val spaceWidth: Int, private var mLoopTime
             val viewHeight = getDecoratedMeasuredHeight(view)
 
             layoutDecorated(view, offsetX, 0, offsetX + viewWidth, viewHeight)
-            offsetX += viewWidth + mSpaceWidth
+            offsetX += viewWidth + spaceWidth
 
             if (offsetX > width) {
                 break
@@ -94,16 +98,17 @@ class HorizontalLayoutManager(private val spaceWidth: Int, private var mLoopTime
     override fun canScrollHorizontally() = true
 
     override fun smoothScrollToPosition(
-            recyclerView: RecyclerView,
-            state: RecyclerView.State,
-            position: Int
+        recyclerView: RecyclerView,
+        state: RecyclerView.State,
+        position: Int
     ) {
-        val linearSmoothScroller: LinearSmoothScroller = object : LinearSmoothScroller(recyclerView.context) {
-            // 返回越少,滑动越快
-            override fun calculateTimeForDeceleration(dx: Int): Int {
-                return (mLoopTime * (1 - .3356)/2).toInt()
+        val linearSmoothScroller: LinearSmoothScroller =
+            object : LinearSmoothScroller(recyclerView.context) {
+                // 返回越少,滑动越快
+                override fun calculateTimeForDeceleration(dx: Int): Int {
+                    return (loopTime * (1 - .3356) / 2).toInt()
+                }
             }
-        }
 
         linearSmoothScroller.targetPosition = position
         startSmoothScroll(linearSmoothScroller)
@@ -117,7 +122,7 @@ class HorizontalLayoutManager(private val spaceWidth: Int, private var mLoopTime
      * 4. ItemView 回收
      */
     override fun scrollHorizontallyBy(
-            dx: Int, recycler: RecyclerView.Recycler, state: RecyclerView.State
+        dx: Int, recycler: RecyclerView.Recycler, state: RecyclerView.State
     ): Int {
         recycleViews(dx, recycler)
         fill(dx, recycler)
@@ -154,7 +159,7 @@ class HorizontalLayoutManager(private val spaceWidth: Int, private var mLoopTime
                 measureChildWithMargins(nextView, 0, 0)
                 val viewWidth = getDecoratedMeasuredWidth(nextView)
                 val viewHeight = getDecoratedMeasuredHeight(nextView)
-                val offsetX = lastVisibleView.right + mSpaceWidth
+                val offsetX = lastVisibleView.right + spaceWidth
                 layoutDecorated(nextView, offsetX, 0, offsetX + viewWidth, viewHeight)
                 break
             }
@@ -178,7 +183,7 @@ class HorizontalLayoutManager(private val spaceWidth: Int, private var mLoopTime
                 measureChildWithMargins(nextView, 0, 0)
                 val viewWidth = getDecoratedMeasuredWidth(nextView)
                 val viewHeight = getDecoratedMeasuredHeight(nextView)
-                val offsetX = firstVisibleView.left - mSpaceWidth
+                val offsetX = firstVisibleView.left - spaceWidth
                 layoutDecorated(nextView, offsetX - viewWidth, 0, offsetX, viewHeight)
                 break
             }
@@ -205,8 +210,8 @@ class HorizontalLayoutManager(private val spaceWidth: Int, private var mLoopTime
 
     private fun dp2px(def: Float): Int {
         return TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                def, Resources.getSystem().displayMetrics
+            TypedValue.COMPLEX_UNIT_DIP,
+            def, Resources.getSystem().displayMetrics
         ).toInt()
     }
 

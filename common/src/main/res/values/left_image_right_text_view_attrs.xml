@@ -22,6 +22,8 @@
         <attr name="lirt_text_color_checked" format="color" />
         <!-- 文本内容 -->
         <attr name="lirt_text_info" format="string" />
+        <!-- 选中后文本内容 -->
+        <attr name="lirt_text_info_checked" format="string" />
         <!-- 文本大小 -->
         <attr name="lirt_text_size" format="float|dimension" />
         <!-- 文本和图片的间隔,默认8dp -->

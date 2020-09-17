@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/color_FFFFFF"
+    android:orientation="vertical"
     tools:context=".CustomActivity1">
 
     <cn.lvsong.lib.library.view.CustomToolbar
@@ -76,15 +76,15 @@
         android:textColor="@color/color_FFFFFF"
         android:textSize="@dimen/text_size_16" />
 
-    <!--  如果设置控件高度为200,矩形高度为150,则弧形高度最大200 -150, 通过av_bezier_ratio可以改变其高度  -->
+    <!--  如果设置控件高度为200dp, av_arc_offset = 20dp,则相当于矩形部分高度是180dp, av_arc_control_offset取值<=av_arc_offset,也就是如果想弧度更大,则av_arc_offset取值更大  -->
     <cn.lvsong.lib.library.view.ArcView
         android:id="@+id/btn_5"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_200"
         android:layout_margin="@dimen/padding_5"
-        app:av_bezier_ratio="1"
-        app:av_color="@color/color_2878FF"
-        app:av_rectangle_height="@dimen/height_150" />
+        app:av_arc_control_offset="@dimen/padding_20"
+        app:av_arc_offset="@dimen/padding_20"
+        app:av_background_color="@color/color_2878FF" />
 
     <cn.lvsong.lib.library.view.DanceView
         android:layout_width="@dimen/width_40"
@@ -105,28 +105,25 @@
         android:layout_marginTop="@dimen/padding_10"
         app:av_first_show_top="false"
         app:av_show_count="6"
-        app:av_space_width="@dimen/padding_8"
-        />
+        app:av_space_width="@dimen/padding_8" />
 
     <cn.lvsong.lib.library.view.BackArrowView
         android:id="@+id/bav"
         android:layout_width="@dimen/width_40"
         android:layout_height="@dimen/height_40"
         android:layout_marginTop="@dimen/padding_10"
-        app:bav_arrow_style="material_design"
         app:bav_arrow_color="@color/color_2878FF"
-        app:bav_stroke_width="1.5dp"
-        />
+        app:bav_arrow_style="material_design"
+        app:bav_stroke_width="1.5dp" />
 
     <cn.lvsong.lib.library.view.BackArrowView
         android:id="@+id/bav2"
         android:layout_width="@dimen/width_40"
         android:layout_height="@dimen/height_40"
         android:layout_marginTop="@dimen/padding_10"
-        app:bav_arrow_style="wechat_design"
         app:bav_arrow_color="@android:color/black"
-        app:bav_stroke_width="1.5dp"
-        />
+        app:bav_arrow_style="wechat_design"
+        app:bav_stroke_width="1.5dp" />
 
 
 </LinearLayout>

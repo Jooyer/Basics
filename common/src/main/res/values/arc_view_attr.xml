@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="ArcView">
-        <!-- 矩形的高度,非圆弧部分高度 -->
-        <attr name="av_rectangle_height" format="reference|dimension" />
-        <!-- 背景色  -->
-        <attr name="av_color" format="reference|color" />
-        <!-- 贝塞尔曲线y点高度与控件高度的比值,默认是1.0 -->
-        <attr name="av_bezier_ratio" format="float" />
+        <!-- 背景色,默认白色  -->
+        <attr name="av_background_color" format="reference|color" />
+        <!-- 曲线与直线交点处 相对于图形高度的偏移量,默认0-->
+        <attr name="av_arc_offset" format="float|dimension" />
+        <!-- 曲线控制点相对于控件高度偏移量,默认0 -->
+        <attr name="av_arc_control_offset" format="float|dimension" />
+
     </declare-styleable>
 
 

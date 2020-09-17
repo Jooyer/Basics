@@ -100,6 +100,16 @@ class LeftImgAndRightTextView(context: Context, attr: AttributeSet) : RelativeLa
     private var textColorChecked: ColorStateList? = null
 
     /**
+     * 一般文本
+     */
+    private var mTextInfo:String? =""
+
+    /**
+     * 选中后文本
+     */
+    private var mTextInfoChecked:String? = ""
+
+    /**
      * 两个控件之间的间距，默认为8dp
      */
     private var spacing = 8
@@ -128,6 +138,9 @@ class LeftImgAndRightTextView(context: Context, attr: AttributeSet) : RelativeLa
 
     private fun parse(context: Context, attrs: AttributeSet) {
         val arr = getContext().obtainStyledAttributes(attrs, R.styleable.LeftImgAndRightTextView)
+
+        isChecked = arr.getBoolean(R.styleable.LeftImgAndRightTextView_lirt_checked, false)
+
         //设置正常背景色
         val colorList = arr.getColorStateList(R.styleable.LeftImgAndRightTextView_lirt_back_color)
         if (colorList != null) {
@@ -160,11 +173,10 @@ class LeftImgAndRightTextView(context: Context, attr: AttributeSet) : RelativeLa
         // TextView被按下时文字的颜色
         textColorChecked =
             arr.getColorStateList(R.styleable.LeftImgAndRightTextView_lirt_text_color_checked)
-        //设置显示的文本内容
-        val text = arr.getString(R.styleable.LeftImgAndRightTextView_lirt_text_info)
-        if (!TextUtils.isEmpty(text)) {
-            tvContent.text = text
-        }
+        //文本内容
+        mTextInfo = arr.getString(R.styleable.LeftImgAndRightTextView_lirt_text_info)
+        mTextInfoChecked = arr.getString(R.styleable.LeftImgAndRightTextView_lirt_text_info_checked)
+
         //设置文本字体大小
         val textSize = arr.getDimensionPixelSize(
             R.styleable.LeftImgAndRightTextView_lirt_text_size,
@@ -179,7 +191,7 @@ class LeftImgAndRightTextView(context: Context, attr: AttributeSet) : RelativeLa
         )
         //设置两个控件的位置结构
         mPosition = arr.getInt(R.styleable.LeftImgAndRightTextView_lirt_icon_location, 0)
-        isChecked = arr.getBoolean(R.styleable.LeftImgAndRightTextView_lirt_checked, false)
+
 
         setChecked(isChecked)
         setIconPosition(mPosition)
@@ -369,6 +381,10 @@ class LeftImgAndRightTextView(context: Context, attr: AttributeSet) : RelativeLa
             if (textColorChecked != null) {
                 tvContent.setTextColor(textColorChecked)
             }
+            if (!TextUtils.isEmpty(mTextInfoChecked)) {
+                tvContent.text = mTextInfoChecked
+            }
+
         } else {
             if (backColor != 0) {
                 setBackgroundColor(backColor)
@@ -378,6 +394,9 @@ class LeftImgAndRightTextView(context: Context, attr: AttributeSet) : RelativeLa
             }
             if (textColor != null) {
                 tvContent.setTextColor(textColor)
+            }
+            if (!TextUtils.isEmpty(mTextInfo)) {
+                tvContent.text = mTextInfo
             }
         }
     }
