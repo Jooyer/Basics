@@ -37,9 +37,12 @@ class JAlertDialog(context: Context, themeResId: Int) : Dialog(context, themeRes
 
     private val mAlert: JAlertController = JAlertController(this, window!!)
 
-    class Builder @JvmOverloads constructor(context: Context,
-                                            @StyleRes themeRes: Int = R.style.JDialogStyle) {
-        private val mAlertParams: JAlertController.AlertParams = JAlertController.AlertParams(context, themeRes)
+    class Builder @JvmOverloads constructor(
+        context: Context,
+        @StyleRes themeRes: Int = R.style.JDialogStyle
+    ) {
+        private val mAlertParams: JAlertController.AlertParams =
+            JAlertController.AlertParams(context, themeRes)
 
         /**
          * 设置Dialog的视图
@@ -197,11 +200,11 @@ class JAlertDialog(context: Context, themeResId: Int) : Dialog(context, themeRes
 
     /**
      * 延迟显示,必须 Dialog 来调用
+     * @param view --> 用来发送延时 Runnable
      * @param delay --> 单位毫秒
      */
-    fun delayShow(delay: Int) {
-        if (null != window)
-            window!!.decorView.postDelayed({ show() }, delay.toLong())
+    fun delayShow(view: View, delay: Int) {
+        view.postDelayed({ show() }, delay.toLong())
     }
 
 }

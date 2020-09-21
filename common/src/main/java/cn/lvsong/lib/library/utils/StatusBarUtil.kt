@@ -11,7 +11,6 @@ import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import cn.lvsong.lib.library.R
 
 /**
  * Desc: https://blog.csdn.net/smileiam/article/details/73603840
@@ -138,25 +137,29 @@ object StatusBarUtil {
     }
 
 
-    // https://www.jianshu.com/p/205b8f5adb48
+    /**
+     * 显示状态栏
+     */
     fun showStatusBar(activity: Activity) {
-        val attrs = activity.window.attributes
-        attrs.flags = attrs.flags and WindowManager.LayoutParams.FLAG_FULLSCREEN.inv()
-        activity.window.attributes = attrs
-        activity.window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+        val decorView = activity.window.decorView
+        val option =
+            decorView.systemUiVisibility and View.SYSTEM_UI_FLAG_FULLSCREEN.inv()
+        decorView.systemUiVisibility = option
     }
 
+    /**
+     * 隐藏状态栏
+     */
     fun hideStatusBar(activity: Activity) {
         val decorView = activity.window.decorView
-        val uiOptions = View.SYSTEM_UI_FLAG_LOW_PROFILE or
-                View.SYSTEM_UI_FLAG_FULLSCREEN or
-                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or
-                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
-                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-        decorView.systemUiVisibility = uiOptions
+        val option =
+            decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_FULLSCREEN or
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                    View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+        decorView.systemUiVisibility = option
     }
+
 
     // https://www.cnblogs.com/muhuacat/p/7447484.html
     fun hideNavigationBar(activity: Activity) {
@@ -180,6 +183,7 @@ object StatusBarUtil {
      * @param activity
      * @param show
      */
+    @Deprecated("无效")
     fun setStatusBarVisible(activity: Activity, show: Boolean) {
         if (show) {
             var uiFlags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -196,8 +200,9 @@ object StatusBarUtil {
 
     /**
      * 显示隐藏状态栏，全屏不变，只在有全屏时有效
-     *
-     * @param enable --> true 表示显示状态栏文字
+     *    requestWindowFeature(Window.FEATURE_NO_TITLE), window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+     *    在 setContentView() 之前调用上面方法设置全屏
+     * @param enable --> true 表示显示状态栏文字, false 不显示状态栏文字
      */
     fun setStatusBarVisibility(activity: Activity, enable: Boolean) {
         setStatusBarColor(activity, ContextCompat.getColor(activity, android.R.color.white))

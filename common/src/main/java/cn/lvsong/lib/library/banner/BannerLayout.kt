@@ -95,7 +95,7 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
     private val mAutoScrollRunnable = object : Runnable {
         override fun run() {
             mCurrentPos = ++mCurrentPos % mLayoutManager.itemCount
-            Log.e("BannerLayout", "AutoScroll========mCurrentPos: $mCurrentPos")
+//            Log.e("BannerLayout", "AutoScroll========mCurrentPos: $mCurrentPos")
             mBanner.smoothScrollToPosition(mCurrentPos)
             postDelayed(this, mLoopTime)
         }
@@ -105,8 +105,7 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
         parse(context, attrs)
         initView(context)
         // 防止 RecyclerView 中 Item 强占焦点
-        isFocusable = true
-        isFocusableInTouchMode = true
+        descendantFocusability = FOCUS_BLOCK_DESCENDANTS
     }
 
     private fun parse(context: Context, attrs: AttributeSet?) {

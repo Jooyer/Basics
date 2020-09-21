@@ -47,4 +47,18 @@
         android:textColor="@color/color_333333"
         android:textColorHint="@color/color_666666" />
 
+    <cn.lvsong.lib.library.view.ExpandableTextView
+        android:id="@+id/etv_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/padding_20"
+        android:textColor="@color/color_333333"
+        android:textSize="@dimen/text_size_14"
+        app:etv_switch_mode="ICON"
+        app:etv_collapse_text_color="@color/color_FF2121"
+        app:etv_expand_text_color="@color/main_theme_color"
+        app:etv_collapse_drawable="@mipmap/ic_gray_down_arrow"
+        app:etv_expand_drawable="@mipmap/ic_gray_up_arrow" />
+
+
 </LinearLayout>

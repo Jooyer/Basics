@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="ExpandableTextView">
+        <!-- 折叠时文本显示行数,默认3行 -->
+        <attr name="etv_collapse_max_lines" format="integer"/>
+        <!-- 展开时图标 -->
+        <attr name="etv_expand_drawable" format="reference" />
+        <!-- 折叠时图标 -->
+        <attr name="etv_collapse_drawable" format="reference" />
+        <!-- 显示模式,TEXT(文本),ICON(图标) -->
+        <attr name="etv_switch_mode" format="enum">
+            <enum name="TEXT" value="1" />
+            <enum name="ICON" value="2" />
+        </attr>
+        <!-- 展开时文本,默认文本为: 收起 ,TEXT模式下有效-->
+        <attr name="etv_expand_text" format="reference|string"/>
+        <!-- 折叠时文本,默认文本为: 展开 ,TEXT模式下有效 -->
+        <attr name="etv_collapse_text" format="reference|string"/>
+        <!-- 展开文本颜色,默认#2878FF ,TEXT模式下有效 -->
+        <attr name="etv_expand_text_color" format="color" />
+        <!-- 折叠文本颜色,默认#2878FF ,TEXT模式下有效 -->
+        <attr name="etv_collapse_text_color" format="color" />
+    </declare-styleable>
+
+</resources>
