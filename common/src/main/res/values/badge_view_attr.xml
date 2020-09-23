@@ -2,21 +2,21 @@
 <resources>
 
     <declare-styleable name="BadgeView">
-        <!-- 上下间隔 -->
+        <!-- 上下间隔,默认3dp,最小1dp -->
         <attr name="bv_tb_padding" format="dimension|integer" />
-        <!-- 左右间隔 -->
+        <!-- 左右间隔,默认5dp,最小1dp -->
         <attr name="bv_lr_padding" format="dimension|integer" />
-        <!-- 轮廓宽度 -->
+        <!-- 轮廓宽度,默认1dp -->
         <attr name="bv_stoke_width" format="dimension|float" />
-        <!-- 轮廓颜色 -->
+        <!-- 轮廓颜色,默认白色   -->
         <attr name="bv_stoke_color" format="color" />
-        <!-- 文字大小 -->
+        <!-- 文字大小,默认14dp -->
         <attr name="bv_text_size" format="dimension|integer" />
-        <!-- 文字颜色 -->
+        <!-- 文字颜色,默认白色   -->
         <attr name="bv_text_color" format="color" />
-        <!-- 文字中粗,默认是的 -->
+        <!-- 文字中粗,默认true-->
         <attr name="bv_text_medium" format="boolean" />
-        <!-- 背景色 -->
+        <!-- 背景色,默认红色 -->
         <attr name="bv_background_color" format="color" />
         <!-- 数值 -->
         <attr name="bv_number" format="integer" />

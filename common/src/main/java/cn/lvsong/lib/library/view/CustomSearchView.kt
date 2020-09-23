@@ -13,6 +13,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
+import androidx.annotation.NonNull
+import androidx.annotation.Nullable
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -349,7 +351,7 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
         if (showClearIcon) {
             cv_search_view_clean.setOnClickListener {
                 et_search_view_search.setText("")
-                mListener?.onClear()
+                mListener?.onClear(it)
                 cv_search_view_clean.visibility = View.GONE
             }
         }
@@ -367,10 +369,7 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
 
         act_search_right_btn.setOnClickListener(object : OnClickFastListener() {
             override fun onFastClick(v: View) {
-                val text = et_search_view_search.text.toString()
-                if (!TextUtils.isEmpty(text)) {
-                    mListener?.onSearch(text)
-                }
+                mListener?.onClickRightButton(v)
             }
         })
 
@@ -389,7 +388,7 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
         et_search_view_search.setOnEditorActionListener { v, actionId, event ->
             val text = et_search_view_search.text.toString()
             if (EditorInfo.IME_ACTION_SEARCH == actionId && !TextUtils.isEmpty(text)) {
-                mListener?.onSearch(text)
+                mListener?.onSearch(v, text)
                 true
             }
             false
@@ -402,6 +401,18 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
             def,
             context.resources.displayMetrics
         )
+    }
+
+    /**
+     * 设置输入框内容
+     */
+    fun setSearchText(@Nullable text: CharSequence) {
+        et_search_view_search.setText(text)
+        if (text.isEmpty() || text.isBlank()) {
+            et_search_view_search.setSelection(0)
+        } else {
+            et_search_view_search.setSelection(text.length)
+        }
     }
 
     interface OnSearchListener {
@@ -423,7 +434,7 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
         /**
          * 清空输入内容
          */
-        fun onClear() {
+        fun onClear(view: View) {
 
         }
 
@@ -435,9 +446,16 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
         }
 
         /**
-         * 点击搜索按钮
+         * 点击键盘搜索
          */
-        fun onSearch(text: String) {
+        fun onSearch(view: View, text: String) {
+
+        }
+
+        /**
+         * 点击右侧按钮
+         */
+        fun onClickRightButton(view: View) {
 
         }
     }

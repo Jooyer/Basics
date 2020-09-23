@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="150dp">
+
+    <cn.lvsong.lib.library.banner.BannerLayout
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        app:banner_indicator_height="10dp"
+        app:banner_indicator_margin="3dp"
+        app:banner_loop_time="5000"
+        app:banner_item_scroll_time="3000"
+        app:banner_normal_indicator_drawable="@drawable/normal"
+        app:banner_select_indicator_drawable="@drawable/select"
+        app:banner_show_indicator="true"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -254,8 +254,8 @@
 
 | 属性名称            | 取值类型           | 取值和作用                                              |
 | ------------------- | ------------------ | ------------------------------------------------------- |
-| bv_tb_padding       | dimension\|integer | 上下间隔,默认3dp                                        |
-| bv_lr_padding       | dimension\|integer | 左右间隔,默认5dp                                        |
+| bv_tb_padding       | dimension\|integer | 上下间隔,默认3dp,最小1dp                                  |
+| bv_lr_padding       | dimension\|integer | 左右间隔,默认5dp,最小1dp                                        |
 | bv_stoke_width      | dimension\|float | 轮廓宽度,默认1dp,                                       |
 | bv_stoke_color      | color              | 裸辞颜色,默认白色                                       |
 | bv_text_size        | dimension\|integer | 文字大小,默认14dp                                       |
@@ -325,7 +325,7 @@ class CustomAdapter(data: List<String>, layoutId: Int) :
 | banner_loop_time                 | integer              | 轮播时间间隔,默认3000ms                                      |
 | banner_select_indicator_drawable | reference            | 指示器选中状态图片                                           |
 | banner_normal_indicator_drawable | reference            | 指示器默认状态图片                                           |
-| banner_auto_scroll_always        | boolean              | 是否在列表中使用此控件(默认false,列表建议true),因为有判断 onAttachedToWindow/onDetachedFromWindow,那么在列表滑动时会发现banner不自动滑动,卡两个Item中间 |
+| banner_item_scroll_time        | integer              | ItemView 滑动时滑过一屏所需时间,默认1200 |
 
 
 
@@ -927,8 +927,54 @@ PS: 一般右侧显示一个文本按钮(或者2个图标按钮,或者更多按�
 
 
 
+# ExpandaleTextView
+
+## **用法:**
+
+具体参考: cn.lvsong.lib.demo.CustomActivity4
+
+```kotlin
+        etv_text_view.setOriginalText("据海关总署网站9月18日消息，因从印度尼西亚进口1批冻带鱼1个外包装样本检出新冠病毒核酸阳性，根据海关总署公告2020年第103号的规定，全国海关自即日起暂停接受印度尼西亚PT.PUTRI INDAH（注册编号为CR010-02）水产品生产企业产品进口申报1周，期满后自动恢复。")
+
+```
+
+
+
+
+## **属性介绍:**
+
+| 属性名称                | 取值类型          | 取值和作用                                  |
+| ----------------------- | ----------------- | ------------------------------------------- |
+| etv_collapse_max_lines  | integer           | 折叠时文本显示行数,默认3行                  |
+| etv_expand_drawable     | reference         | 展开时图标                                  |
+| etv_collapse_drawable   | reference         | 折叠时图标                                  |
+| etv_switch_mode         | enum              | 显示模式,TEXT(文本),ICON(图标)              |
+| etv_expand_text         | reference\|string | 展开时文本,默认文本为: 收起 ,TEXT模式下有效 |
+| etv_collapse_text       | reference\|string | 折叠时文本,默认文本为: 展开 ,TEXT模式下有效 |
+| etv_expand_text_color   | color             | 展开文本颜色,默认#2878FF ,TEXT模式下有效    |
+| etv_collapse_text_color | color             | 折叠文本颜色,默认#2878FF ,TEXT模式下有效    |
+
+
+
+## **公共方法:**
+
+
 
 # FixedCursorEditText
+
+| 方法名称                                            | 作用                                  |
+| --------------------------------------------------- | ------------------------------------- |
+| initWidth(int width)                                | 初始化TextView的可展示宽度            |
+| setHasAnimation(boolean hasAnimation)               | 设置是否有动画,默认false              |
+| setMaxLines(int maxLines)                           | 设置折叠时显示的最多行数              |
+| setOpenSuffix(String openSuffix)                    | 设置展开后缀                          |
+| setCloseSuffix(String closeSuffix)                  | 设置收起后缀                          |
+| setOpenSuffixColor(@ColorInt int openSuffixColor)   | 设置展开后缀文本颜色                  |
+| setCloseSuffixColor(@ColorInt int closeSuffixColor) | 设置收起后缀文本颜色                  |
+| setCloseInNewLine(boolean closeInNewLine)           | 是否在展开时 对折叠文本/图标 另起一行 |
+
+
+
 ## **用法:**
 
 ```xml

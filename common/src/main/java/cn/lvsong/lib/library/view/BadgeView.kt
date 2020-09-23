@@ -132,6 +132,14 @@ class BadgeView(context: Context, attr: AttributeSet?) : View(context, attr) {
             visibility = if (mNumber > 0) VISIBLE else GONE
             mMoreStyle = arr.getInt(R.styleable.BadgeView_bv_more_style, mMoreStyle)
             arr.recycle()
+
+            if(0 == mTBPadding){
+                mTBPadding = DensityUtil.dp2pxRtInt(1F)
+            }
+
+            if(0 == mLRPadding){
+                mLRPadding = DensityUtil.dp2pxRtInt(1F)
+            }
         }
     }
 

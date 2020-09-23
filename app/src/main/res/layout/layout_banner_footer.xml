@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="180dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <cn.lvsong.lib.library.banner.BannerLayout
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        app:banner_indicator_height="10dp"
+        app:banner_indicator_margin="3dp"
+        app:banner_loop_time="5000"
+        app:banner_item_scroll_time="3000"
+        app:banner_show_indicator="false"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/padding_5"
+        android:layout_marginBottom="@dimen/padding_5"
+        android:background="#7C000000"
+        android:padding="5dp"
+        android:text="双十一活动报名现在开始..."
+        android:textColor="#fff"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/banner"
+        app:layout_constraintEnd_toEndOf="@+id/banner" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

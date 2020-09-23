@@ -28,7 +28,7 @@ class CustomMenuActivity : BaseActivity() {
                 finish()
             }
 
-            override fun onClear() {
+            override fun onClear(view: View) {
 
             }
 
@@ -40,7 +40,7 @@ class CustomMenuActivity : BaseActivity() {
 
             }
 
-            override fun onSearch(text: String) {
+            override fun onSearch(view:View,text: String) {
 
             }
 

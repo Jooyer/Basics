@@ -7,6 +7,7 @@ import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearSmoothScroller
+import androidx.recyclerview.widget.OrientationHelper
 import androidx.recyclerview.widget.RecyclerView
 
 /**
@@ -21,11 +22,15 @@ import androidx.recyclerview.widget.RecyclerView
  * Date: 2019-08-28
  * Time: 18:25
  */
-class HorizontalLayoutManager(private val spaceWidth: Int, private var loopTime: Long) :
+open class HorizontalLayoutManager(private val spaceWidth: Int, private val itemScrollTime: Int) :
     RecyclerView.LayoutManager(),
     RecyclerView.SmoothScroller.ScrollVectorProvider {
 
     private val scrollDirection = PointF(1F, 0f)
+
+    open var itemWidth: Int = 0
+
+    open var mOrientationHelper: OrientationHelper = OrientationHelper.createHorizontalHelper(this)
 
     /**
      * 记录 onLayoutChildren 次数,因为首次手动滑动时,会在抬起手来,还会回调一次 onLayoutChildren()
@@ -33,7 +38,21 @@ class HorizontalLayoutManager(private val spaceWidth: Int, private var loopTime:
      */
     private var mLayoutCount = 1
 
-    override fun computeScrollVectorForPosition(targetPosition: Int): PointF {
+    private var mDetach = false
+
+
+    override fun onAttachedToWindow(view: RecyclerView?) {
+        super.onAttachedToWindow(view)
+        mDetach = false
+    }
+
+
+    override fun onDetachedFromWindow(view: RecyclerView, recycler: RecyclerView.Recycler?) {
+        super.onDetachedFromWindow(view, recycler)
+        mDetach = true
+    }
+
+    override fun computeScrollVectorForPosition(targetPosition: Int): PointF? {
         if (childCount == 0) {
             return scrollDirection
         }
@@ -48,7 +67,7 @@ class HorizontalLayoutManager(private val spaceWidth: Int, private var loopTime:
 
     override fun generateDefaultLayoutParams(): RecyclerView.LayoutParams {
         return RecyclerView.LayoutParams(
-            ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
         )
     }
 
@@ -65,15 +84,22 @@ class HorizontalLayoutManager(private val spaceWidth: Int, private var loopTime:
             return
         }
 
-        //分离并且回收当前附加的所有View
-        detachAndScrapAttachedViews(recycler)
-
-        if (itemCount == 0) {
+        if (itemCount == 0 || state.isPreLayout) {
+            removeAndRecycleAllViews(recycler)
             return
         }
 
+        //分离并且回收当前附加的所有View
+        detachAndScrapAttachedViews(recycler)
+
+        // 计算一个Item宽度
+        val scrap = recycler.getViewForPosition(0)
+        measureChildWithMargins(scrap, 0, 0)
+        itemWidth = getDecoratedMeasuredWidth(scrap)
+
         //横向绘制子View,则需要知道 X轴的偏移量
-        var offsetX = 0
+        var offsetX =
+            (mOrientationHelper.totalSpace - mOrientationHelper.getDecoratedMeasurement(scrap)) / 2
         mLayoutCount++
 
         //绘制并添加view
@@ -82,16 +108,31 @@ class HorizontalLayoutManager(private val spaceWidth: Int, private var loopTime:
             addView(view)
 
             measureChildWithMargins(view, 0, 0)
-            val viewWidth = getDecoratedMeasuredWidth(view)
+//            val viewWidth = getDecoratedMeasuredWidth(view)
             val viewHeight = getDecoratedMeasuredHeight(view)
+//            layoutDecorated(view, offsetX, 0, offsetX + viewWidth, viewHeight)
+            layoutDecoratedWithMargins(
+                view,
+                offsetX,
+                getItemTop(view),
+                offsetX + itemWidth,
+                getItemTop(view) + viewHeight
+            )
+            offsetX += itemWidth + spaceWidth
 
-            layoutDecorated(view, offsetX, 0, offsetX + viewWidth, viewHeight)
-            offsetX += viewWidth + spaceWidth
-
-            if (offsetX > width) {
+            if (offsetX > mOrientationHelper.totalSpace) {
                 break
             }
         }
+        doWithItem()
+    }
+
+    private fun getTotalHeight(): Int {
+        return height - paddingTop - paddingBottom
+    }
+
+    private fun getItemTop(item: View): Int {
+        return (getTotalHeight() - getDecoratedMeasuredHeight(item)) / 2 + paddingTop
     }
 
     //是否可横向滑动
@@ -102,16 +143,49 @@ class HorizontalLayoutManager(private val spaceWidth: Int, private var loopTime:
         state: RecyclerView.State,
         position: Int
     ) {
+
         val linearSmoothScroller: LinearSmoothScroller =
             object : LinearSmoothScroller(recyclerView.context) {
                 // 返回越少,滑动越快
                 override fun calculateTimeForDeceleration(dx: Int): Int {
-                    return (loopTime * (1 - .3356) / 2).toInt()
+                    return (itemScrollTime * (1 - .3356) / 2).toInt()
                 }
             }
 
         linearSmoothScroller.targetPosition = position
         startSmoothScroll(linearSmoothScroller)
+
+//        smoothScrollBy(recyclerView, position)
+    }
+
+    private fun smoothScrollBy(recyclerView: RecyclerView, position: Int) {
+        var targetPosition = position
+        if (itemCount <= 0 || (targetPosition < 0 || targetPosition > itemCount - 1)) {
+            return
+        }
+        if (itemCount > 0) {
+            targetPosition = (targetPosition % itemCount + itemCount) % itemCount
+        }
+        val currentPosition = getCurrentPosition()
+        val offset = if (currentPosition == itemCount - 1 && targetPosition == 0) {
+            itemWidth + spaceWidth
+        } else {
+            (targetPosition - currentPosition) * itemWidth + spaceWidth
+        }
+        Log.e("BannerLayout","smoothScrollBy========offset: $offset, position: $position")
+        recyclerView.smoothScrollBy(offset, 0, null, if (mDetach) 0 else itemScrollTime)
+    }
+
+    private fun getCurrentPosition(): Int {
+        for (i in 0 until childCount) {
+            val child = getChildAt(i) ?: continue
+            if (getDecoratedLeft(child) >= 0
+                && getDecoratedRight(child) <= mOrientationHelper.totalSpace
+            ) {
+                return getPosition(child)
+            }
+        }
+        return -1
     }
 
     /**
@@ -125,8 +199,12 @@ class HorizontalLayoutManager(private val spaceWidth: Int, private var loopTime:
         dx: Int, recycler: RecyclerView.Recycler, state: RecyclerView.State
     ): Int {
         recycleViews(dx, recycler)
+
+
+
         fill(dx, recycler)
         offsetChildrenHorizontal(dx * -1)
+        doWithItem()
         return dx
     }
 
@@ -213,6 +291,10 @@ class HorizontalLayoutManager(private val spaceWidth: Int, private var loopTime:
             TypedValue.COMPLEX_UNIT_DIP,
             def, Resources.getSystem().displayMetrics
         ).toInt()
+    }
+
+    open fun doWithItem() {
+
     }
 
 }

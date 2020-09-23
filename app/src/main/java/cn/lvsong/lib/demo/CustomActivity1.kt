@@ -240,7 +240,7 @@ class CustomActivity1 : BaseActivity() {
      * 中间dialog
      */
     fun onCenterDialog(view: View) {
-        mExitDialog.show()
+        mExitDialog.delayShow(view,500)
     }
 
     /**

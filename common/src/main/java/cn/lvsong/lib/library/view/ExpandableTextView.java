@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -12,17 +13,19 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.Layout;
+import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.StaticLayout;
+import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.style.AlignmentSpan;
 import android.text.style.ClickableSpan;
 import android.text.style.DynamicDrawableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.ImageSpan;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +35,9 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.core.content.ContextCompat;
+
+import cn.lvsong.lib.library.R;
 
 
 /**
@@ -49,62 +55,94 @@ import androidx.appcompat.widget.AppCompatTextView;
                         84
                     )
                 )
-                    .setHasAnimation(true).maxLines = 3
-                el_container_item_message.setOriginalText(bean)
+    el_container_item_message.setOriginalText("xxx")
 
  */
 
 public class ExpandableTextView extends AppCompatTextView {
+
     private static final String TAG = ExpandableTextView.class.getSimpleName();
 
+    // ...
     public static final String ELLIPSIS_STRING = new String(new char[]{'\u2026'});
+
     private static final int DEFAULT_MAX_LINE = 3;
-    private static final String DEFAULT_OPEN_SUFFIX = " 展开";
-    private static final String DEFAULT_CLOSE_SUFFIX = " 收起";
-    volatile boolean animating = false;
-    boolean isClosed = false;
-    private int mMaxLines = DEFAULT_MAX_LINE;
-    /**
-     * TextView可展示宽度，包含paddingLeft和paddingRight
-     */
-    private int initWidth = 0;
 
-    private SpannableStringBuilder mOpenSpannableStr, mCloseSpannableStr;
+    private static final String DEFAULT_OPEN_SUFFIX = "展开";
 
-    private boolean hasAnimation = false;
-    private ValueAnimator mOpenAnim, mCloseAnim;
-    private int mOpenHeight, mCloseHeight;
+    private static final String DEFAULT_CLOSE_SUFFIX = "收起";
+    // 是否正在动画中
+    private volatile boolean animating = false;
+    // 是否是折叠状态
+    private boolean isClosed = false;
+    // 是否可折叠,文本超过最大行数则会折叠
     private boolean mExpandable;
-    private boolean mCloseInNewLine;
+    // 是否在展开时 对折叠文本/图标 另起一行
+    private boolean mCloseInNewLine = false;
+    // 在展开和折叠时有无动画切换效果
+    private boolean hasAnimation = false;
+    // 默认的最大行数
+    private int mMaxLines = DEFAULT_MAX_LINE;
+    // TextView可展示宽度，包含paddingLeft和paddingRight
+    private int initWidth = 0;
+    // 设置显示模式
+    private int mSwitchMode = 1;
+    // 展开和折叠时 高度
+    private int mOpenHeight, mCloseHeight;
+    // 展开/折叠时  显示的文本内容(经过处理,eg: 增加展开/折叠按钮)
+    private SpannableStringBuilder mOpenSpannableStr, mCloseSpannableStr;
+    // 展开/折叠动画
+    private ValueAnimator mOpenAnim, mCloseAnim;
+    // 展开/折叠时显示的可点击的内容
     @Nullable
     private SpannableString mOpenSuffixSpan, mCloseSuffixSpan;
+    // 折叠时显示的文本
     private String mOpenSuffixStr = DEFAULT_OPEN_SUFFIX;
+    // 展开时显示的文本
     private String mCloseSuffixStr = DEFAULT_CLOSE_SUFFIX;
+    // 展开/折叠文本颜色
     private int mOpenSuffixColor, mCloseSuffixColor;
-
-    private CharSequenceToSpannableHandler mCharSequenceToSpannableHandler;
-
-    public ExpandableTextView(Context context) {
-        super(context);
-        initialize();
-    }
+    // 展开时图标
+    private int mExpandDrawableId;
+    // 折叠时图标
+    private int mCollapsedDrawableId;
+    // 展开/折叠回调
+    public OnOpenAndCloseListener mOnOpenAndCloseListener;
 
     public ExpandableTextView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        initialize();
+        this(context, attrs, 0);
     }
 
     public ExpandableTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initialize();
+        initialize(context, attrs);
     }
 
     /**
      * 初始化
      */
-    private void initialize() {
-        mOpenSuffixColor = mCloseSuffixColor = Color.parseColor("#F23030");
+    private void initialize(Context context, AttributeSet attrs) {
         setOnTouchListener(new LinkMovementMethodOverride());
+        if (null != attrs) {
+            TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.ExpandableTextView);
+            mMaxLines = array.getInt(R.styleable.ExpandableTextView_etv_collapse_max_lines, mMaxLines);
+            mSwitchMode = array.getInt(R.styleable.ExpandableTextView_etv_switch_mode, mSwitchMode);
+            mExpandDrawableId = array.getResourceId(R.styleable.ExpandableTextView_etv_expand_drawable, 0);
+            mCollapsedDrawableId = array.getResourceId(R.styleable.ExpandableTextView_etv_collapse_drawable, 0);
+            mOpenSuffixStr = array.getString(R.styleable.ExpandableTextView_etv_expand_text);
+            mCloseSuffixStr = array.getString(R.styleable.ExpandableTextView_etv_collapse_text);
+            mOpenSuffixColor = array.getColor(R.styleable.ExpandableTextView_etv_expand_text_color,
+                    ContextCompat.getColor(context, R.color.color_2878FF));
+            mCloseSuffixColor = array.getColor(R.styleable.ExpandableTextView_etv_collapse_text_color,
+                    ContextCompat.getColor(context, R.color.color_2878FF));
+            array.recycle();
+            if (TextUtils.isEmpty(mOpenSuffixStr)) {
+                mOpenSuffixStr = DEFAULT_OPEN_SUFFIX;
+            }
+            if (TextUtils.isEmpty(mCloseSuffixStr)) {
+                mCloseSuffixStr = DEFAULT_CLOSE_SUFFIX;
+            }
+        }
         setIncludeFontPadding(false);
         updateOpenSuffixSpan();
         updateCloseSuffixSpan();
@@ -116,61 +154,78 @@ public class ExpandableTextView extends AppCompatTextView {
     }
 
     public void setOriginalText(CharSequence originalText) {
-        final int maxLines = mMaxLines;
         mExpandable = false;
 
         mCloseSpannableStr = new SpannableStringBuilder();
         mOpenSpannableStr = charSequenceToSpannable(originalText);
         SpannableStringBuilder tempText = charSequenceToSpannable(originalText);
 
-        if (maxLines != -1) {
+        if (mMaxLines != -1) {
             Layout layout = createStaticLayout(tempText);
+            int originalLineCount = layout.getLineCount();
             // 如果文本行数 > 给定的最多行数则认为可折叠和展开
-            mExpandable = layout.getLineCount() > maxLines;
+            mExpandable = layout.getLineCount() > mMaxLines;
             if (mExpandable) {
                 //拼接展开内容
-                if (mCloseInNewLine) {
+                if (mCloseInNewLine) { // 如果需要对展开后图标另起一行
                     mOpenSpannableStr.append("\n");
                 }
+
+                // 将图标放到最后一行末尾
                 if (mCloseSuffixSpan != null) {
+                    int closeSuffixSpanLength = mCloseSuffixSpan.length();
+                    int openSpannableStrLength = mOpenSpannableStr.length();
+                    Layout closeLayout = createStaticLayout(mOpenSpannableStr);
+                    while (closeLayout.getLineCount() <= originalLineCount) {
+                        mOpenSpannableStr.append("@");
+                        closeLayout = createStaticLayout(mOpenSpannableStr);
+                    }
+                    // 删除多添加的占位符 @,同时留出 mCloseSuffixSpan 位置
+                    if (1 == mSwitchMode) { // 文本模式
+                        mOpenSpannableStr.delete(mOpenSpannableStr.length() - 2 - closeSuffixSpanLength, mOpenSpannableStr.length() - 1);
+                    } else { // 图片模式(图片占据实际位置宽度<文本)
+                        mOpenSpannableStr.delete(mOpenSpannableStr.length() - 1 - closeSuffixSpanLength, mOpenSpannableStr.length() - 1);
+                    }
+                    // 修正上面删除没有到位问题
+                    int lineCount = createStaticLayout(charSequenceToSpannable(mOpenSpannableStr).append(mCloseSuffixSpan)).getLineCount();
+                    if (lineCount > originalLineCount) {
+                        mOpenSpannableStr.delete(mOpenSpannableStr.length() - 2, mOpenSpannableStr.length() - 1);
+                    }
+                    mOpenSpannableStr.setSpan(new ForegroundColorSpan(Color.TRANSPARENT), openSpannableStrLength,
+                            mOpenSpannableStr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                     mOpenSpannableStr.append(mCloseSuffixSpan);
                 }
-                //计算原文截取位置
-                int endPos = layout.getLineEnd(maxLines - 1);
-                if (originalText.length() <= endPos) {
+
+                //计算原文截取位置,如折叠时最多显示3行, 下面就是计算第三行
+                int endPos = layout.getLineEnd(mMaxLines - 1);
+                if (originalText.length() <= endPos) { // 原文本刚好在第maxLines行末尾
                     mCloseSpannableStr = charSequenceToSpannable(originalText);
-                } else {
+                } else { // 截取到maxLines行位置
                     mCloseSpannableStr = charSequenceToSpannable(originalText.subSequence(0, endPos));
                 }
                 SpannableStringBuilder tempText2 = charSequenceToSpannable(mCloseSpannableStr).append(ELLIPSIS_STRING);
                 if (mOpenSuffixSpan != null) {
                     tempText2.append(mOpenSuffixSpan);
                 }
-                //循环判断，收起内容添加展开后缀后的内容
+                //循环判断，收起内容添加展开后缀后的内容是否超过折叠时最大显示行数
                 Layout tempLayout = createStaticLayout(tempText2);
-                while (tempLayout.getLineCount() > maxLines) {
+                while (tempLayout.getLineCount() > mMaxLines) {
                     int lastSpace = mCloseSpannableStr.length() - 1;
-                    if (lastSpace == -1) {
+                    if (lastSpace == -1) { // mCloseSpannableStr没有内容
                         break;
                     }
-                    if (originalText.length() <= lastSpace) {
+
+                    if (originalText.length() <= lastSpace) { // 如果原文本长度 < mCloseSpannableStr
                         mCloseSpannableStr = charSequenceToSpannable(originalText);
-                    } else {
+                    } else { // 截取能显示的最多文本
                         mCloseSpannableStr = charSequenceToSpannable(originalText.subSequence(0, lastSpace));
                     }
+                    // 再次拼接截取后的文本
                     tempText2 = charSequenceToSpannable(mCloseSpannableStr).append(ELLIPSIS_STRING);
                     if (mOpenSuffixSpan != null) {
                         tempText2.append(mOpenSuffixSpan);
                     }
                     tempLayout = createStaticLayout(tempText2);
-
-                }
-                int lastSpace = mCloseSpannableStr.length() - mOpenSuffixSpan.length();
-                if (lastSpace >= 0 && originalText.length() > lastSpace) {
-                    CharSequence redundantChar = originalText.subSequence(lastSpace, lastSpace + mOpenSuffixSpan.length());
-                    int offset = hasEnCharCount(redundantChar) - hasEnCharCount(mOpenSuffixSpan) + 1;
-                    lastSpace = offset <= 0 ? lastSpace : lastSpace - offset;
-                    mCloseSpannableStr = charSequenceToSpannable(originalText.subSequence(0, lastSpace));
                 }
                 //计算收起的文本高度
                 mCloseHeight = tempLayout.getHeight() + getPaddingTop() + getPaddingBottom();
@@ -190,19 +245,6 @@ public class ExpandableTextView extends AppCompatTextView {
         }
     }
 
-    private int hasEnCharCount(CharSequence str) {
-        int count = 0;
-        if (!TextUtils.isEmpty(str)) {
-            for (int i = 0; i < str.length(); i++) {
-                char c = str.charAt(i);
-                if (c >= ' ' && c <= '~') {
-                    count++;
-                }
-            }
-        }
-        return count;
-    }
-
     private void switchOpenClose() {
         if (mExpandable) {
             isClosed = !isClosed;
@@ -212,15 +254,6 @@ public class ExpandableTextView extends AppCompatTextView {
                 open();
             }
         }
-    }
-
-    /**
-     * 设置是否有动画
-     *
-     * @param hasAnimation --> 默认false,即没有动画
-     */
-    public void setHasAnimation(boolean hasAnimation) {
-        this.hasAnimation = hasAnimation;
     }
 
     /**
@@ -234,8 +267,8 @@ public class ExpandableTextView extends AppCompatTextView {
         } else {
             ExpandableTextView.super.setMaxLines(Integer.MAX_VALUE);
             setText(mOpenSpannableStr);
-            if (mOpenCloseCallback != null) {
-                mOpenCloseCallback.onOpen();
+            if (mOnOpenAndCloseListener != null) {
+                mOnOpenAndCloseListener.onOpen(this);
             }
         }
     }
@@ -249,8 +282,8 @@ public class ExpandableTextView extends AppCompatTextView {
         } else {
             ExpandableTextView.super.setMaxLines(mMaxLines);
             setText(mCloseSpannableStr);
-            if (mOpenCloseCallback != null) {
-                mOpenCloseCallback.onClose();
+            if (mOnOpenAndCloseListener != null) {
+                mOnOpenAndCloseListener.onClose(this);
             }
         }
     }
@@ -267,7 +300,7 @@ public class ExpandableTextView extends AppCompatTextView {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
                     float height = (float) animation.getAnimatedValue();
-                    Log.e("Expand", "executeOpenAnim=======height: " + height);
+//                    Log.e("Expand", "executeOpenAnim=======height: " + height);
                     //计算出每次应该显示的高度,改变执行view的高度，实现动画
                     ViewGroup.LayoutParams params = getLayoutParams();
                     params.height = (int) height;
@@ -316,7 +349,7 @@ public class ExpandableTextView extends AppCompatTextView {
                 public void onAnimationUpdate(ValueAnimator animation) {
                     setScrollY(0);
                     float height = (float) animation.getAnimatedValue();
-                    Log.e("Expand", "executeOpenAnim=======height: " + height);
+//                    Log.e("Expand", "executeOpenAnim=======height: " + height);
                     //计算出每次应该显示的高度,改变执行view的高度，实现动画
                     ViewGroup.LayoutParams params = getLayoutParams();
                     params.height = (int) height;
@@ -375,14 +408,7 @@ public class ExpandableTextView extends AppCompatTextView {
      * @return SpannableStringBuilder
      */
     private SpannableStringBuilder charSequenceToSpannable(@NonNull CharSequence charSequence) {
-        SpannableStringBuilder spannableStringBuilder = null;
-        if (mCharSequenceToSpannableHandler != null) {
-            spannableStringBuilder = mCharSequenceToSpannableHandler.charSequenceToSpannable(charSequence);
-        }
-        if (spannableStringBuilder == null) {
-            spannableStringBuilder = new SpannableStringBuilder(charSequence);
-        }
-        return spannableStringBuilder;
+        return new SpannableStringBuilder(charSequence);
     }
 
     /**
@@ -390,8 +416,19 @@ public class ExpandableTextView extends AppCompatTextView {
      *
      * @param width
      */
-    public void initWidth(int width) {
+    public ExpandableTextView initWidth(int width) {
         initWidth = width;
+        return this;
+    }
+
+    /**
+     * 设置是否有动画
+     *
+     * @param hasAnimation --> 默认false,即没有动画
+     */
+    public ExpandableTextView setHasAnimation(boolean hasAnimation) {
+        this.hasAnimation = hasAnimation;
+        return this;
     }
 
     @Override
@@ -401,7 +438,7 @@ public class ExpandableTextView extends AppCompatTextView {
     }
 
     /**
-     * 设置展开后缀text
+     * 设置展开后缀
      *
      * @param openSuffix
      */
@@ -441,7 +478,7 @@ public class ExpandableTextView extends AppCompatTextView {
     }
 
     /**
-     * 收起后缀是否另起一行
+     * 是否在展开时 对折叠文本/图标 另起一行
      *
      * @param closeInNewLine
      */
@@ -451,6 +488,7 @@ public class ExpandableTextView extends AppCompatTextView {
     }
 
     /**
+     * 点击展开走这里
      * 更新展开后缀Spannable
      */
     private void updateOpenSuffixSpan() {
@@ -459,32 +497,32 @@ public class ExpandableTextView extends AppCompatTextView {
             return;
         }
         mOpenSuffixSpan = new SpannableString(mOpenSuffixStr);
-//        mOpenSuffixSpan.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, mOpenSuffixStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        if (1 == mSwitchMode) {
+            mOpenSuffixSpan.setSpan(new ClickableSpan() {
 
-        mOpenSuffixSpan.setSpan(new CustomImageSpan(getContext(), android.R.mipmap.sym_def_app_icon, DynamicDrawableSpan.ALIGN_CENTER) {
-                                    @Override
-                                    public void onClick(View view) {
-                                        switchOpenClose();
-                                    }
-                                },
-                0, mOpenSuffixStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                @Override
+                public void updateDrawState(@NonNull TextPaint ds) {
+                    ds.setColor(mOpenSuffixColor);
+                }
 
-//		mOpenSuffixSpan.setSpan(new ClickableSpan() {
-//			@Override
-//			public void onClick(@NonNull View widget) {
-//				switchOpenClose();
-//			}
-//
-//			@Override
-//			public void updateDrawState(@NonNull TextPaint ds) {
-//				super.updateDrawState(ds);
-//				ds.setColor(mOpenSuffixColor);
-//				ds.setUnderlineText(false);
-//			}
-//		}, 0, mOpenSuffixStr.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                @Override
+                public void onClick(@NonNull View widget) {
+                    switchOpenClose();
+                }
+            }, 0, mOpenSuffixStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } else {
+            mOpenSuffixSpan.setSpan(new CustomImageSpan(getContext(), mCollapsedDrawableId, DynamicDrawableSpan.ALIGN_CENTER) {
+                                        @Override
+                                        public void onClick(View view) {
+                                            switchOpenClose();
+                                        }
+                                    },
+                    0, mOpenSuffixStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
     }
 
     /**
+     * 点击折叠走这里
      * 更新收起后缀Spannable
      */
     private void updateCloseSuffixSpan() {
@@ -493,59 +531,42 @@ public class ExpandableTextView extends AppCompatTextView {
             return;
         }
         mCloseSuffixSpan = new SpannableString(mCloseSuffixStr);
-//        mCloseSuffixSpan.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, mCloseSuffixStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        if (1 == mSwitchMode) {
+            mCloseSuffixSpan.setSpan(new ClickableSpan() {
+                @Override
+                public void updateDrawState(@NonNull TextPaint ds) {
+                    ds.setColor(mCloseSuffixColor);
+                }
 
-        mCloseSuffixSpan.setSpan(new CustomImageSpan(getContext(), android.R.mipmap.sym_def_app_icon, DynamicDrawableSpan.ALIGN_CENTER) {
-                                     @Override
-                                     public void onClick(View view) {
-                                         switchOpenClose();
-                                     }
-                                 },
-                0, mCloseSuffixStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                @Override
+                public void onClick(@NonNull View widget) {
+                    switchOpenClose();
+                }
+            }, 0, mCloseSuffixSpan.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } else {
+            mCloseSuffixSpan.setSpan(new CustomImageSpan(getContext(), mExpandDrawableId, DynamicDrawableSpan.ALIGN_CENTER) {
+                                         @Override
+                                         public void onClick(View view) {
+                                             switchOpenClose();
+                                         }
+                                     },
+                    0, mCloseSuffixStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
 
-        if (mCloseInNewLine) {
+        if (mCloseInNewLine) {  // 如果需要对展开后图标另起一行
             AlignmentSpan alignmentSpan = new AlignmentSpan.Standard(Layout.Alignment.ALIGN_OPPOSITE);
             mCloseSuffixSpan.setSpan(alignmentSpan, 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
-//		mCloseSuffixSpan.setSpan(new ClickableSpan() {
-//			@Override
-//			public void onClick(@NonNull View widget) {
-//				switchOpenClose();
-//			}
-//
-//			@Override
-//			public void updateDrawState(@NonNull TextPaint ds) {
-//				super.updateDrawState(ds);
-//				ds.setColor(mCloseSuffixColor);
-//				ds.setUnderlineText(false);
-//			}
-//		}, 1, mCloseSuffixStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 
-    public OpenAndCloseCallback mOpenCloseCallback;
-
-    public void setOpenAndCloseCallback(OpenAndCloseCallback callback) {
-        this.mOpenCloseCallback = callback;
+    public void setOnOpenAndCloseListener(OnOpenAndCloseListener callback) {
+        this.mOnOpenAndCloseListener = callback;
     }
 
-    public interface OpenAndCloseCallback {
-        void onOpen();
+    public interface OnOpenAndCloseListener {
+        void onOpen(ExpandableTextView tv);
 
-        void onClose();
-    }
-
-    /**
-     * 设置文本内容处理
-     *
-     * @param handler
-     */
-    public void setCharSequenceToSpannableHandler(CharSequenceToSpannableHandler handler) {
-        mCharSequenceToSpannableHandler = handler;
-    }
-
-    public interface CharSequenceToSpannableHandler {
-        @NonNull
-        SpannableStringBuilder charSequenceToSpannable(CharSequence charSequence);
+        void onClose(ExpandableTextView tv);
     }
 
     /**
