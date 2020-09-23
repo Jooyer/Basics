@@ -1,9 +1,10 @@
-package cn.lvsong.lib.library.utils
+package cn.lvsong.lib.demo.util
 
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import cn.lvsong.lib.library.utils.FileUtil
 import java.io.File
 
 
