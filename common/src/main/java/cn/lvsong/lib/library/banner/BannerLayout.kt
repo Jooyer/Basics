@@ -3,6 +3,7 @@ package cn.lvsong.lib.library.banner
 import android.content.Context
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
+import android.os.Looper
 import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
@@ -50,9 +51,9 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
     private var mShowIndicatorView = true
 
     /**
-     * 是否显示指示器,默认显示
+     * ItemView 滑动时滑过一屏所需时间,默认1200
      */
-    private var mAutoScrollAlways = false
+    private var mItemScrollTime = 1200
 
     /**
      * 指示器选中状态图片
@@ -77,7 +78,7 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
     /**
      * 自定义的 LayoutManager,自己控制 ItemView 的布局
      */
-    private lateinit var mLayoutManager: RecyclerView.LayoutManager
+    private lateinit var mLayoutManager: HorizontalLayoutManager
 
     /**
      * 指示器容器
@@ -100,6 +101,7 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
             postDelayed(this, mLoopTime)
         }
     }
+
 
     init {
         parse(context, attrs)
@@ -124,10 +126,10 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
             mLoopTime = aar.getInt(R.styleable.BannerLayout_banner_loop_time, 3000).toLong()
             mShowIndicatorView =
                 aar.getBoolean(R.styleable.BannerLayout_banner_show_indicator, mShowIndicatorView)
-            mAutoScrollAlways =
-                aar.getBoolean(
-                    R.styleable.BannerLayout_banner_auto_scroll_always,
-                    mAutoScrollAlways
+            mItemScrollTime =
+                aar.getInt(
+                    R.styleable.BannerLayout_banner_item_scroll_time,
+                    mItemScrollTime
                 )
             mSelectedDrawable =
                 aar.getDrawable(R.styleable.BannerLayout_banner_select_indicator_drawable)
@@ -171,7 +173,10 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
                     if (mShowIndicatorView) { // 指示器
                         changeIndicatorState()
                     }
-//                    Log.e("BannerLayout","onScrolled========mCurrentPos: $mCurrentPos")
+//                    Log.e(
+//                        "BannerLayout",
+//                        "onScrollStateChanged========mCurrentPos: $mCurrentPos , mCancel: $mCancel"
+//                    )
                 }
             }
 
@@ -231,8 +236,14 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        if (!mAutoScrollAlways) {
-            autoScroll(false)
+        autoScroll(false)
+    }
+
+    // 解决列表时滑动到2个Item交接位置卡住
+    override fun onWindowVisibilityChanged(visibility: Int) {
+        super.onWindowVisibilityChanged(visibility)
+        if (VISIBLE == visibility) {
+            mBanner.smoothScrollToPosition(mCurrentPos)
         }
     }
 
@@ -286,62 +297,75 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
         adapter: RecyclerView.Adapter<out RecyclerView.ViewHolder>,
         spaceWidth: Int = 0
     ) {
-        mLayoutManager = HorizontalLayoutManager(spaceWidth, mLoopTime)
+        mLayoutManager = HorizontalLayoutManager(spaceWidth, mItemScrollTime)
         mBanner.layoutManager = mLayoutManager
         mBanner.adapter = adapter
         setBannerSize(adapter.itemCount)
         mLooperSnapHelper.attachToRecyclerView(mBanner)
+        Looper.myQueue().addIdleHandler {
+            onResume()
+            false
+        }
     }
 
 
     /**
      * 提供 RecyclerView, 方便用户绑定数据
      * @param factor --> ItemView居中时左侧距离屏幕左边(或者右侧距离屏幕右边)间隔占 RecyclerView 宽度的比值
-     * @param multiple -->  holder.itemView.layoutParams.width = itemWidth 这一句导致Item宽度没有沾满父控件宽度
+     * @param multiple -->  holder.itemView.layoutParams.width = itemWidth 这一句导致Item宽度没有占满父控件宽度
      *  下面添加这个ItemDecoration间隔,保证 holder.itemView 居中,如果 itemWidth = parent.width*(1 - 2*factor),
      *  也就是左右留白为  parent.width*factor,此时如果需要 ItemView 居中,则下面取值为 left = interval,
      *  同理,假设itemWidth = parent.width*(1 - 4*factor),则下面取值为 left = 2*interval
      *  结论: 设置 holder.itemView.layoutParams.width 减去N倍factor, 则这里 multiple = N/2
+     *  @param spaceWidth --> Item 间隔
+     *  @param widthScale --> 宽度缩放比率,默认1.0F,即不缩放
+     *  @param heightScale --> 高度缩放比率,默认0.8F
      */
     fun setGalleryBannerAdapter(
         adapter: RecyclerView.Adapter<out RecyclerView.ViewHolder>,
-        factor: Float,
-        multiple: Float
+        spaceWidth: Int = 0,
+        widthScale: Float = 1F,
+        heightScale: Float = 0.8F
     ) {
-        mLayoutManager = GalleryLayoutManager(mLoopTime, factor)
-        mBanner.addItemDecoration(object : RecyclerView.ItemDecoration() {
-            override fun getItemOffsets(
-                outRect: Rect,
-                view: View,
-                parent: RecyclerView,
-                state: RecyclerView.State
-            ) {
-                val position = parent.getChildAdapterPosition(view)
-                val layoutManager = parent.layoutManager as GalleryLayoutManager
-                val count = layoutManager.itemCount
-                val interval = (parent.width * factor * multiple).toInt()
-                //   holder.itemView.layoutParams.width = itemWidth 这一句导致Item宽度没有沾满父控件宽度
-                //  下面添加这个ItemDecoration间隔,保证 holder.itemView 居中
-                // PS: 如果 itemWidth = parent.width*(1 - 2*factor),也就是左右留白为  parent.width*factor
-                // 此时如果需要 ItemView 居中,则下面取值为 left = interval
-                // 同理,假设itemWidth = parent.width*(1 - 4*factor),则下面取值为 left = 2*interval
-                //
-                outRect.apply {
-                    when (position) {
-                        0 -> {
-                            left = interval
-                        }
-                        count - 1 -> {
-                            right = interval
-                        }
-                    }
-                }
-            }
-        })
+        mLayoutManager = GalleryLayoutManager(spaceWidth, widthScale, heightScale, mItemScrollTime)
+        //
+//        mBanner.addItemDecoration(object : RecyclerView.ItemDecoration() {
+//            override fun getItemOffsets(
+//                outRect: Rect,
+//                view: View,
+//                parent: RecyclerView,
+//                state: RecyclerView.State
+//            ) {
+//                val position = parent.getChildAdapterPosition(view)
+//                val layoutManager = parent.layoutManager as GalleryLayoutManager
+//                val count = layoutManager.itemCount
+//                val interval = (parent.width * factor * multiple).toInt()
+//                //   holder.itemView.layoutParams.width = itemWidth 这一句导致Item宽度没有沾满父控件宽度
+//                //  下面添加这个ItemDecoration间隔,保证 holder.itemView 居中
+//                // PS: 如果 itemWidth = parent.width*(1 - 2*factor),也就是左右留白为  parent.width*factor
+//                // 此时如果需要 ItemView 居中,则下面取值为 left = interval
+//                // 同理,假设itemWidth = parent.width*(1 - 4*factor),则下面取值为 left = 2*interval
+//                //
+//                outRect.apply {
+//                    when (position) {
+//                        0 -> {
+//                            left = interval
+//                        }
+//                        count - 1 -> {
+//                            right = interval
+//                        }
+//                    }
+//                }
+//            }
+//        })
         mBanner.layoutManager = mLayoutManager
         mBanner.adapter = adapter
         setBannerSize(adapter.itemCount)
         mLooperSnapHelper.attachToRecyclerView(mBanner)
+        Looper.myQueue().addIdleHandler {
+            onResume()
+            false
+        }
     }
 
     /**

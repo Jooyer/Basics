@@ -254,8 +254,8 @@
 
 | 属性名称            | 取值类型           | 取值和作用                                              |
 | ------------------- | ------------------ | ------------------------------------------------------- |
-| bv_tb_padding       | dimension\|integer | 上下间隔,默认3dp                                        |
-| bv_lr_padding       | dimension\|integer | 左右间隔,默认5dp                                        |
+| bv_tb_padding       | dimension\|integer | 上下间隔,默认3dp,最小1dp                                  |
+| bv_lr_padding       | dimension\|integer | 左右间隔,默认5dp,最小1dp                                        |
 | bv_stoke_width      | dimension\|float | 轮廓宽度,默认1dp,                                       |
 | bv_stoke_color      | color              | 裸辞颜色,默认白色                                       |
 | bv_text_size        | dimension\|integer | 文字大小,默认14dp                                       |
@@ -325,7 +325,7 @@ class CustomAdapter(data: List<String>, layoutId: Int) :
 | banner_loop_time                 | integer              | 轮播时间间隔,默认3000ms                                      |
 | banner_select_indicator_drawable | reference            | 指示器选中状态图片                                           |
 | banner_normal_indicator_drawable | reference            | 指示器默认状态图片                                           |
-| banner_auto_scroll_always        | boolean              | 是否在列表中使用此控件(默认false,列表建议true),因为有判断 onAttachedToWindow/onDetachedFromWindow,那么在列表滑动时会发现banner不自动滑动,卡两个Item中间 |
+| banner_item_scroll_time        | integer              | ItemView 滑动时滑过一屏所需时间,默认1200 |
 
 
 
