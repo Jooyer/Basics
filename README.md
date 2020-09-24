@@ -32,7 +32,7 @@
 
 ```groovy
 	dependencies {
-	        implementation 'com.github.Jooyer.Basics:common:1.0.6'
+	        implementation 'com.github.Jooyer.Basics:common:1.0.8'
 	}
 ```
 
@@ -91,6 +91,16 @@
 1. 增加折叠控件ExpandableTextView
 2. 对CustomToolbar增加动态设置字体颜色
 3. 修复其他bug
+
+## v1.0.7变化:
+1. 对ExpandableTextView增加属性
+2. 对CustomSearchView右侧清除文本图标增加必要属性和方法
+
+## v1.0.8变化:
+1. 对banner增加缩放效果(Gallery)
+2. 对banner在列表中显示异常处理
+3. 对NestedRefreshLayout属性进行调整,使其易读易懂
+4. 部分其他控件自定义属性增加必要注释
 
 
 [toc]
