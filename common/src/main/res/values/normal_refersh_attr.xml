@@ -3,10 +3,13 @@
 
     <declare-styleable name="UnNestedRefreshLayout">
         <!-- 第一次加载时,如果没有更多数据,底部显示什么
-            1: 不显示 Footer,禁用加载更多了,默认值
-            2: 显示没有更多数据
+            NOT_SHOW: 不显示 Footer,禁用加载更多了,默认值
+            NO_MORE: 显示没有更多数据
          -->
-        <attr name="unrl_no_more_first_time" format="integer" />
+        <attr name="unrl_no_more_first_time" format="enum">
+            <enum name="NOT_SHOW" value="1"/>
+            <enum name="NO_MORE" value="2"/>
+        </attr>
         <!--  当成功刷新/成功加载后,隐藏Header/Footer滚动时间  -->
         <attr name="unrl_scroll_time" format="integer" />
     </declare-styleable>
