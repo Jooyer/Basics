@@ -3,6 +3,7 @@ package cn.lvsong.lib.library.view
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import cn.lvsong.lib.library.utils.DensityUtil
 import cn.lvsong.lib.library.R
@@ -133,11 +134,11 @@ class BadgeView(context: Context, attr: AttributeSet?) : View(context, attr) {
             mMoreStyle = arr.getInt(R.styleable.BadgeView_bv_more_style, mMoreStyle)
             arr.recycle()
 
-            if(0 == mTBPadding){
+            if (0 == mTBPadding) {
                 mTBPadding = DensityUtil.dp2pxRtInt(1F)
             }
 
-            if(0 == mLRPadding){
+            if (0 == mLRPadding) {
                 mLRPadding = DensityUtil.dp2pxRtInt(1F)
             }
         }
@@ -149,27 +150,32 @@ class BadgeView(context: Context, attr: AttributeSet?) : View(context, attr) {
         val textHeight = (mTBPadding + mTextSize).toInt()
         if (textWidth > textHeight) {
             setMeasuredDimension(textWidth, textHeight)
-            mRectF.set(
-                0.5F,
-                0.5F,
-                textWidth - 0.5F,
-                textHeight - 0.5F
-            )
-
+        } else {
+            setMeasuredDimension(textHeight, textHeight)
+        }
+        mRectF.set(
+            mStrokeWidth,
+            mStrokeWidth,
+            textWidth - mStrokeWidth,
+            textHeight - mStrokeWidth
+        )
+        if (mStrokeWidth > 0F) {
             mStrokeRectF.set(
                 mStrokeWidth / 2,
                 mStrokeWidth / 2,
                 textWidth - mStrokeWidth / 2,
                 textHeight - mStrokeWidth / 2
             )
-        } else {
-            setMeasuredDimension(textHeight, textHeight)
         }
     }
 
     override fun onDraw(canvas: Canvas) {
         val textWidth = mTextPaint.measureText(getShowText()).toInt()
         val fontMetrics = mTextPaint.fontMetrics
+        Log.e(
+            "BadgeView",
+            "onDraw==========mRectF: ${mRectF.toString()}, mStrokeRectF: ${mStrokeRectF.toString()}"
+        )
         val y = (height - fontMetrics.descent - fontMetrics.ascent) / 2 + 1
         if (mNumber < 10) {
             canvas.drawCircle(width / 2F, height / 2F, height / 2F - 0.5F, mBgPaint)

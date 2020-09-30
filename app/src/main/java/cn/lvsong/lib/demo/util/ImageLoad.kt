@@ -1,6 +1,7 @@
 package cn.lvsong.lib.demo.util
 
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
@@ -28,12 +29,20 @@ class ImageLoad {
 
     }
 
+    /**
+     * 加载图片
+     * @param path --> 图片地址
+     */
     fun loadImage(iv: ImageView, path: String) {
         Glide.with(iv.context)
             .load(path)
             .into(iv)
     }
 
+    /**
+     * 加载图片
+     * @param drawableId --> 图片资源ID
+     */
     fun loadImage(iv: ImageView, drawableId: Int) {
         Glide.with(iv.context)
             .load(drawableId)
@@ -41,35 +50,13 @@ class ImageLoad {
     }
 
     /**
-     * 加载圆角图片
-     * @param radius --> 圆角大小(px)
+     * 加载GIF
+     * @param drawableId --> GIF文件
      */
-    fun loadFillet(iv: ImageView, radius: Int, path: String) {
-        Glide.with(iv.context).load(path)
-            .apply(options.transform(CenterCrop(), RoundedCorners(radius))).into(iv)
-    }
-
-    /**
-     * 加载圆形图片
-     */
-    fun loadCircular(iv: ImageView, path: String) {
-        Glide.with(iv.context).load(path)
-            .apply(options.transform(CircleCrop())).into(iv)
-    }
-
-    /**
-     * 加载 centerCrop 模式图片
-     * @param path --> 图片路径
-     * @param placeHolder --> 图片占位图
-     */
-    fun loadImgWithCenterCrop(iv: ImageView, path: String, @DrawableRes placeHolder: Int) {
-        Glide.with(iv)
-            .load(path)
-            .apply(
-                RequestOptions().priority(Priority.NORMAL)
-                    .centerCrop()
-                    .placeholder(placeHolder).error(placeHolder)
-            )
+    fun loadGif(iv: ImageView, @DrawableRes drawableId: Int) {
+        Glide.with(iv.context)
+            .asGif()
+            .load(drawableId)
             .into(iv)
     }
 
@@ -87,6 +74,21 @@ class ImageLoad {
             .into(iv)
     }
 
+    /**
+     * 加载 centerCrop 模式图片
+     * @param path --> 图片路径
+     * @param placeHolder --> 图片占位图
+     */
+    fun loadImgWithCenterCrop(iv: ImageView, path: String, @DrawableRes placeHolder: Int) {
+        Glide.with(iv)
+            .load(path)
+            .apply(
+                RequestOptions().priority(Priority.NORMAL)
+                    .centerCrop()
+                    .placeholder(placeHolder).error(placeHolder)
+            )
+            .into(iv)
+    }
 
     /**
      * 加载 centerCrop 模式图片
@@ -115,7 +117,6 @@ class ImageLoad {
             )
             .into(iv)
     }
-
 
     /**
      * 加载  centerCrop 模式图片
@@ -165,6 +166,78 @@ class ImageLoad {
 //                        DensityUtil.dp2pxRtFloat(radius).toInt()
 //                    )
 //                )
+                RequestOptions()
+                    .transform(
+                        CenterCrop(),
+                        RoundedCorners(
+                            DensityUtil.dp2pxRtFloat(radius).toInt()
+                        )
+                    )
+            )
+            .into(iv)
+    }
+
+    /**
+     * 加载四周圆角一定的图片
+     * @param path --> 图片路径
+     * @param drawable --> 占位图
+     * @param radius --> 圆角半径,单位为dp, 默认10dp
+     */
+    fun loadImgWithCircleRadius(
+        iv: ImageView,
+        path: String,
+        drawable: Drawable,
+        radius: Float = 10F
+    ) {
+        Glide.with(iv)
+            .load(path)
+            .apply(
+                RequestOptions()
+                    .transform(
+                        CenterCrop(),
+                        RoundedCorners(
+                            DensityUtil.dp2pxRtFloat(radius).toInt()
+                        )
+                    ).placeholder(drawable)
+            )
+            .into(iv)
+    }
+
+    /**
+     * 加载四周圆角一定的图片
+     * @param path --> 图片路径
+     * @param placeHolder --> 占位图
+     * @param radius --> 圆角半径,单位为dp, 默认10dp
+     */
+    fun loadImgWithCircleRadius(
+        iv: ImageView,
+        path: String,
+        @DrawableRes placeHolder: Int,
+        radius: Float = 10F
+    ) {
+        Glide.with(iv)
+            .load(path)
+            .apply(
+                RequestOptions()
+                    .transform(
+                        CenterCrop(),
+                        RoundedCorners(
+                            DensityUtil.dp2pxRtFloat(radius).toInt()
+                        )
+                    ).placeholder(placeHolder).error(placeHolder)
+            )
+            .into(iv)
+    }
+
+    /** https://blog.csdn.net/sinat_31057219/article/details/104630864
+     * 加载四周圆角一定的图片
+     * @param path --> 图片资源ID
+     * @param radius --> 圆角半径,单位为dp, 默认10dp
+     */
+    fun loadImgWithCircleRadius(iv: ImageView, @DrawableRes path: Int, radius: Float = 10F) {
+        Glide.with(iv)
+            .load(path)
+            .apply(
                 RequestOptions()
                     .transform(
                         CenterCrop(),
@@ -293,20 +366,31 @@ class ImageLoad {
             .into(iv)
     }
 
-
     /**
      * 加载带圆环的圆形图片
      * @param path --> 图片路径
      * @param borderWidth --> 圆环的厚度,单位为dp, 默认5dp
      * @param borderColor --> 圆环的颜色,默认白色
      */
-    fun loadImgWithCircleAndRing(iv: ImageView, path: String, borderWidth: Float = 5F,@ColorInt borderColor: Int = Color.WHITE){
+    fun loadImgWithCircleAndRing(
+        iv: ImageView,
+        path: String,
+        borderWidth: Float = 5F,
+        @ColorInt borderColor: Int = Color.WHITE
+    ) {
         Glide.with(iv)
             .load(path)
-            .apply(RequestOptions.bitmapTransform(CircleBorderTransform(DensityUtil.dp2pxRtFloat(borderWidth),borderColor)))
+            .apply(
+                RequestOptions.bitmapTransform(
+                    CircleBorderTransform(
+                        DensityUtil.dp2pxRtFloat(
+                            borderWidth
+                        ), borderColor
+                    )
+                )
+            )
             .into(iv)
     }
-
 
     /**
      * 加载带圆环的圆形图片
@@ -314,12 +398,35 @@ class ImageLoad {
      * @param borderWidth --> 圆环的厚度,单位为dp, 默认5dp
      * @param borderColor --> 圆环的颜色,默认白色
      */
-    fun loadImgWithCircleAndRing(iv: ImageView, @DrawableRes drawableId: Int, borderWidth: Float = 5F, @ColorInt borderColor: Int = Color.WHITE){
+    fun loadImgWithCircleAndRing(
+        iv: ImageView,
+        @DrawableRes drawableId: Int,
+        borderWidth: Float = 5F,
+        @ColorInt borderColor: Int = Color.WHITE
+    ) {
         Glide.with(iv)
             .load(drawableId)
-            .apply(RequestOptions.bitmapTransform(CircleBorderTransform(DensityUtil.dp2pxRtFloat(borderWidth),borderColor)))
+            .apply(
+                RequestOptions.bitmapTransform(
+                    CircleBorderTransform(
+                        DensityUtil.dp2pxRtFloat(
+                            borderWidth
+                        ), borderColor
+                    )
+                )
+            )
             .into(iv)
     }
 
+    /**
+     * 加载带高斯模糊效果
+     * @param path --> 图片路径
+     */
+    fun loadImgWithGaussianBlur(iv: ImageView, path: String) {
+        Glide.with(iv)
+            .load(path)
+            .apply(RequestOptions.bitmapTransform(GlideBlurTransformation(iv.context)))
+            .into(iv)
+    }
 
 }
