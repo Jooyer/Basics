@@ -102,6 +102,11 @@
 3. 对NestedRefreshLayout属性进行调整,使其易读易懂
 4. 部分其他控件自定义属性增加必要注释
 
+## v1.0.9变化:
+1. StatusManager设置LoadingView背景色时异常
+2. 对ImageLoader增加高斯模糊
+3. 添加Glide在 placeHolder 时圆角占位图处理方案
+
 
 [toc]
 
