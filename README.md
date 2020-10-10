@@ -32,7 +32,7 @@
 
 ```groovy
 	dependencies {
-	        implementation 'com.github.Jooyer.Basics:common:1.0.8'
+	        implementation 'com.github.Jooyer.Basics:common:1.0.9'
 	}
 ```
 
