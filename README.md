@@ -32,7 +32,7 @@
 
 ```groovy
 	dependencies {
-	        implementation 'com.github.Jooyer.Basics:common:1.0.6'
+	        implementation 'com.github.Jooyer.Basics:common:1.0.9'
 	}
 ```
 
@@ -91,6 +91,21 @@
 1. 增加折叠控件ExpandableTextView
 2. 对CustomToolbar增加动态设置字体颜色
 3. 修复其他bug
+
+## v1.0.7变化:
+1. 对ExpandableTextView增加属性
+2. 对CustomSearchView右侧清除文本图标增加必要属性和方法
+
+## v1.0.8变化:
+1. 对banner增加缩放效果(Gallery)
+2. 对banner在列表中显示异常处理
+3. 对NestedRefreshLayout属性进行调整,使其易读易懂
+4. 部分其他控件自定义属性增加必要注释
+
+## v1.0.9变化:
+1. StatusManager设置LoadingView背景色时异常
+2. 对ImageLoader增加高斯模糊
+3. 添加Glide在 placeHolder 时圆角占位图处理方案
 
 
 [toc]
@@ -1397,7 +1412,7 @@ PS: ==一张图也需要设置适配器==
 
 | 属性名称               | 取值类型 | 作用和取值                                                   |
 | ---------------------- | -------- | ------------------------------------------------------------ |
-| nrl_no_more_first_time | integer  | 第一次加载时,如果没有更多数据,底部显示什么     1: 不显示 Footer,禁用加载更多了,默认值     2: 显示没有更多数据 |
+| nrl_no_more_first_time | enum  | 第一次加载时,如果没有更多数据,底部显示什么,NOT_SHOW:默认值, 不显示 Footer,禁用加载更多了;NO_MORE: 显示没有更多数据 |
 | nrl_scroll_time        | integer  | 当成功刷新/成功加载后,隐藏Header/Footer滚动时间,默认800ms    |
 
 ## **公共方法:**
@@ -1996,7 +2011,7 @@ setContentView(setContentView)
 
 | 属性名称                | 取值类型 | 作用和取值                                                   |
 | ----------------------- | -------- | ------------------------------------------------------------ |
-| unrl_no_more_first_time | integer  | 第一次加载时,如果没有更多数据,底部显示什么     1: 不显示 Footer,禁用加载更多了,默认值     2: 显示没有更多数据 |
+| unrl_no_more_first_time |   enum  | 第一次加载时,如果没有更多数据,底部显示什么,NOT_SHOW:默认值, 不显示 Footer,禁用加载更多了;NO_MORE: 显示没有更多数据  |
 | unrl_scroll_time        | integer  | 当成功刷新/成功加载后,隐藏Header/Footer滚动时间,默认800ms    |
 
 ## **公共方法:**

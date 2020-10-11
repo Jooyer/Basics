@@ -131,7 +131,7 @@ abstract class BaseActivity : AppCompatActivity(), OnRetryListener, OnLazyClickL
             .netWorkErrorView(getNetWorkErrorViewLayoutId())
             .errorView(getErrorViewLayoutId())
             .retryViewId(R.id.view_retry_load_data)
-            .setLoadingViewBackgroundColor(if (-1 == setLoadingViewBackgroundColor()) StatusConfig.INSTANCE.getLoadingViewBackgroundColor() else setLoadingViewBackgroundColor())
+            .setLoadingViewBackgroundColor(if (-1 == getLoadingViewBackgroundColor()) StatusConfig.INSTANCE.getLoadingViewBackgroundColor() else getLoadingViewBackgroundColor())
             .onRetryListener(this)
             .build()
         mStatusManager?.showLoading()
@@ -156,7 +156,7 @@ abstract class BaseActivity : AppCompatActivity(), OnRetryListener, OnLazyClickL
     /**
      * 设置LoadingView背景色
      */
-    open fun setLoadingViewBackgroundColor(): Int {
+    open fun getLoadingViewBackgroundColor(): Int {
         return -1
     }
 

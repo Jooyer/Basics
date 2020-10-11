@@ -35,7 +35,7 @@ class StatusActivity : BaseActivity() {
     override fun useStatusManager() = true
 
 
-//    override fun setLoadingViewBackgroundColor() = R.color.color_2878FF
+//    override fun getLoadingViewBackgroundColor() = R.color.color_2878FF
 
     override fun setLogic() {
         // 设置状态栏背景色透明,并在顶部添加一个padding,高度为statusBarHeight

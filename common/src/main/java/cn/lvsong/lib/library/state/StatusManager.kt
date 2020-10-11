@@ -113,7 +113,7 @@ class StatusManager(builder: Builder) {
      * LoadingView背景色
      */
     @ColorRes
-    var mLoadingViewBackgroundColor = R.color.main_theme_color
+    var mLoadingViewBackgroundColor = -1
 
     /**
      * 显示loading
@@ -212,7 +212,7 @@ class StatusManager(builder: Builder) {
          * LoadingView背景色
          */
         @ColorRes
-        var mLoadingViewBackgroundColor = R.color.main_theme_color
+        var mLoadingViewBackgroundColor = -1
 
         var delayTime: Long = 1200
 
