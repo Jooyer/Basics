@@ -7,8 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.jetbrains.annotations.NotNull;
+
 import cn.lvsong.lib.library.R;
-import cn.lvsong.lib.library.adapter.NineImageAdapter;
+import cn.lvsong.lib.library.listener.OnClickFastListener;
 
 /**
  * @ProjectName: android
@@ -235,10 +237,10 @@ public class NineImageLayout extends ViewGroup {
         if (adapter == null) {
             return;
         }
-        view.setOnClickListener(new OnClickListener() {
+        view.setOnClickListener(new OnClickFastListener() {
             @Override
-            public void onClick(View v) {
-                adapter.OnItemClick(position, view);
+            public void onFastClick(@NotNull View v) {
+                adapter.onItemClick(position, v);
             }
         });
     }
@@ -267,5 +269,26 @@ public class NineImageLayout extends ViewGroup {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
+
+    /**
+     * 图片适配器
+     */
+    public abstract static class NineImageAdapter {
+        public abstract int getItemCount();
+
+        public abstract View createView(LayoutInflater inflater, ViewGroup parent, int position);
+
+        public abstract void bindView(View view, int position);
+
+        /**
+         * 点击事件,根据需要重写
+         * @param position --> 点击位置,从0开始计算
+         * @param view --> 当前点击的View
+         */
+        public void onItemClick(int position, View view) {
+
+        }
+    }
+
 
 }

@@ -2,14 +2,13 @@ package cn.lvsong.lib.demo
 
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
 import cn.lvsong.lib.demo.util.ImageLoad
-import cn.lvsong.lib.library.adapter.NineImageAdapter
+import cn.lvsong.lib.library.view.NineImageLayout
 import cn.lvsong.lib.ui.BaseActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
@@ -42,7 +41,7 @@ class CustomActivity3 : BaseActivity() {
 
     override fun setLogic() {
 
-        nl_images.setAdapter(object : NineImageAdapter() {
+        nl_images.setAdapter(object : NineImageLayout.NineImageAdapter() {
             override fun getItemCount() = mImages.size
 
             override fun bindView(view: View, pos: Int) {
@@ -81,7 +80,7 @@ class CustomActivity3 : BaseActivity() {
                 layoutInflater.inflate(R.layout.item_nine_image, parent, false)
         })
 
-        nl_images2.setAdapter(object : NineImageAdapter() {
+        nl_images2.setAdapter(object : NineImageLayout.NineImageAdapter() {
             override fun getItemCount() = mImages2.size
 
             override fun bindView(view: View, pos: Int) {
@@ -116,7 +115,7 @@ class CustomActivity3 : BaseActivity() {
                 }
             }
 
-            override fun OnItemClick(position: Int, view: View) {
+            override fun onItemClick(position: Int, view: View) {
                 // 点击事件,根据需要重写
             }
 

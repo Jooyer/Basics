@@ -643,35 +643,38 @@ public class ExpandableTextView extends AppCompatTextView {
         public boolean onTouch(View view, MotionEvent event) {
             int action = event.getAction();
             TextView widget = (TextView) view;
-            Spanned buffer = (Spanned) widget.getText();
-            if (action == MotionEvent.ACTION_UP ||
-                    action == MotionEvent.ACTION_DOWN) {
-                int x = (int) event.getX();
-                int y = (int) event.getY();
+            CharSequence text = widget.getText();
+            if (text instanceof Spanned) {
+                Spanned buffer = (Spanned) text;
+                if (action == MotionEvent.ACTION_UP ||
+                        action == MotionEvent.ACTION_DOWN) {
+                    int x = (int) event.getX();
+                    int y = (int) event.getY();
 
-                x -= widget.getTotalPaddingLeft();
-                y -= widget.getTotalPaddingTop();
+                    x -= widget.getTotalPaddingLeft();
+                    y -= widget.getTotalPaddingTop();
 
-                x += widget.getScrollX();
-                y += widget.getScrollY();
+                    x += widget.getScrollX();
+                    y += widget.getScrollY();
 
-                Layout layout = widget.getLayout();
-                int line = layout.getLineForVertical(y);
-                int off = layout.getOffsetForHorizontal(line, x);
+                    Layout layout = widget.getLayout();
+                    int line = layout.getLineForVertical(y);
+                    int off = layout.getOffsetForHorizontal(line, x);
 
-                ClickableSpan[] link = buffer.getSpans(off, off, ClickableSpan.class);
-                CustomImageSpan[] imageSpans = buffer.getSpans(off, off, CustomImageSpan.class);
+                    ClickableSpan[] link = buffer.getSpans(off, off, ClickableSpan.class);
+                    CustomImageSpan[] imageSpans = buffer.getSpans(off, off, CustomImageSpan.class);
 
-                if (link.length != 0) {
-                    if (action == MotionEvent.ACTION_UP) {
-                        link[0].onClick(widget);
+                    if (link.length != 0) {
+                        if (action == MotionEvent.ACTION_UP) {
+                            link[0].onClick(widget);
+                        }
+                        return true;
+                    } else if (imageSpans.length != 0) {
+                        if (action == MotionEvent.ACTION_UP) {
+                            imageSpans[0].onClick(widget);
+                        }
+                        return true;
                     }
-                    return true;
-                } else if (imageSpans.length != 0) {
-                    if (action == MotionEvent.ACTION_UP) {
-                        imageSpans[0].onClick(widget);
-                    }
-                    return true;
                 }
             }
             return false;
