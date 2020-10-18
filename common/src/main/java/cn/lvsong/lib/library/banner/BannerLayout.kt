@@ -210,7 +210,7 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
      */
     private fun autoScroll(auto: Boolean) {
         removeCallbacks(mAutoScrollRunnable)
-        if (auto) {
+        if (auto && mLayoutManager.itemCount > 0) {
             postDelayed(mAutoScrollRunnable, mLoopTime)
         }
     }

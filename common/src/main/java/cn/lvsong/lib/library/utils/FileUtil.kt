@@ -229,7 +229,7 @@ object FileUtil {
         return size
     }
 
-    /**
+    /** https://blog.csdn.net/pan6015/article/details/84339103
      * 对返回的文件大小进行格式化
      * @param size -> 文件大小
      * @param pattern -> 1. 不要小数 "#"; 2.一位小数 "#.0"; 3. 两位小数 "#.00", 默认两位小数

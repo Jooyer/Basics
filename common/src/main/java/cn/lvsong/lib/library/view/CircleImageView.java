@@ -24,7 +24,7 @@ import androidx.appcompat.widget.AppCompatImageView;
 import cn.lvsong.lib.library.R;
 
 
-/**
+/** https://blog.csdn.net/u013293125/article/details/105200571
  * Created by Jooyer on 2017/8/24
  * 自定义圆形ImageView
  */
