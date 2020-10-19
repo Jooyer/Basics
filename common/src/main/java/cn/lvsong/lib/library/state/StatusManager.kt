@@ -127,7 +127,14 @@ class StatusManager(builder: Builder) {
     }
 
     /**
-     * 显示内容
+     * 立刻显示内容
+     */
+    fun showContentImmediately() {
+        mRootFrameLayout.showContent()
+    }
+
+    /**
+     * 显示内容,默认延时 1200 毫秒
      */
     fun showContent() {
         val endTime = System.currentTimeMillis()
@@ -138,19 +145,10 @@ class StatusManager(builder: Builder) {
         }
     }
 
-    /**
-     * 立刻显示内容
-     */
-    fun showContentImmediately() {
-        mRootFrameLayout.showContent()
-    }
-
     fun delayShowContent(delay: Long) {
-        mRootFrameLayout.let { root ->
-            root.postDelayed({
-                root.showContent()
-            }, delay)
-        }
+        mRootFrameLayout.postDelayed({
+            mRootFrameLayout.showContent()
+        }, delay)
     }
 
     /**
@@ -192,7 +190,7 @@ class StatusManager(builder: Builder) {
         var loadingLayoutResId: Int = 0
         var contentLayoutResId: Int = 0
 
-        var contentLayoutView: View?=null
+        var contentLayoutView: View? = null
 
         lateinit var netWorkErrorVs: ViewStub
 
