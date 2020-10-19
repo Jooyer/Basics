@@ -32,7 +32,7 @@
 
 ```groovy
 	dependencies {
-	        implementation 'com.github.Jooyer.Basics:common:1.0.9'
+	        implementation 'com.github.Jooyer.Basics:common:1.0.10'
 	}
 ```
 
@@ -106,6 +106,11 @@
 1. StatusManager设置LoadingView背景色时异常
 2. 对ImageLoader增加高斯模糊
 3. 添加Glide在 placeHolder 时圆角占位图处理方案
+
+## v1.0.10变化:
+1. 修复banner数据为空和数据只有一个异常
+2. 添加滚动通告NoticeView控件
+3. 对搜索控件点击右侧按钮回调方法增加当前输入框的字符串
 
 
 [toc]
