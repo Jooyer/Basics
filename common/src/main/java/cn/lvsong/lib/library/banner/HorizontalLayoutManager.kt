@@ -80,7 +80,7 @@ open class HorizontalLayoutManager(private val spaceWidth: Int, private val item
      */
     override fun onLayoutChildren(recycler: RecyclerView.Recycler, state: RecyclerView.State) {
 
-        if (mLayoutCount >= itemCount) {
+        if (mLayoutCount > itemCount) { // 默认 mLayoutCount=1, 如果 itemCount=1, 则会导致界面空白, 所以改为 > 
             return
         }
 
@@ -158,35 +158,35 @@ open class HorizontalLayoutManager(private val spaceWidth: Int, private val item
 //        smoothScrollBy(recyclerView, position)
     }
 
-    private fun smoothScrollBy(recyclerView: RecyclerView, position: Int) {
-        var targetPosition = position
-        if (itemCount <= 0 || (targetPosition < 0 || targetPosition > itemCount - 1)) {
-            return
-        }
-        if (itemCount > 0) {
-            targetPosition = (targetPosition % itemCount + itemCount) % itemCount
-        }
-        val currentPosition = getCurrentPosition()
-        val offset = if (currentPosition == itemCount - 1 && targetPosition == 0) {
-            itemWidth + spaceWidth
-        } else {
-            (targetPosition - currentPosition) * itemWidth + spaceWidth
-        }
-        Log.e("BannerLayout","smoothScrollBy========offset: $offset, position: $position")
-        recyclerView.smoothScrollBy(offset, 0, null, if (mDetach) 0 else itemScrollTime)
-    }
-
-    private fun getCurrentPosition(): Int {
-        for (i in 0 until childCount) {
-            val child = getChildAt(i) ?: continue
-            if (getDecoratedLeft(child) >= 0
-                && getDecoratedRight(child) <= mOrientationHelper.totalSpace
-            ) {
-                return getPosition(child)
-            }
-        }
-        return -1
-    }
+//    private fun smoothScrollBy(recyclerView: RecyclerView, position: Int) {
+//        var targetPosition = position
+//        if (itemCount <= 0 || (targetPosition < 0 || targetPosition > itemCount - 1)) {
+//            return
+//        }
+//        if (itemCount > 0) {
+//            targetPosition = (targetPosition % itemCount + itemCount) % itemCount
+//        }
+//        val currentPosition = getCurrentPosition()
+//        val offset = if (currentPosition == itemCount - 1 && targetPosition == 0) {
+//            itemWidth + spaceWidth
+//        } else {
+//            (targetPosition - currentPosition) * itemWidth + spaceWidth
+//        }
+//        Log.e("BannerLayout","smoothScrollBy========offset: $offset, position: $position")
+//        recyclerView.smoothScrollBy(offset, 0, null, if (mDetach) 0 else itemScrollTime)
+//    }
+//
+//    private fun getCurrentPosition(): Int {
+//        for (i in 0 until childCount) {
+//            val child = getChildAt(i) ?: continue
+//            if (getDecoratedLeft(child) >= 0
+//                && getDecoratedRight(child) <= mOrientationHelper.totalSpace
+//            ) {
+//                return getPosition(child)
+//            }
+//        }
+//        return -1
+//    }
 
     /**
      * scrollHorizontallyBy()/scrollVerticallyBy() 方法中,一般执行四个步骤
