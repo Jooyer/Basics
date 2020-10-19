@@ -96,7 +96,6 @@ abstract class BaseFragment : Fragment(),
             .setLoadingViewBackgroundColor(if (-1 == setLoadingViewBackgroundColor()) StatusConfig.INSTANCE.getLoadingViewBackgroundColor() else setLoadingViewBackgroundColor())
             .onRetryListener(this)
             .build()
-        mStatusManager?.showLoading()
         return mStatusManager?.getRootLayout()!!
     }
 

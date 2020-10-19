@@ -369,7 +369,7 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
 
         act_search_right_btn.setOnClickListener(object : OnClickFastListener() {
             override fun onFastClick(v: View) {
-                mListener?.onClickRightButton(v)
+                mListener?.onClickRightButton(v,et_search_view_search.text.toString())
             }
         })
 
@@ -454,8 +454,9 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
 
         /**
          * 点击右侧按钮
+         * 如果右侧按钮当作搜索按钮来用,则此时text(输入框中输入的内容,可能为 "" )直接可以使用
          */
-        fun onClickRightButton(view: View) {
+        fun onClickRightButton(view: View, text: String) {
 
         }
     }

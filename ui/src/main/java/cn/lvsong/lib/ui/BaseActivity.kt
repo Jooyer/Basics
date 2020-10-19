@@ -134,7 +134,6 @@ abstract class BaseActivity : AppCompatActivity(), OnRetryListener, OnLazyClickL
             .setLoadingViewBackgroundColor(if (-1 == getLoadingViewBackgroundColor()) StatusConfig.INSTANCE.getLoadingViewBackgroundColor() else getLoadingViewBackgroundColor())
             .onRetryListener(this)
             .build()
-        mStatusManager?.showLoading()
         return mStatusManager?.getRootLayout()!!
     }
 
