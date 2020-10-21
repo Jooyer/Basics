@@ -3,7 +3,6 @@ package cn.lvsong.lib.library.state
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
-import android.util.Log
 import android.util.SparseArray
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -15,9 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import cn.lvsong.lib.library.R
 import cn.lvsong.lib.library.listener.OnClickFastListener
-import cn.lvsong.lib.library.other.StatusProvider
 import cn.lvsong.lib.library.utils.ScreenUtils
-import cn.lvsong.lib.library.view.CustomToolbar
 
 
 /**
@@ -122,11 +119,12 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
                 val params = child.layoutParams
                 mOffsetY = if (ViewGroup.LayoutParams.WRAP_CONTENT == params.height) {
                     params.height = dp2px(50F).toInt()
-                    dp2px(45F).toInt()
+                    if (child.hasShadow()) dp2px(45F).toInt() else params.height
                 } else {
-                    (params.height - dp2px(5F)).toInt()
+                    if (child.hasShadow()) (params.height - dp2px(5F)).toInt() else params.height
                 }
-                if (0 == params.width){ // 解决 ConstraintLayout 中使用时,给 android:layout_width="0dp" 导致视图宽度为0
+
+                if (0 == params.width) { // 解决 ConstraintLayout 中使用时,给 android:layout_width="0dp" 导致视图宽度为0
                     params.width = ScreenUtils.getRealWidth(context)
                 }
 

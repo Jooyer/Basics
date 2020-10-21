@@ -68,7 +68,7 @@ class ImageLoad {
         Glide.with(iv)
             .load(path)
             .apply(
-                RequestOptions().priority(Priority.NORMAL)
+                options.priority(Priority.NORMAL)
                     .centerCrop()
             )
             .into(iv)
@@ -83,7 +83,7 @@ class ImageLoad {
         Glide.with(iv)
             .load(path)
             .apply(
-                RequestOptions().priority(Priority.NORMAL)
+                options.priority(Priority.NORMAL)
                     .centerCrop()
                     .placeholder(placeHolder).error(placeHolder)
             )
@@ -98,7 +98,7 @@ class ImageLoad {
         Glide.with(iv)
             .load(drawableId)
             .apply(
-                RequestOptions().priority(Priority.NORMAL)
+                options.priority(Priority.NORMAL)
                     .centerCrop()
             )
             .into(iv)
@@ -112,7 +112,7 @@ class ImageLoad {
         Glide.with(iv)
             .load(file)
             .apply(
-                RequestOptions().centerCrop()
+                options.centerCrop()
                     .placeholder(placeHolder).error(placeHolder)
             )
             .into(iv)
@@ -125,7 +125,7 @@ class ImageLoad {
     fun loadImgWithCenterCrop(iv: ImageView, file: File) {
         Glide.with(iv)
             .load(file)
-            .apply(RequestOptions().centerCrop())
+            .apply(options.centerCrop())
             .into(iv)
     }
 
@@ -136,7 +136,7 @@ class ImageLoad {
     fun loadImgWithCircleCrop(iv: ImageView, path: String) {
         Glide.with(iv)
             .load(path)
-            .apply(RequestOptions().circleCrop())
+            .apply(options.circleCrop())
             .into(iv)
     }
 
@@ -147,7 +147,7 @@ class ImageLoad {
     fun loadImgWithCircleCrop(iv: ImageView, @DrawableRes drawableId: Int) {
         Glide.with(iv)
             .load(drawableId)
-            .apply(RequestOptions().circleCrop())
+            .apply(options.circleCrop())
             .into(iv)
     }
 
@@ -166,7 +166,7 @@ class ImageLoad {
 //                        DensityUtil.dp2pxRtFloat(radius).toInt()
 //                    )
 //                )
-                RequestOptions()
+                options
                     .transform(
                         CenterCrop(),
                         RoundedCorners(
@@ -192,7 +192,7 @@ class ImageLoad {
         Glide.with(iv)
             .load(path)
             .apply(
-                RequestOptions()
+                options
                     .transform(
                         CenterCrop(),
                         RoundedCorners(
@@ -218,7 +218,7 @@ class ImageLoad {
         Glide.with(iv)
             .load(path)
             .apply(
-                RequestOptions()
+                options
                     .transform(
                         CenterCrop(),
                         RoundedCorners(
@@ -238,7 +238,7 @@ class ImageLoad {
         Glide.with(iv)
             .load(path)
             .apply(
-                RequestOptions()
+                options
                     .transform(
                         CenterCrop(),
                         RoundedCorners(

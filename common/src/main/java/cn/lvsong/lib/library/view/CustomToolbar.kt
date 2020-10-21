@@ -9,7 +9,6 @@ import android.graphics.RectF
 import android.graphics.drawable.Drawable
 import android.text.TextUtils
 import android.util.AttributeSet
-import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -21,7 +20,7 @@ import androidx.annotation.DrawableRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import cn.lvsong.lib.library.R
-import cn.lvsong.lib.library.other.StatusProvider
+import cn.lvsong.lib.library.state.StatusProvider
 
 
 /**
@@ -79,7 +78,8 @@ import cn.lvsong.lib.library.other.StatusProvider
  */
 
 class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
-    ConstraintLayout(context, attr, defStyleAttr), StatusProvider {
+    ConstraintLayout(context, attr, defStyleAttr),
+    StatusProvider {
 
     /**
      * Material Design风格
@@ -194,6 +194,8 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
     private var mBottomDividerStyle = 1
 
     constructor(context: Context, attr: AttributeSet) : this(context, attr, 0)
+
+    override fun hasShadow() = 1 == mBottomDividerStyle
 
     init {
         initView()
@@ -722,5 +724,6 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
             context.resources.displayMetrics
         )
     }
+
 
 }

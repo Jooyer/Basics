@@ -19,7 +19,7 @@ object KeyBoardUtil {
      * 显示键盘
      * @param view --> 接受软键盘输入的视图
      */
-    fun openKeyboard(activity: Activity, view: EditText,delay:Long = 450) {
+    fun openKeyboard(activity: Activity, view: View,delay:Long = 450) {
         view.postDelayed({
             val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS)
