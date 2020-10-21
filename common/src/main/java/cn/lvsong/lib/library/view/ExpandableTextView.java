@@ -37,8 +37,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.content.ContextCompat;
 
-import cn.lvsong.lib.library.R;
-
 
 /**
  * 参考: https://github.com/MrTrying/ExpandableText-Example/tree/master
@@ -124,17 +122,17 @@ public class ExpandableTextView extends AppCompatTextView {
     private void initialize(Context context, AttributeSet attrs) {
         setOnTouchListener(new LinkMovementMethodOverride());
         if (null != attrs) {
-            TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.ExpandableTextView);
-            mMaxLines = array.getInt(R.styleable.ExpandableTextView_etv_collapse_max_lines, mMaxLines);
-            mSwitchMode = array.getInt(R.styleable.ExpandableTextView_etv_switch_mode, mSwitchMode);
-            mExpandDrawableId = array.getResourceId(R.styleable.ExpandableTextView_etv_expand_drawable, 0);
-            mCollapsedDrawableId = array.getResourceId(R.styleable.ExpandableTextView_etv_collapse_drawable, 0);
-            mOpenSuffixStr = array.getString(R.styleable.ExpandableTextView_etv_expand_text);
-            mCloseSuffixStr = array.getString(R.styleable.ExpandableTextView_etv_collapse_text);
-            mOpenSuffixColor = array.getColor(R.styleable.ExpandableTextView_etv_expand_text_color,
-                    ContextCompat.getColor(context, R.color.color_2878FF));
-            mCloseSuffixColor = array.getColor(R.styleable.ExpandableTextView_etv_collapse_text_color,
-                    ContextCompat.getColor(context, R.color.color_2878FF));
+            TypedArray array = context.obtainStyledAttributes(attrs, cn.lvsong.lib.library.R.styleable.ExpandableTextView);
+            mMaxLines = array.getInt(cn.lvsong.lib.library.R.styleable.ExpandableTextView_etv_collapse_max_lines, mMaxLines);
+            mSwitchMode = array.getInt(cn.lvsong.lib.library.R.styleable.ExpandableTextView_etv_switch_mode, mSwitchMode);
+            mExpandDrawableId = array.getResourceId(cn.lvsong.lib.library.R.styleable.ExpandableTextView_etv_expand_drawable, 0);
+            mCollapsedDrawableId = array.getResourceId(cn.lvsong.lib.library.R.styleable.ExpandableTextView_etv_collapse_drawable, 0);
+            mOpenSuffixStr = array.getString(cn.lvsong.lib.library.R.styleable.ExpandableTextView_etv_expand_text);
+            mCloseSuffixStr = array.getString(cn.lvsong.lib.library.R.styleable.ExpandableTextView_etv_collapse_text);
+            mOpenSuffixColor = array.getColor(cn.lvsong.lib.library.R.styleable.ExpandableTextView_etv_expand_text_color,
+                    ContextCompat.getColor(context, cn.lvsong.lib.library.R.color.color_2878FF));
+            mCloseSuffixColor = array.getColor(cn.lvsong.lib.library.R.styleable.ExpandableTextView_etv_collapse_text_color,
+                    ContextCompat.getColor(context, cn.lvsong.lib.library.R.color.color_2878FF));
             array.recycle();
             if (TextUtils.isEmpty(mOpenSuffixStr)) {
                 mOpenSuffixStr = DEFAULT_OPEN_SUFFIX;
@@ -155,8 +153,6 @@ public class ExpandableTextView extends AppCompatTextView {
 
     public void setOriginalText(CharSequence originalText) {
         mExpandable = false;
-
-        mCloseSpannableStr = new SpannableStringBuilder();
         mOpenSpannableStr = charSequenceToSpannable(originalText);
         SpannableStringBuilder tempText = charSequenceToSpannable(originalText);
 
@@ -174,65 +170,97 @@ public class ExpandableTextView extends AppCompatTextView {
                 // 将图标放到最后一行末尾
                 if (mCloseSuffixSpan != null) {
                     int closeSuffixSpanLength = mCloseSuffixSpan.length();
-                    int openSpannableStrLength = mOpenSpannableStr.length();
                     Layout closeLayout = createStaticLayout(mOpenSpannableStr);
+                    // 循环添加占位符,直到添加占位符之后占满最后一行并换行
+                    int addStubCount = 0;
                     while (closeLayout.getLineCount() <= originalLineCount) {
                         mOpenSpannableStr.append("@");
+                        addStubCount++;
                         closeLayout = createStaticLayout(mOpenSpannableStr);
                     }
-                    // 删除多添加的占位符 @,同时留出 mCloseSuffixSpan 位置
+                    addStubCount -= 1;
+                    if (0 == addStubCount) { // 说明原文本刚好占满最后一行
+                        addStubCount = 1; // 在上面一个循环中实际上加了一个 "@",所以这里从1开始算起
+                        originalLineCount += 1; //折叠按钮则单独占据一行
+                        while (closeLayout.getLineCount() <= originalLineCount) {
+                            mOpenSpannableStr.append("@");
+                            addStubCount++;
+                            closeLayout = createStaticLayout(mOpenSpannableStr);
+                        }
+                        addStubCount -= 1;
+                    }
+
+                    // 删除多添加的占位符 @(最后添加的一个导致换行了需删除),同时留出 mCloseSuffixSpan 位置
                     if (1 == mSwitchMode) { // 文本模式
                         mOpenSpannableStr.delete(mOpenSpannableStr.length() - 2 - closeSuffixSpanLength, mOpenSpannableStr.length() - 1);
                     } else { // 图片模式(图片占据实际位置宽度<文本)
-                        mOpenSpannableStr.delete(mOpenSpannableStr.length() - 1 - closeSuffixSpanLength, mOpenSpannableStr.length() - 1);
+                        mOpenSpannableStr.delete(mOpenSpannableStr.length() - closeSuffixSpanLength, mOpenSpannableStr.length() - 1);
                     }
                     // 修正上面删除没有到位问题
                     int lineCount = createStaticLayout(charSequenceToSpannable(mOpenSpannableStr).append(mCloseSuffixSpan)).getLineCount();
                     if (lineCount > originalLineCount) {
                         mOpenSpannableStr.delete(mOpenSpannableStr.length() - 2, mOpenSpannableStr.length() - 1);
                     }
-                    mOpenSpannableStr.setSpan(new ForegroundColorSpan(Color.TRANSPARENT), openSpannableStrLength,
-                            mOpenSpannableStr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                    if (addStubCount > 0) { // 有添加占位符
+                        mOpenSpannableStr.setSpan(new ForegroundColorSpan(Color.TRANSPARENT), mOpenSpannableStr.length() - addStubCount,
+                                mOpenSpannableStr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    }
                     mOpenSpannableStr.append(mCloseSuffixSpan);
                 }
 
+                //////////////////////////////////////////////////////////////////////////////////////////////////////////
+                //////////////////////////////////////////////////////////////////////////////////////////////////////////
+                //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
                 //计算原文截取位置,如折叠时最多显示3行, 下面就是计算第三行
                 int endPos = layout.getLineEnd(mMaxLines - 1);
-                if (originalText.length() <= endPos) { // 原文本刚好在第maxLines行末尾
-                    mCloseSpannableStr = charSequenceToSpannable(originalText);
+                CharSequence subText = "";
+                if (originalText.length() <= endPos) { // 原文本刚好在第maxLines行以内
+                    subText = originalText;
                 } else { // 截取到maxLines行位置
-                    mCloseSpannableStr = charSequenceToSpannable(originalText.subSequence(0, endPos));
+                    subText = originalText.subSequence(0, endPos);
                 }
-                SpannableStringBuilder tempText2 = charSequenceToSpannable(mCloseSpannableStr).append(ELLIPSIS_STRING);
+                // 最后一行末尾如果是换行符号则移除它
+                while (subText.toString().endsWith("\n")) {
+                    subText = subText.subSequence(0, subText.length() - 2).toString();
+                }
+
+                mCloseSpannableStr = charSequenceToSpannable(subText);
+                // 拼接需要的 ... 和 mOpenSuffixSpan
                 if (mOpenSuffixSpan != null) {
-                    tempText2.append(mOpenSuffixSpan);
-                }
-                //循环判断，收起内容添加展开后缀后的内容是否超过折叠时最大显示行数
-                Layout tempLayout = createStaticLayout(tempText2);
-                while (tempLayout.getLineCount() > mMaxLines) {
-                    int lastSpace = mCloseSpannableStr.length() - 1;
-                    if (lastSpace == -1) { // mCloseSpannableStr没有内容
-                        break;
+                    // 记录拼接的长度
+                    int splicingLength = ELLIPSIS_STRING.length() + mOpenSuffixSpan.length();
+                    mCloseSpannableStr.append(ELLIPSIS_STRING).append(mOpenSuffixSpan);
+                    //循环判断，收起内容添加展开后缀后的内容是否超过折叠时最大显示行数
+                    Layout expandLayout = createStaticLayout(mCloseSpannableStr);
+                    while (expandLayout.getLineCount() > mMaxLines) {
+                        mCloseSpannableStr.delete(mCloseSpannableStr.length() - 2 - splicingLength, mCloseSpannableStr.length() - 1 - splicingLength);
+                        expandLayout = createStaticLayout(mCloseSpannableStr);
+                    }
+                    // 最后一行有没有占满(因为科存在换行符,导致最后一行并没有占满就换行了,此时展开文本/按钮没有在末尾)
+                    // 先移除  ... 和 mOpenSuffixSpan
+                    mCloseSpannableStr.delete(mCloseSpannableStr.length() - splicingLength, mCloseSpannableStr.length());
+                    expandLayout = createStaticLayout(mCloseSpannableStr);
+                    int length = mCloseSpannableStr.length(); // 折叠时文本内容长度
+                    // 循环添加占位符,直到添加占位符之后占满最后一行并换行
+                    int addStubCount = 0;
+                    while (expandLayout.getLineCount() <= mMaxLines) {
+                        mCloseSpannableStr.append("@");
+                        addStubCount++;
+                        expandLayout = createStaticLayout(mCloseSpannableStr);
                     }
 
-                    if (originalText.length() <= lastSpace) { // 如果原文本长度 < mCloseSpannableStr
-                        mCloseSpannableStr = charSequenceToSpannable(originalText);
-                    } else { // 截取能显示的最多文本
-                        mCloseSpannableStr = charSequenceToSpannable(originalText.subSequence(0, lastSpace));
-                    }
-                    // 再次拼接截取后的文本
-                    tempText2 = charSequenceToSpannable(mCloseSpannableStr).append(ELLIPSIS_STRING);
-                    if (mOpenSuffixSpan != null) {
-                        tempText2.append(mOpenSuffixSpan);
-                    }
-                    tempLayout = createStaticLayout(tempText2);
-                }
-                //计算收起的文本高度
-                mCloseHeight = tempLayout.getHeight() + getPaddingTop() + getPaddingBottom();
+                    mCloseSpannableStr.delete(mCloseSpannableStr.length() - splicingLength , mCloseSpannableStr.length()); // 留够 ... 和 mOpenSuffixSpan 位置
+                    mCloseSpannableStr.append(ELLIPSIS_STRING).append(mOpenSuffixSpan);
 
-                mCloseSpannableStr.append(ELLIPSIS_STRING);
-                if (mOpenSuffixSpan != null) {
-                    mCloseSpannableStr.append(mOpenSuffixSpan);
+                    if (addStubCount > 1) { // 添加了多个 "@"
+                        mCloseSpannableStr.setSpan(new ForegroundColorSpan(Color.TRANSPARENT), length,
+                                mCloseSpannableStr.length() - splicingLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    }
+
+                    //计算收起的文本高度
+                    mCloseHeight = expandLayout.getHeight() + getPaddingTop() + getPaddingBottom();
                 }
             }
         }
@@ -637,7 +665,7 @@ public class ExpandableTextView extends AppCompatTextView {
     }
 
     // 参考: https://www.jianshu.com/p/5e547c8e0f37 和  https://www.cnblogs.com/luction/p/3645210.html
-    static class LinkMovementMethodOverride implements View.OnTouchListener {
+    static class LinkMovementMethodOverride implements OnTouchListener {
         @SuppressLint("ClickableViewAccessibility")
         @Override
         public boolean onTouch(View view, MotionEvent event) {

@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
  * https://www.jianshu.com/p/3994bbdcc624  --> 滑动大小渐变
  * https://www.jianshu.com/p/ba8ad2ab9a57
  * https://blog.csdn.net/qq_40861368/article/details/101199470
- *
+ * https://blog.csdn.net/qq_34198206/article/details/89881817 --> 折叠缩放
  * https://blog.csdn.net/myself0719/article/details/79795624  --> 分析透彻
  * https://blog.csdn.net/ww897532167/article/details/86585214
  * Desc: 无限循环 , 和上一个思路一致
@@ -26,7 +26,7 @@ open class HorizontalLayoutManager(private val spaceWidth: Int, private val item
     RecyclerView.LayoutManager(),
     RecyclerView.SmoothScroller.ScrollVectorProvider {
 
-    private val scrollDirection = PointF(1F, 0f)
+    private val scrollDirection = PointF(1F, 0F)
 
     open var itemWidth: Int = 0
 
@@ -52,6 +52,7 @@ open class HorizontalLayoutManager(private val spaceWidth: Int, private val item
         mDetach = true
     }
 
+    // 首次滑动时会调用此方法
     override fun computeScrollVectorForPosition(targetPosition: Int): PointF? {
         if (childCount == 0) {
             return scrollDirection
@@ -62,7 +63,7 @@ open class HorizontalLayoutManager(private val spaceWidth: Int, private val item
         // 所以强制自动滑动向右
 //        val firstChildPos = getPosition(getChildAt(0)!!)
 //        val direction = if (targetPosition < firstChildPos) -1 else 1
-        return scrollDirection // 强制右滑,不能返回null否则界面将不会自动滑动了
+        return scrollDirection
     }
 
     override fun generateDefaultLayoutParams(): RecyclerView.LayoutParams {
@@ -136,7 +137,7 @@ open class HorizontalLayoutManager(private val spaceWidth: Int, private val item
     }
 
     //是否可横向滑动
-    override fun canScrollHorizontally() = true
+    override fun canScrollHorizontally() = itemCount > 1
 
     override fun smoothScrollToPosition(
         recyclerView: RecyclerView,
@@ -150,6 +151,33 @@ open class HorizontalLayoutManager(private val spaceWidth: Int, private val item
                 override fun calculateTimeForDeceleration(dx: Int): Int {
                     return (itemScrollTime * (1 - .3356) / 2).toInt()
                 }
+
+                override fun calculateDtToFit(
+                    viewStart: Int,
+                    viewEnd: Int,
+                    boxStart: Int,
+                    boxEnd: Int,
+                    snapPreference: Int
+                ): Int {
+//                    Log.e("Horizontal","calculateDtToFit==========viewStart: $viewStart, viewEnd: $viewEnd, boxStart: $boxStart, boxEnd: $boxEnd, snapPreference: $snapPreference")
+//                    Log.e("Horizontal","calculateDtToFit==========${ (boxStart + (boxEnd - boxStart) / 2) - (viewStart + (viewEnd - viewStart) / 2)}")
+                    // https://blog.csdn.net/u014674862/article/details/81177261  --> API解析
+                    // https://blog.csdn.net/u013651026/article/details/105989914/
+                    // 在 super.calculateDtToFit()中,     case SNAP_TO_START: return boxStart - viewStart; 通过日志发现只有 boxStart - viewStart < 0 是向左滑动
+                    // 而 boxStart == 0 , 所以人为的将 viewStart 进行调整
+                    return super.calculateDtToFit(
+                        if (viewStart > 0) viewStart else -viewStart,
+                        viewEnd,
+                        boxStart,
+                        boxEnd,
+                        snapPreference
+                    )
+                }
+
+                override fun getHorizontalSnapPreference(): Int {
+                    return SNAP_TO_START
+                }
+
             }
 
         linearSmoothScroller.targetPosition = position
@@ -199,9 +227,6 @@ open class HorizontalLayoutManager(private val spaceWidth: Int, private val item
         dx: Int, recycler: RecyclerView.Recycler, state: RecyclerView.State
     ): Int {
         recycleViews(dx, recycler)
-
-
-
         fill(dx, recycler)
         offsetChildrenHorizontal(dx * -1)
         doWithItem()
