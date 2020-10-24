@@ -9,6 +9,7 @@ import android.net.*
 import android.net.ConnectivityManager.NetworkCallback
 import android.os.Build
 import android.telephony.TelephonyManager
+import cn.lvsong.lib.net.utils.NetWorkUtil
 import java.lang.reflect.InvocationTargetException
 import java.util.*
 
@@ -53,7 +54,7 @@ class NetWorkMonitorManager private constructor() {
     private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             if (intent.action.equals(ANDROID_NET_CHANGE_ACTION, ignoreCase = true)) {
-                postNetState(NetworkUtil.getNetworkType(context))
+                postNetState(NetworkTypeUtil.getNetworkType(context))
             }
         }
     }
@@ -66,13 +67,15 @@ class NetWorkMonitorManager private constructor() {
          * 网络可用的回调连接成功
          */
         override fun onAvailable(network: Network) {
-            postNetState(NetworkUtil.getNetworkType(mApplication))
+            NetWorkUtil.setNetWorkAvailable(true)
+            postNetState(NetworkTypeUtil.getNetworkType(mApplication))
         }
 
         /**
          * 网络不可用时调用和onAvailable成对出现
          */
         override fun onLost(network: Network) {
+            NetWorkUtil.setNetWorkAvailable(false)
             postNetState(NetworkType.NETWORK_NONE)
         }
 
@@ -105,7 +108,7 @@ class NetWorkMonitorManager private constructor() {
          * 网络缺失network时调用
          */
         override fun onUnavailable() {
-
+            NetWorkUtil.setNetWorkAvailable(false)
         }
     }
 

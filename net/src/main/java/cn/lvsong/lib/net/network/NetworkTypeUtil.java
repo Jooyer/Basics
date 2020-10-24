@@ -12,9 +12,9 @@ import androidx.annotation.RequiresPermission;
  * Date: 2018-09-21
  * Time: 15:22
  */
-public class NetworkUtil {
+public class NetworkTypeUtil {
 
-    private NetworkUtil() {
+    private NetworkTypeUtil() {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
 

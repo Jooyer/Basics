@@ -1,7 +1,7 @@
 package cn.lvsong.lib.net.intercepter
 
 import android.util.Log
-import cn.lvsong.lib.net.utils.NetUtil
+import cn.lvsong.lib.net.utils.NetWorkUtil
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.io.IOException
@@ -21,13 +21,13 @@ class TokenInterceptor : Interceptor {
             .addHeader("Content-Type", "application/json;charset=UTF-8")
             .addHeader("Accept", "application/json;charset=UTF-8")
             .addHeader(
-                "X-Access-Token",NetUtil.getAccessToken()
+                "Access-Token",NetWorkUtil.getAccessToken()
             ) // TODO
             .build()
         //
         Log.i(
             "TokenInterceptor",
-            "=======X-Access-Token : " + NetUtil.getAccessToken()
+            "=======Access-Token : " + NetWorkUtil.getAccessToken()
         )
         return chain.proceed(newRequest)
     }

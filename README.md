@@ -112,6 +112,14 @@
 2. 添加滚动通告NoticeView控件
 3. 对搜索控件点击右侧按钮回调方法增加当前输入框的字符串
 
+## v1.0.11变化:
+1. 修复banner滑动方向异常(手动右滑松手后自动滑动还往右)
+2. 修复ExpandTextView越界问题
+3. 修复BadgeView设置数值不显示问题
+4. 对LeftImgAndRightTextView增加方法
+5. 修改keyboardUtil.openKeyboard()方法参数
+6. 对StatusManager中StatusProvider增加支持阴影的方法
+
 
 [toc]
 
@@ -1142,6 +1150,8 @@ PS: 一般右侧显示一个文本按钮(或者2个图标按钮,或者更多按�
 | setTextColorChecked(@ColorRes int textColorChecked) | 设置被按下时文字的颜色            |
 | setText(CharSequence text)                          | 设置显示的文本内容                |
 | setTextSize(float size)                             | 设置文本字体大小                  |
+| setCheckedTextInfo(text:String)                     | 设置选中的文本                    |
+| setTextInfo(text:String)                            | 设置普通文本                      |
 | setSpacing(int spacing)                             | 设置两个控件之间的间距,单位==dp== |
 | setChecked(checked: Boolean)                        | 设置是否选中                      |
 | isChecked()                                         | 是否选中                          |

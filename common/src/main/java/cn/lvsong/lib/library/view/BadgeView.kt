@@ -209,6 +209,7 @@ class BadgeView(context: Context, attr: AttributeSet?) : View(context, attr) {
      */
     fun setNumber(number: Int) {
         mNumber = number
+        visibility = if (mNumber > 0) VISIBLE else GONE
         invalidate()
     }
 

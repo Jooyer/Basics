@@ -7,7 +7,7 @@ package cn.lvsong.lib.net.utils
  * Date: 2018-07-31
  * Time: 11:07
  */
-object NetUtil {
+object NetWorkUtil {
 
     /**
      * 网络是否可用

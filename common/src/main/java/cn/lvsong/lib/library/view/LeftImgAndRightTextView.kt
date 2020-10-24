@@ -107,7 +107,7 @@ class LeftImgAndRightTextView(context: Context, attr: AttributeSet) : RelativeLa
     /**
      * 选中后文本
      */
-    private var mTextInfoChecked:String? = ""
+    private var mCheckedTextInfo:String? = ""
 
     /**
      * 两个控件之间的间距，默认为8dp
@@ -175,7 +175,7 @@ class LeftImgAndRightTextView(context: Context, attr: AttributeSet) : RelativeLa
             arr.getColorStateList(R.styleable.LeftImgAndRightTextView_lirt_text_color_checked)
         //文本内容
         mTextInfo = arr.getString(R.styleable.LeftImgAndRightTextView_lirt_text_info)
-        mTextInfoChecked = arr.getString(R.styleable.LeftImgAndRightTextView_lirt_text_info_checked)
+        mCheckedTextInfo = arr.getString(R.styleable.LeftImgAndRightTextView_lirt_text_info_checked)
 
         //设置文本字体大小
         val textSize = arr.getDimensionPixelSize(
@@ -339,6 +339,22 @@ class LeftImgAndRightTextView(context: Context, attr: AttributeSet) : RelativeLa
     }
 
     /**
+     * 设置选中的文本
+     */
+    fun setCheckedTextInfo(text:String){
+        mCheckedTextInfo = text
+        setChecked(isChecked)
+    }
+
+    /**
+     * 设置普通文本
+     */
+    fun setTextInfo(text:String){
+        mTextInfo = text
+        setChecked(isChecked)
+    }
+
+    /**
      * 设置文本字体大小
      *
      * @param size
@@ -381,8 +397,8 @@ class LeftImgAndRightTextView(context: Context, attr: AttributeSet) : RelativeLa
             if (textColorChecked != null) {
                 tvContent.setTextColor(textColorChecked)
             }
-            if (!TextUtils.isEmpty(mTextInfoChecked)) {
-                tvContent.text = mTextInfoChecked
+            if (!TextUtils.isEmpty(mCheckedTextInfo)) {
+                tvContent.text = mCheckedTextInfo
             }
 
         } else {

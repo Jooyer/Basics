@@ -223,7 +223,7 @@ public class ExpandableTextView extends AppCompatTextView {
                 }
                 // 最后一行末尾如果是换行符号则移除它
                 while (subText.toString().endsWith("\n")) {
-                    subText = subText.subSequence(0, subText.length() - 2).toString();
+                    subText = subText.subSequence(0, subText.length() - 1).toString();
                 }
 
                 mCloseSpannableStr = charSequenceToSpannable(subText);
@@ -252,6 +252,9 @@ public class ExpandableTextView extends AppCompatTextView {
                     }
 
                     mCloseSpannableStr.delete(mCloseSpannableStr.length() - splicingLength , mCloseSpannableStr.length()); // 留够 ... 和 mOpenSuffixSpan 位置
+                    if (length > mCloseSpannableStr.length()){ // 可能添加 "@" 的长度还没有 splicingLength 长, 会出现越界
+                        length = mCloseSpannableStr.length();
+                    }
                     mCloseSpannableStr.append(ELLIPSIS_STRING).append(mOpenSuffixSpan);
 
                     if (addStubCount > 1) { // 添加了多个 "@"
