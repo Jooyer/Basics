@@ -6,11 +6,12 @@ package cn.lvsong.lib.ui
  */
 /**
  * @param msg --> 提示信息
+ * @param code --> 状态码
  * @param type --> 区别不同请求接口
  */
-sealed class LoadState(val msg: String, val type: Int) {
+sealed class LoadState(val msg: String, val code: Int, val type: Int) {
 
-    class Loading(msg: String = "", type: Int = 0) : LoadState(msg,type)
-    class Success(msg: String = "", type: Int = 0) : LoadState(msg,type)
-    class Failure(msg: String = "", type: Int = 0) : LoadState(msg,type)
+    class Loading(msg: String = "", code: Int = 200, type: Int = 0) : LoadState(msg, code, type)
+    class Success(msg: String = "", code: Int = 200, type: Int = 0) : LoadState(msg, code, type)
+    class Failure(msg: String = "", code: Int = 200, type: Int = 0) : LoadState(msg, code, type)
 }

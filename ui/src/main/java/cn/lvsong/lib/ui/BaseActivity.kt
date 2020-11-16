@@ -63,13 +63,13 @@ abstract class BaseActivity : AppCompatActivity(), OnRetryListener, OnLazyClickL
             it.mLoadState.observe(this, Observer { loadState ->
                 when (loadState) {
                     is LoadState.Loading -> {
-                        onLoading(loadState.msg, loadState.type)
+                        onLoading(loadState.msg, loadState.code, loadState.type)
                     }
                     is LoadState.Failure -> {
-                        onFailure(loadState.msg, loadState.type)
+                        onFailure(loadState.msg, loadState.code, loadState.type)
                     }
                     else -> {
-                        onSuccess(loadState.msg, loadState.type)
+                        onSuccess(loadState.msg, loadState.code, loadState.type)
                     }
                 }
             })
@@ -185,27 +185,30 @@ abstract class BaseActivity : AppCompatActivity(), OnRetryListener, OnLazyClickL
     /**
      * 加载中,按需重写
      * @param msg --> 提示信息
+     * @param code --> 状态码
      * @param type --> 区别不同请求接口
      */
-    open fun onLoading(msg: String = "", type: Int = 0) {
+    open fun onLoading(msg: String = "", code: Int = 200, type: Int = 0) {
 
     }
 
     /**
      * 加载成功,按需重写
      * @param msg --> 提示信息
+     * @param code --> 状态码
      * @param type --> 区别不同请求接口
      */
-    open fun onSuccess(msg: String = "", type: Int = 0) {
+    open fun onSuccess(msg: String = "", code: Int = 200, type: Int = 0) {
 
     }
 
     /**
      * 加载失败,按需重写
      * @param msg --> 提示信息
+     * @param code --> 状态码
      * @param type --> 区别不同请求接口
      */
-    open fun onFailure(msg: String = "", type: Int = 0) {
+    open fun onFailure(msg: String = "", code: Int = 200, type: Int = 0) {
 
     }
 

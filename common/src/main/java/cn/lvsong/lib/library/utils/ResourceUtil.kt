@@ -10,6 +10,9 @@ import android.content.Context
  */
 object ResourceUtil {
 
+    /**
+     * @param resourceName --> 资源名不要后缀,如 同桌的你.mp3, 取 同桌的你 即可
+     */
     fun getId(context: Context, resourceName: String): Int {
         return getIdentifierByType(context, resourceName, "id")
     }
@@ -28,6 +31,10 @@ object ResourceUtil {
 
     fun getMipmapId(context: Context, resourceName: String): Int {
         return getIdentifierByType(context, resourceName, "mipmap")
+    }
+
+    fun getRawId(context: Context, resourceName: String): Int {
+        return getIdentifierByType(context, resourceName, "raw")
     }
 
     fun getColorId(context: Context, resourceName: String): Int {
