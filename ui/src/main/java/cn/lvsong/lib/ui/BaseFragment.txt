@@ -99,12 +99,13 @@ abstract class BaseFragment<T : IBasePresenter> : Fragment(), BaseView,
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         restoreStateFromArguments()
-        if (null != savedInstanceState) {
+        if (null != savedInstanceState) { // 一般是崩溃了 ( https://blog.csdn.net/qq_22718203/article/details/86300519 )
             // 可以做一些初始化工作
             val ft = fragmentManager!!.beginTransaction()
             if (isHidden) {
                 ft.hide(this)
             } else {
+             isPrepared = true;
                 ft.show(this)
             }
             ft.commit()
