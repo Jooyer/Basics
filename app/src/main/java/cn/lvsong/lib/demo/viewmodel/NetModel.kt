@@ -30,7 +30,7 @@ class NetModel(@NonNull application: Application) : BaseViewModel(application) {
             val data = NetUtil.apiService.getList(page)
             mListData.value = data.data?.datas
             //更新加载状态
-            mLoadState.value = LoadState.Success(type = 1)
+            mLoadState.value = LoadState.Success(code = data.errorCode,type = 1)
         },{
             //加载失败的状态
             mLoadState.value = LoadState.Failure(it.message ?: "加载失败")
