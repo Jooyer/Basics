@@ -19,7 +19,7 @@ import androidx.annotation.ColorInt;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Desc: 配合 BubbleLinearLayout 实现点九效果
+ * Desc: 实现点九效果
  * Author: Jooyer
  * Date: 2018-08-15
  * Time: 10:19
@@ -77,26 +77,6 @@ public class BubbleDrawable extends Drawable {
         mPaint.setColorFilter(cf);
     }
 
-    private void setUpPath(ArrowLocation mArrowLocation, Path path) {
-        switch (mArrowLocation) {
-            case LEFT:
-                setUpLeftPath(mRect, path);
-                break;
-            case RIGHT:
-                setUpRightPath(mRect, path);
-                break;
-            case TOP:
-                setUpTopPath(mRect, path);
-                break;
-            case BOTTOM:
-                setUpBottomPath(mRect, path);
-                break;
-            case TOP_RIGHT:
-                setUpTopRightPath(mRect, path);
-                break;
-        }
-    }
-
     private void setUp(Canvas canvas) {
         switch (bubbleType) {
             case COLOR:
@@ -115,6 +95,26 @@ public class BubbleDrawable extends Drawable {
         }
         setUpPath(mArrowLocation, mPath);
         canvas.drawPath(mPath, mPaint);
+    }
+
+    private void setUpPath(ArrowLocation mArrowLocation, Path path) {
+        switch (mArrowLocation) {
+            case LEFT:
+                setUpLeftPath(mRect, path);
+                break;
+            case RIGHT:
+                setUpRightPath(mRect, path);
+                break;
+            case TOP:
+                setUpTopPath(mRect, path);
+                break;
+            case BOTTOM:
+                setUpBottomPath(mRect, path);
+                break;
+            case TOP_RIGHT:
+                setUpTopRightPath(mRect, path);
+                break;
+        }
     }
 
     private void setUpLeftPath(RectF rect, Path path) {
@@ -170,7 +170,6 @@ public class BubbleDrawable extends Drawable {
                 + rect.left, mAroundRadius + rect.top + mArrowHeight), 180, 90);
         path.close();
     }
-
 
     private void setUpTopRightPath(RectF rect, Path path) {
 
@@ -293,6 +292,10 @@ public class BubbleDrawable extends Drawable {
         private ArrowLocation mArrowLocation = ArrowLocation.LEFT;
         private boolean arrowCenter;
 
+        private void bubbleType(BubbleType bubbleType) {
+            this.bubbleType = bubbleType;
+        }
+
         public Builder rect(RectF rect) {
             this.mRect = rect;
             return this;
@@ -304,7 +307,7 @@ public class BubbleDrawable extends Drawable {
         }
 
         public Builder aroundRadius(float aroundRadius) {
-            this.mAroundRadius = aroundRadius ;
+            this.mAroundRadius = aroundRadius;
             return this;
         }
 
@@ -318,7 +321,7 @@ public class BubbleDrawable extends Drawable {
             return this;
         }
 
-        public Builder bubbleColor(@ColorInt  int bubbleColor) {
+        public Builder bubbleColor(@ColorInt int bubbleColor) {
             this.bubbleColor = bubbleColor;
             bubbleType(BubbleType.COLOR);
             return this;
@@ -332,11 +335,6 @@ public class BubbleDrawable extends Drawable {
 
         public Builder arrowLocation(ArrowLocation arrowLocation) {
             this.mArrowLocation = arrowLocation;
-            return this;
-        }
-
-        public Builder bubbleType(BubbleType bubbleType) {
-            this.bubbleType = bubbleType;
             return this;
         }
 

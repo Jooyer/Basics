@@ -1,5 +1,7 @@
 package cn.lvsong.lib.demo.util
 
+import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
@@ -12,6 +14,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.CustomTarget
 import java.io.File
 
 
@@ -427,6 +430,19 @@ class ImageLoad {
             .load(path)
             .apply(RequestOptions.bitmapTransform(GlideBlurTransformation(iv.context)))
             .into(iv)
+    }
+
+
+    /**
+     * 下载图片
+     * @param path --> 图片路径
+     * @param target --> 下载的回调
+     */
+    fun downloadImage(context: Context, path: String, target: CustomTarget<Bitmap>) {
+        Glide.with(context)
+            .asBitmap()
+            .load(path)
+            .into(target)
     }
 
 }

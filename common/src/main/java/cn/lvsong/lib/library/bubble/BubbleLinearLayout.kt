@@ -20,23 +20,50 @@ import cn.lvsong.lib.library.R
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:bll_arrow_position="@dimen/padding_50"
-        app:bll_angle="@dimen/padding_3"
+        app:bll_around_radius="@dimen/padding_3"
         app:bll_arrow_height="@dimen/padding_8"
-        app:bll_arrow_position="top_right"
+        app:bll_arrow_location="top_right"
         app:bll_arrow_width="@dimen/width_10"
-        app:bll_bubble_color="@color/color_write"
+        app:bll_bubble_color="@color/color_FFFFFF"
 >
 
  */
 
 class BubbleLinearLayout(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
-    private var mArrowWidth: Float = 0.toFloat()
-    private var mAngle: Float = 0.toFloat()
-    private var mArrowHeight: Float = 0.toFloat()
-    private var mArrowPosition: Float = 0.toFloat()
+
+    /**
+     * 四周圆角半径
+     */
+    private var mAroundRadius: Float = 0F
+    /**
+     * 箭头宽度
+     */
+    private var mArrowWidth: Float = 0F
+    /**
+     * 箭头高度
+     */
+    private var mArrowHeight: Float = 0F
+
+    /**
+     * 箭头偏移量,靠左(箭头在上边/下边)或者靠上(箭头在左边或者右边)的间隔
+     */
+    private var mArrowPosition: Float = 0F
+
+    /**
+     * 箭头所在位置,上下左右
+     */
     private var mArrowLocation: BubbleDrawable.ArrowLocation = BubbleDrawable.ArrowLocation.LEFT
+
+    /**
+     * 气泡颜色
+     */
     private var mBubbleColor: Int = 0
+
+    /**
+     * 箭头是否居中,如果居中则 mArrowPosition无效
+     */
     private var mArrowCenter: Boolean = false
+
     private val mRectF = RectF()
 
     constructor(context: Context) : this(context, null)
@@ -52,8 +79,8 @@ class BubbleLinearLayout(context: Context, attrs: AttributeSet?) : LinearLayout(
                 R.styleable.BubbleLinearLayout_bll_arrow_height,
                 BubbleDrawable.Builder.DEFAULT_ARROW_HEIGHT
             )
-            mAngle = array.getDimension(
-                R.styleable.BubbleLinearLayout_bll_angle,
+            mAroundRadius = array.getDimension(
+                R.styleable.BubbleLinearLayout_bll_around_radius,
                 BubbleDrawable.Builder.DEFAULT_ANGLE
             )
             mArrowPosition = array.getDimension(
@@ -87,8 +114,7 @@ class BubbleLinearLayout(context: Context, attrs: AttributeSet?) : LinearLayout(
         background = BubbleDrawable.Builder()
             .rect(mRectF)
             .arrowLocation(mArrowLocation)
-            .bubbleType(BubbleDrawable.BubbleType.COLOR)
-            .aroundRadius(mAngle)
+            .aroundRadius(mAroundRadius)
             .arrowHeight(mArrowHeight)
             .arrowWidth(mArrowWidth)
             .arrowPosition(mArrowPosition)
@@ -105,7 +131,7 @@ class BubbleLinearLayout(context: Context, attrs: AttributeSet?) : LinearLayout(
     }
 
     fun setArrowAngle(angle: Float): BubbleLinearLayout {
-        mAngle = angle
+        mAroundRadius = angle
         return this
     }
 

@@ -75,26 +75,29 @@ class BubbleRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(
         attrs?.let {
             val array = context.obtainStyledAttributes(attrs, R.styleable.BubbleRecyclerView)
             mArrowWidth = array.getDimension(
-                    R.styleable.BubbleRecyclerView_brv_arrow_width,
-                    BubbleDrawable.Builder.DEFAULT_ARROW_WITH
+                R.styleable.BubbleRecyclerView_brv_arrow_width,
+                BubbleDrawable.Builder.DEFAULT_ARROW_WITH
             )
             mArrowHeight = array.getDimension(
-                    R.styleable.BubbleRecyclerView_brv_arrow_height,
-                    BubbleDrawable.Builder.DEFAULT_ARROW_HEIGHT
+                R.styleable.BubbleRecyclerView_brv_arrow_height,
+                BubbleDrawable.Builder.DEFAULT_ARROW_HEIGHT
             )
             mAroundRadius = array.getDimension(
-                    R.styleable.BubbleRecyclerView_brv_around_radius,
-                    BubbleDrawable.Builder.DEFAULT_ANGLE
+                R.styleable.BubbleRecyclerView_brv_around_radius,
+                BubbleDrawable.Builder.DEFAULT_ANGLE
             )
             mArrowOffset = array.getDimension(
-                    R.styleable.BubbleRecyclerView_brv_arrow_offset,
-                    BubbleDrawable.Builder.DEFAULT_ARROW_POSITION
+                R.styleable.BubbleRecyclerView_brv_arrow_offset,
+                BubbleDrawable.Builder.DEFAULT_ARROW_POSITION
             )
             mBubbleColor = array.getColor(
-                    R.styleable.BubbleRecyclerView_brv_bubble_color,
-                    BubbleDrawable.Builder.DEFAULT_BUBBLE_COLOR
+                R.styleable.BubbleRecyclerView_brv_bubble_color,
+                BubbleDrawable.Builder.DEFAULT_BUBBLE_COLOR
             )
-            mPaddingTop = array.getDimensionPixelSize(R.styleable.BubbleRecyclerView_brv_top_padding, dp2px(10F).toInt())
+            mPaddingTop = array.getDimensionPixelSize(
+                R.styleable.BubbleRecyclerView_brv_top_padding,
+                dp2px(10F).toInt()
+            )
             mArrowCenter = array.getBoolean(R.styleable.BubbleRecyclerView_brv_arrow_center, false)
             setPadding(0, mPaddingTop, 0, 0)
             array.recycle()
@@ -114,22 +117,21 @@ class BubbleRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(
             return
         val rectF = RectF(left.toFloat(), 0F, right.toFloat(), bottom.toFloat())
         background = BubbleDrawable.Builder()
-                .rect(rectF)
-                .arrowLocation( BubbleDrawable.ArrowLocation.TOP_RIGHT)
-                .bubbleType(BubbleDrawable.BubbleType.COLOR)
-                .aroundRadius(mAroundRadius)
-                .arrowHeight(mArrowHeight)
-                .arrowWidth(mArrowWidth)
-                .arrowPosition(mArrowOffset)
-                .bubbleColor(mBubbleColor)
-                .arrowCenter(mArrowCenter)
-                .build()
+            .rect(rectF)
+            .arrowLocation(BubbleDrawable.ArrowLocation.TOP_RIGHT)
+            .aroundRadius(mAroundRadius)
+            .arrowHeight(mArrowHeight)
+            .arrowWidth(mArrowWidth)
+            .arrowPosition(mArrowOffset)
+            .bubbleColor(mBubbleColor)
+            .arrowCenter(mArrowCenter)
+            .build()
     }
 
     private fun setUp(width: Int, height: Int) {
         setUp(
-                paddingLeft, width - paddingRight,
-                0, height - paddingBottom
+            paddingLeft, width - paddingRight,
+            0, height - paddingBottom
         )
     }
 
@@ -198,13 +200,14 @@ class BubbleRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(
         post { setUp(width, height) }
     }
 
-    fun getNotAvailableSize() = (mPaddingTop + if (mArrowWidth > mArrowHeight) mArrowWidth else mArrowHeight).toInt()
+    fun getNotAvailableSize() =
+        (mPaddingTop + if (mArrowWidth > mArrowHeight) mArrowWidth else mArrowHeight).toInt()
 
     private fun dp2px(def: Float): Float {
         return TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                def,
-                context.resources.displayMetrics
+            TypedValue.COMPLEX_UNIT_DIP,
+            def,
+            context.resources.displayMetrics
         )
     }
 }

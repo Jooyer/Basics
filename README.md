@@ -397,7 +397,7 @@ class CustomAdapter(data: List<String>, layoutId: Int) :
 | 属性名称           | 取值类型           | 取值和作用                                                   |
 | ------------------ | ------------------ | ------------------------------------------------------------ |
 | bll_arrow_width    | dimension\|integer | 箭头宽度,默认25px                                            |
-| bll_angle          | float\|dimension   | 四周圆角每一个圆角角度,默认20°                               |
+| bll_around_radius          | float\|dimension   | 四周圆角每一个圆角半径,默认20px                               |
 | bll_arrow_height   | dimension\|integer | 箭头高度,默认25px                                            |
 | bll_arrow_position | dimension\|integer | 箭头位置,当arrowLocation确定时箭头初始位置的偏移量,,默认50px |
 | bll_bubble_color   | color              | 气泡背景色                                                   |

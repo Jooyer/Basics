@@ -103,7 +103,7 @@ class LazyFragment : BaseFragment() {
      *   当type = 2时,则为请求详情, getDetail()中设置的 LoadState.Success(type = 2)
      *   LoadState.Loading(), LoadState.Failure()均和上面类似,方便在一个地方处理所有成功时某些逻辑
      */
-    override fun onSuccess(msg: String, type: Int) {
+    override fun onSuccess(msg: String, code: Int, type: Int) {
         if (1 == type) {
             if (nrl_refresh_layout.isRefreshing) {
                 nrl_refresh_layout.setFinishRefresh(true)

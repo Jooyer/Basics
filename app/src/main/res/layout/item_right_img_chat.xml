@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="@dimen/padding_10">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/aiv_avatar_right_chat"
+        android:layout_width="@dimen/width_80"
+        android:layout_height="@dimen/height_80"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/ic_baseline_alarm_add_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <cn.lvsong.lib.library.bubble.BubbleImageView
+        android:id="@+id/biv_avatar_right_chat"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/padding_20"
+        app:biv_around_radius="@dimen/padding_15"
+        app:biv_arrow_height="@dimen/padding_8"
+        app:biv_arrow_location="right"
+        app:biv_arrow_position="@dimen/padding_20"
+        app:bll_arrow_width="@dimen/padding_10"
+        app:layout_constraintDimensionRatio="h,3:4"
+        app:layout_constraintEnd_toStartOf="@id/aiv_avatar_right_chat"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@mipmap/ic_test" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
