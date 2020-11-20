@@ -61,4 +61,11 @@
         app:etv_expand_drawable="@mipmap/ic_gray_up_arrow" />
 
 
+       <cn.lvsong.lib.library.view.VoiceAnimView
+           android:layout_width="@dimen/width_30"
+           android:layout_height="@dimen/height_30"
+           android:layout_margin="@dimen/padding_20"
+           android:rotation="90"
+           />
+
 </LinearLayout>

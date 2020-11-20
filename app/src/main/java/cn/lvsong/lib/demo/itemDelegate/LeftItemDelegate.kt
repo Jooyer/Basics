@@ -25,6 +25,6 @@ class LeftItemDelegate : ItemViewDelegate<String> {
             R.mipmap.ic_launcher_round,DensityUtil.dp2pxRtFloat(40)
         )
 
-        holder.setText(R.id.atv_msg_left_chat, bean)
+        holder.setText(R.id.btv_msg_left_chat, bean)
     }
 }

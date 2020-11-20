@@ -83,10 +83,10 @@ class BubbleImageView(context: Context, attrs: AttributeSet? = null) :
     }
 
 
-    private fun setUp(left: Int, right: Int, top: Int, bottom: Int) {
-        if (right < left || bottom < top || null == mBitmap)
+    private fun setUp( right: Int,  bottom: Int) {
+        if (right < 0 || bottom < 0 || null == mBitmap)
             return
-        mRectF.set(left.toFloat(), top.toFloat(), right.toFloat(), bottom.toFloat())
+        mRectF.set(0F, 0F, right.toFloat(), bottom.toFloat())
         setImageDrawable(
             BubbleDrawable.Builder()
                 .rect(mRectF)
@@ -98,13 +98,6 @@ class BubbleImageView(context: Context, attrs: AttributeSet? = null) :
                 .arrowPosition(mArrowPosition)
                 .arrowCenter(mArrowCenter)
                 .build()
-        )
-    }
-
-    private fun setUp(width: Int, height: Int) {
-        setUp(
-            paddingLeft, width - paddingRight,
-            paddingTop, height - paddingBottom
         )
     }
 

@@ -109,17 +109,18 @@ abstract class BaseFragment : Fragment(),
                 it.mLoadState.observe(viewLifecycleOwner, Observer { loadState ->
                     when (loadState) {
                         is LoadState.Loading -> {
-                            onLoading(loadState.msg,loadState.code, loadState.type)
+                            onLoading(loadState.msg, loadState.type)
                         }
                         is LoadState.Failure -> {
-                            onFailure(loadState.msg, loadState.code, loadState.type)
+                            onFailure(loadState.msg, loadState.type)
                         }
                         else -> {
-                            onSuccess(loadState.msg,loadState.code,  loadState.type)
+                            onSuccess(loadState.msg, loadState.type, loadState.code)
                         }
                     }
                 })
             }
+
             setLogic()
             bindEvent()
         }
@@ -242,10 +243,9 @@ abstract class BaseFragment : Fragment(),
     /**
      * 加载中,按需重写
      * @param msg --> 提示信息
-     * @param code --> 状态码
      * @param type --> 区别不同请求接口
      */
-    open fun onLoading(msg: String = "", code: Int = 200, type: Int = 0) {
+    open fun onLoading(msg: String = "", type: Int = 0) {
 
     }
 
@@ -255,17 +255,16 @@ abstract class BaseFragment : Fragment(),
      * @param code --> 状态码
      * @param type --> 区别不同请求接口
      */
-    open fun onSuccess(msg: String = "", code: Int = 200, type: Int = 0) {
+    open fun onSuccess(msg: String = "", type: Int = 0, code: Int = 200) {
 
     }
 
     /**
      * 加载失败,按需重写
      * @param msg --> 提示信息
-     * @param code --> 状态码
      * @param type --> 区别不同请求接口
      */
-    open fun onFailure(msg: String = "", code: Int = 200, type: Int = 0) {
+    open fun onFailure(msg: String = "", type: Int = 0) {
 
     }
 

@@ -60,38 +60,47 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
      * 向左排列
      */
     val ORIENTATION_LEFT = 1
+
     /**
      * 向右排列
      */
     val ORIENTATION_RIGHT = 2
+
     /**
      * Material Design风格
      */
     private val ARROW_STYLE_MATERIAL_DESIGN = 1
+
     /**
      * 微信风格
      */
     private val ARROW_STYLE_WECHAT_DESIGN = 2
+
     /**
      * 最左侧图标
      */
     private lateinit var iv_left_icon_menu: ImageView
+
     /**
      * 紧挨着左侧图标的文本
      */
     private lateinit var tv_left_name_menu: TextView
+
     /**
      * 紧挨着右侧的文本(与 紧挨着右侧的图片 只显示一种)
      */
     private lateinit var tv_right_name_menu: TextView
+
     /**
      * 紧挨着右侧的图片(与 紧挨着右侧的文本 只显示一种)
      */
     private lateinit var iv_near_right_icon_menu: ImageView
+
     /**
      * 最右侧图标(一般是向右箭头 →)
      */
     private lateinit var iv_right_arrow_menu: BackArrowView
+
     /**
      * 底部分割线
      */
@@ -101,6 +110,7 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
      * 右侧文本距离右侧箭头的距离
      */
     private var rightTextRightMargin = 0
+
     /**
      * 右侧的图标距(不是箭头)离最右侧的距离
      */
@@ -137,7 +147,9 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
             arr.getDimension(R.styleable.CustomMenu_cm_left_image_left_margin, dp2px(20F)).toInt()
 
         val leftTextInfo = arr.getText(R.styleable.CustomMenu_cm_left_text_info)
-        val leftTextSize = arr.getDimensionPixelSize(R.styleable.CustomMenu_cm_left_text_size, dp2px(14F).toInt()).toFloat()
+        val leftTextSize =
+            arr.getDimensionPixelSize(R.styleable.CustomMenu_cm_left_text_size, dp2px(14F).toInt())
+                .toFloat()
         val leftTextLeftMargin =
             arr.getDimension(R.styleable.CustomMenu_cm_left_text_left_margin, dp2px(5F)).toInt()
         val leftTextColor = arr.getColor(
@@ -148,7 +160,9 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         val rightTextInfo = arr.getText(R.styleable.CustomMenu_cm_right_text_info)
 //        val rightHintTextInfo = arr.getText(R.styleable.CustomMenu_cm_right_hint_text_info)
         val rightTextVisible = arr.getBoolean(R.styleable.CustomMenu_cm_right_text_visible, true)
-        val rightTextSize = arr.getDimensionPixelSize(R.styleable.CustomMenu_cm_right_text_size, dp2px(14F).toInt()).toFloat()
+        val rightTextSize =
+            arr.getDimensionPixelSize(R.styleable.CustomMenu_cm_right_text_size, dp2px(14F).toInt())
+                .toFloat()
         rightTextRightMargin =
             arr.getDimension(R.styleable.CustomMenu_cm_right_text_right_margin, dp2px(5F)).toInt()
         val rightTextColor = arr.getColor(
@@ -203,7 +217,7 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         val bottomDividerVisible =
             arr.getBoolean(R.styleable.CustomMenu_cm_bottom_divider_visible, false)
         val bottomDividerHeight =
-            arr.getDimension(R.styleable.CustomMenu_cm_bottom_divider_height,1F).toInt()
+            arr.getDimension(R.styleable.CustomMenu_cm_bottom_divider_height, 1F).toInt()
         val bottomDividerColor = arr.getColor(
             R.styleable.CustomMenu_cm_bottom_divider_color,
             ContextCompat.getColor(context, R.color.color_EEEEEE)
@@ -365,7 +379,7 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         }
     }
 
-    fun setLeftImage(@DrawableRes resource: Int){
+    fun setLeftImage(@DrawableRes resource: Int) {
         iv_left_icon_menu.setImageResource(resource)
     }
 

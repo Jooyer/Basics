@@ -1,6 +1,7 @@
 package cn.lvsong.lib.demo.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.annotation.NonNull
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -10,6 +11,7 @@ import cn.lvsong.lib.ui.BaseViewModel
 import cn.lvsong.lib.ui.LoadState
 import cn.lvsong.lib.ui.launch
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 /**
@@ -27,13 +29,14 @@ class NetModel(@NonNull application: Application) : BaseViewModel(application) {
             //更新加载状态
             mLoadState.value = LoadState.Loading()
             // 请求数据
-            val data = NetUtil.apiService.getList(page)
-            mListData.value = data.data?.datas
+            val data = async { NetUtil.apiService.getList(page) }
+            val info = data.await()
+            mListData.value = info.data?.datas
             //更新加载状态
-            mLoadState.value = LoadState.Success(code = data.errorCode,type = 1)
+            mLoadState.value = LoadState.Success(type = 1,code = info.errorCode)
         },{
             //加载失败的状态
-            mLoadState.value = LoadState.Failure(it.message ?: "加载失败")
+            mLoadState.value = LoadState.Failure(it.message ?: "加载失败", 1)
         })
     }
 
@@ -48,10 +51,10 @@ class NetModel(@NonNull application: Application) : BaseViewModel(application) {
             ////////////////////
 
             //更新加载状态
-            mLoadState.value = LoadState.Success(type = 2)
+            mLoadState.value = LoadState.Success(type = 2,code = 200) // code 也可以统一处理
         },{
             //加载失败的状态
-            mLoadState.value = LoadState.Failure(it.message ?: "加载失败")
+            mLoadState.value = LoadState.Failure(it.message ?: "加载失败", 2)
         })
     }
 

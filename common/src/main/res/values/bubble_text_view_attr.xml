@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="BubbleLinearLayout">
+    <declare-styleable name="BubbleTextView">
         <!-- 箭头宽度,默认25px -->
-        <attr name="bll_arrow_width" format="dimension|integer" />
+        <attr name="btv_arrow_width" format="dimension|integer" />
         <!-- 四周圆角每一个圆角半径,默认20px -->
-        <attr name="bll_around_radius" format="float|dimension" />
+        <attr name="btv_around_radius" format="float|dimension" />
         <!-- 箭头高度,默认25px -->
-        <attr name="bll_arrow_height" format="dimension|integer" />
+        <attr name="btv_arrow_height" format="dimension|integer" />
         <!-- 箭头位置,当arrowLocation确定时箭头初始位置的偏移量,,默认50px -->
-        <attr name="bll_arrow_position" format="dimension|integer" />
+        <attr name="btv_arrow_position" format="dimension|integer" />
         <!-- 气泡背景色,默认红色 -->
-        <attr name="bll_bubble_color" format="color" />
+        <attr name="btv_bubble_color" format="color" />
         <!-- 箭头居中,此时arrowPosition无效,默认false -->
-        <attr name="bll_arrow_center" format="boolean" />
+        <attr name="btv_arrow_center" format="boolean" />
         <!-- 箭头位置,默认在左边 -->
-        <attr name="bll_arrow_location" format="enum">
+        <attr name="btv_arrow_location" format="enum">
             <enum name="left" value="0x00" />
             <enum name="right" value="0x01" />
             <enum name="top" value="0x02" />

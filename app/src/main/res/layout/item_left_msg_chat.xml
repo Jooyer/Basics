@@ -11,31 +11,24 @@
         android:id="@+id/aiv_avatar_left_chat"
         android:layout_width="@dimen/width_80"
         android:layout_height="@dimen/height_80"
-        android:layout_gravity="center_vertical"
         android:src="@drawable/ic_baseline_alarm_add_24" />
 
-    <cn.lvsong.lib.library.bubble.BubbleLinearLayout
+    <cn.lvsong.lib.library.bubble.BubbleTextView
+        android:id="@+id/btv_msg_left_chat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/padding_20"
-        app:bll_around_radius="@dimen/padding_15"
-        app:bll_arrow_height="@dimen/padding_8"
-        app:bll_arrow_position="@dimen/padding_20"
-        app:bll_arrow_width="@dimen/padding_10"
-        app:bll_bubble_color="@color/color_B1B6D1">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/atv_msg_left_chat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/padding_20"
-            android:layout_marginTop="@dimen/padding_10"
-            android:layout_marginEnd="@dimen/padding_10"
-            android:layout_marginBottom="@dimen/padding_10"
-            android:textColor="@color/color_FFFFFF"
-            android:textSize="20sp"
-            tools:text="BubbleLayout 方便大家在布局气泡效果时使用" />
-
-    </cn.lvsong.lib.library.bubble.BubbleLinearLayout>
+        android:paddingStart="@dimen/padding_18"
+        android:paddingTop="@dimen/padding_10"
+        android:paddingEnd="@dimen/padding_10"
+        android:paddingBottom="@dimen/padding_10"
+        android:textColor="@color/color_FFFFFF"
+        android:textSize="20sp"
+        app:btv_around_radius="@dimen/padding_15"
+        app:btv_arrow_height="@dimen/padding_8"
+        app:btv_arrow_position="@dimen/padding_20"
+        app:btv_arrow_width="@dimen/padding_10"
+        app:btv_bubble_color="@color/color_B1B6D1"
+        tools:text="数据加载失败,点击重试,数据加载失败,点击重试数据加载失败,点击重试" />
 
 </LinearLayout>
