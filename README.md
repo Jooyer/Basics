@@ -32,7 +32,7 @@
 
 ```groovy
 	dependencies {
-	        implementation 'com.github.Jooyer.Basics:common:1.0.10'
+	        implementation 'com.github.Jooyer.Basics:common:1.0.12'
 	}
 ```
 
@@ -119,6 +119,13 @@
 4. 对LeftImgAndRightTextView增加方法
 5. 修改keyboardUtil.openKeyboard()方法参数
 6. 对StatusManager中StatusProvider增加支持阴影的方法
+
+## v1.0.12变化:
+1. 对ShadowLayout进行调整
+2. 对CustomToolbar阴影调整
+3. 增加语音动画View
+4. 移出部分不需要的类
+5. 更新各个依赖库版本
 
 
 [toc]
