@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<cn.lvsong.lib.library.view.ShadowLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,8 +10,7 @@
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:ct_bottom_divider_color="@color/color_333333"
-        app:ct_bottom_divider_visible="true"
+        app:ct_bottom_divider_visible="false"
         app:ct_center_text_color="@color/color_333333"
         app:ct_center_text_info="状态管理器"
         app:ct_center_text_size="@dimen/text_size_16"
@@ -19,7 +18,10 @@
         app:ct_right_mav_visible="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:sl_background_color="@color/color_FFFFFF"
+        app:sl_shadow_color="@color/color_26000000"
+        app:sl_shadow_radius="@dimen/padding_5" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/acb_tips1"
@@ -81,4 +83,4 @@ PS: 无论上面哪种方式,都将导致控件被添加到了 RootStatusLayout 
         app:layout_constraintTop_toBottomOf="@id/acb_tips2" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</cn.lvsong.lib.library.view.ShadowLayout>

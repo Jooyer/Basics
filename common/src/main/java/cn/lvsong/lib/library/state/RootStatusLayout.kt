@@ -107,73 +107,46 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
         if (null != mStatusLayoutManager.mNetworkErrorVs) {
             addView(mStatusLayoutManager.mNetworkErrorVs, params)
         }
-
-        getCustomToolbar(this)
     }
 
-
-    private fun getCustomToolbar(viewGroup: ViewGroup) {
-        for (i in 0 until viewGroup.childCount) {
-            val child = viewGroup.getChildAt(i)
-            if (child is StatusProvider) {
-                val params = child.layoutParams
-                mOffsetY = if (ViewGroup.LayoutParams.WRAP_CONTENT == params.height) {
-                    params.height = dp2px(50F).toInt()
-                    if (child.hasShadow()) dp2px(45F).toInt() else params.height
-                } else {
-                    if (child.hasShadow()) (params.height - dp2px(5F)).toInt() else params.height
-                }
-
-                if (0 == params.width) { // 解决 ConstraintLayout 中使用时,给 android:layout_width="0dp" 导致视图宽度为0
-                    params.width = ScreenUtils.getRealWidth(context)
-                }
-
-                val childParent = child.parent as ViewGroup
-                // 移除掉原来的,则会导致界面错位,添加一个占位的,但是占位视图设置为 View.INVISIBLE(不可见的)
-                childParent.removeView(child)
-                // 占位View
-                val view = View(context)
-                view.setBackgroundColor(Color.TRANSPARENT)
-                // 保证原来的ID不变,是防止其他控件对此控件有依赖或者位置关系
-                view.id = child.id
-                view.visibility = View.INVISIBLE
-                childParent.addView(view, 0, params)
-                child.id = R.id.ct_tool_bar
-                addView(child, params)
-                break
-            } else {
-                if (child is ViewGroup) {
-                    getCustomToolbar(child)
-                }
-            }
-        }
-    }
 
 //    private fun getCustomToolbar(viewGroup: ViewGroup) {
 //        for (i in 0 until viewGroup.childCount) {
 //            val child = viewGroup.getChildAt(i)
-//            Log.e("Test", "-------><---------${child::class.java.simpleName}")
-//            if (child is ViewGroup) {
-//                if (child is StatusProvider) {
-//                    val params = child.layoutParams
-//                    val childParent = child.parent as ViewGroup
-//                    Log.e("Test", "-------><---------${params.height}")
-//                    // 移除掉原来的,则会导致界面错位,添加一个占位的
-//                    childParent.removeView(child)
-//                    // 占位View
-//                    val view = View(context)
-//                    view.setBackgroundColor(Color.TRANSPARENT)
-//                    view.id = child.id
-//                    view.visibility = View.INVISIBLE
-//                    childParent.addView(view,0,params)
-//                    addView(child, params)
-//                    break
+//            if (child is StatusProvider) {
+//                val params = child.layoutParams
+//                mOffsetY = if (ViewGroup.LayoutParams.WRAP_CONTENT == params.height) {
+//                    params.height = dp2px(50F).toInt()
+//                    if (child.hasShadow()) dp2px(45F).toInt() else params.height
 //                } else {
+//                    if (child.hasShadow()) (params.height - dp2px(5F)).toInt() else params.height
+//                }
+//
+//                if (0 == params.width) { // 解决 ConstraintLayout 中使用时,给 android:layout_width="0dp" 导致视图宽度为0
+//                    params.width = ScreenUtils.getRealWidth(context)
+//                }
+//
+//                val childParent = child.parent as ViewGroup
+//                // 移除掉原来的,则会导致界面错位,添加一个占位的,但是占位视图设置为 View.INVISIBLE(不可见的)
+//                childParent.removeView(child)
+//                // 占位View
+//                val view = View(context)
+//                view.setBackgroundColor(Color.TRANSPARENT)
+//                // 保证原来的ID不变,是防止其他控件对此控件有依赖或者位置关系
+//                view.id = child.id
+//                view.visibility = View.INVISIBLE
+//                childParent.addView(view, 0, params)
+//                child.id = R.id.ct_tool_bar
+//                addView(child, params)
+//                break
+//            } else {
+//                if (child is ViewGroup) {
 //                    getCustomToolbar(child)
 //                }
 //            }
 //        }
 //    }
+
 
     private fun addLayoutView(
         layoutView: View,

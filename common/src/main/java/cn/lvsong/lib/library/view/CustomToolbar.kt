@@ -2,10 +2,6 @@ package cn.lvsong.lib.library.view
 
 import android.app.Activity
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.RectF
 import android.graphics.drawable.Drawable
 import android.text.TextUtils
 import android.util.AttributeSet
@@ -20,7 +16,6 @@ import androidx.annotation.DrawableRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import cn.lvsong.lib.library.R
-import cn.lvsong.lib.library.state.StatusProvider
 
 
 /**
@@ -75,11 +70,26 @@ import cn.lvsong.lib.library.state.StatusProvider
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tool" />
 
+
+
+        阴影使用需增加如下属性:
+          // 这个是用来增加与父控件间隔,方便绘制阴影,如果父控件不是包裹容器,则不需要
+          android:layout_marginBottom="@dimen/padding_5"
+          // 下面根据情况 一般 layout_constraintBottom_toBottomOf="parent" 和上面这个一起使用
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          // 下面三个是阴影属性,颜色和半径可以自定义
+          app:sl_background_color="@color/color_FFFFFF"
+          app:sl_shadow_color="@color/color_26000000"
+          app:sl_shadow_radius="@dimen/padding_5"
+
+
  */
 
 class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
-    ConstraintLayout(context, attr, defStyleAttr),
-    StatusProvider {
+    ConstraintLayout(context, attr, defStyleAttr) {
 
     /**
      * Material Design风格
@@ -142,32 +152,13 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
     lateinit var view_bottom_divider_menu: View
 
 
-    private val mPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
+//    private val mPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
+
 
     /**
-     * 阴影颜色模糊度，越大越模糊
-     */
-    private var mShadowRadius = 0F
-
-    /**
-     * 阴影颜色
-     */
-    private var mShadowColor = 0
-
-    /**
-     * 当显示阴影时,如果需要设置控件背景色,则需要设置属性 ct_background_color
+     * 背景色,默认白色,如果设置了阴影则使用 layout_background_color,否则使用下面属性设置背景色
      */
     private var mBackgroundColor = 0
-
-    /**
-     * 阴影的垂直偏移量
-     */
-    private var mOffsetY = 0F
-
-    /**
-     * 底部阴影高度
-     */
-    private var mBottomShadowHeight = 0
 
     /**
      * 最右侧图片是否选中
@@ -188,14 +179,7 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
      */
     private var mBottomDividerVisible = true
 
-    /**
-     * 底部分割线样式,SHADOW(阴影效果),默认值; LINE(分割线效果),如果分割线不可见则此属性无效
-     */
-    private var mBottomDividerStyle = 1
-
     constructor(context: Context, attr: AttributeSet) : this(context, attr, 0)
-
-    override fun hasShadow() = 1 == mBottomDividerStyle
 
     init {
         initView()
@@ -213,12 +197,6 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         mav_right_icon_menu = findViewById(R.id.mav_right_icon_menu)
         view_bottom_divider_menu = findViewById(R.id.view_bottom_divider_menu)
 
-        mBottomShadowHeight = dp2px(5F).toInt()
-        mShadowRadius = dp2px(3F)
-        mOffsetY = dp2px(2F)
-
-        //取消硬件加速
-        setLayerType(View.LAYER_TYPE_SOFTWARE, null)
     }
 
     private fun parseAttrs(context: Context, attr: AttributeSet) {
@@ -333,11 +311,7 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
             R.styleable.CustomToolbar_ct_bottom_divider_color,
             ContextCompat.getColor(context, R.color.color_EEEEEE)
         )
-        mBottomDividerStyle = arr.getInt(R.styleable.CustomToolbar_ct_bottom_divider_style, 1)
-        mShadowColor = arr.getColor(
-            R.styleable.CustomToolbar_ct_bottom_shadow_color,
-            ContextCompat.getColor(context, R.color.color_26000000)
-        )
+
         mBackgroundColor = arr.getColor(
             R.styleable.CustomToolbar_ct_background_color,
             ContextCompat.getColor(context, R.color.color_FFFFFF)
@@ -467,12 +441,7 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
 
         if (mBottomDividerVisible) {
             view_bottom_divider_menu.visibility = View.VISIBLE
-            if (1 == mBottomDividerStyle) {
-                view_bottom_divider_menu.setBackgroundColor(Color.TRANSPARENT)
-                setPadding(0, 0, 0, mBottomShadowHeight)
-            } else {
-                view_bottom_divider_menu.setBackgroundColor(bottomDividerColor)
-            }
+            view_bottom_divider_menu.setBackgroundColor(bottomDividerColor)
         } else {
             view_bottom_divider_menu.visibility = View.GONE
         }
@@ -482,22 +451,22 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
     /**
      * 绘制 Toolbar 底部阴影
      */
-    override fun dispatchDraw(canvas: Canvas) {
-        if (1 == mBottomDividerStyle && mBottomDividerVisible) {
-            val shadowRectF = RectF()
-            shadowRectF.set(
-                (-mBottomShadowHeight).toFloat(),
-                0F,
-                (width + mBottomShadowHeight).toFloat(),
-                (height - mBottomShadowHeight).toFloat()
-            )
-            mPaint.style = Paint.Style.FILL
-            mPaint.color = mBackgroundColor
-            mPaint.setShadowLayer(mShadowRadius, 0F, mOffsetY, mShadowColor)
-            canvas.drawRect(shadowRectF, mPaint)
-        }
-        super.dispatchDraw(canvas)
-    }
+//    override fun dispatchDraw(canvas: Canvas) {
+//        if (1 == mBottomDividerStyle && mBottomDividerVisible) {
+//            val shadowRectF = RectF()
+//            shadowRectF.set(
+//                (-mBottomShadowHeight).toFloat(),
+//                0F,
+//                (width + mBottomShadowHeight).toFloat(),
+//                (height - mBottomShadowHeight).toFloat()
+//            )
+//            mPaint.style = Paint.Style.FILL
+//            mPaint.color = mBackgroundColor
+//            mPaint.setShadowLayer(mShadowRadius, 0F, mOffsetY, mShadowColor)
+//            canvas.drawRect(shadowRectF, mPaint)
+//        }
+//        super.dispatchDraw(canvas)
+//    }
 
     private fun changeRightImageDrawable() {
         if (mRightImageChecked) {

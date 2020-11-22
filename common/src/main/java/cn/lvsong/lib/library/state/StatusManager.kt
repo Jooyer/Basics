@@ -179,12 +179,6 @@ class StatusManager(builder: Builder) {
         return mRootFrameLayout
     }
 
-    /**
-     * 返回 CustomToolbar 或者 自定义的Toolbar 等实现  StatusProvider 接口的控件
-     */
-    fun getCustomView(): View {
-        return mRootFrameLayout.findViewById(R.id.ct_tool_bar)
-    }
 
     class Builder(val context: Context) {
         var loadingLayoutResId: Int = 0

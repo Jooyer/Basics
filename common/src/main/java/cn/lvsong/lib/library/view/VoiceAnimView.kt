@@ -1,12 +1,14 @@
 package cn.lvsong.lib.library.view
 
 import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
+import android.renderscript.Sampler
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
@@ -53,7 +55,12 @@ class VoiceAnimView @JvmOverloads constructor(
     /**
      * 动画执行时间,默认 1000毫秒
      */
-    private var mAnimDuration = 1000
+    private var mAnimDuration = 2000
+
+    /**
+     * 当前控件是否可见
+     */
+    private var isVisible: Boolean = false
 
     /**
      * 控件高度
@@ -63,6 +70,8 @@ class VoiceAnimView @JvmOverloads constructor(
     private var bottom_y = 0
 
     private lateinit var mAnimator: ValueAnimator
+
+    private lateinit var mResetAnimator: ValueAnimator
 
     /**
      * 形状控制
@@ -103,8 +112,8 @@ class VoiceAnimView @JvmOverloads constructor(
             )
             array.recycle()
         }
-        val arr = IntArray(mArcCount + 2)
-        for (i in 0..(mArcCount + 1)) {
+        val arr = IntArray(mArcCount + 1)
+        for (i in 0..mArcCount) {
             arr[i] = i
         }
 
@@ -115,10 +124,29 @@ class VoiceAnimView @JvmOverloads constructor(
             invalidate()
         }
 
-        mAnimator.repeatMode = ValueAnimator.RESTART
-        mAnimator.repeatCount = ValueAnimator.INFINITE
+        mResetAnimator = ValueAnimator.ofInt(mArcCount, mArcCount + 1)
+        mResetAnimator.duration = mAnimDuration.toLong() / mArcCount
+        mResetAnimator.addUpdateListener { animation ->
+            mState = animation.animatedValue as Int
+            invalidate()
+        }
 
-        postDelayed({ mAnimator.start() }, 1000)
+
+        mAnimator.addListener(object :AnimatorListenerAdapter(){
+            override fun onAnimationEnd(animation: Animator?) {
+                if (isVisible){
+                    mResetAnimator.start()
+                }
+            }
+        })
+
+        mResetAnimator.addListener(object :AnimatorListenerAdapter(){
+            override fun onAnimationEnd(animation: Animator?) {
+                if (isVisible){
+                    mAnimator.start()
+                }
+            }
+        })
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -193,6 +221,12 @@ class VoiceAnimView @JvmOverloads constructor(
         }
     }
 
+
+    override fun onVisibilityAggregated(isVisible: Boolean) {
+        super.onVisibilityAggregated(isVisible)
+        this.isVisible = isVisible
+    }
+
     /**
      * 设置样式
      *
@@ -211,6 +245,7 @@ class VoiceAnimView @JvmOverloads constructor(
 
     fun stopAnim() {
         mAnimator.cancel()
+        mResetAnimator.cancel()
     }
 
 }

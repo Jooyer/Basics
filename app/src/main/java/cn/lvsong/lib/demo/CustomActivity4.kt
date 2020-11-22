@@ -26,7 +26,9 @@ class CustomActivity4 : BaseActivity() {
     }
 
     override fun bindEvent() {
-
+        cdv.setOnClickListener {
+            vav_test.startAnim()
+        }
     }
 
 

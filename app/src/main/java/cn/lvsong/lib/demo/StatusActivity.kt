@@ -79,7 +79,7 @@ class StatusActivity : BaseActivity() {
          * 此时在UI界面是无法正常使用上面定义的控件, 只需使用 mStatusManager.getCustomView()
          * 即可获取 CustomToolbar 或者 自定义的Toolbar (需自行强转)
          */
-        (mStatusManager!!.getCustomView() as CustomToolbar).setMoreViewListener(object :
+        toolbar.setMoreViewListener(object :
             OnClickFastListener() {
             override fun onFastClick(v: View) {
                 mTopMenu.show(v, null, null)

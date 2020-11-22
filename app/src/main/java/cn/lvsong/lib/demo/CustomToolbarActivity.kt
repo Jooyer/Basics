@@ -37,21 +37,21 @@ class CustomToolbarActivity : BaseActivity() {
             Toast.makeText(this,"点击了更多按钮",Toast.LENGTH_SHORT).show()
         })
 
-        ct_13.setRightImageListener(View.OnClickListener {
+        ct_12.setRightImageListener(View.OnClickListener {
 //            ct_13.setRightImageChecked(!ct_13.getRightImageChecked())
-            if (ct_13.getRightImageChecked()) {
-                ct_13.setRightImageDrawable(R.drawable.normal)
+            if (ct_12.getRightImageChecked()) {
+                ct_12.setRightImageDrawable(R.drawable.normal)
             }else{
-                ct_13.setRightImageCheckedDrawable(R.drawable.select)
+                ct_12.setRightImageCheckedDrawable(R.drawable.select)
             }
         })
 
-        ct_13.setRightImage2Listener(View.OnClickListener {
+        ct_12.setRightImage2Listener(View.OnClickListener {
 //            ct_13.setRightImage2Checked(!ct_13.getRightImage2Checked())
-            if (ct_13.getRightImage2Checked()) {
-                ct_13.setRightImage2Drawable(R.drawable.normal)
+            if (ct_12.getRightImage2Checked()) {
+                ct_12.setRightImage2Drawable(R.drawable.normal)
             }else{
-                ct_13.setRightImage2CheckedDrawable(R.drawable.select)
+                ct_12.setRightImage2CheckedDrawable(R.drawable.select)
             }
         })
 

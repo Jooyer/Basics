@@ -106,21 +106,12 @@
             android:id="@+id/sl_container_mobile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_20"
-            android:paddingStart="@dimen/padding_5"
-            android:paddingEnd="@dimen/padding_5"
-            app:sl_background_color="@color/color_FFFFFF"
-            app:sl_layout_radius="@dimen/padding_5"
-            app:sl_offset_x="0dp"
-            app:sl_offset_y="@dimen/padding_2"
-            app:sl_shadow_color="@color/color_9AA3A3A3"
-            app:sl_shadow_radius="@dimen/padding_5">
+            android:layout_marginTop="@dimen/padding_20">
 
             <cn.lvsong.lib.library.view.CustomMenu
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/height_45"
-                android:layout_marginStart="@dimen/padding_5"
-                android:layout_marginEnd="@dimen/padding_5"
+                android:layout_margin="@dimen/padding_10"
                 app:cm_left_image_visible="false"
                 app:cm_left_text_color="@android:color/holo_red_light"
                 app:cm_left_text_info="ShadowLayout阴影效果"
@@ -132,7 +123,39 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:sl_around_radius="@dimen/padding_5"
+                app:sl_background_color="@color/color_FFFFFF"
+                app:sl_offset_x="0dp"
+                app:sl_offset_y="@dimen/padding_2"
+                app:sl_shadow_color="@color/color_9AA3A3A3"
+                app:sl_shadow_radius="@dimen/padding_5" />
+
+        </cn.lvsong.lib.library.view.ShadowLayout>
+
+        <cn.lvsong.lib.library.view.ShadowLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_60"
+                android:layout_margin="@dimen/padding_20"
+                android:gravity="center"
+                android:text="X轴Y轴没有偏移的效果"
+                android:textColor="@color/color_FFFFFF"
+                android:textSize="@dimen/text_size_20"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:sl_background_color="@color/color_FF2121"
+                app:sl_around_radius="@dimen/padding_8"
+                app:sl_offset_x="0dp"
+                app:sl_offset_y="0dp"
+                app:sl_shadow_color="#FF3D00"
+                app:sl_shadow_radius="@dimen/padding_8"
+                />
 
         </cn.lvsong.lib.library.view.ShadowLayout>
 
@@ -203,8 +226,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_10"
-            android:text="下面演示了仿朋友圈图片展示效果"
-            />
+            android:text="下面演示了仿朋友圈图片展示效果" />
 
         <!-- 2张图/4张图效果 -->
         <cn.lvsong.lib.library.view.NineImageLayout

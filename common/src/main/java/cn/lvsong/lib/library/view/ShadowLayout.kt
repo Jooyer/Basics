@@ -1,229 +1,208 @@
 package cn.lvsong.lib.library.view
 
 import android.content.Context
-import android.graphics.*
-import android.graphics.drawable.BitmapDrawable
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.RectF
 import android.util.AttributeSet
-import androidx.annotation.ColorRes
+import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import cn.lvsong.lib.library.R
-import kotlin.math.abs
 
-/** 来自: https://www.jianshu.com/p/ddcf1d2f32d2
- * Desc: 实现 Android 的 ShadowLayout
+/**
+ *
+ *  https://www.jianshu.com/p/ddcf1d2f32d2  --> 另一种实现,将阴影作为控件的一部分需要给控件设置一些padding值，才能让阴影显示出来
+ *
+ * 参考: https://hub.fastgit.org/ZhangHao555/AndroidGroupShadow
+ * Desc: 父控件实现 shadow
  * Author: Jooyer
- * Date: 2020-03-04
- * Time: 17:54
+ * Date: 2020-11-22
+ * Time: 10:33
  */
+class ShadowLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(context, attrs) {
+    private val mPaint = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val mShadowRectF = RectF()
+    private val mAroundRectF = RectF()
 
-/* 用法:  注意--> shadow_layout_shadow_color值必须是8位,即有alpha
-    <cn.lvsong.lib.library.view.ShadowLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/padding_20"
-        app:sl_background_color="@color/color_E95C5B5B"
-        app:sl_layout_radius="@dimen/padding_10"
-        app:sl_offset_x="0dp"
-        app:sl_offset_y="5dp"
-        app:sl_shadow_color="@color/color_29b1b6d1"
-        app:sl_shadow_radius="@dimen/padding_12">
+    constructor(context: Context) : this(context, null)
 
- */
-class ShadowLayout : ConstraintLayout {
+    override fun onDraw(canvas: Canvas) {
+        super.onDraw(canvas)
 
-    /**
-     * 阴影颜色
-     */
-    private var mShadowColor: Int = 0
-    /**
-     * 阴影圆角
-     */
-    private var mShadowRadius: Float = 0.toFloat()
-    /**
-     * ShadowLayout圆角
-     */
-    private var mCornerRadius: Float = 0.toFloat()
-    /**
-     * 阴影水平偏移
-     */
-    private var mDx: Float = 0.toFloat()
-    /**
-     * 阴影垂直偏移
-     */
-    private var mDy: Float = 0.toFloat()
-    /**
-     * 背景颜色
-     */
-    private var mBackgroundColor: Int = 0
+        for (i in 0 until childCount) {
+            val child = getChildAt(i)
+            val layoutParams = child.layoutParams
+            if (layoutParams is LayoutParams) {
+                if (layoutParams.mShadowRadius > 0
+                    && layoutParams.mShadowColor != Color.TRANSPARENT
+                ) {
+                    mAroundRectF.left = child.left.toFloat()
+                    mAroundRectF.right = child.right.toFloat()
+                    mAroundRectF.top = child.top.toFloat()
+                    mAroundRectF.bottom = child.bottom.toFloat()
 
-    /**
-     * 尺寸变化时强制刷新
-     */
-    private var mInvalidateShadowOnSizeChanged = true
+                    mShadowRectF.left = child.left.toFloat()
+                    mShadowRectF.right = child.right.toFloat()
+                    mShadowRectF.top = child.top.toFloat()
+                    mShadowRectF.bottom = child.bottom.toFloat()
+                    mPaint.style = Paint.Style.FILL
+                    // 绘制阴影
+                    mPaint.setShadowLayer(
+                        layoutParams.mShadowRadius,
+                        layoutParams.mDy,
+                        layoutParams.mDx,
+                        layoutParams.mShadowColor
+                    )
+                    mPaint.color = layoutParams.mShadowColor
+                    canvas.drawRoundRect(
+                        mShadowRectF,
+                        layoutParams.mCornerRadius,
+                        layoutParams.mCornerRadius,
+                        mPaint
+                    )
 
-    /**
-     * 强制刷新
-     */
-    private var mForceInvalidateShadow = false
-
-    constructor(context: Context) : super(context) {
-        initView(context, null)
-    }
-
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
-        initView(context, attrs)
-    }
-
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
-        context,
-        attrs,
-        defStyleAttr
-    ) {
-        initView(context, attrs)
-    }
-
-    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        super.onSizeChanged(w, h, oldw, oldh)
-        if (w > 0 && h > 0 && (background == null || mInvalidateShadowOnSizeChanged || mForceInvalidateShadow)) {
-            mForceInvalidateShadow = false
-            setBackgroundCompat(w, h)
+                    // 绘制子控件背景
+                    mPaint.clearShadowLayer()
+                    mPaint.color = layoutParams.mBackgroundColor
+                    canvas.drawRoundRect(
+                        mAroundRectF, layoutParams.mCornerRadius,
+                        layoutParams.mCornerRadius, mPaint
+                    )
+                }
+            }
         }
     }
 
-    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
-        super.onLayout(changed, left, top, right, bottom)
-        if (mForceInvalidateShadow) {
-            mForceInvalidateShadow = false
-            setBackgroundCompat(right - left, bottom - top)
+    class LayoutParams : ConstraintLayout.LayoutParams {
+        var mDy = 0f
+        var mDx = 0f
+        var mShadowColor = 0
+        var mBackgroundColor = 0
+        var mShadowRadius = 0f
+        var mCornerRadius = 0f
+
+        constructor(source: ViewGroup.LayoutParams?) : super(source) {
+            if (source is LayoutParams) {
+                mDy = source.getXOffset()
+                mDx = source.getYOffset()
+                mShadowColor = source.getShadowColor()
+                mBackgroundColor = source.getBackgroundColor()
+                mShadowRadius = source.getShadowRadius()
+                mCornerRadius = source.getCornerRadius()
+            }
         }
-    }
 
-    private fun initView(context: Context, attrs: AttributeSet?) {
-        initAttributes(context, attrs)
-        refreshPadding()
-    }
+        constructor(width: Int, height: Int) : super(width, height) {}
 
-    private fun refreshPadding() {
-        val xPadding = (mShadowRadius + Math.abs(mDx)).toInt()
-        val yPadding = (mShadowRadius + Math.abs(mDy)).toInt()
-        setPadding(xPadding, yPadding, xPadding, yPadding)
-    }
+        constructor(source: LayoutParams) : super(source) {
+            mDy = source.getXOffset()
+            mDx = source.getYOffset()
+            mShadowColor = source.getShadowColor()
+            mBackgroundColor = source.getBackgroundColor()
+            mShadowRadius = source.getShadowRadius()
+            mCornerRadius = source.getCornerRadius()
+        }
 
-    private fun setBackgroundCompat(w: Int, h: Int) {
-        val bitmap = createShadowBitmap(
-            w,
-            h,
-            mCornerRadius,
-            mShadowRadius,
-            mDx,
-            mDy,
-            mShadowColor,
-            Color.TRANSPARENT
-        )
-        val drawable = BitmapDrawable(resources, bitmap)
-        background = drawable
-    }
-
-
-    private fun initAttributes(context: Context, attrs: AttributeSet?) {
-        attrs?.let {
-            val attr = context.obtainStyledAttributes(attrs, R.styleable.ShadowLayout)
-            mCornerRadius = attr.getDimension(R.styleable.ShadowLayout_sl_layout_radius, 0f)
-            mShadowRadius = attr.getDimension(R.styleable.ShadowLayout_sl_shadow_radius, 0f)
-            mDx = attr.getDimension(R.styleable.ShadowLayout_sl_offset_x, 0f)
-            mDy = attr.getDimension(R.styleable.ShadowLayout_sl_offset_y, 0f)
-            mShadowColor = attr.getColor(
-                R.styleable.ShadowLayout_sl_shadow_color,
-                Color.parseColor("#22000000")
+        constructor(c: Context, attrs: AttributeSet?) : super(c, attrs) {
+            val attributes =
+                c.obtainStyledAttributes(attrs, R.styleable.ShadowLayout)
+            mDy = attributes.getDimension(
+                R.styleable.ShadowLayout_sl_offset_x,
+                0f
             )
-            mBackgroundColor = attr.getColor(
+            mDx = attributes.getDimension(
+                R.styleable.ShadowLayout_sl_offset_y,
+                0f
+            )
+            mShadowRadius = attributes.getDimension(
+                R.styleable.ShadowLayout_sl_shadow_radius,
+                0f
+            )
+            mShadowColor =
+                attributes.getColor(R.styleable.ShadowLayout_sl_shadow_color, 0)
+            mBackgroundColor = attributes.getColor(
                 R.styleable.ShadowLayout_sl_background_color,
-                Integer.MIN_VALUE
+                0
             )
-            attr.recycle()
+            mCornerRadius = attributes.getDimension(
+                R.styleable.ShadowLayout_sl_around_radius,
+                0f
+            )
+            attributes.recycle()
+        }
+
+        fun getXOffset(): Float {
+            return mDx
+        }
+
+        fun setXOffset(xOffset: Float) {
+            mDx = xOffset
+        }
+
+        fun getYOffset(): Float {
+            return mDy
+        }
+
+        fun setYOffset(yOffset: Float) {
+            mDy = yOffset
+        }
+
+        fun getShadowColor(): Int {
+            return mShadowColor
+        }
+
+        fun setShadowColor(mShadowColor: Int) {
+            this.mShadowColor = mShadowColor
+        }
+
+        fun getBackgroundColor(): Int {
+            return mBackgroundColor
+        }
+
+        fun setBackgroundColor(mBackgroundColor: Int) {
+            this.mBackgroundColor = mBackgroundColor
+        }
+
+        fun getShadowRadius(): Float {
+            return mShadowRadius
+        }
+
+        fun setShadowRadius(mShadowRadius: Float) {
+            this.mShadowRadius = mShadowRadius
+        }
+
+        fun getCornerRadius(): Float {
+            return mCornerRadius
+        }
+
+        fun setCornerRadius(mCornerRadius: Float) {
+            this.mCornerRadius = mCornerRadius
         }
     }
 
-    private fun createShadowBitmap(
-        shadowWidth: Int, shadowHeight: Int, cornerRadius: Float, shadowRadius: Float,
-        dx: Float, dy: Float, shadowColor: Int, fillColor: Int
-    ): Bitmap {
-        val output: Bitmap = Bitmap.createBitmap(shadowWidth, shadowHeight, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(output)
+    override fun generateLayoutParams(attrs: AttributeSet): LayoutParams {
+        return LayoutParams(this.context, attrs)
+    }
 
-        val shadowRect = RectF(
-            shadowRadius,
-            shadowRadius,
-            shadowWidth - shadowRadius,
-            shadowHeight - shadowRadius
+    override fun generateDefaultLayoutParams(): LayoutParams {
+        return LayoutParams(
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
         )
-
-        if (dy > 0) {
-            shadowRect.top += dy
-            shadowRect.bottom -= dy
-        } else if (dy < 0) {
-            shadowRect.top += abs(dy)
-            shadowRect.bottom -= abs(dy)
-        }
-
-        if (dx > 0) {
-            shadowRect.left += dx
-            shadowRect.right -= dx
-        } else if (dx < 0) {
-            shadowRect.left += abs(dx)
-            shadowRect.right -= abs(dx)
-        }
-
-        val paint = Paint()
-        paint.isAntiAlias = true
-        paint.color = fillColor
-        paint.style = Paint.Style.FILL
-
-        // 绘制阴影部分
-        paint.setShadowLayer(shadowRadius, dx, dy, shadowColor)
-        canvas.drawRoundRect(shadowRect, cornerRadius, cornerRadius, paint)
-
-        // 绘制内部部分
-        if (mBackgroundColor != Integer.MIN_VALUE) {
-            paint.clearShadowLayer()
-            paint.color = mBackgroundColor
-            val backgroundRect = RectF(
-                paddingLeft.toFloat(),
-                paddingTop.toFloat(),
-                (width - paddingRight).toFloat(),
-                (height - paddingBottom).toFloat()
-            )
-            canvas.drawRoundRect(backgroundRect, cornerRadius, cornerRadius, paint)
-        }
-
-        return output
     }
 
-
-    /**
-     *
-     */
-    fun setInvalidateShadowOnSizeChanged(invalidateShadowOnSizeChanged: Boolean) {
-        mInvalidateShadowOnSizeChanged = invalidateShadowOnSizeChanged
+    override fun generateLayoutParams(p: ViewGroup.LayoutParams): ViewGroup.LayoutParams {
+        return LayoutParams(p)
     }
 
-    /**
-     * 设置阴影无效
-     */
-    fun invalidateShadow() {
-        mForceInvalidateShadow = true
-        background = null
-        requestLayout()
+    override fun checkLayoutParams(p: ViewGroup.LayoutParams): Boolean {
+        return p is LayoutParams
     }
 
-    /**
-     * 设置背景色
-     */
-    fun setShadowBackgroundColor(@ColorRes color:Int){
-        background = null
-        mBackgroundColor = ContextCompat.getColor(context,color)
-        requestLayout()
+    init {
+        setWillNotDraw(false)
+        setLayerType(LAYER_TYPE_SOFTWARE, null)
     }
-
 }

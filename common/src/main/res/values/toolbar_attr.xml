@@ -111,16 +111,9 @@
 
         <!-- 底部分割线是否可见,默认true -->
         <attr name="ct_bottom_divider_visible" format="boolean" />
-        <!-- 底部分割线颜色,如果分割线不可见(或者ct_bottom_divider_style = SHADOW)则此属性无效 -->
+        <!-- 底部分割线颜色,如果分割线不可见则此属性无效 -->
         <attr name="ct_bottom_divider_color" format="color|reference" />
-        <!-- 底部shadow颜色(推荐颜色值必须是8位,即有alpha),默认#26000000,如果分割线不可见(或者ct_bottom_divider_style = LINE)则此属性无效 -->
-        <attr name="ct_bottom_shadow_color" format="color|reference" />
-        <!-- 底部分割线样式,SHADOW(阴影效果),默认值; LINE(分割线效果),如果分割线不可见则此属性无效-->
-        <attr name="ct_bottom_divider_style" format="enum">
-            <enum name="SHADOW" value="1" />
-            <enum name="LINE" value="2" />
-        </attr>
-           <!-- 背景色,默认白色,如果设置了ct_bottom_divider_style = SHADOW会导致xml中设置android:background失效,如果需要背景色,则根据需要设置 -->
+           <!-- 背景色,默认白色,如果设置了阴影则使用 layout_background_color,否则使用下面属性设置背景色 -->
         <attr name="ct_background_color" format="color|reference" />
     </declare-styleable>
 </resources>

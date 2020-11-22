@@ -82,7 +82,7 @@ class LazyFragment : BaseFragment() {
             if (1 == mPage) {
                 mData.clear()
             }
-            mData.addAll(it.subList(0, 3))
+            mData.addAll(it)
             rv_list.adapter?.notifyDataSetChanged()
         })
     }

@@ -819,7 +819,6 @@ PS: 一般右侧显示一个文本按钮(或者2个图标按钮,或者更多按�
         app:ct_right_mav_right_margin="@dimen/padding_2"
         app:ct_right_mav_visible="true"
         app:ct_right_mav_width="@dimen/width_40"
-        app:ct_bottom_divider_style="LINE"
         app:ct_bottom_divider_color="@color/color_666666"
         />
 ```
@@ -875,10 +874,8 @@ PS: 一般右侧显示一个文本按钮(或者2个图标按钮,或者更多按�
 | ct_right_mav_dot_radius          | dimension\|integer | 右侧更多按钮大小,圆点半径,默认2dp                            |
 | ct_right_mav_orientation         | enum               | 右侧更多按钮排列方向，水平或垂直, horizontal(水平),vertical(垂直), 默认垂直 |
 | ct_bottom_divider_visible        | boolean            | 底部分割线是否可见, 默认true                                 |
-| ct_bottom_divider_color          | color\|reference   | 底部分割线颜色,如果分割线不可见(或者ct_bottom_divider_style = SHADOW)则此属性无效 |
-| ct_bottom_shadow_color           | color\|reference   | 底部shadow颜色(推荐颜色值必须是8位,即有alpha),默认#26000000,如果分割线不可见(或者ct_bottom_divider_style = LINE)则此属性无效 |
-| ct_bottom_divider_style          | enum               | 底部分割线样式,SHADOW(阴影效果),默认值; LINE(分割线效果),如果分割线不可见则此属性无效 |
-| ct_background_color              | color\|reference   | 背景色,默认白色,如果设置了ct_bottom_divider_style = SHADOW会导致xml中设置android:background失效,如果需要背景色,则根据需要设置 |
+| ct_bottom_divider_color          | color\|reference   | 底部分割线颜色,底部分割线颜色,如果分割线不可见则此属性无效 |
+| ct_background_color              | color\|reference   | 背景色,默认白色,如果设置了阴影则使用 layout_background_color,否则使用下面属性设置背景色 |
 
 ## **公共方法:**
 
@@ -1634,16 +1631,36 @@ PS: ==一张图也需要设置适配器==
 具体参考:  cn.lvsong.lib.demo.CustomActivity3
 
 ```xml
-    <cn.lvsong.lib.library.view.ShadowLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/padding_20"
-        app:sl_background_color="@color/color_E95C5B5B"
-        app:sl_layout_radius="@dimen/padding_10"
-        app:sl_offset_x="0dp"
-        app:sl_offset_y="5dp"
-        app:sl_shadow_color="@color/color_29b1b6d1"
-        app:sl_shadow_radius="@dimen/padding_12">
+        <cn.lvsong.lib.library.view.ShadowLayout
+            android:id="@+id/sl_container_mobile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_20">
+
+            <cn.lvsong.lib.library.view.CustomMenu
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_45"
+                android:layout_margin="@dimen/padding_10"
+                app:cm_left_image_visible="false"
+                app:cm_left_text_color="@android:color/holo_red_light"
+                app:cm_left_text_info="ShadowLayout阴影效果"
+                app:cm_left_text_size="@dimen/text_size_16"
+                app:cm_right_arrow_visible="false"
+                app:cm_right_text_color="@color/color_666666"
+                app:cm_right_text_info="ShadowLayout"
+                app:cm_right_text_visible="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:sl_around_radius="@dimen/padding_5"
+                app:sl_background_color="@color/color_FFFFFF"
+                app:sl_offset_x="0dp"
+                app:sl_offset_y="@dimen/padding_2"
+                app:sl_shadow_color="@color/color_9AA3A3A3"
+                app:sl_shadow_radius="@dimen/padding_5" />
+
+        </cn.lvsong.lib.library.view.ShadowLayout>
 
 ```
 
@@ -1653,12 +1670,12 @@ PS: ==一张图也需要设置适配器==
 
 | 属性名称            | 取值类型         | 取值和作用                                                   |
 | ------------------- | ---------------- | ------------------------------------------------------------ |
-| sl_shadow_color     | color            | 阴影颜色,默认颜色 #22000000,==注意颜色值必须是8位,即有alpha== |
-| sl_background_color | color            | 背景颜色,默认Integer.MIN_VALUE                               |
+| sl_shadow_color     | color            | 阴影颜色,默认无 |
+| sl_background_color | color            | 背景颜色,默认无                               |
 | sl_offset_x         | dimension\|float | 阴影水平偏移,默认0                                           |
 | sl_offset_y         | dimension\|float | 阴影垂直偏移,默认0                                           |
 | sl_shadow_radius    | dimension\|float | 阴影圆角,默认0                                               |
-| sl_layout_radius    | dimension\|float | ShadowLayout圆角,默认0                                       |
+| sl_around_radius    | dimension\|float | 子控件四周圆角大小,默认0                                      |
 
 
 
@@ -2049,6 +2066,37 @@ setContentView(setContentView)
 
 
 
+
+# VoiceAnimView
+
+## **用法:**
+
+```xml
+    <cn.lvsong.lib.library.view.VoiceAnimView
+        android:id="@+id/vav_test"
+        android:layout_width="@dimen/width_30"
+        android:layout_height="@dimen/height_30"
+        android:layout_margin="@dimen/padding_20"
+        android:rotation="90" />
+```
+
+
+## **属性介绍:**
+
+| 属性名称          | 取值类型 | 取值和作用                 |
+| ----------------- | -------- | -------------------------- |
+| vav_arc_count     | integer  | 弧形线条数量,默认3条       |
+| vav_normal_color  | color    | 正常颜色, 默认值 #c9c9c9   |
+| vav_checked_color | color    | 选中颜色, 默认值 #4b4b4b   |
+| vav_anim_duration | integer  | 动画执行时间,默认 2000毫秒 |
+
+## **公共方法:**
+
+| 方法名称               | 作用                                         |
+| ---------------------- | -------------------------------------------- |
+| setStyle(style: Style) | 设置样式,Style.ROUND(圆角), Style.RECT(直角) |
+| startAnim()            | 开启动画                                     |
+| stopAnim()             | 结束动画                                     |
 
 
 

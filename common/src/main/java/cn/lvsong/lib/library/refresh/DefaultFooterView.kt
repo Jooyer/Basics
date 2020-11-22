@@ -20,7 +20,7 @@ import cn.lvsong.lib.library.R
 open class DefaultFooterView(context: Context) : LinearLayout(context), IFooterWrapper {
 
     private var tvHeaderTip: TextView? = null
-    private var cvLoading: ChrysanthemumView? = null
+    private var cvLoading: View? = null
     private var guideline: Guideline?=null
 
     init {
@@ -29,10 +29,10 @@ open class DefaultFooterView(context: Context) : LinearLayout(context), IFooterW
 
     private fun initView() {
         val view = LayoutInflater.from(context).inflate(R.layout.footer_default, this, false)
-        cvLoading = view.findViewById<ChrysanthemumView>(R.id.cv_loading)
-        tvHeaderTip = view.findViewById<TextView>(R.id.tv_tip)
-        guideline = view.findViewById<Guideline>(R.id.gl_center_line)
-        val params = LinearLayout.LayoutParams(
+        cvLoading = view.findViewById(R.id.cv_loading)
+        tvHeaderTip = view.findViewById(R.id.tv_tip)
+        guideline = view.findViewById(R.id.gl_center_line)
+        val params = LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
             getLoadHeight()
         )

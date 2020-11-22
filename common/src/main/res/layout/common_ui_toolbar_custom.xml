@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cl_toolbar_container"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/height_50"
+    android:layout_height="match_parent"
     >
 
     <cn.lvsong.lib.library.view.BackArrowView

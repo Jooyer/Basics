@@ -54,18 +54,19 @@
         android:layout_margin="@dimen/padding_20"
         android:textColor="@color/color_333333"
         android:textSize="@dimen/text_size_14"
-        app:etv_switch_mode="ICON"
-        app:etv_collapse_text_color="@color/color_FF2121"
-        app:etv_expand_text_color="@color/main_theme_color"
         app:etv_collapse_drawable="@mipmap/ic_gray_down_arrow"
-        app:etv_expand_drawable="@mipmap/ic_gray_up_arrow" />
+        app:etv_collapse_text_color="@color/color_FF2121"
+        app:etv_expand_drawable="@mipmap/ic_gray_up_arrow"
+        app:etv_expand_text_color="@color/main_theme_color"
+        app:etv_switch_mode="ICON" />
 
 
-       <cn.lvsong.lib.library.view.VoiceAnimView
-           android:layout_width="@dimen/width_30"
-           android:layout_height="@dimen/height_30"
-           android:layout_margin="@dimen/padding_20"
-           android:rotation="90"
-           />
+    <cn.lvsong.lib.library.view.VoiceAnimView
+        android:id="@+id/vav_test"
+        android:layout_width="@dimen/width_30"
+        android:layout_height="@dimen/height_30"
+        android:layout_margin="@dimen/padding_20"
+        android:rotation="90" />
+
 
 </LinearLayout>

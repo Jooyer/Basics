@@ -155,9 +155,8 @@
             app:ct_right_mav_visible="true"
             app:ct_right_text_color="@color/main_theme_color"
             app:ct_right_text_info="分享"
-            app:ct_right_text_visible="true"
             app:ct_right_text_right_margin="@dimen/padding_40"
-            />
+            app:ct_right_text_visible="true" />
 
         <cn.lvsong.lib.library.view.CustomToolbar
             android:id="@+id/ct_8"
@@ -183,9 +182,8 @@
             android:layout_height="@dimen/height_50"
             android:layout_marginTop="@dimen/padding_10"
             app:ct_bottom_divider_color="@color/color_666666"
-            app:ct_bottom_divider_style="LINE"
             app:ct_center_text_color="@color/color_333333"
-            app:ct_center_text_info="将底部分割线style改为line,通过margin处理重叠"
+            app:ct_center_text_info="显示底部分割线,通过margin处理重叠"
             app:ct_center_text_size="@dimen/text_size_12"
             app:ct_left_arrow_color="@color/color_2878FF"
             app:ct_left_arrow_height="@dimen/height_50"
@@ -210,10 +208,9 @@
             android:layout_height="@dimen/height_50"
             android:layout_marginTop="@dimen/padding_10"
             app:ct_bottom_divider_color="@android:color/holo_red_light"
-            app:ct_bottom_divider_style="LINE"
             app:ct_bottom_divider_visible="true"
             app:ct_center_text_color="@color/color_333333"
-            app:ct_center_text_info="将底部分割线style改为line并设置分割线颜色"
+            app:ct_center_text_info="显示底部分割线并设置分割线颜色"
             app:ct_center_text_size="@dimen/text_size_16" />
 
         <cn.lvsong.lib.library.view.CustomToolbar
@@ -231,26 +228,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_50"
             android:layout_marginTop="@dimen/padding_10"
-            app:ct_background_color="@color/main_theme_color"
             app:ct_bottom_divider_color="@color/color_666666"
-            app:ct_bottom_divider_style="SHADOW"
-            app:ct_center_text_color="@color/color_FFFFFF"
-            app:ct_center_text_info="将底部分割线style改为shadow并设置背景色"
-            app:ct_center_text_size="@dimen/text_size_16"
-            app:ct_left_arrow_color="@color/color_FFFFFF"
-            app:ct_left_arrow_height="@dimen/height_50"
-            app:ct_left_arrow_padding="@dimen/padding_3"
-            app:ct_left_arrow_style="material_design"
-            app:ct_left_arrow_width="@dimen/width_40" />
-
-
-        <cn.lvsong.lib.library.view.CustomToolbar
-            android:id="@+id/ct_13"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/height_50"
-            android:layout_marginTop="@dimen/padding_10"
-            app:ct_bottom_divider_color="@color/color_666666"
-            app:ct_bottom_divider_style="SHADOW"
             app:ct_center_text_info="设置右侧2个图片为选中与非选中"
             app:ct_center_text_size="@dimen/text_size_16"
             app:ct_left_arrow_height="@dimen/height_50"
@@ -265,6 +243,34 @@
             app:ct_right_image_drawable="@drawable/normal"
             app:ct_right_image_drawable_checked="@drawable/select"
             app:ct_right_image_visible="true" />
+
+        <cn.lvsong.lib.library.view.ShadowLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <cn.lvsong.lib.library.view.CustomToolbar
+                android:id="@+id/ct_13"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_50"
+                android:layout_marginBottom="@dimen/padding_5"
+                app:ct_bottom_divider_visible="false"
+                app:ct_center_text_color="@color/color_FF2121"
+                app:ct_center_text_info="底部显示shadow不再需要显示分割线"
+                app:ct_center_text_size="@dimen/text_size_16"
+                app:ct_left_arrow_color="@color/color_FF2121"
+                app:ct_left_arrow_height="@dimen/height_50"
+                app:ct_left_arrow_padding="@dimen/padding_3"
+                app:ct_left_arrow_style="material_design"
+                app:ct_left_arrow_width="@dimen/width_40"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:sl_background_color="@color/color_FFFFFF"
+                app:sl_shadow_color="@color/color_26000000"
+                app:sl_shadow_radius="@dimen/padding_5" />
+
+        </cn.lvsong.lib.library.view.ShadowLayout>
 
     </LinearLayout>
 
