@@ -27,6 +27,12 @@ class StatusConfig {
     private var mDarkModel = 1
 
     /**
+     * 当需要将根布局下移时,可以设置此值
+     */
+    private var mTransY: Int = 0
+
+
+    /**
      * 设置全局状态栏颜色
      */
     @ColorRes
@@ -89,5 +95,18 @@ class StatusConfig {
     }
 
     fun  getDarkModel() = mDarkModel
+
+
+    /**
+     * 当 Activity / Fragment 存在 Toolbar 时,需将StatusManager往下移动 Toolbar高度
+     * 注意:单位是 dp
+     */
+    fun setTranslateY(transY: Int): StatusConfig {
+        mTransY = transY
+        return this
+    }
+
+    fun getTranslateY() = mTransY
+
 
 }

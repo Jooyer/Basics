@@ -115,6 +115,10 @@ class StatusManager(builder: Builder) {
     @ColorRes
     var mLoadingViewBackgroundColor = -1
 
+    fun setTransY(transY: Int) {
+        mRootFrameLayout.setTransY(transY)
+    }
+
     /**
      * 显示loading
      */
@@ -272,6 +276,7 @@ class StatusManager(builder: Builder) {
             mLoadingViewBackgroundColor = bgColor
             return this
         }
+
 
         fun delayTime(delayTime: Long): Builder {
             this.delayTime = delayTime

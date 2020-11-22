@@ -62,27 +62,27 @@ class CustomEditMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
     /**
      * 最左侧图标
      */
-    private lateinit var iv_left_icon_menu: ImageView
+     lateinit var iv_left_icon_menu: ImageView
 
     /**
      * 紧挨着左侧图标的文本
      */
-    private lateinit var tv_left_name_menu: TextView
+     lateinit var tv_left_name_menu: TextView
 
     /**
      * 输入框
      */
-    private lateinit var et_right_name_menu: FixedCursorEditText
+     lateinit var et_right_name_menu: FixedCursorEditText
 
     /**
      * 最右侧图标(一般是向右箭头 →)
      */
-    private lateinit var iv_right_icon_menu: ImageView
+     lateinit var iv_right_icon_menu: ImageView
 
     /**
      * 底部分割线
      */
-    private lateinit var view_bottom_divider_menu: View
+     lateinit var view_bottom_divider_menu: View
 
     constructor(context: Context, attr: AttributeSet) : this(context, attr, 0)
 

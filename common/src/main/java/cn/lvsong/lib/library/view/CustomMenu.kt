@@ -79,22 +79,22 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
     /**
      * 最左侧图标
      */
-    private lateinit var iv_left_icon_menu: ImageView
+    lateinit var iv_left_icon_menu: ImageView
 
     /**
      * 紧挨着左侧图标的文本
      */
-    private lateinit var tv_left_name_menu: TextView
+    lateinit var tv_left_name_menu: TextView
 
     /**
      * 紧挨着右侧的文本(与 紧挨着右侧的图片 只显示一种)
      */
-    private lateinit var tv_right_name_menu: TextView
+    lateinit var tv_right_name_menu: TextView
 
     /**
      * 紧挨着右侧的图片(与 紧挨着右侧的文本 只显示一种)
      */
-    private lateinit var iv_near_right_icon_menu: ImageView
+    lateinit var iv_near_right_icon_menu: ImageView
 
     /**
      * 最右侧图标(一般是向右箭头 →)

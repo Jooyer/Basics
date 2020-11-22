@@ -96,6 +96,7 @@ abstract class BaseFragment : Fragment(),
             .setLoadingViewBackgroundColor(if (-1 == getLoadingViewBackgroundColor()) StatusConfig.INSTANCE.getLoadingViewBackgroundColor() else getLoadingViewBackgroundColor())
             .onRetryListener(this)
             .build()
+        mStatusManager?.setTransY(if (-1 == getTransY()) StatusConfig.INSTANCE.getTranslateY() else getTransY())
         return mStatusManager?.getRootLayout()!!
     }
 
@@ -184,6 +185,18 @@ abstract class BaseFragment : Fragment(),
     open fun bindEvent() {
 
     }
+
+    /**
+     *  当 Activity / Fragment 存在 Toolbar 时,需将StatusManager往下移动 Toolbar高度
+     *  可以使用全局配置
+     *  {@link cn.lvsong.lib.ui.mvp.StatusConfig }
+     *  如果全局不合适,可以重写下面方法
+     *  PS: 注意,返回的是 dp
+     */
+    open fun getTransY(): Int {
+        return -1
+    }
+
 
     /**
      * 设置LoadingView背景色

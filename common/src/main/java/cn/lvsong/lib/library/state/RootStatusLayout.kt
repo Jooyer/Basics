@@ -14,6 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import cn.lvsong.lib.library.R
 import cn.lvsong.lib.library.listener.OnClickFastListener
+import cn.lvsong.lib.library.utils.DensityUtil
 import cn.lvsong.lib.library.utils.ScreenUtils
 
 
@@ -66,14 +67,18 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
     private lateinit var mStatusLayoutManager: StatusManager
 
     /**
-     * 根据实现了StatusProvider的控件高度计算,需要将 Loading,Error等布局下移
+     * 当 Activity / Fragment 存在 Toolbar 时,需将StatusManager往下移动 Toolbar高度
      */
-    private var mOffsetY = 0
+    private var mTransY = 0
 
     /**
      * 点击重试按钮回调
      */
     private var onRetryListener: OnRetryListener? = null
+
+    fun setTransY(transY: Int) {
+        mTransY = DensityUtil.dp2pxRtInt(transY)
+    }
 
     fun setStatusManager(manager: StatusManager) {
         mStatusLayoutManager = manager
@@ -233,7 +238,7 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
                     if (layoutId == key) {   // 显示该 View
                         value.visibility = View.VISIBLE
                         val param = value.layoutParams as LayoutParams
-                        param.topMargin = mOffsetY
+                        param.topMargin = mTransY
                         value.layoutParams = param
                     } else if (View.VISIBLE == value.visibility) {
                         value.animate()
@@ -253,7 +258,7 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
                     if (layoutId == key) {   // 显示该 View
                         value.visibility = View.VISIBLE
                         val param = value.layoutParams as LayoutParams
-                        param.topMargin = mOffsetY
+                        param.topMargin = mTransY
                         value.layoutParams = param
                     } else {
                         value.visibility = View.GONE
@@ -263,7 +268,7 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
                     if (layoutId == key) {   // 显示该 View
                         value.visibility = View.VISIBLE
                         val param = value.layoutParams as LayoutParams
-                        param.topMargin = mOffsetY
+                        param.topMargin = mTransY
                         value.layoutParams = param
                     } else {
                         value.visibility = View.GONE
@@ -273,7 +278,7 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
                     if (layoutId == key) {   // 显示该 View
                         value.visibility = View.VISIBLE
                         val param = value.layoutParams as LayoutParams
-                        param.topMargin = mOffsetY
+                        param.topMargin = mTransY
                         value.layoutParams = param
                     } else {
                         value.visibility = View.GONE
