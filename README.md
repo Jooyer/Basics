@@ -1639,7 +1639,7 @@ PS: ==一张图也需要设置适配器==
 
 ```xml
         <cn.lvsong.lib.library.view.ShadowLayout
-            android:id="@+id/sl_container_mobile"
+            android:id="@+id/layout_container_mobile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_20">
@@ -1660,12 +1660,12 @@ PS: ==一张图也需要设置适配器==
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:sl_around_radius="@dimen/padding_5"
-                app:sl_background_color="@color/color_FFFFFF"
-                app:sl_offset_x="0dp"
-                app:sl_offset_y="@dimen/padding_2"
-                app:sl_shadow_color="@color/color_9AA3A3A3"
-                app:sl_shadow_radius="@dimen/padding_5" />
+                app:layout_around_radius="@dimen/padding_5"
+                app:layout_background_color="@color/color_FFFFFF"
+                app:layout_offset_x="0dp"
+                app:layout_offset_y="@dimen/padding_2"
+                app:layout_shadow_color="@color/color_9AA3A3A3"
+                app:layout_shadow_radius="@dimen/padding_5" />
 
         </cn.lvsong.lib.library.view.ShadowLayout>
 
@@ -1677,12 +1677,12 @@ PS: ==一张图也需要设置适配器==
 
 | 属性名称            | 取值类型         | 取值和作用                                                   |
 | ------------------- | ---------------- | ------------------------------------------------------------ |
-| sl_shadow_color     | color            | 阴影颜色,默认无 |
-| sl_background_color | color            | 背景颜色,默认无                               |
-| sl_offset_x         | dimension\|float | 阴影水平偏移,默认0                                           |
-| sl_offset_y         | dimension\|float | 阴影垂直偏移,默认0                                           |
-| sl_shadow_radius    | dimension\|float | 阴影圆角,默认0                                               |
-| sl_around_radius    | dimension\|float | 子控件四周圆角大小,默认0                                      |
+| layout_shadow_color     | color            | 阴影颜色,默认无 |
+| layout_background_color | color            | 背景颜色,默认无                               |
+| layout_offset_x         | dimension\|float | 阴影水平偏移,默认0                                           |
+| layout_offset_y         | dimension\|float | 阴影垂直偏移,默认0                                           |
+| layout_shadow_radius    | dimension\|float | 阴影圆角,默认0                                               |
+| layout_around_radius    | dimension\|float | 子控件四周圆角大小,默认0                                      |
 
 
 

@@ -81,9 +81,9 @@ import cn.lvsong.lib.library.R
           app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintTop_toTopOf="parent"
           // 下面三个是阴影属性,颜色和半径可以自定义
-          app:sl_background_color="@color/color_FFFFFF"
-          app:sl_shadow_color="@color/color_26000000"
-          app:sl_shadow_radius="@dimen/padding_5"
+          app:layout_background_color="@color/color_FFFFFF"
+          app:layout_shadow_color="@color/color_26000000"
+          app:layout_shadow_radius="@dimen/padding_5"
 
 
  */

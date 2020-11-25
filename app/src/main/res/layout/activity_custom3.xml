@@ -120,16 +120,16 @@
                 app:cm_right_text_color="@color/color_666666"
                 app:cm_right_text_info="ShadowLayout"
                 app:cm_right_text_visible="true"
+                app:layout_around_radius="@dimen/padding_5"
+                app:layout_background_color="@color/color_FFFFFF"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:sl_around_radius="@dimen/padding_5"
-                app:sl_background_color="@color/color_FFFFFF"
-                app:sl_offset_x="0dp"
-                app:sl_offset_y="@dimen/padding_2"
-                app:sl_shadow_color="@color/color_9AA3A3A3"
-                app:sl_shadow_radius="@dimen/padding_5" />
+                app:layout_offset_x="0dp"
+                app:layout_offset_y="@dimen/padding_2"
+                app:layout_shadow_color="@color/color_9AA3A3A3"
+                app:layout_shadow_radius="@dimen/padding_5" />
 
         </cn.lvsong.lib.library.view.ShadowLayout>
 
@@ -145,17 +145,16 @@
                 android:text="X轴Y轴没有偏移的效果"
                 android:textColor="@color/color_FFFFFF"
                 android:textSize="@dimen/text_size_20"
+                app:layout_around_radius="@dimen/padding_8"
+                app:layout_background_color="@color/color_FF2121"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:sl_background_color="@color/color_FF2121"
-                app:sl_around_radius="@dimen/padding_8"
-                app:sl_offset_x="0dp"
-                app:sl_offset_y="0dp"
-                app:sl_shadow_color="#FF3D00"
-                app:sl_shadow_radius="@dimen/padding_8"
-                />
+                app:layout_offset_x="0dp"
+                app:layout_offset_y="0dp"
+                app:layout_shadow_color="#FF3D00"
+                app:layout_shadow_radius="@dimen/padding_8" />
 
         </cn.lvsong.lib.library.view.ShadowLayout>
 

@@ -4,6 +4,29 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 
+/**
+ * LiveData 实现事件总线
+ */
+
+/*
+
+    val EVENT_KEY_COLLECT_SUCCESS = "EVENT_KEY_COLLECT_SUCCESS"
+
+
+// 监听
+        LiveBus.INSTANCE.with<Int>(CONSTANTS.EVENT_KEY_COLLECT_SUCCESS)
+            .observe(this, Observer {
+                mCollectChanged = true
+            })
+
+
+// 发送事件
+        LiveBus.INSTANCE.with<Int>(CONSTANTS.EVENT_KEY_COLLECT_SUCCESS).setValue(200)
+
+
+ */
+
+
 class LiveBus private constructor() {
 
     private val mBusMap by lazy {

@@ -60,7 +60,7 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
     /**
      * 恢复时移动时间
      */
-    private float mScrollerMoveTime = 800F;
+    private float mScrollerMoveTime = 1500F;
     /**
      * Fling时 速度界限,低于这个且达到刷新/加载距离,则可以刷新
      */
@@ -605,7 +605,7 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
             invalidate();
         } else if (0 != getScrollY()) {
 //            Log.e("NestedRefreshLayout", "onStopNestedScroll=====5");
-            mScroller.startScroll(0, getScrollY(), 0, -getScrollY(), getScrollY() > 0 ? calculateBottomScrollTime(getScrollY())  : calculateTopScrollTime(-getScrollY()));
+            mScroller.startScroll(0, getScrollY(), 0, -getScrollY(), getScrollY() > 0 ? calculateBottomScrollTime(getScrollY()) : calculateTopScrollTime(-getScrollY()));
 //            mScroller.startScroll(0, getScrollY(), 0, -getScrollY(), 100);
             invalidate();
         }
@@ -978,7 +978,7 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
         // 这里是为了改变自动刷新时默认显示文本,否则会显示下拉刷新
         updateStatus(RefreshState.HEADER_AUTO);
         int duration = calculateTopScrollTime(mHeaderViewHeight);
-        mScroller.startScroll(0, getScrollY(), 0, -mHeaderViewHeight, duration);
+        mScroller.startScroll(0, getScrollY(), 0, -mHeaderViewHeight, duration * 2);
         invalidate();
         postDelayed(autoRefreshAction, duration);
     }

@@ -19,9 +19,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:sl_background_color="@color/color_FFFFFF"
-        app:sl_shadow_color="@color/color_26000000"
-        app:sl_shadow_radius="@dimen/padding_5" />
+        app:layout_background_color="@color/color_FFFFFF"
+        app:layout_shadow_color="@color/color_26000000"
+        app:layout_shadow_radius="@dimen/padding_5" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/acb_tips1"

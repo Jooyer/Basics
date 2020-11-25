@@ -62,7 +62,7 @@ public class UnNestedRefreshLayout extends ViewGroup {
     /**
      * 恢复时移动时间
      */
-    private float mScrollerMoveTime = 800F;
+    private float mScrollerMoveTime = 1500F;
     /**
      * HeaderView 滑动距离
      */
@@ -912,7 +912,7 @@ public class UnNestedRefreshLayout extends ViewGroup {
         // 这里是为了改变自动刷新时默认显示文本,否则会显示下拉刷新
         updateStatus(RefreshState.HEADER_AUTO);
         int duration = calculateTopScrollTime(mHeaderViewHeight);
-        mScroller.startScroll(0, getScrollY(), 0, -mHeaderViewHeight, duration);
+        mScroller.startScroll(0, getScrollY(), 0, -mHeaderViewHeight, duration * 2);
         invalidate();
         postDelayed(autoRefreshAction, duration);
     }

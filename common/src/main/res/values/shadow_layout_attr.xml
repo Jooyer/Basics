@@ -2,16 +2,16 @@
 <resources>
     <declare-styleable name="ShadowLayout">
         <!--  阴影颜色,默认无  -->
-        <attr name="sl_shadow_color" format="color" />
+        <attr name="layout_shadow_color" format="color" />
         <!--  背景颜色,默认无  -->
-        <attr name="sl_background_color" format="color" />
+        <attr name="layout_background_color" format="color" />
         <!--  阴影水平偏移,默认0  -->
-        <attr name="sl_offset_x" format="dimension|float" />
+        <attr name="layout_offset_x" format="dimension|float" />
         <!--  阴影垂直偏移,默认0  -->
-        <attr name="sl_offset_y" format="dimension|float" />
+        <attr name="layout_offset_y" format="dimension|float" />
         <!--  阴影圆角大小,控制阴影厚度,越大阴影越厚,默认0  -->
-        <attr name="sl_shadow_radius" format="dimension|float" />
+        <attr name="layout_shadow_radius" format="dimension|float" />
         <!--  子控件四周圆角大小,默认0  -->
-        <attr name="sl_around_radius" format="dimension|float" />
+        <attr name="layout_around_radius" format="dimension|float" />
     </declare-styleable>
 </resources>
