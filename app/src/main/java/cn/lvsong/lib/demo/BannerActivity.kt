@@ -1,7 +1,6 @@
 package cn.lvsong.lib.demo
 
 import android.os.Bundle
-import android.text.Layout
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatTextView
@@ -14,7 +13,6 @@ import cn.lvsong.lib.library.adapter.ViewHolder
 import cn.lvsong.lib.library.banner.BannerLayout
 import cn.lvsong.lib.library.banner.OnPositionChangeListener
 import cn.lvsong.lib.library.utils.DensityUtil
-import cn.lvsong.lib.library.utils.ScreenUtils
 import kotlinx.android.synthetic.main.activity_banner.*
 
 /**

@@ -59,9 +59,9 @@ object ScreenShotUtils {
         val file = FileUtil.newFile(FileUtil.SCREEN_SHOT_NAME)
         val decorView = activity.window.decorView
         val statusBarHeight = StatusBarUtil.getStatusBarHeight(activity)
-        val realWidth = ScreenUtils.getRealWidth(activity)
+        val realWidth = DensityUtil.getRealWidth(activity)
         // ScreenUtils.getRealHeight() 只是减去底部导航栏的高度...
-        val realHeight = ScreenUtils.getRealHeight(activity) - statusBarHeight
+        val realHeight = DensityUtil.getScreenHeight(activity) - statusBarHeight
 //        println("screenShot==========realWidth: $realWidth  --> realHeight: $realHeight  --> statusBarHeight: $statusBarHeight")
         decorView.isDrawingCacheEnabled = true
         decorView.buildDrawingCache()

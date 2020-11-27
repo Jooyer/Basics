@@ -2,15 +2,15 @@ package cn.lvsong.lib.library.utils
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.Rect
 import android.os.Build
-import android.view.View
-import android.view.ViewGroup
-import android.view.Window
-import android.view.WindowManager
+import android.util.Log
+import android.view.*
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+
 
 /**
  * Desc: https://blog.csdn.net/smileiam/article/details/73603840
@@ -25,7 +25,7 @@ object StatusBarUtil {
      * @param fitsSystemWindows --> true, 则内容不延伸到 StatusBar 内部
      */
     fun transparentStatusBar(
-        activity: AppCompatActivity,
+        activity: Activity,
         @ColorRes statusBarColor: Int,
         fitsSystemWindows: Boolean
     ) {
@@ -61,15 +61,6 @@ object StatusBarUtil {
     }
 
     /**
-     * 获取状态栏高度
-     */
-    fun getStatusBarHeight(activity: AppCompatActivity): Int {
-        val statusBarHeightDimenId =
-            activity.resources.getIdentifier("status_bar_height", "dimen", "android")
-        return activity.resources.getDimensionPixelSize(statusBarHeightDimenId)
-    }
-
-    /**
      * 更改状态栏颜色
      */
     fun changeStatusBarColor(activity: AppCompatActivity, @ColorRes colorRes: Int) {
@@ -79,7 +70,7 @@ object StatusBarUtil {
     /**
      * 更改状态栏颜色
      */
-    fun changeStatusBarColorII(activity: AppCompatActivity, @ColorInt colorId: Int) {
+    fun changeStatusBarColorII(activity: Activity, @ColorInt colorId: Int) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             activity.window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             activity.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
@@ -91,7 +82,7 @@ object StatusBarUtil {
      * 改变状态栏颜色
      * @param dark --> true表示黑暗模式,则状态栏文字为白色,反之黑色
      */
-    fun changeStatusTextColor(activity: AppCompatActivity, dark: Boolean) {
+    fun changeStatusTextColor(activity: Activity, dark: Boolean) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (dark) {
                 activity.window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -131,8 +122,18 @@ object StatusBarUtil {
      * @return 状态栏高度
      */
     fun getStatusBarHeight(context: Context): Int {
-        // 获得状态栏高度
         val resourceId = context.resources.getIdentifier("status_bar_height", "dimen", "android")
+        return context.resources.getDimensionPixelSize(resourceId)
+    }
+
+    /**
+     * 获取 NavigationBar 的高度
+     */
+    fun getNavigationBarHeight(context: Context): Int {
+        val resourceId = context.resources.getIdentifier(
+            "navigation_bar_height",
+            "dimen", "android"
+        )
         return context.resources.getDimensionPixelSize(resourceId)
     }
 
@@ -161,7 +162,10 @@ object StatusBarUtil {
     }
 
 
-    // https://www.cnblogs.com/muhuacat/p/7447484.html
+    /**
+     * https://www.cnblogs.com/muhuacat/p/7447484.html
+     *  隐藏底部虚拟导航键
+     */
     fun hideNavigationBar(activity: Activity) {
         val decorView = activity.window.decorView
         val uiOptions = (View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
@@ -169,6 +173,9 @@ object StatusBarUtil {
         decorView.systemUiVisibility = uiOptions
     }
 
+    /**
+     *  显示底部虚拟导航键
+     */
     fun showNavigationBar(activity: Activity) {
         val decorView = activity.window.decorView
         val uiOptions = View.SYSTEM_UI_FLAG_VISIBLE
@@ -176,36 +183,31 @@ object StatusBarUtil {
     }
 
     /**
-     * 设置状态栏透明
-     * https://blog.csdn.net/weixin_39947864/article/details/81906140 (详细 )
-     * https://www.jb51.net/article/111936.htm
-     *
+     * 设置状态栏透明,官网方法
+     * https://developer.android.com/training/system-ui/status?hl=zh-cn
      * @param activity
-     * @param show
      */
-    @Deprecated("无效")
-    fun setStatusBarVisible(activity: Activity, show: Boolean) {
-        if (show) {
-            var uiFlags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-            uiFlags = uiFlags and 0x00001000
-            activity.window.decorView.systemUiVisibility = uiFlags
-        } else {
-            var uiFlags = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    and View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    * View.SYSTEM_UI_FLAG_FULLSCREEN)
-            uiFlags = uiFlags and 0x00001000
-            activity.window.decorView.systemUiVisibility = uiFlags
-        }
+    fun setStatusBarTransparent(activity: Activity) {
+        val decorView: View = activity.window.decorView
+        // Hide the status bar
+        val uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        decorView.systemUiVisibility = uiOptions
+        activity.window.statusBarColor = ContextCompat.getColor(activity, android.R.color.transparent)
     }
 
     /**
-     * 显示隐藏状态栏，全屏不变，只在有全屏时有效
+     * 显示/隐藏状态栏，全屏不变，只在有全屏时有效
      *    requestWindowFeature(Window.FEATURE_NO_TITLE), window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
      *    在 setContentView() 之前调用上面方法设置全屏
-     * @param enable --> true 表示显示状态栏文字, false 不显示状态栏文字
+     * @param enable --> true 表示显示状态栏, false 不显示状态栏
+     * @param statusColor --> 状态栏颜色,默认白色
      */
-    fun setStatusBarVisibility(activity: Activity, enable: Boolean) {
-        setStatusBarColor(activity, ContextCompat.getColor(activity, android.R.color.white))
+    fun setStatusBarVisibility(
+        activity: Activity,
+        enable: Boolean,
+        @ColorRes statusColor: Int = android.R.color.white
+    ) {
+        setStatusBarColor(activity, ContextCompat.getColor(activity, statusColor))
         val lp = activity.window.attributes
         if (enable) {
             lp.flags = lp.flags or WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN
@@ -216,5 +218,92 @@ object StatusBarUtil {
         activity.window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
     }
 
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////// 计算 StatusBar 和 NavigationBar 的高度 , 使用时将其拷贝到需要的地方 ////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /** 来自:https://www.jianshu.com/p/9bfa5a30087c
+     *  计算 StatusBar 和 NavigationBar 的高度 , 使用时将其拷贝到需要的地方
+     *  请勿在dialog中使用
+     *  主题的 android:windowTranslucentStatus 属性, 会影响 contentView 的 padding top.
+     *  如果设置了 View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN , 那么 contentView 的 padding top 都是 0
+     */
+    private fun calStatusBarOrNavigationBarHeight(window: Window) {
+        val decorView = window.decorView
+        val measuredHeight = decorView.measuredHeight
+        if (measuredHeight <= 0) {
+            decorView.viewTreeObserver.addOnPreDrawListener(object :
+                ViewTreeObserver.OnPreDrawListener {
+                override fun onPreDraw(): Boolean {
+                    decorView.viewTreeObserver.removeOnPreDrawListener(this)
+                    calStatusBarOrNavigationBarHeight(window)
+                    return true
+                }
+            })
+        } else {
+            val outRect = Rect()
+            decorView.getWindowVisibleDisplayFrame(outRect)
+            Log.i("StatusBar", "可视区域:$outRect")
+            Log.i("StatusBar", "屏幕高度:$measuredHeight")
+            if (decorView is ViewGroup) {
+                val childCount = decorView.childCount
+                if (childCount > 0) {
+                    val contentView =
+                        decorView.getChildAt(0)
+                    Log.i(
+                        "StatusBar",
+                        "内容高度:" + contentView.measuredHeight + " p:" + contentView.paddingTop
+                    )
+                }
+                if (childCount > 1) {
+                    val childView = decorView.getChildAt(1)
+                    when {
+                        isStatusBar(decorView, childView) -> {
+                            Log.i("StatusBar", "状态栏高度:" + childView.measuredHeight)
+                        }
+                        isNavigationBar(decorView, childView) -> {
+                            Log.i("StatusBar", "导航栏高度:" + childView.measuredHeight)
+                        }
+                        else -> {
+                            Log.i("StatusBar", "未知:$childView")
+                        }
+                    }
+                }
+                if (childCount > 2) {
+                    val childView = decorView.getChildAt(2)
+                    when {
+                        isStatusBar(decorView, childView) -> {
+                            Log.i("StatusBar", "状态栏高度:" + childView.measuredHeight)
+                        }
+                        isNavigationBar(decorView, childView) -> {
+                            Log.i("StatusBar", "导航栏高度:" + childView.measuredHeight)
+                        }
+                        else -> {
+                            Log.i("StatusBar", "未知:$childView")
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun isStatusBar(
+        decorView: View,
+        childView: View
+    ): Boolean {
+        return childView.top == 0 && childView.measuredWidth == decorView.measuredWidth && childView.bottom < decorView.bottom
+    }
+
+    private fun isNavigationBar(
+        decorView: View,
+        childView: View
+    ): Boolean {
+        return childView.top > decorView.top && childView.measuredWidth == decorView.measuredWidth && childView.bottom == decorView.bottom
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////// 计算 StatusBar 和 NavigationBar 的高度 , 使用时将其拷贝到需要的地方 ////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }

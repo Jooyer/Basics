@@ -1,10 +1,8 @@
 package cn.lvsong.lib.library.state
 
 import android.content.Context
-import android.graphics.Color
 import android.util.AttributeSet
 import android.util.SparseArray
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +10,8 @@ import android.widget.FrameLayout
 import androidx.annotation.LayoutRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import cn.lvsong.lib.library.R
 import cn.lvsong.lib.library.listener.OnClickFastListener
 import cn.lvsong.lib.library.utils.DensityUtil
-import cn.lvsong.lib.library.utils.ScreenUtils
 
 
 /**
@@ -376,14 +372,6 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
                 onRetryListener?.onRetry()
             }
         })
-    }
-
-    private fun dp2px(def: Float): Float {
-        return TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            def,
-            context.resources.displayMetrics
-        )
     }
 
 }

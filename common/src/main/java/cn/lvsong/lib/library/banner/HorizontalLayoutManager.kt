@@ -6,6 +6,7 @@ import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
+import android.view.accessibility.AccessibilityEvent
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.OrientationHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -22,15 +23,19 @@ import androidx.recyclerview.widget.RecyclerView
  * Date: 2019-08-28
  * Time: 18:25
  */
+
+
+/**
+ * @param spaceWidth --> Item 间隔,默认 0
+ * @param itemScrollTime -->  ItemView 滑动时滑过一屏所需时间,默认1200
+ */
 open class HorizontalLayoutManager(private val spaceWidth: Int, private val itemScrollTime: Int) :
     RecyclerView.LayoutManager(),
     RecyclerView.SmoothScroller.ScrollVectorProvider {
 
-    private val scrollDirection = PointF(1F, 0F)
+    open lateinit var mOrientationHelper: OrientationHelper
 
     open var itemWidth: Int = 0
-
-    open var mOrientationHelper: OrientationHelper = OrientationHelper.createHorizontalHelper(this)
 
     /**
      * 记录 onLayoutChildren 次数,因为首次手动滑动时,会在抬起手来,还会回调一次 onLayoutChildren()
@@ -38,32 +43,14 @@ open class HorizontalLayoutManager(private val spaceWidth: Int, private val item
      */
     private var mLayoutCount = 1
 
-    private var mDetach = false
-
-
-    override fun onAttachedToWindow(view: RecyclerView?) {
-        super.onAttachedToWindow(view)
-        mDetach = false
-    }
-
-
-    override fun onDetachedFromWindow(view: RecyclerView, recycler: RecyclerView.Recycler?) {
-        super.onDetachedFromWindow(view, recycler)
-        mDetach = true
-    }
-
-    // 首次滑动时会调用此方法
     override fun computeScrollVectorForPosition(targetPosition: Int): PointF? {
-        if (childCount == 0) {
-            return scrollDirection
-        }
         // 下面这个决定了RecyclerView 左右滑动的方向,只有自动滚动时才会触发此方法
         // 由于手动滑动改变了 targetPosition, 所以下面判断会导致
         // 如果自动滑动向右的,而手动是向左的,那手动滑动结束后,自动开始滑动会也向左,ItemView会滑动多个
         // 所以强制自动滑动向右
 //        val firstChildPos = getPosition(getChildAt(0)!!)
 //        val direction = if (targetPosition < firstChildPos) -1 else 1
-        return scrollDirection
+        return  PointF(1F, 0F)
     }
 
     override fun generateDefaultLayoutParams(): RecyclerView.LayoutParams {
@@ -80,8 +67,11 @@ open class HorizontalLayoutManager(private val spaceWidth: Int, private val item
      * 临时保存在一个集合里，然后进入fill的时候会从这个集合取出来重新添加到RecyclerView中，这就是前面说的保存在mAttachedScrap的子view会马上用到的原因
      */
     override fun onLayoutChildren(recycler: RecyclerView.Recycler, state: RecyclerView.State) {
+        if (!this::mOrientationHelper.isInitialized){
+            mOrientationHelper = OrientationHelper.createHorizontalHelper(this)
+        }
 
-        if (mLayoutCount > itemCount) { // 默认 mLayoutCount=1, 如果 itemCount=1, 则会导致界面空白, 所以改为 > 
+        if (mLayoutCount > itemCount) { // 默认 mLayoutCount=1, 如果 itemCount=1, 则会导致界面空白, 所以改为 >
             return
         }
 
@@ -162,9 +152,9 @@ open class HorizontalLayoutManager(private val spaceWidth: Int, private val item
 //                    Log.e("Horizontal","calculateDtToFit==========viewStart: $viewStart, viewEnd: $viewEnd, boxStart: $boxStart, boxEnd: $boxEnd, snapPreference: $snapPreference")
 //                    Log.e("Horizontal","calculateDtToFit==========${ (boxStart + (boxEnd - boxStart) / 2) - (viewStart + (viewEnd - viewStart) / 2)}")
                     // https://blog.csdn.net/u014674862/article/details/81177261  --> API解析
-                    // https://blog.csdn.net/u013651026/article/details/105989914/
+                    // https://blog.csdn.net/u013651026/article/details/105989914
                     // 在 super.calculateDtToFit()中,     case SNAP_TO_START: return boxStart - viewStart; 通过日志发现只有 boxStart - viewStart < 0 是向左滑动
-                    // 而 boxStart == 0 , 所以人为的将 viewStart 进行调整
+                    // 而 boxStart == 0 , 只需要 viewStart < 0 即可, 所以人为的将 viewStart 进行调整,保证界面在自动滑动时永阳往左滑动
                     return super.calculateDtToFit(
                         if (viewStart > 0) viewStart else -viewStart,
                         viewEnd,
@@ -311,13 +301,9 @@ open class HorizontalLayoutManager(private val spaceWidth: Int, private val item
         }
     }
 
-    private fun dp2px(def: Float): Int {
-        return TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            def, Resources.getSystem().displayMetrics
-        ).toInt()
-    }
-
+    /**
+     * 处理Item不同效果
+     */
     open fun doWithItem() {
 
     }

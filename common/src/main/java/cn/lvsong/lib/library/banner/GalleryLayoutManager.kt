@@ -2,7 +2,9 @@ package cn.lvsong.lib.library.banner
 
 import kotlin.math.abs
 
-/** 参考: https://github.com/ZhangHao555/BannerRecyclerView
+/**
+ *  http://www.10qianwan.com/articledetail/638119.html  -->  ViewPager2.PageTransformer
+ * 参考: https://github.com/ZhangHao555/BannerRecyclerView
  * Desc: 画廊效果
  * Author: Jooyer
  * Date: 2020-09-16
@@ -15,7 +17,6 @@ class GalleryLayoutManager(
     private val heightScale: Float,
     itemScrollTime: Int
 ) : HorizontalLayoutManager(spaceWidth, itemScrollTime) {
-
 
     override fun doWithItem() {
         if (heightScale >= 1 && widthScale >= 1) {

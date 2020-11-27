@@ -16,7 +16,11 @@ import androidx.recyclerview.widget.RecyclerView
 import cn.lvsong.lib.library.R
 import cn.lvsong.lib.library.utils.DensityUtil
 
-/**
+/** https://www.jianshu.com/p/1f72644bb560  -->  指示器
+ *  https://www.jianshu.com/p/5ac538c067d9  -->  指示器
+ *
+ *  https://hub.fastgit.org/zguop/banner   --> 可以参考其 Banner 初始化
+ *
  * Desc: Banner 容器
  * Author: Jooyer
  * Date: 2019-08-30

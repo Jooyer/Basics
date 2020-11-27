@@ -14,7 +14,6 @@ import androidx.annotation.NonNull
 import java.io.BufferedOutputStream
 import java.io.File
 import java.io.FileOutputStream
-import java.lang.Exception
 import java.text.DecimalFormat
 
 
@@ -163,8 +162,7 @@ object FileUtil {
      */
     fun createFile(filePath: String): File {
         val file = File(filePath)
-        if (file.parentFile.exists()) {
-        } else {
+        if (!file.parentFile.exists()) {
             // 创建目录后再创建文件
             createDir(file.parentFile.absolutePath)
             file.createNewFile()
@@ -432,5 +430,19 @@ object FileUtil {
         return "com.google.android.apps.photos.content" == uri.authority
     }
 
-
+    /**
+     * 通过 Uri 获取文件真实路径
+     * @param contentUri
+     * @param mContext
+     * @return 文件真实路径
+     */
+    fun getRealPathFromURI(contentUri: Uri, mContext: Context): String? {
+        val proj = arrayOf(MediaStore.Images.Media.DATA)
+        val loader = CursorLoader(mContext, contentUri, proj, null, null, null)
+        val cursor = loader.loadInBackground()
+        val column_index =
+            cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+        cursor.moveToFirst()
+        return cursor.getString(column_index)
+    }
 }
