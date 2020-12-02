@@ -7,5 +7,8 @@ package cn.lvsong.lib.library.banner
  * Time: 16:29
  */
 interface OnPositionChangeListener {
+    /**
+     * 当前选中的图片位置, 从0开始计算
+     */
     fun onPositionChange(position: Int)
 }

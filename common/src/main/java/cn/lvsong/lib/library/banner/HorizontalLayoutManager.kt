@@ -1,12 +1,8 @@
 package cn.lvsong.lib.library.banner
 
-import android.content.res.Resources
 import android.graphics.PointF
-import android.util.Log
-import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
-import android.view.accessibility.AccessibilityEvent
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.OrientationHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -26,10 +22,10 @@ import androidx.recyclerview.widget.RecyclerView
 
 
 /**
- * @param spaceWidth --> Item 间隔,默认 0
- * @param itemScrollTime -->  ItemView 滑动时滑过一屏所需时间,默认1200
+ * @param itemMargin --> Item 间隔,默认 0
+ * @param itemScrollTime --> Item 从屏幕左侧完成消失的时间,此值越大在屏幕滑过时间越长,单位是毫秒
  */
-open class HorizontalLayoutManager(private val spaceWidth: Int, private val itemScrollTime: Int) :
+open class HorizontalLayoutManager(private val itemMargin: Int = 0, private val itemScrollTime: Long = 1200) :
     RecyclerView.LayoutManager(),
     RecyclerView.SmoothScroller.ScrollVectorProvider {
 
@@ -109,7 +105,7 @@ open class HorizontalLayoutManager(private val spaceWidth: Int, private val item
                 offsetX + itemWidth,
                 getItemTop(view) + viewHeight
             )
-            offsetX += itemWidth + spaceWidth
+            offsetX += itemWidth + itemMargin
 
             if (offsetX > mOrientationHelper.totalSpace) {
                 break
@@ -252,7 +248,7 @@ open class HorizontalLayoutManager(private val spaceWidth: Int, private val item
                 measureChildWithMargins(nextView, 0, 0)
                 val viewWidth = getDecoratedMeasuredWidth(nextView)
                 val viewHeight = getDecoratedMeasuredHeight(nextView)
-                val offsetX = lastVisibleView.right + spaceWidth
+                val offsetX = lastVisibleView.right + itemMargin
                 layoutDecorated(nextView, offsetX, 0, offsetX + viewWidth, viewHeight)
                 break
             }
@@ -276,7 +272,7 @@ open class HorizontalLayoutManager(private val spaceWidth: Int, private val item
                 measureChildWithMargins(nextView, 0, 0)
                 val viewWidth = getDecoratedMeasuredWidth(nextView)
                 val viewHeight = getDecoratedMeasuredHeight(nextView)
-                val offsetX = firstVisibleView.left - spaceWidth
+                val offsetX = firstVisibleView.left - itemMargin
                 layoutDecorated(nextView, offsetX - viewWidth, 0, offsetX, viewHeight)
                 break
             }

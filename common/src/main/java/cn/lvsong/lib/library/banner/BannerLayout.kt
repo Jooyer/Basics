@@ -15,6 +15,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import cn.lvsong.lib.library.R
 import cn.lvsong.lib.library.utils.DensityUtil
+import kotlin.math.abs
 
 /** https://www.jianshu.com/p/1f72644bb560  -->  指示器
  *  https://www.jianshu.com/p/5ac538c067d9  -->  指示器
@@ -30,16 +31,6 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
     OnPositionChangeListener {
 
     /**
-     * 指示器高度,默认 20dp
-     */
-    private var mIndicatorContainerHeight = DensityUtil.dp2pxRtInt(20F)
-
-    /**
-     * 指示器内部 View 的 margin,默认 5dp
-     */
-    private var mIndicatorMargin = DensityUtil.dp2pxRtInt(5F)
-
-    /**
      * 轮询播放时间间隔,默认3秒,单位是毫秒
      */
     private var mLoopTime = 3000L
@@ -48,26 +39,6 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
      * 记录当前滑动的位置
      */
     private var mCurrentPos = 0
-
-    /**
-     * 是否显示指示器,默认显示
-     */
-    private var mShowIndicatorView = true
-
-    /**
-     * ItemView 滑动时滑过一屏所需时间,默认1200
-     */
-    private var mItemScrollTime = 1200
-
-    /**
-     * 指示器选中状态图片
-     */
-    private var mSelectedDrawable: Drawable? = null
-
-    /**
-     * 指示器默认状态图片
-     */
-    private var mNormalDrawable: Drawable? = null
 
     /**
      * 当滑动后,位置发生变化,如果需要监听,则设置此回调
@@ -82,23 +53,21 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
     /**
      * 自定义的 LayoutManager,自己控制 ItemView 的布局
      */
-    private lateinit var mLayoutManager: HorizontalLayoutManager
-
-    /**
-     * 指示器容器
-     */
-    private lateinit var mIndicatorContainer: LinearLayout
+    private lateinit var mLayoutManager: RecyclerView.LayoutManager
 
     /**
      * Banner 载体
      */
     private lateinit var mBanner: RecyclerView
 
+    private var mTotalScroll = 0F
+
     /**
      * 自动滑动的 Runnable
      */
     private val mAutoScrollRunnable = object : Runnable {
         override fun run() {
+//            mIndicator?.onPageSelected(mCurrentPos)
             mCurrentPos = ++mCurrentPos % mLayoutManager.itemCount
 //            Log.e("BannerLayout", "AutoScroll========mCurrentPos: $mCurrentPos")
             mBanner.smoothScrollToPosition(mCurrentPos)
@@ -106,48 +75,20 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
         }
     }
 
+    private val mDelayRunnable = Runnable { mIndicator?.onPageSelected(mCurrentPos) }
+
 
     init {
-        parse(context, attrs)
         initView(context)
         // 防止 RecyclerView 中 Item 强占焦点
         descendantFocusability = FOCUS_BLOCK_DESCENDANTS
-    }
-
-    private fun parse(context: Context, attrs: AttributeSet?) {
-        attrs?.let {
-            val aar = context.obtainStyledAttributes(it, R.styleable.BannerLayout)
-            mIndicatorContainerHeight =
-                aar.getDimensionPixelSize(
-                    R.styleable.BannerLayout_banner_indicator_height,
-                    mIndicatorContainerHeight
-                )
-            mIndicatorMargin =
-                aar.getDimensionPixelSize(
-                    R.styleable.BannerLayout_banner_indicator_margin,
-                    mIndicatorMargin
-                )
-            mLoopTime = aar.getInt(R.styleable.BannerLayout_banner_loop_time, 3000).toLong()
-            mShowIndicatorView =
-                aar.getBoolean(R.styleable.BannerLayout_banner_show_indicator, mShowIndicatorView)
-            mItemScrollTime =
-                aar.getInt(
-                    R.styleable.BannerLayout_banner_item_scroll_time,
-                    mItemScrollTime
-                )
-            mSelectedDrawable =
-                aar.getDrawable(R.styleable.BannerLayout_banner_select_indicator_drawable)
-            mNormalDrawable =
-                aar.getDrawable(R.styleable.BannerLayout_banner_normal_indicator_drawable)
-            aar.recycle()
-        }
     }
 
     // 动态添加参考 --> https://www.jianshu.com/p/16e34f919e1a
     private fun initView(context: Context) {
         // RecyclerView
         mBanner = RecyclerView(context)
-        mBanner.id = R.id.banner_view
+        mBanner.id = R.id.banner_scroll_view
         val bannerLp = LayoutParams(0, 0)
         bannerLp.startToStart = 0
         bannerLp.topToTop = 0
@@ -156,57 +97,29 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
         mBanner.layoutParams = bannerLp
         addView(mBanner)
 
-        // 底部指示器的容器
-        mIndicatorContainer = LinearLayout(context)
-        mIndicatorContainer.orientation = LinearLayout.HORIZONTAL
-        mIndicatorContainer.id = R.id.ll_indicator_container
-        val mIndicatorContainerLp =
-            LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, mIndicatorContainerHeight)
-        mIndicatorContainerLp.startToStart = 0
-        mIndicatorContainerLp.endToEnd = 0
-        mIndicatorContainerLp.bottomToBottom = 0
-        mIndicatorContainerLp.bottomMargin = DensityUtil.dp2pxRtInt(5F)
-        mIndicatorContainer.layoutParams = mIndicatorContainerLp
-        addView(mIndicatorContainer)
-
         // mBanner 滑动时
         mBanner.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 if (RecyclerView.SCROLL_STATE_IDLE == newState) { // 滑动停止
-                    mPositionChangeListener?.onPositionChange(mCurrentPos)
-                    if (mShowIndicatorView) { // 指示器
-                        changeIndicatorState()
-                    }
 //                    Log.e(
 //                        "BannerLayout",
-//                        "onScrollStateChanged========mCurrentPos: $mCurrentPos , mCancel: $mCancel"
+//                        "onScrollStateChanged========mCurrentPos: $mCurrentPos"
 //                    )
+                    mTotalScroll = 0F
+                    mPositionChangeListener?.onPositionChange(mCurrentPos)
+                    postDelayed(mDelayRunnable, 200)
                 }
             }
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-//                Log.e("BannerLayout","onScrolled========mCurrentPos: $mCurrentPos, dx: $dx")
+                mTotalScroll += abs(dx)
+//                Log.e(
+//                    "BannerLayout",
+//                    "onScrolled========dx: $dx, mTotalScroll: $mTotalScroll, width: ${recyclerView.width}"
+//                )
+                mIndicator?.onPageScrolled(mTotalScroll / recyclerView.width)
             }
         })
-    }
-
-    /**
-     * 添加指示器
-     */
-    private fun addIndicatorView(position: Int) {
-        val indicatorView = AppCompatImageView(context)
-        val indicatorViewLp = LinearLayout.LayoutParams(
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            mIndicatorContainerHeight
-        )
-        indicatorViewLp.setMargins(mIndicatorMargin, 0, mIndicatorMargin, 0)
-        indicatorView.layoutParams = indicatorViewLp
-        if (1 == position) {
-            indicatorView.setImageDrawable(mSelectedDrawable)
-        } else {
-            indicatorView.setImageDrawable(mNormalDrawable)
-        }
-        mIndicatorContainer.addView(indicatorView)
     }
 
     /**
@@ -255,56 +168,63 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
      * 当手动滑动时,会触发 LooperSnapHelper.findTargetSnapPosition(),获得其移动后的位置
      */
     override fun onPositionChange(position: Int) {
-//        mBanner.adapter?.let {
-//            mCurrentPos = it.itemCount - position - 1
-//        }
         mCurrentPos = position
 //        Log.e("BannerLayout", "onPositionChange========mCurrentPos: $mCurrentPos")
     }
 
 
-    /**
-     * 不显示指示器可以不调用此方法
-     */
-    private fun setBannerSize(size: Int) {
-        mIndicatorContainer.removeAllViews()
-        if (size > 0 && mShowIndicatorView) {
-            for (i in 1..size) {
-                addIndicatorView(i)
-            }
-        }
-    }
-
-    /**
-     * 当滑动改变时,需要更新指示器显示
-     */
-    private fun changeIndicatorState() {
-        for (index in 0 until mIndicatorContainer.childCount) {
-            val child = mIndicatorContainer.getChildAt(index) as AppCompatImageView
-            if (mCurrentPos == index) {
-                child.setImageDrawable(mSelectedDrawable)
-            } else {
-                child.setImageDrawable(mNormalDrawable)
-            }
-        }
-    }
-
-
 /////////////////////////////////////////////////// 对外提供的方法  ////////////////////////////////////////////////////////
 
+    private var mIndicator: Indicator? = null
 
     /**
-     * 提供 RecyclerView, 方便用户绑定数据
-     * @param spaceWidth --> Item 间隔
+     * 添加指示器
      */
-    fun setBannerAdapter(
-        adapter: RecyclerView.Adapter<out RecyclerView.ViewHolder>,
-        spaceWidth: Int = 0
-    ) {
-        mLayoutManager = HorizontalLayoutManager(spaceWidth, mItemScrollTime)
+    fun setIndicatorView(indicator: Indicator): BannerLayout {
+        mIndicator?.apply { removeView(this.getIndicatorView()) }
+        mIndicator = indicator
+        addView(indicator.getIndicatorView(), indicator.getIndicatorViewLayoutParam())
+        return this
+    }
+
+    /**
+     * Item 自动循环出现的间隔,单位是毫秒
+     */
+    fun setLoopTime(loopTime: Long = 3000): BannerLayout {
+        mLoopTime = loopTime
+        return this
+    }
+
+
+    /**
+     * 绑定管理器
+     */
+    fun setManager(manager: RecyclerView.LayoutManager): BannerLayout {
+        mLayoutManager = manager
         mBanner.layoutManager = mLayoutManager
+        return this
+    }
+
+    /**
+     * 设置适配器
+     */
+    fun setAdapter(adapter: RecyclerView.Adapter<out RecyclerView.ViewHolder>): BannerLayout {
         mBanner.adapter = adapter
-        setBannerSize(adapter.itemCount)
+        return this
+    }
+
+    /**
+     * 最后调用此方法开始 轮播
+     */
+    fun loop() {
+        if (null == mIndicator) {
+            throw NullPointerException("必须调用 setIndicatorView() 设置指示器!!!")
+        } else if (null == mBanner.adapter) {
+            throw NullPointerException("必须调用 setAdapter() 设置适配器!!!")
+        }
+
+        // 初始时指示器
+        mIndicator?.initIndicatorCount(mBanner.adapter!!.itemCount)
         mLooperSnapHelper.attachToRecyclerView(mBanner)
         Looper.myQueue().addIdleHandler {
             onResume()
@@ -325,14 +245,16 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
      *  @param widthScale --> 宽度缩放比率,默认1.0F,即不缩放
      *  @param heightScale --> 高度缩放比率,默认0.8F
      */
+    @Deprecated("废弃")
     fun setGalleryBannerAdapter(
         adapter: RecyclerView.Adapter<out RecyclerView.ViewHolder>,
         spaceWidth: Int = 0,
         widthScale: Float = 1F,
         heightScale: Float = 0.8F
     ) {
-        mLayoutManager = GalleryLayoutManager(spaceWidth, widthScale, heightScale, mItemScrollTime)
-        //
+//        mLayoutManager = GalleryLayoutManager(spaceWidth, widthScale, heightScale, mItemScrollTime)
+
+
 //        mBanner.addItemDecoration(object : RecyclerView.ItemDecoration() {
 //            override fun getItemOffsets(
 //                outRect: Rect,
@@ -362,14 +284,14 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
 //                }
 //            }
 //        })
-        mBanner.layoutManager = mLayoutManager
-        mBanner.adapter = adapter
-        setBannerSize(adapter.itemCount)
-        mLooperSnapHelper.attachToRecyclerView(mBanner)
-        Looper.myQueue().addIdleHandler {
-            onResume()
-            false
-        }
+
+//        mBanner.layoutManager = mLayoutManager
+//        mBanner.adapter = adapter
+//        mLooperSnapHelper.attachToRecyclerView(mBanner)
+//        Looper.myQueue().addIdleHandler {
+//            onResume()
+//            false
+//        }
     }
 
     /**

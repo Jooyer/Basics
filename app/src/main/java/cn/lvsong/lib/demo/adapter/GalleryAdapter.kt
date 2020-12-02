@@ -2,11 +2,8 @@ package cn.lvsong.lib.demo.adapter
 
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
-import androidx.recyclerview.widget.RecyclerView
 import cn.lvsong.lib.demo.R
 import cn.lvsong.lib.demo.util.ImageLoad
-import cn.lvsong.lib.library.banner.BannerAdapter
-import cn.lvsong.lib.library.banner.BannerHolder
 
 /**
  * Desc: 缩放效果

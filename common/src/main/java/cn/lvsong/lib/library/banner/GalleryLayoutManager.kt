@@ -12,10 +12,10 @@ import kotlin.math.abs
  */
 
 class GalleryLayoutManager(
-    spaceWidth: Int,
-    private val widthScale: Float,
-    private val heightScale: Float,
-    itemScrollTime: Int
+    spaceWidth: Int = 0,
+    private val widthScale: Float = 0.85F,
+    private val heightScale: Float = 0.85F,
+    itemScrollTime: Long = 1200
 ) : HorizontalLayoutManager(spaceWidth, itemScrollTime) {
 
     override fun doWithItem() {

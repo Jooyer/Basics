@@ -1,4 +1,4 @@
-package cn.lvsong.lib.library.banner;
+package cn.lvsong.lib.demo.adapter;
 
 import android.view.View;
 
