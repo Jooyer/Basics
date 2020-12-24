@@ -10,7 +10,7 @@
     android:focusable="true"
     android:gravity="center"
     android:orientation="vertical"
-    android:visibility="visible">
+    >
 
     <!--beforeDescendants：viewgroup会优先其子类控件而获取到焦点-->
 
@@ -19,32 +19,24 @@
     <!--blocksDescendants：viewgroup会覆盖子类控件而直接获得焦点-->
 
     <ImageView
-        android:id="@+id/no_network_img_status"
-        android:layout_width="@dimen/width_100"
-        android:layout_height="@dimen/height_100"
-        tools:background="@color/main_theme_color" />
+        android:id="@+id/error_img_status"
+        android:layout_width="@dimen/width_160"
+        android:layout_height="@dimen/height_160"
+        android:src="@drawable/ic_common_ui_error" />
 
-    <TextView
-        android:id="@+id/no_network_text_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding_10"
-        android:layout_marginBottom="@dimen/padding_10"
-        android:textSize="@dimen/text_size_14"
-        tools:text="@string/common_ui_net_error_tip" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="false"
+        android:layout_marginTop="@dimen/padding_30"
         android:gravity="center"
         android:paddingLeft="@dimen/padding_18"
-        android:paddingTop="@dimen/padding_6"
+        android:paddingTop="@dimen/padding_8"
         android:paddingRight="@dimen/padding_18"
-        android:paddingBottom="@dimen/padding_6"
-        android:textColor="@color/main_theme_color"
-        android:textSize="@dimen/text_size_16"
-        tools:text="@string/common_ui_net_error_retry" />
+        android:paddingBottom="@dimen/padding_8"
+        tools:text="@string/common_ui_net_error_retry"
+        android:textColor="@color/color_999999"
+        android:textSize="@dimen/text_size_16" />
 
 
 </LinearLayout>

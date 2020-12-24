@@ -172,10 +172,10 @@ class BadgeView(context: Context, attr: AttributeSet?) : View(context, attr) {
     override fun onDraw(canvas: Canvas) {
         val textWidth = mTextPaint.measureText(getShowText()).toInt()
         val fontMetrics = mTextPaint.fontMetrics
-        Log.e(
-            "BadgeView",
-            "onDraw==========mRectF: ${mRectF.toString()}, mStrokeRectF: ${mStrokeRectF.toString()}"
-        )
+//        Log.e(
+//            "BadgeView",
+//            "onDraw==========mRectF: ${mRectF.toString()}, mStrokeRectF: ${mStrokeRectF.toString()}"
+//        )
         val y = (height - fontMetrics.descent - fontMetrics.ascent) / 2 + 1
         if (mNumber < 10) {
             canvas.drawCircle(width / 2F, height / 2F, height / 2F - 0.5F, mBgPaint)

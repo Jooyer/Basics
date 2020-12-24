@@ -10,8 +10,7 @@
     <string name="common_ui_search">搜索</string>
     <string name="common_ui_search_hint">请输入查询关键词</string>
     <string name="common_ui_data_empty">暂时没有数据,点此重试</string>
-    <string name="common_ui_net_error_retry">点击任意位置重试</string>
-    <string name="common_ui_net_error_tip">网络错误&#8230;</string>
-    <string name="common_ui_other_error_tip">解析错误,请稍候重试&#8230;</string>
+    <string name="common_ui_net_error_retry">网络错误,点击任意位置重试</string>
+    <string name="common_ui_other_error_tip">解析错误,点击任意位置重试</string>
 
 </resources>

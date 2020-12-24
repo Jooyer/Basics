@@ -8,27 +8,27 @@
     android:focusable="true"
     android:gravity="center"
     android:orientation="vertical"
-    android:visibility="visible">
+    >
 
 
     <ImageView
         android:id="@+id/empty_img_status"
-        android:layout_width="@dimen/width_100"
-        android:layout_height="@dimen/height_100"
-        tools:background="@color/main_theme_color" />
+        android:layout_width="@dimen/width_160"
+        android:layout_height="@dimen/height_160"
+        android:src="@drawable/ic_common_ui_empty" />
 
     <TextView
         android:id="@+id/view_retry_load_data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding_10"
+        android:layout_marginTop="@dimen/padding_30"
         android:gravity="center"
         android:paddingLeft="@dimen/padding_18"
-        android:paddingTop="@dimen/padding_6"
+        android:paddingTop="@dimen/padding_8"
         android:paddingRight="@dimen/padding_18"
-        android:paddingBottom="@dimen/padding_6"
+        android:paddingBottom="@dimen/padding_8"
         tools:text="@string/common_ui_data_empty"
-        android:textColor="@color/main_theme_color"
+        android:textColor="@color/color_999999"
         android:textSize="@dimen/text_size_16" />
 
 </LinearLayout>
