@@ -32,7 +32,7 @@
 
 ```groovy
 	dependencies {
-	        implementation 'com.github.Jooyer.Basics:common:1.0.12'
+	        implementation 'com.github.Jooyer.Basics:common:1.0.13'
 	}
 ```
 
@@ -127,6 +127,10 @@
 4. 移出部分不需要的类
 5. 更新各个依赖库版本
 
+## v1.0.13变化:
+1. 修复Banner滑动bug
+2. 调整Banner指示器
+3. 调整StatusManager
 
 [toc]
 
