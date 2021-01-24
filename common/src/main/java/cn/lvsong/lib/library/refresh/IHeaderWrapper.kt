@@ -23,12 +23,18 @@ interface IHeaderWrapper {
     fun onPullDownAndReleasable()
 
     /**
+     * 自动刷新时,会回调这个方法,方便更新文本或者动画的准备
+     */
+    fun onAutoRefreshPreparing(){}
+
+    /**
      * 刷新中
      */
     fun onRefreshing()
 
     /**
      * 刷新完成
+     * @param isRefreshSuccess --> 此次刷新是成功还是失败,方便在刷新头更新文本
      */
     fun onRefreshComplete( isRefreshSuccess: Boolean)
 

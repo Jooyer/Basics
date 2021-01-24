@@ -2,10 +2,12 @@ package cn.lvsong.lib.demo.itemDelegate
 
 import androidx.appcompat.widget.AppCompatImageView
 import cn.lvsong.lib.demo.R
-import cn.lvsong.lib.demo.util.ImageLoad
 import cn.lvsong.lib.library.adapter.ItemViewDelegate
 import cn.lvsong.lib.library.adapter.ViewHolder
 import cn.lvsong.lib.library.utils.DensityUtil
+import coil.load
+import coil.transform.CircleCropTransformation
+import coil.transform.RoundedCornersTransformation
 
 /**
  * Desc: 左侧
@@ -20,10 +22,9 @@ class LeftItemDelegate : ItemViewDelegate<String> {
 
     override fun convert(holder: ViewHolder, bean: String, position: Int) {
 
-        ImageLoad.loader.loadImgWithCircleRadius(
-            holder.getView<AppCompatImageView>(R.id.aiv_avatar_left_chat),
-            R.mipmap.ic_launcher_round,DensityUtil.dp2pxRtFloat(40)
-        )
+        holder.getView<AppCompatImageView>(R.id.aiv_avatar_left_chat).load(R.mipmap.ic_launcher_round){
+            transformations(CircleCropTransformation())
+        }
 
         holder.setText(R.id.btv_msg_left_chat, bean)
     }

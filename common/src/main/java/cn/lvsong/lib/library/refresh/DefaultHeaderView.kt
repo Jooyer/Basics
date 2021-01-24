@@ -2,6 +2,7 @@ package cn.lvsong.lib.library.refresh
 
 import android.content.Context
 import android.content.res.Resources
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -54,6 +55,9 @@ open class DefaultHeaderView(context: Context) : LinearLayout(context), IHeaderW
         tvHeaderTip?.text = "松手可刷新"
     }
 
+    override fun onAutoRefreshPreparing() {
+//        Log.e("Default","onAutoRefreshPreparing==========")
+    }
 
     override fun onRefreshing() {
         tvHeaderTip?.text = "正在刷新"

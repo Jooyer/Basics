@@ -36,7 +36,7 @@ class LazyFragment : BaseFragment() {
 
     override fun getLayoutId() = R.layout.fragment_blank
 
-    override fun getCurrentViewModel(): BaseViewModel? {
+    override fun getCurrentViewModel(): BaseViewModel {
         viewModel = ViewModelProvider(this).get(NetModel::class.java)
         return viewModel
     }
@@ -89,9 +89,7 @@ class LazyFragment : BaseFragment() {
 
     override fun onFirstUserVisible() {
         Log.e("LazyFragment", "onFirstUserVisible==============")
-        nrl_refresh_layout.postDelayed({
-            nrl_refresh_layout.setAutoRefresh()
-        }, 300)
+        nrl_refresh_layout.setAutoRefresh(300)
     }
 
     /**

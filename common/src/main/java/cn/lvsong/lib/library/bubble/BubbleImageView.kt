@@ -2,8 +2,8 @@ package cn.lvsong.lib.library.bubble
 
 import android.content.Context
 import android.graphics.*
+import android.graphics.drawable.BitmapDrawable
 import android.util.AttributeSet
-import android.util.Log
 import androidx.appcompat.widget.AppCompatImageView
 import cn.lvsong.lib.library.R
 
@@ -78,12 +78,17 @@ class BubbleImageView(context: Context, attrs: AttributeSet? = null) :
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
         if (r - l > 0 || b - t > 0) {
+
+            if (null != drawable && drawable is BitmapDrawable) {
+                mBitmap = (drawable as BitmapDrawable).bitmap
+            }
+
             setUp(r - l, b - t)
         }
     }
 
 
-    private fun setUp( right: Int,  bottom: Int) {
+    private fun setUp(right: Int, bottom: Int) {
         if (right < 0 || bottom < 0 || null == mBitmap)
             return
         mRectF.set(0F, 0F, right.toFloat(), bottom.toFloat())

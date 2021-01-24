@@ -3,7 +3,7 @@ package cn.lvsong.lib.demo.util
 import cn.lvsong.lib.demo.api.WanApi
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 
 /**
@@ -17,7 +17,7 @@ object NetUtil {
     private val retrofit = Retrofit.Builder()
         .client(OkHttpClient.Builder().callTimeout(5, TimeUnit.SECONDS).build())
         .baseUrl("https://www.wanandroid.com/")
-        .addConverterFactory(GsonConverterFactory.create())
+        .addConverterFactory(MoshiConverterFactory.create())
         .build()
 
 

@@ -151,7 +151,7 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
     /**
      * 刷新 Runnable
      */
-    private Runnable refreshAction = new Runnable() {
+    private final Runnable refreshAction = new Runnable() {
         @Override
         public void run() {
             mScroller.startScroll(0, getScrollY(), 0, -getScrollY(), calculateTopScrollTime(-getScrollY()));
@@ -177,7 +177,7 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
     /**
      * 自动刷新 Runnable
      */
-    private Runnable autoRefreshAction = new Runnable() {
+    private final Runnable autoRefreshAction = new Runnable() {
         @Override
         public void run() {
             updateStatus(RefreshState.HEADER_REFRESHING);
@@ -186,7 +186,7 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
     /**
      * 加载 Runnable
      */
-    private Runnable loadAction = new Runnable() {
+    private final Runnable loadAction = new Runnable() {
         @Override
         public void run() {
             mScroller.startScroll(0, getScrollY(), 0, -getScrollY(), calculateBottomScrollTime(getScrollY()));
@@ -198,7 +198,7 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
     /**
      * 没有数据的 Runnable
      */
-    private Runnable noDataAction = new Runnable() {
+    private final Runnable noDataAction = new Runnable() {
         @Override
         public void run() {
             updateStatus(noMoreData ? RefreshState.FOOTER_NO_MORE : RefreshState.FOOTER_PULL);
@@ -815,7 +815,7 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
                 break;
             case RefreshState.HEADER_AUTO:
                 if (mHeaderListener != null) {
-                    mHeaderListener.onRefreshing();
+                    mHeaderListener.onAutoRefreshPreparing();
                 }
                 break;
             case RefreshState.HEADER_DRAG:
@@ -969,18 +969,27 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
             throw new IllegalArgumentException("HeaderView is null");
         }
         if (mRefreshable) { // 刷新可用才能自动刷新
-            autoRefresh();
+            autoRefresh(0L);
         }
     }
 
-    private void autoRefresh() {
+    public void setAutoRefresh(long delay) {
+        if (null == mHeaderView) {
+            throw new IllegalArgumentException("HeaderView is null");
+        }
+        if (mRefreshable) { // 刷新可用才能自动刷新
+            autoRefresh(delay);
+        }
+    }
+
+    private void autoRefresh(long delay) {
         mRefreshing = true;
         // 这里是为了改变自动刷新时默认显示文本,否则会显示下拉刷新
         updateStatus(RefreshState.HEADER_AUTO);
         int duration = calculateTopScrollTime(mHeaderViewHeight);
         mScroller.startScroll(0, getScrollY(), 0, -mHeaderViewHeight, duration * 2);
         invalidate();
-        postDelayed(autoRefreshAction, duration);
+        postDelayed(autoRefreshAction, duration + delay);
     }
 
     /**

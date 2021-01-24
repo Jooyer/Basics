@@ -36,7 +36,11 @@ dependencies {
     implementation rootProject.ext.dependencies.kotlinx_coroutines_android
     implementation rootProject.ext.dependencies.retrofit2_kotlin_coroutines_adapter
     implementation rootProject.ext.dependencies.retrofit
-    implementation rootProject.ext.dependencies.converter_gson
+
+    implementation rootProject.ext.dependencies.moshi_kotlin
+    implementation rootProject.ext.dependencies.converter_moshi
+    kapt rootProject.ext.dependencies.moshi_kotlin_compiler
+
     implementation rootProject.ext.dependencies.logging_interceptor
     kapt rootProject.ext.dependencies.lifecycle_compiler
     implementation rootProject.ext.dependencies.lifecycle_extensions

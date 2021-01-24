@@ -7,12 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
-import cn.lvsong.lib.demo.util.ImageLoad
 import cn.lvsong.lib.library.view.NineImageLayout
 import cn.lvsong.lib.ui.BaseActivity
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
+import coil.Coil
+import coil.ImageLoader
+import coil.load
+import coil.request.ImageRequest
 import kotlinx.android.synthetic.main.activity_custom3.*
 
 class CustomActivity3 : BaseActivity() {
@@ -46,33 +46,45 @@ class CustomActivity3 : BaseActivity() {
 
             override fun bindView(view: View, pos: Int) {
                 if (1 == mImages.size) { //处理单张图片
-                    Glide.with(view)
-                        .asBitmap()
-                        .load(mImages[pos])
-                        .into(object : CustomTarget<Bitmap>() {
-                            override fun onResourceReady(
-                                resource: Bitmap,
-                                transition: Transition<in Bitmap>?
-                            ) {
+//                    Glide.with(view)
+//                        .asBitmap()
+//                        .load(mImages[pos])
+//                        .into(object : CustomTarget<Bitmap>() {
+//                            override fun onResourceReady(
+//                                resource: Bitmap,
+//                                transition: Transition<in Bitmap>?
+//                            ) {
+//                                nl_images.setSingleImage(
+//                                    resource.width,
+//                                    resource.height,
+//                                    view.findViewById(R.id.iv_nine_item)
+//                                )
+//                            }
+//
+//                            override fun onLoadCleared(placeholder: Drawable?) {
+//                            }
+//                        })
+//
+//                    ImageLoad.loader.loadImage(
+//                        view.findViewById<AppCompatImageView>(R.id.iv_nine_item),
+//                        mImages[pos]
+//                    )
+
+
+                    ImageLoader(this@CustomActivity3).enqueue(
+                        ImageRequest.Builder(this@CustomActivity3)
+                            .data(mImages[pos]).target{
                                 nl_images.setSingleImage(
-                                    resource.width,
-                                    resource.height,
+                                    it.intrinsicWidth,
+                                    it.intrinsicHeight,
                                     view.findViewById(R.id.iv_nine_item)
                                 )
-                            }
+                                view.findViewById<AppCompatImageView>(R.id.iv_nine_item).load(it)
+                            }.build()
+                    )
 
-                            override fun onLoadCleared(placeholder: Drawable?) {
-                            }
-                        })
-                    ImageLoad.loader.loadImage(
-                        view.findViewById<AppCompatImageView>(R.id.iv_nine_item),
-                        mImages[pos]
-                    )
                 } else {
-                    ImageLoad.loader.loadImage(
-                        view.findViewById<AppCompatImageView>(R.id.iv_nine_item),
-                        mImages[pos]
-                    )
+                    view.findViewById<AppCompatImageView>(R.id.iv_nine_item).load(mImages[pos])
                 }
             }
 
@@ -85,33 +97,20 @@ class CustomActivity3 : BaseActivity() {
 
             override fun bindView(view: View, pos: Int) {
                 if (1 == mImages2.size) { //处理单张图片
-                    Glide.with(view)
-                        .asBitmap()
-                        .load(mImages2[pos])
-                        .into(object : CustomTarget<Bitmap>() {
-                            override fun onResourceReady(
-                                resource: Bitmap,
-                                transition: Transition<in Bitmap>?
-                            ) {
+                    ImageLoader(this@CustomActivity3).enqueue(
+                        ImageRequest.Builder(this@CustomActivity3)
+                            .data(mImages[pos]).target{
                                 nl_images.setSingleImage(
-                                    resource.width,
-                                    resource.height,
+                                    it.intrinsicWidth,
+                                    it.intrinsicHeight,
                                     view.findViewById(R.id.iv_nine_item)
                                 )
-                            }
+                                view.findViewById<AppCompatImageView>(R.id.iv_nine_item).load(it)
+                            }.build()
+                    )
 
-                            override fun onLoadCleared(placeholder: Drawable?) {
-                            }
-                        })
-                    ImageLoad.loader.loadImage(
-                        view.findViewById<AppCompatImageView>(R.id.iv_nine_item),
-                        mImages2[pos]
-                    )
                 } else {
-                    ImageLoad.loader.loadImage(
-                        view.findViewById<AppCompatImageView>(R.id.iv_nine_item),
-                        mImages2[pos]
-                    )
+                    view.findViewById<AppCompatImageView>(R.id.iv_nine_item).load(mImages[pos])
                 }
             }
 

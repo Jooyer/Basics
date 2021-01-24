@@ -30,13 +30,14 @@ interface IFooterWrapper {
 
     /**
      * 加载完成
+     * @param isLoadSuccess --> 此次加载是成功还是失败,方便在加载脚更新文本
      */
     fun onLoadComplete(isLoadSuccess: Boolean)
 
     /**
      * 加载失败
      */
-    fun onLoadFailure( )
+    fun onLoadFailure()
 
     /**
      * 没有数据

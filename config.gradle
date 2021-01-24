@@ -67,9 +67,13 @@ ext {
             // https://github.com/square/retrofit
             retrofit                           : 'com.squareup.retrofit2:retrofit:2.9.0',
             // 用gson解析
-            converter_gson                     : 'com.squareup.retrofit2:converter-gson:2.9.0',
+//            converter_gson                     : 'com.squareup.retrofit2:converter-gson:2.9.0',
             // 日志
             logging_interceptor                : 'com.squareup.okhttp3:logging-interceptor:4.9.0',
+
+            moshi_kotlin                       : "com.squareup.moshi:moshi-kotlin:1.11.0",
+            moshi_kotlin_compiler              : "com.squareup.moshi:moshi-kotlin-codegen:1.11.0",
+            converter_moshi                    : 'com.squareup.retrofit2:converter-moshi:2.9.0',
 
 
             /////////////////////////////////////////
@@ -85,9 +89,12 @@ ext {
             permission                         : 'com.yanzhenjie:permission:2.0.3',
 
             //  https://github.com/bumptech/glide
-            glide                              : 'com.github.bumptech.glide:glide:4.11.0',
-            glide_compiler                     : 'com.github.bumptech.glide:compiler:4.11.0',
+//            glide                              : 'com.github.bumptech.glide:glide:4.11.0',
+//            glide_compiler                     : 'com.github.bumptech.glide:compiler:4.11.0',
 
+            // https://blog.csdn.net/u013762572/article/details/104864042
+            // https://blog.csdn.net/vitaviva/article/details/113064062
+            coil                               : 'io.coil-kt:coil:1.1.1',
 
             // https://github.com/Ashok-Varma/BottomNavigation
 //            bottom_navigation_bar: 'com.ashokvarma.android:bottom-navigation-bar:2.0.5',

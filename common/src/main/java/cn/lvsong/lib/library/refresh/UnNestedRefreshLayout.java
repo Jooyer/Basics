@@ -746,7 +746,7 @@ public class UnNestedRefreshLayout extends ViewGroup {
                 break;
             case RefreshState.HEADER_AUTO:
                 if (mHeaderListener != null) {
-                    mHeaderListener.onRefreshing();
+                    mHeaderListener.onAutoRefreshPreparing();
                 }
                 break;
             case RefreshState.HEADER_DRAG:
@@ -903,18 +903,27 @@ public class UnNestedRefreshLayout extends ViewGroup {
             throw new IllegalArgumentException("HeaderView is null");
         }
         if (mRefreshable) { // 刷新可用才能自动刷新
-            autoRefresh();
+            autoRefresh(0L);
         }
     }
 
-    private void autoRefresh() {
+    public void setAutoRefresh(long delay) {
+        if (null == mHeaderView) {
+            throw new IllegalArgumentException("HeaderView is null");
+        }
+        if (mRefreshable) { // 刷新可用才能自动刷新
+            autoRefresh(delay);
+        }
+    }
+
+    private void autoRefresh(long delay) {
         mRefreshing = true;
         // 这里是为了改变自动刷新时默认显示文本,否则会显示下拉刷新
         updateStatus(RefreshState.HEADER_AUTO);
         int duration = calculateTopScrollTime(mHeaderViewHeight);
         mScroller.startScroll(0, getScrollY(), 0, -mHeaderViewHeight, duration * 2);
         invalidate();
-        postDelayed(autoRefreshAction, duration);
+        postDelayed(autoRefreshAction, duration + delay);
     }
 
     /**

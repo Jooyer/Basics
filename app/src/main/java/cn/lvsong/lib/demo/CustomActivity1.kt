@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import cn.lvsong.lib.demo.util.ImageLoad
 import cn.lvsong.lib.library.adapter.CommonAdapter
 import cn.lvsong.lib.library.adapter.MultiItemTypeAdapter
 import cn.lvsong.lib.library.adapter.ViewHolder
@@ -26,6 +25,7 @@ import cn.lvsong.lib.library.utils.SelectorFactory
 import cn.lvsong.lib.library.view.ArrangeView
 import cn.lvsong.lib.library.view.MediumTextView
 import cn.lvsong.lib.ui.BaseActivity
+import coil.load
 import kotlinx.android.synthetic.main.activity_custom1.*
 
 class CustomActivity1 : BaseActivity() {
@@ -87,12 +87,8 @@ class CustomActivity1 : BaseActivity() {
             override fun getRangeView(position: Int, parent: ViewGroup): View {
                 val view = LayoutInflater.from(this@CustomActivity1)
                     .inflate(R.layout.item_arrange_view_peoples, parent, false)
-                ImageLoad.loader.loadImgWithCircleAndRing(
-                    view.findViewById(R.id.iv_range_view),
-                    getItem(position),
-                    2F,
-                    Color.WHITE
-                )
+                view.findViewById<AppCompatImageView>(R.id.iv_range_view).load(getItem(position))
+
                 return view
             }
         } )

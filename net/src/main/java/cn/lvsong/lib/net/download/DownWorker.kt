@@ -11,7 +11,7 @@ import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import java.io.File
 import java.io.InputStream
 import java.util.concurrent.Executors
@@ -113,7 +113,7 @@ class DownWorker(val context: Context, workerParams: WorkerParameters) : Listena
             val retrofit = Retrofit.Builder()
                     .client(client.build())
                     .baseUrl("http://dldir1.qq.com/")
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(MoshiConverterFactory.create())
                     .build()
 
             // 取消任务
