@@ -32,7 +32,7 @@
 
 ```groovy
 	dependencies {
-	        implementation 'com.github.Jooyer.Basics:common:1.0.13'
+	        implementation 'com.github.Jooyer.Basics:common:1.0.14'
 	}
 ```
 
@@ -131,6 +131,14 @@
 1. 修复Banner滑动bug
 2. 调整Banner指示器
 3. 调整StatusManager
+
+## v1.0.14变化:
+1. 去掉gson,更换moshi
+2. 去掉glide,更换coil
+3. 去掉glide相关的自定义类
+4. 调整刷新控件,增加自动刷新延迟方法,增加自动刷新回调,方便针对性做逻辑处理
+
+
 
 [toc]
 
