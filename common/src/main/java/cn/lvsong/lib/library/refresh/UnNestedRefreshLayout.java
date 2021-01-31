@@ -174,10 +174,11 @@ public class UnNestedRefreshLayout extends ViewGroup {
             }
         }
     };
+
     /**
      * 自动刷新 Runnable
      */
-    private Runnable autoRefreshAction = new Runnable() {
+    private final Runnable autoRefreshAction = new Runnable() {
         @Override
         public void run() {
             updateStatus(RefreshState.HEADER_REFRESHING);
@@ -185,9 +186,21 @@ public class UnNestedRefreshLayout extends ViewGroup {
     };
 
     /**
+     * 延迟刷新HeaderView Runnable,用于延时自动刷新
+     */
+    private final Runnable delayAutoRefreshAction = new Runnable() {
+        @Override
+        public void run() {
+            int duration = calculateTopScrollTime(mHeaderViewHeight);
+            mScroller.startScroll(0, getScrollY(), 0, -mHeaderViewHeight, duration * 2);
+            invalidate();
+        }
+    };
+
+    /**
      * 加载完成
      */
-    private Runnable loadCompletedAction = new Runnable() {
+    private final Runnable loadCompletedAction = new Runnable() {
         @Override
         public void run() {
             mScroller.startScroll(0, getScrollY(), 0, -getScrollY(), calculateBottomScrollTime(getScrollY()));
@@ -200,16 +213,17 @@ public class UnNestedRefreshLayout extends ViewGroup {
     /**
      * 加载 Runnable
      */
-    private Runnable loadingAction = new Runnable() {
+    private final Runnable loadingAction = new Runnable() {
         @Override
         public void run() {
             updateStatus(RefreshState.FOOTER_LOADING);
         }
     };
+
     /**
      * 没有数据的 Runnable
      */
-    private Runnable noDataAction = new Runnable() {
+    private final Runnable noDataAction = new Runnable() {
         @Override
         public void run() {
             updateStatus(noMoreData ? RefreshState.FOOTER_NO_MORE : RefreshState.FOOTER_PULL);
@@ -921,8 +935,12 @@ public class UnNestedRefreshLayout extends ViewGroup {
         // 这里是为了改变自动刷新时默认显示文本,否则会显示下拉刷新
         updateStatus(RefreshState.HEADER_AUTO);
         int duration = calculateTopScrollTime(mHeaderViewHeight);
-        mScroller.startScroll(0, getScrollY(), 0, -mHeaderViewHeight, duration * 2);
-        invalidate();
+        if (delay >0L){
+            postDelayed(delayAutoRefreshAction,delay);
+        }else {
+            mScroller.startScroll(0, getScrollY(), 0, -mHeaderViewHeight, duration * 2);
+            invalidate();
+        }
         postDelayed(autoRefreshAction, duration + delay);
     }
 

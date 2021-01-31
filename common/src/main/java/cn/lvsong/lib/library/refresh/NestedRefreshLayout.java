@@ -174,6 +174,19 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
             }
         }
     };
+
+    /**
+     * 延迟刷新HeaderView Runnable,用于延时自动刷新
+     */
+    private final Runnable delayAutoRefreshAction = new Runnable() {
+        @Override
+        public void run() {
+            int duration = calculateTopScrollTime(mHeaderViewHeight);
+            mScroller.startScroll(0, getScrollY(), 0, -mHeaderViewHeight, duration * 2);
+            invalidate();
+        }
+    };
+
     /**
      * 自动刷新 Runnable
      */
@@ -183,6 +196,7 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
             updateStatus(RefreshState.HEADER_REFRESHING);
         }
     };
+
     /**
      * 加载 Runnable
      */
@@ -931,6 +945,24 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
     }
 
     /**
+     * 需要等到 动画 结束后再将刷新状态回位, 在刷新结束后调用此方法, 在headerView动画结束后调用 {@link #setFinishRefreshByHeaderAnimatorEnd}
+     * @param isSuccess
+     */
+    public void setFinishRefreshBeforeAnimator(boolean isSuccess){
+        isRefreshSuccess = isSuccess;
+        updateStatus(isRefreshSuccess ? RefreshState.HEADER_COMPLETED : RefreshState.HEADER_FAILURE);
+    }
+
+    /**
+     * 在 HeaderView 动画结束后,如果调用过 {@link #setFinishRefreshBeforeAnimator } 需要 在 HeaderView 动画结束后的调用此方法,否则刷新头不会回位
+     * eg: AnimatorListenerAdapter.onAnimationEnd() 中调用
+     * @param delay --> 延迟关闭动画 ,建议最小 800ms
+     */
+    public void setFinishRefreshByHeaderAnimatorEnd(long delay){
+        postDelayed(refreshAction, delay);
+    }
+
+    /**
      * 加载完成
      *
      * @param isSuccess --> 可以根据这个值,设置加载成功或者失败
@@ -987,8 +1019,12 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
         // 这里是为了改变自动刷新时默认显示文本,否则会显示下拉刷新
         updateStatus(RefreshState.HEADER_AUTO);
         int duration = calculateTopScrollTime(mHeaderViewHeight);
-        mScroller.startScroll(0, getScrollY(), 0, -mHeaderViewHeight, duration * 2);
-        invalidate();
+        if (delay >0L){
+            postDelayed(delayAutoRefreshAction,delay);
+        }else {
+            mScroller.startScroll(0, getScrollY(), 0, -mHeaderViewHeight, duration * 2);
+            invalidate();
+        }
         postDelayed(autoRefreshAction, duration + delay);
     }
 

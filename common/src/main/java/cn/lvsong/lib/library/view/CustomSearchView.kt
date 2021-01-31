@@ -369,7 +369,7 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
 
         act_search_right_btn.setOnClickListener(object : OnClickFastListener() {
             override fun onFastClick(v: View) {
-                mListener?.onClickRightButton(v,et_search_view_search.text.toString())
+                mListener?.onClickRightButton(v, et_search_view_search.text.toString())
             }
         })
 
@@ -402,6 +402,11 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
             context.resources.displayMetrics
         )
     }
+
+    /**
+     * 返回输入框控件
+     */
+    fun getEditText() = et_search_view_search
 
     /**
      * 设置输入框内容

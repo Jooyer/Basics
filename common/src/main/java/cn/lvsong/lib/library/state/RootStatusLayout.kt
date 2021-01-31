@@ -72,8 +72,8 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
      */
     private var onRetryListener: OnRetryListener? = null
 
-    fun setTransY(transY: Int) {
-        mTransY = DensityUtil.dp2pxRtInt(transY)
+    fun setTransY( transY: Int) {
+        mTransY = transY
     }
 
     fun setStatusManager(manager: StatusManager) {

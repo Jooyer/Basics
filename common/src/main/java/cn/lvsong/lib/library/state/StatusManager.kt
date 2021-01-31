@@ -115,6 +115,9 @@ class StatusManager(builder: Builder) {
     @ColorRes
     var mLoadingViewBackgroundColor = -1
 
+    /**
+     * 设置平移距离,单位是px,也就是需要在使用时换算好
+     */
     fun setTransY(transY: Int) {
         mRootFrameLayout.setTransY(transY)
     }
