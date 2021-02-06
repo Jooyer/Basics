@@ -1,20 +1,13 @@
 package cn.lvsong.lib.library.banner
 
 import android.content.Context
-import android.graphics.Rect
-import android.graphics.drawable.Drawable
 import android.os.Looper
 import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
-import android.widget.LinearLayout
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import cn.lvsong.lib.library.R
-import cn.lvsong.lib.library.utils.DensityUtil
 import kotlin.math.abs
 
 /** https://www.jianshu.com/p/1f72644bb560  -->  指示器
@@ -63,11 +56,20 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
     private var mTotalScroll = 0F
 
     /**
+     * 触摸状态
+     * 1: 按下
+     * 2: 抬起
+     * 3: 翻页不成功,indicator回退
+     * 4: 翻页
+     *
+     */
+    private var mState = 0
+
+    /**
      * 自动滑动的 Runnable
      */
     private val mAutoScrollRunnable = object : Runnable {
         override fun run() {
-//            mIndicator?.onPageSelected(mCurrentPos)
             mCurrentPos = ++mCurrentPos % mLayoutManager.itemCount
 //            Log.e("BannerLayout", "AutoScroll========mCurrentPos: $mCurrentPos")
             mBanner.smoothScrollToPosition(mCurrentPos)
@@ -76,7 +78,6 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
     }
 
     private val mDelayRunnable = Runnable { mIndicator?.onPageSelected(mCurrentPos) }
-
 
     init {
         initView(context)
@@ -101,21 +102,31 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
         mBanner.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 if (RecyclerView.SCROLL_STATE_IDLE == newState) { // 滑动停止
-//                    Log.e(
-//                        "BannerLayout",
-//                        "onScrollStateChanged========mCurrentPos: $mCurrentPos"
-//                    )
-                    mTotalScroll = 0F
-                    mPositionChangeListener?.onPositionChange(mCurrentPos)
-                    postDelayed(mDelayRunnable, 200)
+                    Log.e(
+                        "BannerLayout",
+                        "onScrollStateChanged========mCurrentPos: $mCurrentPos, mTouchState: $mState"
+                    )
+                    if (2 == mState) {
+                        mState = 3
+                        removeCallbacks(mDelayRunnable)
+                    } else {
+                        mState = 0
+                        mTotalScroll = 0F
+                        mPositionChangeListener?.onPositionChange(mCurrentPos)
+                        postDelayed(mDelayRunnable, 50)
+                    }
                 }
             }
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                mTotalScroll += abs(dx)
+                mTotalScroll += if (3 == mState) {
+                    -abs(dx)
+                } else {
+                    abs(dx)
+                }
 //                Log.e(
 //                    "BannerLayout",
-//                    "onScrolled========dx: $dx, mTotalScroll: $mTotalScroll, width: ${recyclerView.width}"
+//                    "onScrolled========dx: $dx, mTotalScroll: $mTotalScroll, width: ${recyclerView.width}, offset: ${mTotalScroll / recyclerView.width}"
 //                )
                 mIndicator?.onPageScrolled(mTotalScroll / recyclerView.width)
             }
@@ -137,8 +148,11 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
      */
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
         if (MotionEvent.ACTION_DOWN == ev.actionMasked) { // 手指在 Banner 上,此时不再自动滑动
+            mState = 1
             autoScroll(false)
         } else if (MotionEvent.ACTION_UP == ev.actionMasked || MotionEvent.ACTION_CANCEL == ev.actionMasked) {
+            mState = 2
+            Log.e("BannerLayout", "dispatchTouchEvent======== MotionEvent.ACTION_UP")
             autoScroll(true)
         }
         return super.dispatchTouchEvent(ev)
@@ -169,7 +183,8 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
      */
     override fun onPositionChange(position: Int) {
         mCurrentPos = position
-//        Log.e("BannerLayout", "onPositionChange========mCurrentPos: $mCurrentPos")
+        mState = 4
+        Log.e("BannerLayout", "onPositionChange========mCurrentPos: $mCurrentPos")
     }
 
 

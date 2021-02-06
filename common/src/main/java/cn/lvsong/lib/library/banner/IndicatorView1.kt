@@ -1,5 +1,6 @@
 package cn.lvsong.lib.library.banner
 
+import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
@@ -22,6 +23,10 @@ import kotlin.math.max
  * Time: 11:17
  */
 class IndicatorView1(context: Context) : View(context), Indicator {
+
+    private val mInterpolator = DecelerateInterpolator()
+
+    private val mOffsetDuration = 500L
 
     /**
      * 指示器数量
@@ -57,12 +62,12 @@ class IndicatorView1(context: Context) : View(context), Indicator {
     /**
      * 选中指示器半径
      */
-    private var mSelectedIndicatorRadius = DensityUtil.dp2pxRtInt(6)
+    private var mSelectedIndicatorRadius = DensityUtil.dp2pxRtInt(5)
 
     /**
      * 指示器间隔
      */
-    private var mSpacing = 0F
+    private var mSpacing = DensityUtil.dp2pxRtInt(1)
 
     /**
      * 指示器画笔
@@ -109,13 +114,37 @@ class IndicatorView1(context: Context) : View(context), Indicator {
         return indicatorLayoutParam
     }
 
-    override fun onPageScrolled( scrollOffset: Float) {
+    override fun onPageScrolled(scrollOffset: Float) {
+        Log.e(
+            "Indicator",
+            "onPageScrolled========>>>>>scrollOffset: $scrollOffset, mSelectedPage: $mSelectedPage"
+        )
         mScrollOffset = scrollOffset
         invalidate()
     }
 
     override fun onPageSelected(position: Int) {
-        mSelectedPage = position
+        Log.e(
+            "Indicator",
+            "onPageSelected1========>>>>>position: $position, mSelectedPage: $mSelectedPage ,mScrollOffset: $mScrollOffset"
+        )
+        if (position != mSelectedPage) {
+            mSelectedPage = position
+            Log.e(
+                "Indicator",
+                "onPageSelected2========>>>>>position: $position, mSelectedPage: $mSelectedPage "
+            )
+        } else {
+            if (mScrollOffset > 0F) {
+                val offsetAnimator = ValueAnimator.ofFloat(mScrollOffset, 0F)
+                offsetAnimator.duration = (mOffsetDuration * mScrollOffset).toLong()
+                offsetAnimator.addUpdateListener {
+                    mScrollOffset = it.animatedValue as Float
+                    invalidate()
+                }
+                offsetAnimator.start()
+            }
+        }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -177,8 +206,6 @@ class IndicatorView1(context: Context) : View(context), Indicator {
         }
     }
 
-    private val mInterpolator = DecelerateInterpolator()
-
     /**
      * 绘制选中的指示器
      */
@@ -238,6 +265,14 @@ class IndicatorView1(context: Context) : View(context), Indicator {
         // 第一个圆: 在 半径 + paddingLeft 位置
         // 第二个圆: 在 1.5个半径 + paddingLeft + mSpacing 位置
         return paddingLeft + perWidth + perSpacing * index
+    }
+
+    /**
+     * 设置小球间间隔
+     */
+    fun setSpacing(spacing: Int): IndicatorView1 {
+        mSpacing = spacing
+        return this
     }
 
 }

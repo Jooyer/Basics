@@ -44,7 +44,7 @@ class BannerActivity : AppCompatActivity() {
         val tv_text = footerView.findViewById<AppCompatTextView>(R.id.tv_text)
 
         // 普通用法
-        headerBanner.setIndicatorView(IndicatorView1(this))
+        headerBanner.setIndicatorView(IndicatorView1(this).setSpacing(DensityUtil.dp2pxRtInt(2)))
             .setManager(HorizontalLayoutManager(DensityUtil.dp2pxRtInt(10)))
             .setAdapter(CustomAdapter(datas, R.layout.item_banner_normal))
             .loop()
