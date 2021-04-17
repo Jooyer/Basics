@@ -1,6 +1,8 @@
 package cn.lvsong.lib.net.intercepter
 
+import android.os.Build
 import android.util.Log
+import cn.lvsong.lib.net.BuildConfig
 import okhttp3.Interceptor
 import okhttp3.Response
 import okio.Buffer
@@ -33,22 +35,26 @@ class LoggingInterceptor : Interceptor {
         }
 
         val t1 = System.nanoTime()
-        Log.e(
-            TAG, "=======request=======" + String.format(
-                "Sending request %s on %s%n%s",
-                request.url, chain.connection(), request.headers
+        if (BuildConfig.DEBUG) {
+            Log.e(
+                TAG, "=======request=======" + String.format(
+                    "Sending request %s on %s%n%s",
+                    request.url, chain.connection(), request.headers
+                )
             )
-        )
+        }
 
         val response = chain.proceed(request)
 
         val t2 = System.nanoTime()
-        Log.e(
-            TAG, "=======response=======" + String.format(
-                "Received response for %s in %.1fms%n%sconnection=%s",
-                response.request.url, (t2 - t1) / 1e6, response.headers, chain.connection()
-            ) + "\n request pram: " + param
-        )
+        if (BuildConfig.DEBUG) {
+            Log.e(
+                TAG, "=======response=======" + String.format(
+                    "Received response for %s in %.1fms%n%sconnection=%s",
+                    response.request.url, (t2 - t1) / 1e6, response.headers, chain.connection()
+                ) + "\n request pram: " + param
+            )
+        }
         return response
     }
 

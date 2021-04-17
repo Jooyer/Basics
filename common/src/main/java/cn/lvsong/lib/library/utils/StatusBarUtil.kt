@@ -244,8 +244,8 @@ object StatusBarUtil {
         } else {
             val outRect = Rect()
             decorView.getWindowVisibleDisplayFrame(outRect)
-            Log.i("StatusBar", "可视区域:$outRect")
-            Log.i("StatusBar", "屏幕高度:$measuredHeight")
+//            Log.i("StatusBar", "可视区域======:$outRect")
+//            Log.i("StatusBar", "屏幕高度======:$measuredHeight")
             if (decorView is ViewGroup) {
                 val childCount = decorView.childCount
                 if (childCount > 0) {
@@ -253,7 +253,7 @@ object StatusBarUtil {
                         decorView.getChildAt(0)
                     Log.i(
                         "StatusBar",
-                        "内容高度:" + contentView.measuredHeight + " p:" + contentView.paddingTop
+                        "内容高度=====:" + contentView.measuredHeight + " p:" + contentView.paddingTop
                     )
                 }
                 if (childCount > 1) {

@@ -114,21 +114,21 @@ class LoadMoreWrapper<T>(private val mContext: Context,
             when (status) {
                 -1 -> {
                     showLoadingFailView()
-                    Log.i("info", "=====-1====")
+//                    Log.i("info", "=====-1====")
                 }
 
                 0 -> {
                     showLoadEndView()
-                    Log.i("info", "=====0====")
+//                    Log.i("info", "=====0====")
                 }
 
                 1 -> {
                     showLoadingView()
-                    Log.i("info", "=====1====")
+//                    Log.i("info", "=====1====")
                 }
                 2 -> if (mLoadingMoreView != null) {
                     mLoadingMoreView!!.visibility = View.GONE
-                    Log.i("info", "=====2====" + mLoadingMoreView!!.visibility)
+//                    Log.i("info", "=====2====" + mLoadingMoreView!!.visibility)
                 }
             }
         }

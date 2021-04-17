@@ -34,6 +34,9 @@ class StatusActivity : BaseActivity() {
 
     override fun useStatusManager() = true
 
+    override fun getTransY(): Int {
+        return DensityUtil.dp2pxRtInt(48)
+    }
 
 //    override fun getLoadingViewBackgroundColor() = R.color.color_2878FF
 

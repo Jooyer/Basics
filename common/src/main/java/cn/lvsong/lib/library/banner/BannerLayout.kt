@@ -152,7 +152,7 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
             autoScroll(false)
         } else if (MotionEvent.ACTION_UP == ev.actionMasked || MotionEvent.ACTION_CANCEL == ev.actionMasked) {
             mState = 2
-            Log.e("BannerLayout", "dispatchTouchEvent======== MotionEvent.ACTION_UP")
+//            Log.e("BannerLayout", "dispatchTouchEvent======== MotionEvent.ACTION_UP")
             autoScroll(true)
         }
         return super.dispatchTouchEvent(ev)
@@ -184,7 +184,7 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
     override fun onPositionChange(position: Int) {
         mCurrentPos = position
         mState = 4
-        Log.e("BannerLayout", "onPositionChange========mCurrentPos: $mCurrentPos")
+//        Log.e("BannerLayout", "onPositionChange========mCurrentPos: $mCurrentPos")
     }
 
 

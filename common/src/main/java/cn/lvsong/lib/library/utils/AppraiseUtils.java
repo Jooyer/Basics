@@ -8,9 +8,12 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.lvsong.lib.library.R;
 
 /**
  * https://blog.csdn.net/scau_zhangpeng/article/details/79098613
@@ -75,24 +78,35 @@ public class AppraiseUtils {
         pkgList.add("com.tencent.android.qqdownloader"); // 应用宝
         pkgList.add("com.qihoo.appstore"); // 360 手机助手
         pkgList.add("com.baidu.appsearch"); // 百度手机助手
+
         pkgList.add("com.xiaomi.market"); // 小米应用商店
         pkgList.add("com.huawei.appmarket"); // 华为应用商店
+
         pkgList.add("com.oppo.market"); // oppo 应用商店
+        pkgList.add("com.heytap.market"); // oppo/一加 应用商店
+
         pkgList.add("com.vivo.market"); // vivo 应用商店
-        pkgList.add("com.dragon.android.pandaspace"); // 91应用商店
-        pkgList.add("com.hiapk.marketpho"); // 安智应用商店
-        pkgList.add("com.yingyonghui.market"); // 应用汇应用商店
-        pkgList.add("com.mappn.gfan"); // 机锋应用商店
-        pkgList.add("com.pp.assistant"); // PP助手应用商店
+        pkgList.add("com.meizu.mstore"); // 魅族 应用商店
+
+        pkgList.add("com.coolapk.market"); // 酷安市场
         pkgList.add("com.wandoujia.phoenix2"); // 豌豆荚应用商店
-        pkgList.add("com.bbk.appstore"); // 步步高应用商店
+
+        //不常用
+//        pkgList.add("com.bbk.appstore"); // 步步高应用商店
+//        pkgList.add("com.dragon.android.pandaspace"); // 91应用商店
+//        pkgList.add("com.hiapk.marketpho"); // 安智应用商店
+//        pkgList.add("com.yingyonghui.market"); // 应用汇应用商店
+//        pkgList.add("com.mappn.gfan"); // 机锋应用商店
+//        pkgList.add("com.pp.assistant"); // PP助手应用商店
+
 
         ArrayList<String> pkgs = new ArrayList<String>();
         if (context == null)
             return pkgs;
         Intent intent = new Intent();
         intent.setAction("android.intent.action.MAIN");
-        intent.addCategory("android.intent.category.APP_MARKET");
+//        intent.addCategory("android.intent.category.APP_MARKET");
+        intent.addCategory("android.intent.category.LAUNCHER");
         PackageManager pm = context.getPackageManager();
         List<ResolveInfo> infos = pm.queryIntentActivities(intent, 0);
         if (infos != null && infos.size() > 0) {
@@ -104,17 +118,17 @@ public class AppraiseUtils {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                if (!TextUtils.isEmpty(pkgName)){
+                if (!TextUtils.isEmpty(pkgName)) {
                     pkgs.add(pkgName);
                 }
 
             }
         }
 
-        //取两个list并集,去除重复
-        pkgList.removeAll(pkgs);
-        pkgs.addAll(pkgList);
-        return pkgs;
+        //取两个list交集,去除重复
+        pkgList.retainAll(pkgs);
+
+        return pkgList;
     }
 
 
@@ -178,8 +192,10 @@ public class AppraiseUtils {
      */
     public static void launchAppDetail(Context context, String appPkg, String marketPkg) {
         try {
-            if (TextUtils.isEmpty(appPkg))
+            if (TextUtils.isEmpty(appPkg)) {
+                Toast.makeText(context, R.string.appraise_package_null, Toast.LENGTH_SHORT).show();
                 return;
+            }
             Uri uri = Uri.parse("market://details?id=" + appPkg);
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             if (!TextUtils.isEmpty(marketPkg))
@@ -187,9 +203,8 @@ public class AppraiseUtils {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         } catch (Exception e) {
+            Toast.makeText(context, R.string.appraise_package_null, Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
     }
-
-
 }

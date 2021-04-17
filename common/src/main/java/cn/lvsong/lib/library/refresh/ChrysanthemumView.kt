@@ -5,10 +5,12 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.RectF
 import android.util.AttributeSet
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import androidx.core.content.ContextCompat
 import cn.lvsong.lib.library.R
+import cn.lvsong.lib.library.state.StartAndStopAnimController
 
 /** https://www.jianshu.com/p/cb42e75711f1
  * Desc: 自定义 仿 IOS 菊花
@@ -31,7 +33,8 @@ import cn.lvsong.lib.library.R
         />
  */
 
-class ChrysanthemumView(context: Context, attrs: AttributeSet) : View(context, attrs) {
+class ChrysanthemumView(context: Context, attrs: AttributeSet) : View(context, attrs),
+    StartAndStopAnimController {
 
     private lateinit var rectF: RectF
 
@@ -116,16 +119,16 @@ class ChrysanthemumView(context: Context, attrs: AttributeSet) : View(context, a
     override fun setVisibility(visibility: Int) {
         super.setVisibility(visibility)
         if (VISIBLE == visibility) {
-            start()
+            onStartAnimator()
         } else {
-            stop()
+            onStopAnimator()
         }
     }
 
     /**
      * 开始旋转,如果控件可见就会自动执行,不必手动调用
      */
-    fun start() {
+    override fun onStartAnimator() {
         if (!run) {
             postInvalidateDelayed(100)
             run = true
@@ -135,7 +138,7 @@ class ChrysanthemumView(context: Context, attrs: AttributeSet) : View(context, a
     /**
      * 暂停旋转,如果控件不可见就会自动执行,不必手动调用
      */
-    fun stop() {
+    override fun onStopAnimator() {
         run = false
     }
 }

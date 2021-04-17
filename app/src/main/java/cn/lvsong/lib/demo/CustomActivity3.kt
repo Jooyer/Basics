@@ -110,7 +110,7 @@ class CustomActivity3 : BaseActivity() {
                     )
 
                 } else {
-                    view.findViewById<AppCompatImageView>(R.id.iv_nine_item).load(mImages[pos])
+                    view.findViewById<AppCompatImageView>(R.id.iv_nine_item).load(mImages2[pos])
                 }
             }
 

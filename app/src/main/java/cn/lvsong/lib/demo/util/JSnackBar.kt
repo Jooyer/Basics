@@ -72,7 +72,6 @@ class JSnackBar private constructor(builder: Builder) {
     private lateinit var mSnackbar: Snackbar
 
     init {
-        println("showSignError============3")
         builder.getAttachView()?.let { attachView ->
             mSnackbar = Snackbar.make(attachView, builder.getMessage(), builder.getDuration())
             mSnackbar.duration = builder.getDuration()
@@ -296,7 +295,6 @@ class JSnackBar private constructor(builder: Builder) {
 
 
         fun build(): JSnackBar {
-            println("showSignError============2")
             return JSnackBar(this)
         }
     }

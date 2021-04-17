@@ -72,7 +72,7 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
      */
     private var onRetryListener: OnRetryListener? = null
 
-    fun setTransY( transY: Int) {
+    fun setTransY(transY: Int) {
         mTransY = transY
     }
 
@@ -236,6 +236,9 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
                         val param = value.layoutParams as LayoutParams
                         param.topMargin = mTransY
                         value.layoutParams = param
+                        if (value is ViewGroup) {
+                            changeAnimator(value, true)
+                        }
                     } else if (View.VISIBLE == value.visibility) {
                         value.animate()
                             .alpha(0F)
@@ -243,6 +246,9 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
                             .withEndAction {
                                 value.visibility = View.GONE
                                 value.alpha = 1F
+                                if (value is ViewGroup) {
+                                    changeAnimator(value, false)
+                                }
                             }
                     }
                 }
@@ -283,6 +289,24 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
             }
         }
 
+    }
+
+    private fun changeAnimator(viewGroup: ViewGroup, start: Boolean) {
+        for (i in 0 until viewGroup.childCount) {
+            val child = viewGroup.getChildAt(i)
+            if (child is StartAndStopAnimController) {
+                if (start){
+                    child.onStartAnimator()
+                }else{
+                    child.onStopAnimator()
+                }
+                break
+            } else {
+                if (child is ViewGroup) {
+                    changeAnimator(child, start)
+                }
+            }
+        }
     }
 
     /**

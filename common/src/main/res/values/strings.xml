@@ -13,4 +13,6 @@
     <string name="common_ui_net_error_retry">网络错误,点击任意位置重试</string>
     <string name="common_ui_other_error_tip">解析错误,点击任意位置重试</string>
 
+    <string name="appraise_package_null">未找到合适的应用商店</string>
+
 </resources>

@@ -22,13 +22,8 @@ class TokenInterceptor : Interceptor {
             .addHeader("Accept", "application/json;charset=UTF-8")
             .addHeader(
                 "Access-Token",NetWorkUtil.getAccessToken()
-            ) // TODO
+            )
             .build()
-        //
-        Log.i(
-            "TokenInterceptor",
-            "=======Access-Token : " + NetWorkUtil.getAccessToken()
-        )
         return chain.proceed(newRequest)
     }
 

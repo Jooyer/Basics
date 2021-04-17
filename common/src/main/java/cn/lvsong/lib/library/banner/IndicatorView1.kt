@@ -115,25 +115,25 @@ class IndicatorView1(context: Context) : View(context), Indicator {
     }
 
     override fun onPageScrolled(scrollOffset: Float) {
-        Log.e(
-            "Indicator",
-            "onPageScrolled========>>>>>scrollOffset: $scrollOffset, mSelectedPage: $mSelectedPage"
-        )
+//        Log.e(
+//            "Indicator",
+//            "onPageScrolled========>>>>>scrollOffset: $scrollOffset, mSelectedPage: $mSelectedPage"
+//        )
         mScrollOffset = scrollOffset
         invalidate()
     }
 
     override fun onPageSelected(position: Int) {
-        Log.e(
-            "Indicator",
-            "onPageSelected1========>>>>>position: $position, mSelectedPage: $mSelectedPage ,mScrollOffset: $mScrollOffset"
-        )
+//        Log.e(
+//            "Indicator",
+//            "onPageSelected1========>>>>>position: $position, mSelectedPage: $mSelectedPage ,mScrollOffset: $mScrollOffset"
+//        )
         if (position != mSelectedPage) {
             mSelectedPage = position
-            Log.e(
-                "Indicator",
-                "onPageSelected2========>>>>>position: $position, mSelectedPage: $mSelectedPage "
-            )
+//            Log.e(
+//                "Indicator",
+//                "onPageSelected2========>>>>>position: $position, mSelectedPage: $mSelectedPage "
+//            )
         } else {
             if (mScrollOffset > 0F) {
                 val offsetAnimator = ValueAnimator.ofFloat(mScrollOffset, 0F)
