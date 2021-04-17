@@ -32,7 +32,7 @@
 
 ```groovy
 	dependencies {
-	        implementation 'com.github.Jooyer.Basics:common:1.0.14'
+	        implementation 'com.github.Jooyer.Basics:common:1.0.16'
 	}
 ```
 
@@ -143,7 +143,10 @@
 2. 调整StatusManager中方法
 3. 对Banner指示器进行调整,但是如果Banner数量大于2手动滑动还是有bug
 
-
+## v1.0.16变化:
+1. 注释部分无用的日志,删除部分无用类
+2. 对跳转市场评价AppraiseUtils进行调整
+3. 对statu管理器增加StartAndStopAnimController,精准控制加载动画,具体参考: ChrysanthemumView 和 StatusActivity
 
 [toc]
 
@@ -480,8 +483,8 @@ class CustomAdapter(data: List<String>, layoutId: Int) :
 
 | 方法名称 | 作用                                             |
 | -------- | ------------------------------------------------ |
-| start()  | 开始旋转,如果控件可见就会自动执行,不必手动调用   |
-| stop()   | 暂停旋转,如果控件不可见就会自动执行,不必手动调用 |
+| onStartAnimator()  | 开始旋转,如果控件可见就会自动执行,不必手动调用   |
+| onStopAnimator()   | 暂停旋转,如果控件不可见就会自动执行,不必手动调用 |
 
 
 
