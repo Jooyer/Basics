@@ -1,7 +1,9 @@
 package cn.lvsong.lib.library.banner
 
 import android.view.View
+import androidx.annotation.Px
 import androidx.constraintlayout.widget.ConstraintLayout
+
 
 /**
  * 参考 https://hub.fastgit.org/zguop/banner
@@ -28,9 +30,10 @@ interface Indicator {
     fun getIndicatorViewLayoutParam(): ConstraintLayout.LayoutParams
 
     /**
-     * @param scrollOffset --> 当前位置在屏幕总滑动,占据滑动方向总宽度的比率, [0,1)
+     * @param offset  -->  当前位置在屏幕总滑动,占据滑动方向总宽度的比率, [0,1)
+     * @param offsetPx -->  当前位置偏移距离
      */
-    fun onPageScrolled(scrollOffset: Float)
+    open fun onPageScrolled(position: Int, offset: Float, @Px offsetPx: Int)
 
     /**
      * 滑动完成后下标位置

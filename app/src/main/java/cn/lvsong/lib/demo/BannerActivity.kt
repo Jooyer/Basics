@@ -5,8 +5,6 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatTextView
 import cn.lvsong.lib.demo.adapter.CustomAdapter
-import cn.lvsong.lib.demo.adapter.CustomAdapter2
-import cn.lvsong.lib.demo.adapter.GalleryAdapter
 import cn.lvsong.lib.library.adapter.CommonAdapter
 import cn.lvsong.lib.library.adapter.HeaderAndFooterWrapper
 import cn.lvsong.lib.library.adapter.ViewHolder
@@ -21,7 +19,7 @@ class BannerActivity : AppCompatActivity() {
 
     private val datas = arrayListOf(
 //        "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3820948238,3810516733&fm=26&gp=0.jpg",
-//        "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1545980553,2413955112&fm=26&gp=0.jpg",
+        "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1545980553,2413955112&fm=26&gp=0.jpg",
         "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2412068931,3031791558&fm=26&gp=0.jpg",
         "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=286946846,3770652173&fm=26&gp=0.jpg"
     )
@@ -44,7 +42,7 @@ class BannerActivity : AppCompatActivity() {
         val tv_text = footerView.findViewById<AppCompatTextView>(R.id.tv_text)
 
         // 普通用法
-        headerBanner.setIndicatorView(IndicatorView1(this).setSpacing(DensityUtil.dp2pxRtInt(2)))
+        headerBanner.setIndicatorView(IndicatorView(this).setSpacing(DensityUtil.dp2pxRtInt(2)))
             .setManager(HorizontalLayoutManager(DensityUtil.dp2pxRtInt(10)))
             .setAdapter(CustomAdapter(datas, R.layout.item_banner_normal))
             .loop()
@@ -54,7 +52,7 @@ class BannerActivity : AppCompatActivity() {
         val titles = arrayListOf("818活动刚刚过去...", "双十一活动报名现在开始...", "双十二活动即将到来...", "活动多得停不下来啦...")
         tv_text.text = titles[0]
         val footerAdapter = CustomAdapter(datas, R.layout.item_banner_normal)
-        footerBanner.setIndicatorView(IndicatorView1(this))
+        footerBanner.setIndicatorView(IndicatorView(this))
             .setManager(GalleryLayoutManager())
             .setAdapter(footerAdapter)
             .loop()
@@ -71,21 +69,21 @@ class BannerActivity : AppCompatActivity() {
                 when (position) {
                     1 -> {
                         holder.getView<BannerLayout>(R.id.banner)
-                            .setIndicatorView(IndicatorView1(this@BannerActivity))
+                            .setIndicatorView(IndicatorView(this@BannerActivity))
                             .setManager(GalleryLayoutManager())
                             .setAdapter(CustomAdapter(datas, R.layout.item_banner_normal))
                             .loop()
                     }
                     2 -> {
                         holder.getView<BannerLayout>(R.id.banner)
-                            .setIndicatorView(IndicatorView1(this@BannerActivity))
+                            .setIndicatorView(IndicatorView(this@BannerActivity))
                             .setManager(HorizontalLayoutManager(DensityUtil.dp2pxRtInt(30)))
                             .setAdapter(CustomAdapter(datas, R.layout.item_banner_normal))
                             .loop()
                     }
                     else -> {
                         holder.getView<BannerLayout>(R.id.banner)
-                            .setIndicatorView(IndicatorView1(this@BannerActivity))
+                            .setIndicatorView(IndicatorView(this@BannerActivity))
                             .setManager(HorizontalLayoutManager(DensityUtil.dp2pxRtInt(30)))
                             .setAdapter(CustomAdapter(datas, R.layout.item_banner_normal))
                             .loop()

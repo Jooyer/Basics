@@ -3,9 +3,7 @@ package cn.lvsong.lib.library.banner
 import android.graphics.PointF
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearSmoothScroller
-import androidx.recyclerview.widget.OrientationHelper
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
 
 /**
  * https://www.jianshu.com/p/3994bbdcc624  --> 滑动大小渐变
@@ -25,7 +23,10 @@ import androidx.recyclerview.widget.RecyclerView
  * @param itemMargin --> Item 间隔,默认 0
  * @param itemScrollTime --> Item 从屏幕左侧完成消失的时间,此值越大在屏幕滑过时间越长,单位是毫秒
  */
-open class HorizontalLayoutManager(private val itemMargin: Int = 0, private val itemScrollTime: Long = 1200) :
+open class HorizontalLayoutManager(
+    private val itemMargin: Int = 0,
+    private val itemScrollTime: Long = 1200
+) :
     RecyclerView.LayoutManager(),
     RecyclerView.SmoothScroller.ScrollVectorProvider {
 
@@ -46,7 +47,7 @@ open class HorizontalLayoutManager(private val itemMargin: Int = 0, private val 
         // 所以强制自动滑动向右
 //        val firstChildPos = getPosition(getChildAt(0)!!)
 //        val direction = if (targetPosition < firstChildPos) -1 else 1
-        return  PointF(1F, 0F)
+        return PointF(1F, 0F)
     }
 
     override fun generateDefaultLayoutParams(): RecyclerView.LayoutParams {
@@ -63,7 +64,7 @@ open class HorizontalLayoutManager(private val itemMargin: Int = 0, private val 
      * 临时保存在一个集合里，然后进入fill的时候会从这个集合取出来重新添加到RecyclerView中，这就是前面说的保存在mAttachedScrap的子view会马上用到的原因
      */
     override fun onLayoutChildren(recycler: RecyclerView.Recycler, state: RecyclerView.State) {
-        if (!this::mOrientationHelper.isInitialized){
+        if (!this::mOrientationHelper.isInitialized) {
             mOrientationHelper = OrientationHelper.createHorizontalHelper(this)
         }
 
@@ -171,36 +172,6 @@ open class HorizontalLayoutManager(private val itemMargin: Int = 0, private val 
 
 //        smoothScrollBy(recyclerView, position)
     }
-
-//    private fun smoothScrollBy(recyclerView: RecyclerView, position: Int) {
-//        var targetPosition = position
-//        if (itemCount <= 0 || (targetPosition < 0 || targetPosition > itemCount - 1)) {
-//            return
-//        }
-//        if (itemCount > 0) {
-//            targetPosition = (targetPosition % itemCount + itemCount) % itemCount
-//        }
-//        val currentPosition = getCurrentPosition()
-//        val offset = if (currentPosition == itemCount - 1 && targetPosition == 0) {
-//            itemWidth + spaceWidth
-//        } else {
-//            (targetPosition - currentPosition) * itemWidth + spaceWidth
-//        }
-//        Log.e("BannerLayout","smoothScrollBy========offset: $offset, position: $position")
-//        recyclerView.smoothScrollBy(offset, 0, null, if (mDetach) 0 else itemScrollTime)
-//    }
-//
-//    private fun getCurrentPosition(): Int {
-//        for (i in 0 until childCount) {
-//            val child = getChildAt(i) ?: continue
-//            if (getDecoratedLeft(child) >= 0
-//                && getDecoratedRight(child) <= mOrientationHelper.totalSpace
-//            ) {
-//                return getPosition(child)
-//            }
-//        }
-//        return -1
-//    }
 
     /**
      * scrollHorizontallyBy()/scrollVerticallyBy() 方法中,一般执行四个步骤

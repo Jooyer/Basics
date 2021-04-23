@@ -1,17 +1,15 @@
 package cn.lvsong.lib.library.banner
 
-import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
-import android.view.animation.Interpolator
 import androidx.annotation.ColorInt
+import androidx.annotation.Px
 import androidx.constraintlayout.widget.ConstraintLayout
 import cn.lvsong.lib.library.utils.DensityUtil
 import kotlin.math.max
@@ -22,7 +20,7 @@ import kotlin.math.max
  * Date: 2020-11-28
  * Time: 11:17
  */
-class IndicatorView1(context: Context) : View(context), Indicator {
+class IndicatorView(context: Context) : View(context), Indicator {
 
     private val mInterpolator = DecelerateInterpolator()
 
@@ -114,37 +112,13 @@ class IndicatorView1(context: Context) : View(context), Indicator {
         return indicatorLayoutParam
     }
 
-    override fun onPageScrolled(scrollOffset: Float) {
-//        Log.e(
-//            "Indicator",
-//            "onPageScrolled========>>>>>scrollOffset: $scrollOffset, mSelectedPage: $mSelectedPage"
-//        )
-        mScrollOffset = scrollOffset
+    override fun onPageScrolled(position: Int, offset: Float, @Px offsetPx: Int) {
+        mScrollOffset = offset
+        mSelectedPage = position
         invalidate()
     }
 
     override fun onPageSelected(position: Int) {
-//        Log.e(
-//            "Indicator",
-//            "onPageSelected1========>>>>>position: $position, mSelectedPage: $mSelectedPage ,mScrollOffset: $mScrollOffset"
-//        )
-        if (position != mSelectedPage) {
-            mSelectedPage = position
-//            Log.e(
-//                "Indicator",
-//                "onPageSelected2========>>>>>position: $position, mSelectedPage: $mSelectedPage "
-//            )
-        } else {
-            if (mScrollOffset > 0F) {
-                val offsetAnimator = ValueAnimator.ofFloat(mScrollOffset, 0F)
-                offsetAnimator.duration = (mOffsetDuration * mScrollOffset).toLong()
-                offsetAnimator.addUpdateListener {
-                    mScrollOffset = it.animatedValue as Float
-                    invalidate()
-                }
-                offsetAnimator.start()
-            }
-        }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -177,7 +151,6 @@ class IndicatorView1(context: Context) : View(context), Indicator {
         return result
     }
 
-
     private fun measureHeight(heightMeasureSpec: Int): Int {
         val mode = MeasureSpec.getMode(heightMeasureSpec)
         val size = MeasureSpec.getSize(heightMeasureSpec)
@@ -207,6 +180,24 @@ class IndicatorView1(context: Context) : View(context), Indicator {
     }
 
     /**
+     * 绘制默认的指示器
+     * @param midY --> 垂直方向,居中位置
+     */
+    private fun drawPagerCountCircle(canvas: Canvas, midY: Float) {
+        mIndicatorPaint.color = mNormalIndicatorColor
+        for (index in 0 until mPageCount) {
+            val startX = indicatorStartX(index)
+            mRectF.set(
+                startX - getNormalRadius(),
+                midY - getNormalRadius(),
+                startX + getNormalRadius(),
+                midY + getNormalRadius()
+            )
+            canvas.drawRoundRect(mRectF, getNormalRadius(), getNormalRadius(), mIndicatorPaint)
+        }
+    }
+
+    /**
      * 绘制选中的指示器
      */
     private fun drawCurPagerCircle(canvas: Canvas, midY: Float) {
@@ -232,24 +223,6 @@ class IndicatorView1(context: Context) : View(context), Indicator {
         canvas.drawRoundRect(mRectF, getSelectedRadius(), getSelectedRadius(), mIndicatorPaint)
     }
 
-    /**
-     * 绘制默认的指示器
-     * @param midY --> 垂直方向,居中位置
-     */
-    private fun drawPagerCountCircle(canvas: Canvas, midY: Float) {
-        mIndicatorPaint.color = mNormalIndicatorColor
-        for (index in 0 until mPageCount) {
-            val startX = indicatorStartX(index)
-            mRectF.set(
-                startX - getNormalRadius(),
-                midY - getNormalRadius(),
-                startX + getNormalRadius(),
-                midY + getNormalRadius()
-            )
-            canvas.drawRoundRect(mRectF, getNormalRadius(), getNormalRadius(), mIndicatorPaint)
-        }
-    }
-
     private fun getNormalRadius() = mNormalIndicatorRadius * mNormalIndicatorRatio
 
     private fun getSelectedRadius() = mSelectedIndicatorRadius * mSelectedIndicatorRatio
@@ -267,10 +240,15 @@ class IndicatorView1(context: Context) : View(context), Indicator {
         return paddingLeft + perWidth + perSpacing * index
     }
 
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////  对外提供的方法  /////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * 设置小球间间隔
      */
-    fun setSpacing(spacing: Int): IndicatorView1 {
+    fun setSpacing(spacing: Int): IndicatorView {
         mSpacing = spacing
         return this
     }

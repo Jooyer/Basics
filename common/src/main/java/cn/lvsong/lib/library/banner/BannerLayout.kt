@@ -53,18 +53,6 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
      */
     private lateinit var mBanner: RecyclerView
 
-    private var mTotalScroll = 0F
-
-    /**
-     * 触摸状态
-     * 1: 按下
-     * 2: 抬起
-     * 3: 翻页不成功,indicator回退
-     * 4: 翻页
-     *
-     */
-    private var mState = 0
-
     /**
      * 自动滑动的 Runnable
      */
@@ -76,8 +64,6 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
             postDelayed(this, mLoopTime)
         }
     }
-
-    private val mDelayRunnable = Runnable { mIndicator?.onPageSelected(mCurrentPos) }
 
     init {
         initView(context)
@@ -97,40 +83,6 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
         bannerLp.bottomToBottom = 0
         mBanner.layoutParams = bannerLp
         addView(mBanner)
-
-        // mBanner 滑动时
-        mBanner.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                if (RecyclerView.SCROLL_STATE_IDLE == newState) { // 滑动停止
-                    Log.e(
-                        "BannerLayout",
-                        "onScrollStateChanged========mCurrentPos: $mCurrentPos, mTouchState: $mState"
-                    )
-                    if (2 == mState) {
-                        mState = 3
-                        removeCallbacks(mDelayRunnable)
-                    } else {
-                        mState = 0
-                        mTotalScroll = 0F
-                        mPositionChangeListener?.onPositionChange(mCurrentPos)
-                        postDelayed(mDelayRunnable, 50)
-                    }
-                }
-            }
-
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                mTotalScroll += if (3 == mState) {
-                    -abs(dx)
-                } else {
-                    abs(dx)
-                }
-//                Log.e(
-//                    "BannerLayout",
-//                    "onScrolled========dx: $dx, mTotalScroll: $mTotalScroll, width: ${recyclerView.width}, offset: ${mTotalScroll / recyclerView.width}"
-//                )
-                mIndicator?.onPageScrolled(mTotalScroll / recyclerView.width)
-            }
-        })
     }
 
     /**
@@ -148,11 +100,8 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
      */
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
         if (MotionEvent.ACTION_DOWN == ev.actionMasked) { // 手指在 Banner 上,此时不再自动滑动
-            mState = 1
             autoScroll(false)
         } else if (MotionEvent.ACTION_UP == ev.actionMasked || MotionEvent.ACTION_CANCEL == ev.actionMasked) {
-            mState = 2
-//            Log.e("BannerLayout", "dispatchTouchEvent======== MotionEvent.ACTION_UP")
             autoScroll(true)
         }
         return super.dispatchTouchEvent(ev)
@@ -183,12 +132,11 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
      */
     override fun onPositionChange(position: Int) {
         mCurrentPos = position
-        mState = 4
-//        Log.e("BannerLayout", "onPositionChange========mCurrentPos: $mCurrentPos")
     }
 
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////// 对外提供的方法  ////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     private var mIndicator: Indicator? = null
 
@@ -241,72 +189,26 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
         // 初始时指示器
         mIndicator?.initIndicatorCount(mBanner.adapter!!.itemCount)
         mLooperSnapHelper.attachToRecyclerView(mBanner)
+        // mBanner 滑动时
+        mBanner.clearOnScrollListeners()
+        mBanner.addOnScrollListener( object : BannerScrollAdapter(this, mBanner) {
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+                mIndicator?.onPageScrolled(position, positionOffset, positionOffsetPixels)
+            }
+
+            override fun onPageSelected(position: Int) {
+                mIndicator?.onPageSelected(position)
+            }
+        })
+
         Looper.myQueue().addIdleHandler {
             onResume()
             false
         }
-    }
-
-
-    /**
-     * 提供 RecyclerView, 方便用户绑定数据
-     * @param factor --> ItemView居中时左侧距离屏幕左边(或者右侧距离屏幕右边)间隔占 RecyclerView 宽度的比值
-     * @param multiple -->  holder.itemView.layoutParams.width = itemWidth 这一句导致Item宽度没有占满父控件宽度
-     *  下面添加这个ItemDecoration间隔,保证 holder.itemView 居中,如果 itemWidth = parent.width*(1 - 2*factor),
-     *  也就是左右留白为  parent.width*factor,此时如果需要 ItemView 居中,则下面取值为 left = interval,
-     *  同理,假设itemWidth = parent.width*(1 - 4*factor),则下面取值为 left = 2*interval
-     *  结论: 设置 holder.itemView.layoutParams.width 减去N倍factor, 则这里 multiple = N/2
-     *  @param spaceWidth --> Item 间隔
-     *  @param widthScale --> 宽度缩放比率,默认1.0F,即不缩放
-     *  @param heightScale --> 高度缩放比率,默认0.8F
-     */
-    @Deprecated("废弃")
-    fun setGalleryBannerAdapter(
-        adapter: RecyclerView.Adapter<out RecyclerView.ViewHolder>,
-        spaceWidth: Int = 0,
-        widthScale: Float = 1F,
-        heightScale: Float = 0.8F
-    ) {
-//        mLayoutManager = GalleryLayoutManager(spaceWidth, widthScale, heightScale, mItemScrollTime)
-
-
-//        mBanner.addItemDecoration(object : RecyclerView.ItemDecoration() {
-//            override fun getItemOffsets(
-//                outRect: Rect,
-//                view: View,
-//                parent: RecyclerView,
-//                state: RecyclerView.State
-//            ) {
-//                val position = parent.getChildAdapterPosition(view)
-//                val layoutManager = parent.layoutManager as GalleryLayoutManager
-//                val count = layoutManager.itemCount
-//                val interval = (parent.width * factor * multiple).toInt()
-//                //   holder.itemView.layoutParams.width = itemWidth 这一句导致Item宽度没有沾满父控件宽度
-//                //  下面添加这个ItemDecoration间隔,保证 holder.itemView 居中
-//                // PS: 如果 itemWidth = parent.width*(1 - 2*factor),也就是左右留白为  parent.width*factor
-//                // 此时如果需要 ItemView 居中,则下面取值为 left = interval
-//                // 同理,假设itemWidth = parent.width*(1 - 4*factor),则下面取值为 left = 2*interval
-//                //
-//                outRect.apply {
-//                    when (position) {
-//                        0 -> {
-//                            left = interval
-//                        }
-//                        count - 1 -> {
-//                            right = interval
-//                        }
-//                    }
-//                }
-//            }
-//        })
-
-//        mBanner.layoutManager = mLayoutManager
-//        mBanner.adapter = adapter
-//        mLooperSnapHelper.attachToRecyclerView(mBanner)
-//        Looper.myQueue().addIdleHandler {
-//            onResume()
-//            false
-//        }
     }
 
     /**
