@@ -7,11 +7,17 @@ package cn.lvsong.lib.ui
 /**
  * @param msg --> 提示信息
  * @param code --> 状态码
- * @param type --> 区别不同请求接口
+ * @param
+ * @param apiType --> 区别不同请求接口
  */
-sealed class LoadState(val msg: String, val type: Int, val code: Int = 200) {
+sealed class LoadState(val code: Int = 200, val apiType: Int, val msg: String) {
 
-    class Loading(msg: String = "", type: Int = 0) : LoadState(msg, type)
-    class Success(msg: String = "", type: Int = 0, code: Int = 200) : LoadState(msg, type, code)
-    class Failure(msg: String = "", type: Int = 0) : LoadState(msg, type)
+    class Loading(apiType: Int = 0, msg: String = "") : LoadState(apiType = apiType, msg = msg)
+
+    class Success(code: Int = 200,apiType: Int = 0,  msg: String = "") :
+        LoadState( code,apiType, msg)
+
+    class Failure(apiType: Int = 0, msg: String = "") : LoadState(apiType=apiType, msg = msg)
+
+    class NetError(apiType: Int = 0, msg: String = "") : LoadState(apiType=apiType, msg = msg)
 }

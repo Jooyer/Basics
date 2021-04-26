@@ -107,16 +107,20 @@ abstract class BaseFragment : Fragment(),
              * 当请求状态发生变化时,进行分发
              */
             getCurrentViewModel()?.let {
+                // 处理网络请求状态
                 it.mLoadState.observe(viewLifecycleOwner, Observer { loadState ->
                     when (loadState) {
                         is LoadState.Loading -> {
-                            onLoading(loadState.msg, loadState.type)
+                            onLoading(loadState.apiType,loadState.msg )
                         }
                         is LoadState.Failure -> {
-                            onFailure(loadState.msg, loadState.type)
+                            onFailure(loadState.code,loadState.apiType,loadState.msg, )
+                        }
+                        is LoadState.NetError -> {
+                            onNetError(loadState.code,loadState.apiType,loadState.msg, )
                         }
                         else -> {
-                            onSuccess(loadState.msg, loadState.type, loadState.code)
+                            onSuccess(loadState.code, loadState.apiType,loadState.msg )
                         }
                     }
                 })
@@ -146,6 +150,10 @@ abstract class BaseFragment : Fragment(),
         super.onResume()
         if (isFirstResume) {
             isFirstResume = false
+            getCurrentViewModel()?.let {
+                // 增加网络监听能力
+                lifecycle.addObserver(it)
+            }
             // 懒加载,处理数据
             onFirstUserVisible()
         } else {
@@ -255,29 +263,40 @@ abstract class BaseFragment : Fragment(),
 
     /**
      * 加载中,按需重写
+     * @param apiType --> 区别不同请求接口
      * @param msg --> 提示信息
-     * @param type --> 区别不同请求接口
      */
-    open fun onLoading(msg: String = "", type: Int = 0) {
+    open fun onLoading(apiType: Int = 0, msg: String = "") {
 
     }
 
     /**
      * 加载成功,按需重写
-     * @param msg --> 提示信息
      * @param code --> 状态码
-     * @param type --> 区别不同请求接口
+     * @param apiType --> 区别不同请求接口
+     * @param msg --> 提示信息
      */
-    open fun onSuccess(msg: String = "", type: Int = 0, code: Int = 200) {
+    open fun onSuccess(code: Int = 200, apiType: Int = 0, msg: String = "") {
 
     }
 
     /**
      * 加载失败,按需重写
-     * @param msg --> 提示信息
-     * @param type --> 区别不同请求接口
+     *  @param code --> 状态码
+     *  @param apiType --> 区别不同请求接口
+     *  @param msg --> 提示信息
      */
-    open fun onFailure(msg: String = "", type: Int = 0) {
+    open fun onFailure(code: Int = 200, apiType: Int = 0, msg: String = "") {
+
+    }
+
+    /**
+     * 加载失败,按需重写
+     *  @param code --> 状态码
+     *  @param apiType --> 区别不同请求接口
+     *  @param msg --> 提示信息
+     */
+    open fun onNetError(code: Int = 200, apiType: Int = 0, msg: String = "") {
 
     }
 

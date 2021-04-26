@@ -93,7 +93,7 @@ class LazyFragment : BaseFragment() {
     }
 
     /**
-     * 解析type作用:
+     * 解析 apiType 作用:
      * 如果在 NetModel请求数据时
      *   //更新加载状态
      *   mLoadState.value = LoadState.Success(type = 1)
@@ -101,8 +101,8 @@ class LazyFragment : BaseFragment() {
      *   当type = 2时,则为请求详情, getDetail()中设置的 LoadState.Success(type = 2)
      *   LoadState.Loading(), LoadState.Failure()均和上面类似,方便在一个地方处理所有成功时某些逻辑
      */
-    override fun onSuccess(msg: String, type: Int, code: Int) {
-        if (1 == type) {
+    override fun onSuccess(code: Int , apiType: Int, msg: String ) {
+        if (1 == apiType) {
             if (nrl_refresh_layout.isRefreshing) {
                 nrl_refresh_layout.setFinishRefresh(true)
             } else if (nrl_refresh_layout.isLoading) {
@@ -111,6 +111,12 @@ class LazyFragment : BaseFragment() {
         } else { // 其他操作返回的成功
             Log.e("LazyFragment", "onSuccess==============")
         }
+    }
+
+    override fun onFailure(code: Int, apiType: Int, msg: String) {
+        nrl_refresh_layout.setFinishRefresh(false)
+        nrl_refresh_layout.setFinishLoad(false)
+        Log.e("LazyFragment", "onFailure==============$msg")
     }
 
 

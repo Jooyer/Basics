@@ -54,18 +54,18 @@ class NestedScrollRefreshActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        NetWorkMonitorManager.INSTANCE.register(this)
+//        NetWorkMonitorManager.INSTANCE.register(this)
     }
 
 
     override fun onDestroy() {
         super.onDestroy()
-        NetWorkMonitorManager.INSTANCE.unregister(this)
+//        NetWorkMonitorManager.INSTANCE.unregister(this)
     }
 
-    @NetWorkMonitor([NetworkType.NETWORK_4G, NetworkType.NETWORK_WIFI, NetworkType.NETWORK_NONE])
-    fun onNetWorkStateChange(state: NetworkType) {
-        Log.e("NestedRefresh","onNetWorkStateChange============state: ${state.name}")
-    }
+//    @NetWorkMonitor([NetworkType.NETWORK_4G, NetworkType.NETWORK_WIFI, NetworkType.NETWORK_NONE])
+//    fun onNetWorkStateChange(state: NetworkType) {
+//        Log.e("NestedRefresh","onNetWorkStateChange============state: ${state.name}")
+//    }
 
 }
