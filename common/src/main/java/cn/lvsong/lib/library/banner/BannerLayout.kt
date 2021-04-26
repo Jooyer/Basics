@@ -191,7 +191,7 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
         mLooperSnapHelper.attachToRecyclerView(mBanner)
         // mBanner 滑动时
         mBanner.clearOnScrollListeners()
-        mBanner.addOnScrollListener( object : BannerScrollAdapter(this, mBanner) {
+        mBanner.addOnScrollListener( object : BannerScrollAdapter(mBanner) {
             override fun onPageScrolled(
                 position: Int,
                 positionOffset: Float,

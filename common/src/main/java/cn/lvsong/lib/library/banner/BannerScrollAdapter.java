@@ -45,8 +45,6 @@ public abstract class BannerScrollAdapter extends RecyclerView.OnScrollListener 
     private static final int NO_POSITION = -1;
 
     private final @NonNull
-    ViewGroup mViewGroup;
-    private final @NonNull
     RecyclerView mRecyclerView;
     private final @NonNull
     HorizontalLayoutManager mLayoutManager;
@@ -55,15 +53,14 @@ public abstract class BannerScrollAdapter extends RecyclerView.OnScrollListener 
     int mAdapterState;
     private @ScrollState
     int mScrollState;
-    private ScrollEventValues mScrollValues;
+    private final ScrollEventValues mScrollValues;
     private int mDragStartPosition;
     private int mTarget;
     private boolean mDispatchSelected;
     private boolean mScrollHappened;
     private boolean mDataSetChangeHappened;
 
-    BannerScrollAdapter(@NonNull ViewGroup viewGroup, @NonNull RecyclerView recyclerView) {
-        mViewGroup = viewGroup;
+    BannerScrollAdapter(@NonNull RecyclerView recyclerView) {
         mRecyclerView = recyclerView;
         mLayoutManager = (HorizontalLayoutManager) mRecyclerView.getLayoutManager();
         mScrollValues = new ScrollEventValues();
@@ -167,11 +164,12 @@ public abstract class BannerScrollAdapter extends RecyclerView.OnScrollListener 
      */
 
     private void updateScrollEventValues() {
-        mScrollValues.mPosition = ((RecyclerView.LayoutParams) mRecyclerView.getChildAt(0).getLayoutParams()).getViewAdapterPosition();
+        mScrollValues.mPosition =  getPosition();
         if (mScrollValues.mPosition == RecyclerView.NO_POSITION) {
             mScrollValues.reset();
             return;
         }
+
         View firstVisibleView = mLayoutManager.findViewByPosition(mScrollValues.mPosition);
         if (firstVisibleView == null) {
             mScrollValues.reset();
