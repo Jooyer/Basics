@@ -33,7 +33,7 @@ android {
 
 dependencies {
     implementation project(path: ':common')
-    implementation project(path: ':net')
+    api project(path: ':net')
     implementation rootProject.ext.dependencies.kotlin_stdlib
     implementation rootProject.ext.dependencies.appcompat
     implementation rootProject.ext.dependencies.core_ktx

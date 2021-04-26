@@ -38,7 +38,7 @@ android {
 dependencies {
     implementation rootProject.ext.dependencies.fileTree
     implementation project(path: ':ui')
-    implementation project(path: ':net')
+//    implementation project(path: ':net')
     implementation project(path: ':common')
 
     implementation rootProject.ext.dependencies.core_ktx

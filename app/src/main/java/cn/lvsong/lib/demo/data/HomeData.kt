@@ -1,11 +1,16 @@
 package cn.lvsong.lib.demo.data
 
+import androidx.annotation.Keep
+import com.squareup.moshi.JsonClass
+
 /**
  * Desc:
  * Author: Jooyer
  * Date: 2020-08-29
  * Time: 22:32
  */
+@Keep
+@JsonClass(generateAdapter = true)
 data class HomeData(
     val curPage: Int,
     val datas: List<Data>,
@@ -16,6 +21,8 @@ data class HomeData(
     val total: Int
 )
 
+@Keep
+@JsonClass(generateAdapter = true)
 data class Data(
     val apkLink: String,
     val audit: Int,
@@ -51,6 +58,8 @@ data class Data(
     val zan: Int
 )
 
+@Keep
+@JsonClass(generateAdapter = true)
 data class Tag(
     val name: String,
     val url: String
