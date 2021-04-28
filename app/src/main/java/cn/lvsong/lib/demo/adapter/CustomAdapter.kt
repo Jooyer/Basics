@@ -1,5 +1,6 @@
 package cn.lvsong.lib.demo.adapter
 
+import android.util.Log
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import cn.lvsong.lib.demo.R
@@ -14,6 +15,7 @@ import coil.load
 class CustomAdapter(data: List<String>, layoutId: Int) :
     BannerAdapter<String>(data, layoutId) {
     override fun onBindViewHolder(holder: BannerHolder, position: Int) {
+        Log.e("Banner","onBindViewHolder========>>>> ${mData[position]}")
         holder.itemView.findViewById<AppCompatTextView>(R.id.tv_position).text = "$position"
         holder.itemView.findViewById<AppCompatImageView>(R.id.iv_banner).load(mData[position])
     }

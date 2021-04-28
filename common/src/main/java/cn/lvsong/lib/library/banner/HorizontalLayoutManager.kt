@@ -1,6 +1,7 @@
 package cn.lvsong.lib.library.banner
 
 import android.graphics.PointF
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.*
@@ -68,9 +69,9 @@ open class HorizontalLayoutManager(
             mOrientationHelper = OrientationHelper.createHorizontalHelper(this)
         }
 
-        if (mLayoutCount > itemCount) { // 默认 mLayoutCount=1, 如果 itemCount=1, 则会导致界面空白, 所以改为 >
-            return
-        }
+//        if (mLayoutCount > itemCount) { // 默认 mLayoutCount=1, 如果 itemCount=1, 则会导致界面空白, 所以改为 >
+//            return
+//        }
 
         if (itemCount == 0 || state.isPreLayout) {
             removeAndRecycleAllViews(recycler)
@@ -88,7 +89,7 @@ open class HorizontalLayoutManager(
         //横向绘制子View,则需要知道 X轴的偏移量
         var offsetX =
             (mOrientationHelper.totalSpace - mOrientationHelper.getDecoratedMeasurement(scrap)) / 2
-        mLayoutCount++
+//        mLayoutCount++
 
         //绘制并添加view
         for (i in 0 until itemCount) {
@@ -151,7 +152,7 @@ open class HorizontalLayoutManager(
                     // https://blog.csdn.net/u014674862/article/details/81177261  --> API解析
                     // https://blog.csdn.net/u013651026/article/details/105989914
                     // 在 super.calculateDtToFit()中,     case SNAP_TO_START: return boxStart - viewStart; 通过日志发现只有 boxStart - viewStart < 0 是向左滑动
-                    // 而 boxStart == 0 , 只需要 viewStart < 0 即可, 所以人为的将 viewStart 进行调整,保证界面在自动滑动时永阳往左滑动
+                    // 而 boxStart == 0 , 只需要 viewStart > 0 即可, 所以人为的将 viewStart 进行调整,保证界面在自动滑动时永阳往左滑动
                     return super.calculateDtToFit(
                         if (viewStart > 0) viewStart else -viewStart,
                         viewEnd,
@@ -275,4 +276,5 @@ open class HorizontalLayoutManager(
 
     }
 
+    fun getScrollTime() = itemScrollTime
 }

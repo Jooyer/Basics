@@ -18,7 +18,7 @@ import static java.lang.annotation.RetentionPolicy.SOURCE;
  * author:Jooyer
  * desc: 参考 ViewPager2 中 ScrollEventAdapter
  */
-public abstract class BannerScrollAdapter extends RecyclerView.OnScrollListener {
+abstract class BannerScrollAdapter extends RecyclerView.OnScrollListener {
     @Retention(SOURCE)
     @IntDef({STATE_IDLE, STATE_IN_PROGRESS_MANUAL_DRAG, STATE_IN_PROGRESS_SMOOTH_SCROLL,
             STATE_IN_PROGRESS_IMMEDIATE_SCROLL, STATE_IN_PROGRESS_FAKE_DRAG})
@@ -164,7 +164,7 @@ public abstract class BannerScrollAdapter extends RecyclerView.OnScrollListener 
      */
 
     private void updateScrollEventValues() {
-        mScrollValues.mPosition =  getPosition();
+        mScrollValues.mPosition = getPosition();
         if (mScrollValues.mPosition == RecyclerView.NO_POSITION) {
             mScrollValues.reset();
             return;
@@ -235,6 +235,7 @@ public abstract class BannerScrollAdapter extends RecyclerView.OnScrollListener 
     private int getPosition() {
         return ((RecyclerView.LayoutParams) mRecyclerView.getChildAt(0).getLayoutParams()).getViewAdapterPosition();
     }
+
 
     private static final class ScrollEventValues {
         int mPosition;

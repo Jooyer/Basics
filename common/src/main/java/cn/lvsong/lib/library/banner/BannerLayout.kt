@@ -8,7 +8,7 @@ import android.view.MotionEvent
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import cn.lvsong.lib.library.R
-import kotlin.math.abs
+import org.jetbrains.annotations.NotNull
 
 /** https://www.jianshu.com/p/1f72644bb560  -->  指示器
  *  https://www.jianshu.com/p/5ac538c067d9  -->  指示器
@@ -34,6 +34,11 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
     private var mCurrentPos = 0
 
     /**
+     * banner条数
+     */
+    private var mPageCount = 0
+
+    /**
      * 当滑动后,位置发生变化,如果需要监听,则设置此回调
      */
     private var mPositionChangeListener: OnPositionChangeListener? = null
@@ -46,12 +51,41 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
     /**
      * 自定义的 LayoutManager,自己控制 ItemView 的布局
      */
-    private lateinit var mLayoutManager: RecyclerView.LayoutManager
+    private lateinit var mLayoutManager: HorizontalLayoutManager
 
     /**
      * Banner 载体
      */
     private lateinit var mBanner: RecyclerView
+
+    /**
+     * 滑动回调
+     */
+    private var mBannerScrollAdapter: BannerScrollAdapter? = null
+
+    /**
+     * 指示器
+     */
+    private var mIndicator: Indicator? = null
+
+    /**
+     * 手指没有抬起,此时不能刷新
+     */
+    private var mTouching = false
+
+    /**
+     * 延迟刷新 Runnable
+     */
+    private val mDelayRunnable = object :Runnable{
+        override fun run() {
+            if (mTouching){
+                postDelayed(this,mLayoutManager.getScrollTime())
+            }else{
+                mIndicator?.initIndicatorCount(mPageCount)
+                mBanner.adapter?.notifyDataSetChanged()
+            }
+        }
+    }
 
     /**
      * 自动滑动的 Runnable
@@ -87,8 +121,9 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
 
     /**
      * 自动滑动
+     * TODO 参考 https://www.jb51.net/article/198584.htm 自动吸附效果
      */
-    private fun autoScroll(auto: Boolean) {
+    private fun autoScroll(auto: Boolean,delayTime:Long) {
         removeCallbacks(mAutoScrollRunnable)
         if (auto && mLayoutManager.itemCount > 1) {
             postDelayed(mAutoScrollRunnable, mLoopTime)
@@ -99,10 +134,12 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
      * 当手指按下时则不能自动滑动,在此处判断
      */
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
-        if (MotionEvent.ACTION_DOWN == ev.actionMasked) { // 手指在 Banner 上,此时不再自动滑动
-            autoScroll(false)
-        } else if (MotionEvent.ACTION_UP == ev.actionMasked || MotionEvent.ACTION_CANCEL == ev.actionMasked) {
-            autoScroll(true)
+        if (MotionEvent.ACTION_DOWN == ev.action) { // 手指在 Banner 上,此时不再自动滑动
+            mTouching = true
+            autoScroll(false,0L)
+        } else if (MotionEvent.ACTION_UP == ev.action || MotionEvent.ACTION_CANCEL == ev.action) {
+            mTouching = false
+            autoScroll(true,50L)
         }
         return super.dispatchTouchEvent(ev)
     }
@@ -110,16 +147,17 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         if (null != mBanner.adapter) {
-            autoScroll(true)
+            autoScroll(true,mLoopTime)
         }
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        autoScroll(false)
+        autoScroll(false,0L)
+        removeCallbacks(mDelayRunnable)
     }
 
-    // 解决列表时滑动到2个Item交接位置卡住
+    // 解决列表时滑动部分切换了在回来时2个Item交接位置卡住
     override fun onWindowVisibilityChanged(visibility: Int) {
         super.onWindowVisibilityChanged(visibility)
         if (VISIBLE == visibility) {
@@ -138,12 +176,10 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
 /////////////////////////////////////////////////// 对外提供的方法  ////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private var mIndicator: Indicator? = null
-
     /**
      * 添加指示器
      */
-    fun setIndicatorView(indicator: Indicator): BannerLayout {
+    fun setIndicatorView(@NotNull indicator: Indicator): BannerLayout {
         mIndicator?.apply { removeView(this.getIndicatorView()) }
         mIndicator = indicator
         addView(indicator.getIndicatorView(), indicator.getIndicatorViewLayoutParam())
@@ -162,7 +198,7 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
     /**
      * 绑定管理器
      */
-    fun setManager(manager: RecyclerView.LayoutManager): BannerLayout {
+    fun setManager(@NotNull manager: HorizontalLayoutManager): BannerLayout {
         mLayoutManager = manager
         mBanner.layoutManager = mLayoutManager
         return this
@@ -171,7 +207,7 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
     /**
      * 设置适配器
      */
-    fun setAdapter(adapter: RecyclerView.Adapter<out RecyclerView.ViewHolder>): BannerLayout {
+    fun setAdapter(@NotNull adapter: RecyclerView.Adapter<out RecyclerView.ViewHolder>): BannerLayout {
         mBanner.adapter = adapter
         return this
     }
@@ -188,10 +224,9 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
 
         // 初始时指示器
         mIndicator?.initIndicatorCount(mBanner.adapter!!.itemCount)
-        mLooperSnapHelper.attachToRecyclerView(mBanner)
         // mBanner 滑动时
         mBanner.clearOnScrollListeners()
-        mBanner.addOnScrollListener( object : BannerScrollAdapter(mBanner) {
+        mBannerScrollAdapter = object : BannerScrollAdapter(mBanner) {
             override fun onPageScrolled(
                 position: Int,
                 positionOffset: Float,
@@ -203,7 +238,10 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
             override fun onPageSelected(position: Int) {
                 mIndicator?.onPageSelected(position)
             }
-        })
+        }
+        mBanner.addOnScrollListener(mBannerScrollAdapter!!)
+        // 这个位置不能颠倒了
+        mLooperSnapHelper.attachToRecyclerView(mBanner)
 
         Looper.myQueue().addIdleHandler {
             onResume()
@@ -212,24 +250,38 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
     }
 
     /**
+     * 当数据有更新时需要调用此方法,它里面包含了对指示器的更新
+     */
+    fun notifyDataSetChanged(count: Int) {
+        // 滑动的时候就不刷新
+        if (null != mBannerScrollAdapter && mTouching) {
+            mPageCount = count
+            postDelayed(mDelayRunnable, mLayoutManager.getScrollTime())
+        } else {
+            mIndicator?.initIndicatorCount(count)
+            mBanner.adapter?.notifyDataSetChanged()
+        }
+    }
+
+    /**
      * 可以在 Activity/Fragment 生命周期内使用
      */
     fun onPause() {
-        autoScroll(false)
+        autoScroll(false,0L)
     }
 
     /**
      * 可以在 Activity/Fragment 生命周期内使用
      */
     fun onResume() {
-        autoScroll(true)
+        autoScroll(true,mLoopTime)
     }
 
     /**
      * 可以在 Activity/Fragment 生命周期内使用
      */
     fun onStop() {
-        autoScroll(false)
+        autoScroll(false,0L)
     }
 
     /**
