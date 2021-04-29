@@ -436,8 +436,8 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         moreViewLP.rightMargin = rightMoreViewRightMargin
         mav_right_icon_menu.layoutParams = moreViewLP
         mav_right_icon_menu.setColor(rightMoreViewColor)
-        mav_right_icon_menu.setDotRadius(rightMoreViewDotRadius)
-        mav_right_icon_menu.setOrientation(rightMoreViewOrientation)
+            .setDotRadius(rightMoreViewDotRadius)
+            .setOrientation(rightMoreViewOrientation)
 
         if (mBottomDividerVisible) {
             view_bottom_divider_menu.visibility = View.VISIBLE

@@ -9,7 +9,7 @@ import java.io.IOException
 
 /**
  * http://www.mamicode.com/info-detail-1375498.html
- * Token
+ * Header 携带 Token, 下面是一个样例
  * Created by WZG on 2016/10/26.
  */
 

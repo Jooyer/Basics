@@ -10,13 +10,9 @@ import retrofit2.http.Url
  *
  * @ProjectName:    android
  * @ClassName:      DownloadService
- * @Description:
+ * @Description:  使用 DownWorker 下载时参考用的 API 接口
  * @Author:         Jooyer
  * @CreateDate:     2020/6/16 16:40
- * @UpdateUser:
- * @UpdateDate:
- * @UpdateRemark:
- * @Version:        1.0
  */
 interface DownloadService {
 

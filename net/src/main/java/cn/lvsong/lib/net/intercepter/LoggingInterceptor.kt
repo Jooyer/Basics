@@ -1,6 +1,5 @@
 package cn.lvsong.lib.net.intercepter
 
-import android.os.Build
 import android.util.Log
 import cn.lvsong.lib.net.BuildConfig
 import okhttp3.Interceptor
@@ -10,6 +9,7 @@ import java.io.IOException
 import java.nio.charset.Charset
 
 /**
+ * 日志拦截器，可以用这个，也可以把它当作样例
  * Created by Jooyer on 2016/12/19
  */
 class LoggingInterceptor : Interceptor {

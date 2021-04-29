@@ -25,17 +25,14 @@ import java.util.concurrent.TimeUnit
  *
  * @ProjectName:    android
  * @ClassName:      DownWork
- * @Description:    下载APP的任务
+ * @Description:    下载APP的任务,工作中大家参考下面使用
  * @Author:         Jooyer
  * @CreateDate:     2020/6/16 15:49
- * @UpdateUser:
- * @UpdateDate:
- * @UpdateRemark:
  * @Version:        1.0
  */
 
 
-/*
+/*  调用方法：
 
          val worker = OneTimeWorkRequestBuilder<DownWorker>()
                         .setInputData(Data.Builder()
