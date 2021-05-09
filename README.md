@@ -32,7 +32,7 @@
 
 ```groovy
 	dependencies {
-	        implementation 'com.github.Jooyer.Basics:common:1.0.16'
+	        implementation 'com.github.Jooyer.Basics:common:1.1.0'
 	}
 ```
 
@@ -147,6 +147,13 @@
 1. 注释部分无用的日志,删除部分无用类
 2. 对跳转市场评价AppraiseUtils进行调整
 3. 对statu管理器增加StartAndStopAnimController,精准控制加载动画,具体参考: ChrysanthemumView 和 StatusActivity
+
+## v1.0.0变化:
+1. 增加网络状态监听, 调整网络请求状态参数和增加了网络异常的方法
+2. 修复banner多张图片时滑动的异常和指示器显示异常
+3. 调整部分依赖库版本
+4. 将部分java代码转为kotlin
+
 
 [toc]
 
