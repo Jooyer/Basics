@@ -1,5 +1,6 @@
 package cn.lvsong.lib.library.banner;
 
+import android.graphics.Point;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -164,7 +165,7 @@ abstract class BannerScrollAdapter extends RecyclerView.OnScrollListener {
      */
 
     private void updateScrollEventValues() {
-        mScrollValues.mPosition = getPosition();
+        mScrollValues.mPosition = findFirstVisibleItemPosition();
         if (mScrollValues.mPosition == RecyclerView.NO_POSITION) {
             mScrollValues.reset();
             return;
@@ -187,11 +188,10 @@ abstract class BannerScrollAdapter extends RecyclerView.OnScrollListener {
         }
 
         int decoratedWidth = firstVisibleView.getWidth() + leftDecorations + rightDecorations;
-        int start, sizePx;
-        sizePx = decoratedWidth;
-        start = firstVisibleView.getLeft() - leftDecorations - mRecyclerView.getPaddingLeft();
+        float sizePx = decoratedWidth * 1F;
+        int start = firstVisibleView.getLeft() - leftDecorations - mRecyclerView.getPaddingLeft();
         mScrollValues.mOffsetPx = Math.abs(start);
-        mScrollValues.mOffset = sizePx == 0 ? 0 : (float) mScrollValues.mOffsetPx / sizePx;
+        mScrollValues.mOffset = sizePx == 0 ? 0 : mScrollValues.mOffsetPx / sizePx;
     }
 
     private void startDrag(boolean isFakeDrag) {
@@ -200,7 +200,7 @@ abstract class BannerScrollAdapter extends RecyclerView.OnScrollListener {
             mDragStartPosition = mTarget;
             mTarget = NO_POSITION;
         } else if (mDragStartPosition == NO_POSITION) {
-            mDragStartPosition = getPosition();
+            mDragStartPosition = findFirstVisibleItemPosition();
         }
         dispatchStateChanged(SCROLL_STATE_DRAGGING);
     }
@@ -232,8 +232,24 @@ abstract class BannerScrollAdapter extends RecyclerView.OnScrollListener {
         onPageScrolled(position, offset, offsetPx);
     }
 
-    private int getPosition() {
-        return ((RecyclerView.LayoutParams) mRecyclerView.getChildAt(0).getLayoutParams()).getViewAdapterPosition();
+
+    private int findFirstVisibleItemPosition() {
+        for (int index = 0; index < mRecyclerView.getChildCount(); index++) {
+            final View child = mLayoutManager.getChildAt(index);
+            if (null != child) {
+                final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
+                final int childStart = mLayoutManager.getDecoratedLeft(child) - params.leftMargin;
+                final int childEnd = mLayoutManager.getDecoratedRight(child) + params.rightMargin + mLayoutManager.getItemMargin();
+
+                Point point = new Point(mLayoutManager.getItemWidthAndMargin() * index, mLayoutManager.getItemWidthAndMargin() * (index + 1));
+                if ((childStart >= point.x && childEnd <= point.y) ||
+                        childEnd >= point.x && childEnd <= point.y
+                ) {
+                    return ((RecyclerView.LayoutParams) child.getLayoutParams()).getViewLayoutPosition();
+                }
+            }
+        }
+        return RecyclerView.NO_POSITION;
     }
 
 

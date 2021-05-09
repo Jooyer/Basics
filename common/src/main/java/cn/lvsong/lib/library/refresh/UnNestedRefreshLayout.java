@@ -440,8 +440,6 @@ public class UnNestedRefreshLayout extends ViewGroup {
         } else if (curRatio > 1F) {
             curRatio = 1F;
         }
-//        Log.e("UnNestedRefreshLayout", "calculateRefreshScrollY========>>>>>>>>>>>>>>>curRatio: " + curRatio);
-//        return overScroll;
         return (int) (curRatio * overScroll);
     }
 
@@ -453,8 +451,6 @@ public class UnNestedRefreshLayout extends ViewGroup {
         } else if (curRatio > 1F) {
             curRatio = 1F;
         }
-//        Log.e("UnNestedRefreshLayout", "calculateLoadScrollY========>>>>>>>>>>>>>>>curRatio: " + curRatio);
-//        return overScroll;
         return (int) (curRatio * overScroll);
     }
 

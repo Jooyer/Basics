@@ -248,14 +248,10 @@ object StatusBarUtil {
 //            Log.i("StatusBar", "屏幕高度======:$measuredHeight")
             if (decorView is ViewGroup) {
                 val childCount = decorView.childCount
-                if (childCount > 0) {
-                    val contentView =
-                        decorView.getChildAt(0)
-                    Log.i(
-                        "StatusBar",
-                        "内容高度=====:" + contentView.measuredHeight + " p:" + contentView.paddingTop
-                    )
-                }
+//                if (childCount > 0) {
+//                    val contentView =
+//                        decorView.getChildAt(0)
+//                }
                 if (childCount > 1) {
                     val childView = decorView.getChildAt(1)
                     when {

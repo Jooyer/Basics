@@ -1,5 +1,6 @@
 package cn.lvsong.lib.library.banner
 
+import android.content.Context
 import android.graphics.PointF
 import android.util.Log
 import android.view.View
@@ -25,6 +26,7 @@ import androidx.recyclerview.widget.*
  * @param itemScrollTime --> Item 从屏幕左侧完成消失的时间,此值越大在屏幕滑过时间越长,单位是毫秒
  */
 open class HorizontalLayoutManager(
+    private val context: Context,
     private val itemMargin: Int = 0,
     private val itemScrollTime: Long = 1200
 ) :
@@ -40,6 +42,45 @@ open class HorizontalLayoutManager(
      * 如果有小伙伴知道更优解决方法,记得提 issue , 先谢过!!!
      */
     private var mLayoutCount = 1
+
+    fun getItemWidthAndMargin(): Int {
+        return itemWidth + itemMargin
+    }
+
+    fun getItemMargin() = itemMargin
+
+    private val linearSmoothScroller: LinearSmoothScroller =
+        object : LinearSmoothScroller(context) {
+            // 返回越少,滑动越快
+            override fun calculateTimeForDeceleration(dx: Int): Int {
+                return (itemScrollTime * (1 - .3356) / 2).toInt()
+            }
+
+            override fun calculateDtToFit(
+                viewStart: Int,
+                viewEnd: Int,
+                boxStart: Int,
+                boxEnd: Int,
+                snapPreference: Int
+            ): Int {
+                // https://blog.csdn.net/u014674862/article/details/81177261  --> API解析
+                // https://blog.csdn.net/u013651026/article/details/105989914
+                // 在 super.calculateDtToFit()中,     case SNAP_TO_START: return boxStart - viewStart; 通过日志发现只有 boxStart - viewStart < 0 是向左滑动
+                // 而 boxStart == 0 , 只需要 viewStart > 0 即可, 所以人为的将 viewStart 进行调整,保证界面在自动滑动时永阳往左滑动
+                return super.calculateDtToFit(
+                    if (viewStart > 0) viewStart else -viewStart,
+                    viewEnd,
+                    boxStart,
+                    boxEnd,
+                    snapPreference
+                )
+            }
+
+            override fun getHorizontalSnapPreference(): Int {
+                return SNAP_TO_START
+            }
+
+        }
 
     override fun computeScrollVectorForPosition(targetPosition: Int): PointF? {
         // 下面这个决定了RecyclerView 左右滑动的方向,只有自动滚动时才会触发此方法
@@ -89,8 +130,6 @@ open class HorizontalLayoutManager(
         //横向绘制子View,则需要知道 X轴的偏移量
         var offsetX =
             (mOrientationHelper.totalSpace - mOrientationHelper.getDecoratedMeasurement(scrap)) / 2
-//        mLayoutCount++
-
         //绘制并添加view
         for (i in 0 until itemCount) {
             val view = recycler.getViewForPosition(i)
@@ -108,10 +147,10 @@ open class HorizontalLayoutManager(
                 getItemTop(view) + viewHeight
             )
             offsetX += itemWidth + itemMargin
-
-            if (offsetX > mOrientationHelper.totalSpace) {
-                break
-            }
+            // 会造成指示器异常(主要是导致计算childCount出现问题)
+//            if (offsetX > mOrientationHelper.totalSpace) {
+//                break
+//            }
         }
         doWithItem()
     }
@@ -127,47 +166,12 @@ open class HorizontalLayoutManager(
     //是否可横向滑动
     override fun canScrollHorizontally() = itemCount > 1
 
+
     override fun smoothScrollToPosition(
         recyclerView: RecyclerView,
         state: RecyclerView.State,
         position: Int
     ) {
-
-        val linearSmoothScroller: LinearSmoothScroller =
-            object : LinearSmoothScroller(recyclerView.context) {
-                // 返回越少,滑动越快
-                override fun calculateTimeForDeceleration(dx: Int): Int {
-                    return (itemScrollTime * (1 - .3356) / 2).toInt()
-                }
-
-                override fun calculateDtToFit(
-                    viewStart: Int,
-                    viewEnd: Int,
-                    boxStart: Int,
-                    boxEnd: Int,
-                    snapPreference: Int
-                ): Int {
-//                    Log.e("Horizontal","calculateDtToFit==========viewStart: $viewStart, viewEnd: $viewEnd, boxStart: $boxStart, boxEnd: $boxEnd, snapPreference: $snapPreference")
-//                    Log.e("Horizontal","calculateDtToFit==========${ (boxStart + (boxEnd - boxStart) / 2) - (viewStart + (viewEnd - viewStart) / 2)}")
-                    // https://blog.csdn.net/u014674862/article/details/81177261  --> API解析
-                    // https://blog.csdn.net/u013651026/article/details/105989914
-                    // 在 super.calculateDtToFit()中,     case SNAP_TO_START: return boxStart - viewStart; 通过日志发现只有 boxStart - viewStart < 0 是向左滑动
-                    // 而 boxStart == 0 , 只需要 viewStart > 0 即可, 所以人为的将 viewStart 进行调整,保证界面在自动滑动时永阳往左滑动
-                    return super.calculateDtToFit(
-                        if (viewStart > 0) viewStart else -viewStart,
-                        viewEnd,
-                        boxStart,
-                        boxEnd,
-                        snapPreference
-                    )
-                }
-
-                override fun getHorizontalSnapPreference(): Int {
-                    return SNAP_TO_START
-                }
-
-            }
-
         linearSmoothScroller.targetPosition = position
         startSmoothScroll(linearSmoothScroller)
 
@@ -257,12 +261,12 @@ open class HorizontalLayoutManager(
             //左滑
             if (dx > 0) {
                 //移除并回收 原点 左侧的子View
-                if (childView.right - dx < 0) {
+                if (childView.right + itemMargin - dx < 0) {
                     removeAndRecycleViewAt(i, recycler)
                 }
             } else { //右滑
                 //移除并回收 右侧即RecyclerView宽度之以外的子View
-                if (childView.left - dx > width) {
+                if (childView.left - dx > width + itemMargin) {
                     removeAndRecycleViewAt(i, recycler)
                 }
             }

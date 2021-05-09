@@ -15,7 +15,6 @@ import coil.load
 class CustomAdapter(data: List<String>, layoutId: Int) :
     BannerAdapter<String>(data, layoutId) {
     override fun onBindViewHolder(holder: BannerHolder, position: Int) {
-        Log.e("Banner","onBindViewHolder========>>>> ${mData[position]}")
         holder.itemView.findViewById<AppCompatTextView>(R.id.tv_position).text = "$position"
         holder.itemView.findViewById<AppCompatImageView>(R.id.iv_banner).load(mData[position])
     }

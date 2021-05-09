@@ -35,7 +35,6 @@ dependencies {
     implementation project(path: ':common')
     implementation rootProject.ext.dependencies.kotlinx_coroutines_android
     implementation rootProject.ext.dependencies.retrofit2_kotlin_coroutines_adapter
-    implementation rootProject.ext.dependencies.retrofit
 
     implementation rootProject.ext.dependencies.moshi_kotlin
     implementation rootProject.ext.dependencies.converter_moshi

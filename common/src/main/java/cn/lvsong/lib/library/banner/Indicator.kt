@@ -33,7 +33,7 @@ interface Indicator {
      * @param offset  -->  当前位置在屏幕总滑动,占据滑动方向总宽度的比率, [0,1)
      * @param offsetPx -->  当前位置偏移距离
      */
-    open fun onPageScrolled(position: Int, offset: Float, @Px offsetPx: Int)
+    fun onPageScrolled(position: Int, offset: Float, @Px offsetPx: Int)
 
     /**
      * 滑动完成后下标位置

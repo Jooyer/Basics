@@ -1,5 +1,6 @@
 package cn.lvsong.lib.library.banner
 
+import android.content.Context
 import kotlin.math.abs
 
 /**
@@ -12,11 +13,12 @@ import kotlin.math.abs
  */
 
 class GalleryLayoutManager(
+    context: Context,
     spaceWidth: Int = 0,
     private val widthScale: Float = 0.85F,
     private val heightScale: Float = 0.85F,
     itemScrollTime: Long = 1200
-) : HorizontalLayoutManager(spaceWidth, itemScrollTime) {
+) : HorizontalLayoutManager(context,spaceWidth, itemScrollTime) {
 
     override fun doWithItem() {
         if (heightScale >= 1 && widthScale >= 1) {

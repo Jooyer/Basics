@@ -148,16 +148,6 @@ class MovingBallView(context: Context, attrs: AttributeSet) : View(context, attr
             mCurAngle = it.animatedValue as Float
             invalidate()
         }
-//        mMovingAnimator.addListener(object :AnimatorListenerAdapter(){
-//            override fun onAnimationEnd(animation: Animator?) {
-//                Log.e("MovingBallView","onAnimationEnd==========")
-//            }
-//
-//            override fun onAnimationCancel(animation: Animator?) {
-//                Log.e("MovingBallView","onAnimationCancel==========")
-//            }
-//        })
-
         parse(context, attrs)
     }
 

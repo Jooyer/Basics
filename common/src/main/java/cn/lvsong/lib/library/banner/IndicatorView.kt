@@ -1,10 +1,8 @@
 package cn.lvsong.lib.library.banner
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.RectF
+import android.graphics.*
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
@@ -23,8 +21,6 @@ import kotlin.math.max
 class IndicatorView(context: Context) : View(context), Indicator {
 
     private val mInterpolator = DecelerateInterpolator()
-
-    private val mOffsetDuration = 500L
 
     /**
      * 指示器数量
@@ -91,6 +87,9 @@ class IndicatorView(context: Context) : View(context), Indicator {
 
     override fun initIndicatorCount(pageCount: Int) {
         mPageCount = pageCount
+        mScrollOffset = 0F
+        mSelectedPage = 0
+        mRectF.setEmpty()
         // 只有一页,指示器没有意义
         visibility = if (mPageCount > 1) VISIBLE else GONE
         requestLayout()
