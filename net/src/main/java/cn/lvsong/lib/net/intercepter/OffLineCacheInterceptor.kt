@@ -12,7 +12,7 @@ import java.io.IOException
 /**
  * @param offlineCacheTime --> 离线缓存过期时,默认60秒
  */
-class OffLineCacheInterceptor(val offlineCacheTime: Int = 60) : Interceptor {
+class OffLineCacheInterceptor(private val offlineCacheTime: Int = 60) : Interceptor {
 
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {

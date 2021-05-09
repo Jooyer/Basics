@@ -26,6 +26,7 @@ import cn.lvsong.lib.library.view.ArrangeView
 import cn.lvsong.lib.library.view.MediumTextView
 import cn.lvsong.lib.ui.BaseActivity
 import coil.load
+import coil.transform.CircleCropTransformation
 import kotlinx.android.synthetic.main.activity_custom1.*
 
 class CustomActivity1 : BaseActivity() {
@@ -87,7 +88,9 @@ class CustomActivity1 : BaseActivity() {
             override fun getRangeView(position: Int, parent: ViewGroup): View {
                 val view = LayoutInflater.from(this@CustomActivity1)
                     .inflate(R.layout.item_arrange_view_peoples, parent, false)
-                view.findViewById<AppCompatImageView>(R.id.iv_range_view).load(getItem(position))
+                view.findViewById<AppCompatImageView>(R.id.iv_range_view).load(getItem(position)){
+                    transformations(CircleCropTransformation())  // https://www.jb51.net/article/208978.htm  / https://blog.csdn.net/vitaviva/article/details/113064062
+                }
 
                 return view
             }

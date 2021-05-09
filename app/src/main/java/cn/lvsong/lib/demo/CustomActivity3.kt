@@ -13,6 +13,7 @@ import coil.Coil
 import coil.ImageLoader
 import coil.load
 import coil.request.ImageRequest
+import coil.transform.BlurTransformation
 import kotlinx.android.synthetic.main.activity_custom3.*
 
 class CustomActivity3 : BaseActivity() {
@@ -111,6 +112,10 @@ class CustomActivity3 : BaseActivity() {
 
                 } else {
                     view.findViewById<AppCompatImageView>(R.id.iv_nine_item).load(mImages2[pos])
+                    // 下面是高斯模糊效果
+//                    {
+//                        transformations(BlurTransformation(context = applicationContext, radius = 5F, sampling = 5F))
+//                    }
                 }
             }
 
