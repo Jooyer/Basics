@@ -115,7 +115,7 @@ class BannerActivity : AppCompatActivity() {
             heads.add("https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3820948238,3810516733&fm=26&gp=0.jpg")
             heads.add("https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2412068931,3031791558&fm=26&gp=0.jpg")
             heads.add("http://39.105.178.65:1015/diansi/images/banner1.png")
-            headerBanner.notifyDataSetChanged(heads.size)
+            headerBanner.notifyDataSetChanged()
         }, 5000)
 
     }

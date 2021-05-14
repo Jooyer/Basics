@@ -1,0 +1,360 @@
+[1mdiff --git a/app/src/main/java/cn/lvsong/lib/demo/BannerActivity.kt b/app/src/main/java/cn/lvsong/lib/demo/BannerActivity.kt[m
+[1mindex ca33960..84f30b7 100644[m
+[1m--- a/app/src/main/java/cn/lvsong/lib/demo/BannerActivity.kt[m
+[1m+++ b/app/src/main/java/cn/lvsong/lib/demo/BannerActivity.kt[m
+[36m@@ -22,7 +22,7 @@[m [mclass BannerActivity : AppCompatActivity() {[m
+     private val heads = arrayListOf([m
+ //        "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3820948238,3810516733&fm=26&gp=0.jpg",[m
+ //        "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1545980553,2413955112&fm=26&gp=0.jpg",[m
+[31m-        "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2412068931,3031791558&fm=26&gp=0.jpg",[m
+[32m+[m[32m//        "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2412068931,3031791558&fm=26&gp=0.jpg",[m
+         "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=286946846,3770652173&fm=26&gp=0.jpg"[m
+     )[m
+ [m
+[1mdiff --git a/app/src/main/java/cn/lvsong/lib/demo/CustomActivity1.kt b/app/src/main/java/cn/lvsong/lib/demo/CustomActivity1.kt[m
+[1mindex a622212..f77e63d 100644[m
+[1m--- a/app/src/main/java/cn/lvsong/lib/demo/CustomActivity1.kt[m
+[1m+++ b/app/src/main/java/cn/lvsong/lib/demo/CustomActivity1.kt[m
+[36m@@ -1,6 +1,5 @@[m
+ package cn.lvsong.lib.demo[m
+ [m
+[31m-import android.graphics.Color[m
+ import android.view.Gravity[m
+ import android.view.LayoutInflater[m
+ import android.view.View[m
+[1mdiff --git a/app/src/main/java/cn/lvsong/lib/demo/LazyFragment.kt b/app/src/main/java/cn/lvsong/lib/demo/LazyFragment.kt[m
+[1mindex 4de33b3..5dec639 100644[m
+[1m--- a/app/src/main/java/cn/lvsong/lib/demo/LazyFragment.kt[m
+[1m+++ b/app/src/main/java/cn/lvsong/lib/demo/LazyFragment.kt[m
+[36m@@ -101,7 +101,7 @@[m [mclass LazyFragment : BaseFragment() {[m
+      *   当type = 2时,则为请求详情, getDetail()中设置的 LoadState.Success(type = 2)[m
+      *   LoadState.Loading(), LoadState.Failure()均和上面类似,方便在一个地方处理所有成功时某些逻辑[m
+      */[m
+[31m-    override fun onSuccess(code: Int , apiType: Int, msg: String ) {[m
+[32m+[m[32m    override fun onSuccess(code: Int, apiType: Int, subType: Int, msg: String) {[m
+         if (1 == apiType) {[m
+             if (nrl_refresh_layout.isRefreshing) {[m
+                 nrl_refresh_layout.setFinishRefresh(true)[m
+[36m@@ -113,7 +113,7 @@[m [mclass LazyFragment : BaseFragment() {[m
+         }[m
+     }[m
+ [m
+[31m-    override fun onFailure(code: Int, apiType: Int, msg: String) {[m
+[32m+[m[32m    override fun onFailure(code: Int, apiType: Int,subType: Int,  msg: String) {[m
+         nrl_refresh_layout.setFinishRefresh(false)[m
+         nrl_refresh_layout.setFinishLoad(false)[m
+         Log.e("LazyFragment", "onFailure==============$msg")[m
+[1mdiff --git a/common/src/main/java/cn/lvsong/lib/library/banner/BannerLayout.kt b/common/src/main/java/cn/lvsong/lib/library/banner/BannerLayout.kt[m
+[1mindex 237ba85..3b956f8 100644[m
+[1m--- a/common/src/main/java/cn/lvsong/lib/library/banner/BannerLayout.kt[m
+[1m+++ b/common/src/main/java/cn/lvsong/lib/library/banner/BannerLayout.kt[m
+[36m@@ -260,7 +260,7 @@[m [mclass BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co[m
+         if (null != mBannerScrollAdapter && mTouching) {[m
+             mPageCount = count[m
+             postDelayed(mDelayRunnable, mLayoutManager.getScrollTime())[m
+[31m-        } else {[m
+[32m+[m[32m        } else {/[m
+             mCurrentPos = 0[m
+             mBanner.adapter?.notifyDataSetChanged()[m
+             // 重新初始时指示器[m
+[1mdiff --git a/common/src/main/java/cn/lvsong/lib/library/utils/AppraiseUtils.kt b/common/src/main/java/cn/lvsong/lib/library/utils/AppraiseUtils.kt[m
+[1mindex 8c08305..9cb3677 100644[m
+[1m--- a/common/src/main/java/cn/lvsong/lib/library/utils/AppraiseUtils.kt[m
+[1m+++ b/common/src/main/java/cn/lvsong/lib/library/utils/AppraiseUtils.kt[m
+[36m@@ -1,5 +1,6 @@[m
+ package cn.lvsong.lib.library.utils[m
+ [m
+[32m+[m[32mimport android.annotation.SuppressLint[m
+ import android.content.Context[m
+ import android.content.Intent[m
+ import android.net.Uri[m
+[36m@@ -29,21 +30,21 @@[m [mimport java.util.*[m
+  * 跳转应用市场评价[m
+  */[m
+ object AppraiseUtils {[m
+[32m+[m
+     /**[m
+      * 获取已安装应用商店的包名列表 , 小米手机获取不到... 可以使用 getInstallAppMarkets()[m
+      *[m
+      * @param context[m
+      * @return[m
+      */[m
+[31m-    fun InstalledAPPs(context: Context?): ArrayList<String> {[m
+[32m+[m[32m    fun installedAPPs(context: Context): ArrayList<String> {[m
+         val pkgs = ArrayList<String>()[m
+[31m-        if (context == null) return pkgs[m
+         val intent = Intent()[m
+         intent.action = "android.intent.action.MAIN"[m
+         intent.addCategory("android.intent.category.APP_MARKET")[m
+         val pm = context.packageManager[m
+         val infos = pm.queryIntentActivities(intent, 0)[m
+[31m-        if (infos == null || infos.size == 0) return pkgs[m
+[32m+[m[32m        if (infos.size == 0) return pkgs[m
+         val size = infos.size[m
+         for (i in 0 until size) {[m
+             var pkgName = ""[m
+[36m@@ -65,7 +66,7 @@[m [mobject AppraiseUtils {[m
+      * @param context[m
+      * @return[m
+      */[m
+[31m-    fun getInstallAppMarkets(context: Context?): ArrayList<String> {[m
+[32m+[m[32m    fun getInstallAppMarkets(context: Context): ArrayList<String> {[m
+         //默认的应用市场列表，有些应用市场没有设置APP_MARKET通过隐式搜索不到[m
+         val pkgList = ArrayList<String>()[m
+         pkgList.add("com.tencent.android.qqdownloader") // 应用宝[m
+[36m@@ -87,32 +88,34 @@[m [mobject AppraiseUtils {[m
+ //        pkgList.add("com.yingyonghui.market"); // 应用汇应用商店[m
+ //        pkgList.add("com.mappn.gfan"); // 机锋应用商店[m
+ //        pkgList.add("com.pp.assistant"); // PP助手应用商店[m
+[31m-        val pkgs = ArrayList<String>()[m
+[31m-        if (context == null) return pkgs[m
+[31m-        val intent = Intent()[m
+[31m-        intent.action = "android.intent.action.MAIN"[m
+[31m-        //        intent.addCategory("android.intent.category.APP_MARKET");[m
+[31m-        intent.addCategory("android.intent.category.LAUNCHER")[m
+[31m-        val pm = context.packageManager[m
+[31m-        val infos = pm.queryIntentActivities(intent, 0)[m
+[31m-        if (infos != null && infos.size > 0) {[m
+[31m-            for (i in infos.indices) {[m
+[31m-                var pkgName = ""[m
+[31m-                try {[m
+[31m-                    val activityInfo = infos[i].activityInfo[m
+[31m-                    pkgName = activityInfo.packageName[m
+[31m-                } catch (e: Exception) {[m
+[31m-                    e.printStackTrace()[m
+[31m-                }[m
+[31m-                if (!TextUtils.isEmpty(pkgName)) {[m
+[31m-                    pkgs.add(pkgName)[m
+[31m-                }[m
+[31m-            }[m
+[31m-        }[m
+ [m
+[31m-        //取两个list交集,去除重复[m
+[31m-        pkgList.retainAll(pkgs)[m
+[31m-        return pkgList[m
+[32m+[m[32m        // 这个过滤,不能正确过滤一加应用市场[m
+[32m+[m[32m//        val pkgs = ArrayList<String>()[m
+[32m+[m[32m//        if (context == null) return pkgs[m
+[32m+[m[32m//        val intent = Intent()[m
+[32m+[m[32m//        intent.action = "android.intent.action.MAIN"[m
+[32m+[m[32m//        //        intent.addCategory("android.intent.category.APP_MARKET");[m
+[32m+[m[32m//        intent.addCategory("android.intent.category.LAUNCHER")[m
+[32m+[m[32m//        val pm = context.packageManager[m
+[32m+[m[32m//        val infos = pm.queryIntentActivities(intent, 0)[m
+[32m+[m[32m//        if (infos != null && infos.size > 0) {[m
+[32m+[m[32m//            for (i in infos.indices) {[m
+[32m+[m[32m//                var pkgName = ""[m
+[32m+[m[32m//                try {[m
+[32m+[m[32m//                    val activityInfo = infos[i].activityInfo[m
+[32m+[m[32m//                    pkgName = activityInfo.packageName[m
+[32m+[m[32m//                } catch (e: Exception) {[m
+[32m+[m[32m//                    e.printStackTrace()[m
+[32m+[m[32m//                }[m
+[32m+[m[32m//                if (!TextUtils.isEmpty(pkgName)) {[m
+[32m+[m[32m//                    pkgs.add(pkgName)[m
+[32m+[m[32m//                }[m
+[32m+[m[32m//            }[m
+[32m+[m[32m//        }[m
+[32m+[m[32m//        //取两个list交集,去除重复[m
+[32m+[m[32m//        pkgList.retainAll(pkgs)[m
+[32m+[m
+[32m+[m[32m        return selectedInstalledAPPs(context,pkgList)[m
+     }[m
+ [m
+     /**[m
+[36m@@ -122,9 +125,8 @@[m [mobject AppraiseUtils {[m
+      * @param pkgs    -->待过滤包名集合[m
+      * @return 已安装的包名集合[m
+      */[m
+[31m-    fun SelectedInstalledAPPs(context: Context?, pkgs: ArrayList<String>?): ArrayList<String> {[m
+[32m+[m[32m    fun selectedInstalledAPPs(context: Context, pkgs: ArrayList<String>): ArrayList<String> {[m
+         val empty = ArrayList<String>()[m
+[31m-        if (context == null || pkgs == null || pkgs.size == 0) return empty[m
+         val pm = context.packageManager[m
+         val installedPkgs = pm.getInstalledPackages(0)[m
+         val li = installedPkgs.size[m
+[1mdiff --git a/ui/src/main/java/cn/lvsong/lib/ui/BaseActivity.kt b/ui/src/main/java/cn/lvsong/lib/ui/BaseActivity.kt[m
+[1mindex 319a60f..02512e0 100644[m
+[1m--- a/ui/src/main/java/cn/lvsong/lib/ui/BaseActivity.kt[m
+[1m+++ b/ui/src/main/java/cn/lvsong/lib/ui/BaseActivity.kt[m
+[36m@@ -66,16 +66,31 @@[m [mabstract class BaseActivity : AppCompatActivity(), OnRetryListener, OnLazyClickL[m
+             it.mLoadState.observe(this, Observer { loadState ->[m
+                 when (loadState) {[m
+                     is LoadState.Loading -> {[m
+[31m-                        onLoading(loadState.apiType,loadState.msg )[m
+[32m+[m[32m                        onLoading(loadState.apiType, loadState.subType, loadState.msg)[m
+                     }[m
+                     is LoadState.Failure -> {[m
+[31m-                        onFailure(loadState.code,loadState.apiType,loadState.msg, )[m
+[32m+[m[32m                        onFailure([m
+[32m+[m[32m                            loadState.code,[m
+[32m+[m[32m                            loadState.apiType,[m
+[32m+[m[32m                            loadState.subType,[m
+[32m+[m[32m                            loadState.msg[m
+[32m+[m[32m                        )[m
+                     }[m
+                     is LoadState.NetError -> {[m
+[31m-                        onNetError(loadState.code,loadState.apiType,loadState.msg, )[m
+[32m+[m[32m                        onNetError([m
+[32m+[m[32m                            loadState.code,[m
+[32m+[m[32m                            loadState.apiType,[m
+[32m+[m[32m                            loadState.subType,[m
+[32m+[m[32m                            loadState.msg[m
+[32m+[m[32m                        )[m
+                     }[m
+                     else -> {[m
+[31m-                        onSuccess(loadState.code, loadState.apiType,loadState.msg )[m
+[32m+[m[32m                        onSuccess([m
+[32m+[m[32m                            loadState.code,[m
+[32m+[m[32m                            loadState.apiType,[m
+[32m+[m[32m                            loadState.subType,[m
+[32m+[m[32m                            loadState.msg[m
+[32m+[m[32m                        )[m
+                     }[m
+                 }[m
+             })[m
+[36m@@ -203,9 +218,11 @@[m [mabstract class BaseActivity : AppCompatActivity(), OnRetryListener, OnLazyClickL[m
+     /**[m
+      * 加载中,按需重写[m
+      * @param apiType --> 区别不同请求接口[m
+[32m+[m[32m     * @param subType --> 同一种 code 又有不同提示,[m
+[32m+[m[32m     * eg: 获取列表,请求成功(code = 200)了,但是分为 列表有数据和列表为空,此时 apiType = 1(请求列表接口) , subType = 1(列表不为空) || subType = 2(列表为空)[m
+      * @param msg --> 提示信息[m
+      */[m
+[31m-    open fun onLoading(apiType: Int = 0, msg: String = "") {[m
+[32m+[m[32m    open fun onLoading(apiType: Int = 0, subType: Int, msg: String = "") {[m
+ [m
+     }[m
+ [m
+[36m@@ -213,9 +230,11 @@[m [mabstract class BaseActivity : AppCompatActivity(), OnRetryListener, OnLazyClickL[m
+      * 加载成功,按需重写[m
+      * @param code --> 状态码[m
+      * @param apiType --> 区别不同请求接口[m
+[32m+[m[32m     * @param subType --> 同一种 code 又有不同提示,[m
+[32m+[m[32m     * eg: 获取列表,请求成功(code = 200)了,但是分为 列表有数据和列表为空,此时 apiType = 1(请求列表接口) , subType = 1(列表不为空) || subType = 2(列表为空)[m
+      * @param msg --> 提示信息[m
+      */[m
+[31m-    open fun onSuccess(code: Int = 200, apiType: Int = 0, msg: String = "") {[m
+[32m+[m[32m    open fun onSuccess(code: Int = 200, apiType: Int = 0, subType: Int, msg: String = "") {[m
+ [m
+     }[m
+ [m
+[36m@@ -223,9 +242,11 @@[m [mabstract class BaseActivity : AppCompatActivity(), OnRetryListener, OnLazyClickL[m
+      * 加载失败,按需重写[m
+      *  @param code --> 状态码[m
+      *  @param apiType --> 区别不同请求接口[m
+[32m+[m[32m     * @param subType --> 同一种 code 又有不同提示,[m
+[32m+[m[32m     * eg: 获取列表,请求成功(code = 200)了,但是分为 列表有数据和列表为空,此时 apiType = 1(请求列表接口) , subType = 1(列表不为空) || subType = 2(列表为空)[m
+      *  @param msg --> 提示信息[m
+      */[m
+[31m-    open fun onFailure(code: Int = 200, apiType: Int = 0, msg: String = "") {[m
+[32m+[m[32m    open fun onFailure(code: Int = 200, apiType: Int = 0, subType: Int, msg: String = "") {[m
+ [m
+     }[m
+ [m
+[36m@@ -234,9 +255,11 @@[m [mabstract class BaseActivity : AppCompatActivity(), OnRetryListener, OnLazyClickL[m
+      * 加载失败,按需重写[m
+      *  @param code --> 状态码[m
+      *  @param apiType --> 区别不同请求接口[m
+[32m+[m[32m     * @param subType --> 同一种 code 又有不同提示,[m
+[32m+[m[32m     * eg: 获取列表,请求成功(code = 200)了,但是分为 列表有数据和列表为空,此时 apiType = 1(请求列表接口) , subType = 1(列表不为空) || subType = 2(列表为空)[m
+      *  @param msg --> 提示信息[m
+      */[m
+[31m-    open fun onNetError(code: Int = 200, apiType: Int = 0, msg: String = "") {[m
+[32m+[m[32m    open fun onNetError(code: Int = 200, apiType: Int = 0, subType: Int, msg: String = "") {[m
+ [m
+     }[m
+ [m
+[1mdiff --git a/ui/src/main/java/cn/lvsong/lib/ui/BaseFragment.kt b/ui/src/main/java/cn/lvsong/lib/ui/BaseFragment.kt[m
+[1mindex 212fc39..e8bca83 100644[m
+[1m--- a/ui/src/main/java/cn/lvsong/lib/ui/BaseFragment.kt[m
+[1m+++ b/ui/src/main/java/cn/lvsong/lib/ui/BaseFragment.kt[m
+[36m@@ -111,16 +111,31 @@[m [mabstract class BaseFragment : Fragment(),[m
+                 it.mLoadState.observe(viewLifecycleOwner, Observer { loadState ->[m
+                     when (loadState) {[m
+                         is LoadState.Loading -> {[m
+[31m-                            onLoading(loadState.apiType,loadState.msg )[m
+[32m+[m[32m                            onLoading(loadState.apiType, loadState.subType, loadState.msg)[m
+                         }[m
+                         is LoadState.Failure -> {[m
+[31m-                            onFailure(loadState.code,loadState.apiType,loadState.msg, )[m
+[32m+[m[32m                            onFailure([m
+[32m+[m[32m                                loadState.code,[m
+[32m+[m[32m                                loadState.apiType,[m
+[32m+[m[32m                                loadState.subType,[m
+[32m+[m[32m                                loadState.msg[m
+[32m+[m[32m                            )[m
+                         }[m
+                         is LoadState.NetError -> {[m
+[31m-                            onNetError(loadState.code,loadState.apiType,loadState.msg, )[m
+[32m+[m[32m                            onNetError([m
+[32m+[m[32m                                loadState.code,[m
+[32m+[m[32m                                loadState.apiType,[m
+[32m+[m[32m                                loadState.subType,[m
+[32m+[m[32m                                loadState.msg[m
+[32m+[m[32m                            )[m
+                         }[m
+                         else -> {[m
+[31m-                            onSuccess(loadState.code, loadState.apiType,loadState.msg )[m
+[32m+[m[32m                            onSuccess([m
+[32m+[m[32m                                loadState.code,[m
+[32m+[m[32m                                loadState.apiType,[m
+[32m+[m[32m                                loadState.subType,[m
+[32m+[m[32m                                loadState.msg[m
+[32m+[m[32m                            )[m
+                         }[m
+                     }[m
+                 })[m
+[36m@@ -264,9 +279,11 @@[m [mabstract class BaseFragment : Fragment(),[m
+     /**[m
+      * 加载中,按需重写[m
+      * @param apiType --> 区别不同请求接口[m
+[32m+[m[32m     * @param subType --> 同一种 code 又有不同提示,[m
+[32m+[m[32m     * eg: 获取列表,请求成功(code = 200)了,但是分为 列表有数据和列表为空,此时 apiType = 1(请求列表接口) , subType = 1(列表不为空) || subType = 2(列表为空)[m
+      * @param msg --> 提示信息[m
+      */[m
+[31m-    open fun onLoading(apiType: Int = 0, msg: String = "") {[m
+[32m+[m[32m    open fun onLoading(apiType: Int = 0, subType: Int, msg: String = "") {[m
+ [m
+     }[m
+ [m
+[36m@@ -274,9 +291,11 @@[m [mabstract class BaseFragment : Fragment(),[m
+      * 加载成功,按需重写[m
+      * @param code --> 状态码[m
+      * @param apiType --> 区别不同请求接口[m
+[32m+[m[32m     * @param subType --> 同一种 code 又有不同提示,[m
+[32m+[m[32m     * eg: 获取列表,请求成功(code = 200)了,但是分为 列表有数据和列表为空,此时 apiType = 1(请求列表接口) , subType = 1(列表不为空) || subType = 2(列表为空)[m
+      * @param msg --> 提示信息[m
+      */[m
+[31m-    open fun onSuccess(code: Int = 200, apiType: Int = 0, msg: String = "") {[m
+[32m+[m[32m    open fun onSuccess(code: Int = 200, apiType: Int = 0, subType: Int, msg: String = "") {[m
+ [m
+     }[m
+ [m
+[36m@@ -284,19 +303,24 @@[m [mabstract class BaseFragment : Fragment(),[m
+      * 加载失败,按需重写[m
+      *  @param code --> 状态码[m
+      *  @param apiType --> 区别不同请求接口[m
+[32m+[m[32m     * @param subType --> 同一种 code 又有不同提示,[m
+[32m+[m[32m     * eg: 获取列表,请求成功(code = 200)了,但是分为 列表有数据和列表为空,此时 apiType = 1(请求列表接口) , subType = 1(列表不为空) || subType = 2(列表为空)[m
+      *  @param msg --> 提示信息[m
+      */[m
+[31m-    open fun onFailure(code: Int = 200, apiType: Int = 0, msg: String = "") {[m
+[32m+[m[32m    open fun onFailure(code: Int = 200, apiType: Int = 0, subType: Int, msg: String = "") {[m
+ [m
+     }[m
+ [m
+[32m+[m
+     /**[m
+      * 加载失败,按需重写[m
+      *  @param code --> 状态码[m
+      *  @param apiType --> 区别不同请求接口[m
+[32m+[m[32m     * @param subType --> 同一种 code 又有不同提示,[m
+[32m+[m[32m     * eg: 获取列表,请求成功(code = 200)了,但是分为 列表有数据和列表为空,此时 apiType = 1(请求列表接口) , subType = 1(列表不为空) || subType = 2(列表为空)[m
+      *  @param msg --> 提示信息[m
+      */[m
+[31m-    open fun onNetError(code: Int = 200, apiType: Int = 0, msg: String = "") {[m
+[32m+[m[32m    open fun onNetError(code: Int = 200, apiType: Int = 0, subType: Int, msg: String = "") {[m
+ [m
+     }[m
+ [m

@@ -66,16 +66,31 @@ abstract class BaseActivity : AppCompatActivity(), OnRetryListener, OnLazyClickL
             it.mLoadState.observe(this, Observer { loadState ->
                 when (loadState) {
                     is LoadState.Loading -> {
-                        onLoading(loadState.apiType,loadState.msg )
+                        onLoading(loadState.apiType, loadState.subType, loadState.msg)
                     }
                     is LoadState.Failure -> {
-                        onFailure(loadState.code,loadState.apiType,loadState.msg, )
+                        onFailure(
+                            loadState.code,
+                            loadState.apiType,
+                            loadState.subType,
+                            loadState.msg
+                        )
                     }
                     is LoadState.NetError -> {
-                        onNetError(loadState.code,loadState.apiType,loadState.msg, )
+                        onNetError(
+                            loadState.code,
+                            loadState.apiType,
+                            loadState.subType,
+                            loadState.msg
+                        )
                     }
                     else -> {
-                        onSuccess(loadState.code, loadState.apiType,loadState.msg )
+                        onSuccess(
+                            loadState.code,
+                            loadState.apiType,
+                            loadState.subType,
+                            loadState.msg
+                        )
                     }
                 }
             })
@@ -203,9 +218,11 @@ abstract class BaseActivity : AppCompatActivity(), OnRetryListener, OnLazyClickL
     /**
      * 加载中,按需重写
      * @param apiType --> 区别不同请求接口
+     * @param subType --> 同一种 code 又有不同提示,
+     * eg: 获取列表,请求成功(code = 200)了,但是分为 列表有数据和列表为空,此时 apiType = 1(请求列表接口) , subType = 1(列表不为空) || subType = 2(列表为空)
      * @param msg --> 提示信息
      */
-    open fun onLoading(apiType: Int = 0, msg: String = "") {
+    open fun onLoading(apiType: Int = 0, subType: Int, msg: String = "") {
 
     }
 
@@ -213,9 +230,11 @@ abstract class BaseActivity : AppCompatActivity(), OnRetryListener, OnLazyClickL
      * 加载成功,按需重写
      * @param code --> 状态码
      * @param apiType --> 区别不同请求接口
+     * @param subType --> 同一种 code 又有不同提示,
+     * eg: 获取列表,请求成功(code = 200)了,但是分为 列表有数据和列表为空,此时 apiType = 1(请求列表接口) , subType = 1(列表不为空) || subType = 2(列表为空)
      * @param msg --> 提示信息
      */
-    open fun onSuccess(code: Int = 200, apiType: Int = 0, msg: String = "") {
+    open fun onSuccess(code: Int = 200, apiType: Int = 0, subType: Int, msg: String = "") {
 
     }
 
@@ -223,9 +242,11 @@ abstract class BaseActivity : AppCompatActivity(), OnRetryListener, OnLazyClickL
      * 加载失败,按需重写
      *  @param code --> 状态码
      *  @param apiType --> 区别不同请求接口
+     * @param subType --> 同一种 code 又有不同提示,
+     * eg: 获取列表,请求成功(code = 200)了,但是分为 列表有数据和列表为空,此时 apiType = 1(请求列表接口) , subType = 1(列表不为空) || subType = 2(列表为空)
      *  @param msg --> 提示信息
      */
-    open fun onFailure(code: Int = 200, apiType: Int = 0, msg: String = "") {
+    open fun onFailure(code: Int = 200, apiType: Int = 0, subType: Int, msg: String = "") {
 
     }
 
@@ -234,9 +255,11 @@ abstract class BaseActivity : AppCompatActivity(), OnRetryListener, OnLazyClickL
      * 加载失败,按需重写
      *  @param code --> 状态码
      *  @param apiType --> 区别不同请求接口
+     * @param subType --> 同一种 code 又有不同提示,
+     * eg: 获取列表,请求成功(code = 200)了,但是分为 列表有数据和列表为空,此时 apiType = 1(请求列表接口) , subType = 1(列表不为空) || subType = 2(列表为空)
      *  @param msg --> 提示信息
      */
-    open fun onNetError(code: Int = 200, apiType: Int = 0, msg: String = "") {
+    open fun onNetError(code: Int = 200, apiType: Int = 0, subType: Int, msg: String = "") {
 
     }
 

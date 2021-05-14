@@ -3,7 +3,6 @@ package cn.lvsong.lib.library.banner
 import android.content.Context
 import android.os.Looper
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
@@ -34,11 +33,6 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
     private var mCurrentPos = 0
 
     /**
-     * banner条数
-     */
-    private var mPageCount = 0
-
-    /**
      * 当滑动后,位置发生变化,如果需要监听,则设置此回调
      */
     private var mPositionChangeListener: OnPositionChangeListener? = null
@@ -67,29 +61,6 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
      * 指示器
      */
     private var mIndicator: Indicator? = null
-
-    /**
-     * 手指没有抬起,此时不能刷新
-     */
-    private var mTouching = false
-
-    /**
-     * 延迟刷新 Runnable
-     */
-    private val mDelayRunnable = object : Runnable {
-        override fun run() {
-            if (mTouching) {
-                postDelayed(this, mLayoutManager.getScrollTime())
-            } else {
-                mCurrentPos = 0
-                mBanner.adapter?.notifyDataSetChanged()
-                // 重新初始时指示器
-                mIndicator?.initIndicatorCount(mBanner.adapter!!.itemCount)
-//                mBanner.smoothScrollToPosition(mCurrentPos)
-                loop()
-            }
-        }
-    }
 
     /**
      * 自动滑动的 Runnable
@@ -123,9 +94,9 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
 
     /**
      * 自动滑动
-     * TODO 参考 https://www.jb51.net/article/198584.htm 自动吸附效果
+     * 参考 https://www.jb51.net/article/198584.htm 自动吸附效果
      */
-    private fun autoScroll(auto: Boolean, delayTime: Long) {
+    private fun autoScroll(auto: Boolean) {
         removeCallbacks(mAutoScrollRunnable)
         if (auto && mLayoutManager.itemCount > 1) {
             postDelayed(mAutoScrollRunnable, mLoopTime)
@@ -137,11 +108,9 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
      */
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
         if (MotionEvent.ACTION_DOWN == ev.action) { // 手指在 Banner 上,此时不再自动滑动
-            mTouching = true
-            autoScroll(false, 0L)
+            autoScroll(false)
         } else if (MotionEvent.ACTION_UP == ev.action || MotionEvent.ACTION_CANCEL == ev.action) {
-            mTouching = false
-            autoScroll(true, 50L)
+            autoScroll(true)
         }
         return super.dispatchTouchEvent(ev)
     }
@@ -149,14 +118,13 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         if (null != mBanner.adapter) {
-            autoScroll(true, mLoopTime)
+            autoScroll(true)
         }
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        autoScroll(false, 0L)
-        removeCallbacks(mDelayRunnable)
+        autoScroll(false)
     }
 
     // 解决列表时滑动部分切换了在回来时2个Item交接位置卡住
@@ -255,41 +223,34 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
     /**
      * 当数据有更新时需要调用此方法,它里面包含了对指示器的更新
      */
-    fun notifyDataSetChanged(count: Int) {
-        // 滑动的时候就不刷新
-        if (null != mBannerScrollAdapter && mTouching) {
-            mPageCount = count
-            postDelayed(mDelayRunnable, mLayoutManager.getScrollTime())
-        } else {
-            mCurrentPos = 0
-            mBanner.adapter?.notifyDataSetChanged()
-            // 重新初始时指示器
-            mIndicator?.initIndicatorCount(mBanner.adapter!!.itemCount)
-//            mBanner.smoothScrollToPosition(mCurrentPos)
-//            loop()
-
-        }
+    fun notifyDataSetChanged() {
+        mCurrentPos = 0
+        mBanner.adapter?.notifyDataSetChanged()
+        // 重新初始时指示器
+        mIndicator?.initIndicatorCount(mBanner.adapter!!.itemCount)
+        // 处理,开始 banner 只有一张图,更新后有多张图时不自动滚动
+        autoScroll(true)
     }
 
     /**
      * 可以在 Activity/Fragment 生命周期内使用
      */
     fun onPause() {
-        autoScroll(false, 0L)
+        autoScroll(false)
     }
 
     /**
      * 可以在 Activity/Fragment 生命周期内使用
      */
     fun onResume() {
-        autoScroll(true, mLoopTime)
+        autoScroll(true)
     }
 
     /**
      * 可以在 Activity/Fragment 生命周期内使用
      */
     fun onStop() {
-        autoScroll(false, 0L)
+        autoScroll(false)
     }
 
     /**

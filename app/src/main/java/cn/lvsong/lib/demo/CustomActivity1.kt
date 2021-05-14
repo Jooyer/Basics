@@ -1,6 +1,5 @@
 package cn.lvsong.lib.demo
 
-import android.graphics.Color
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View

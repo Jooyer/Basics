@@ -1,5 +1,6 @@
 package cn.lvsong.lib.library.utils
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -29,21 +30,21 @@ import java.util.*
  * 跳转应用市场评价
  */
 object AppraiseUtils {
+
     /**
      * 获取已安装应用商店的包名列表 , 小米手机获取不到... 可以使用 getInstallAppMarkets()
      *
      * @param context
      * @return
      */
-    fun InstalledAPPs(context: Context?): ArrayList<String> {
+    fun installedAPPs(context: Context): ArrayList<String> {
         val pkgs = ArrayList<String>()
-        if (context == null) return pkgs
         val intent = Intent()
         intent.action = "android.intent.action.MAIN"
         intent.addCategory("android.intent.category.APP_MARKET")
         val pm = context.packageManager
         val infos = pm.queryIntentActivities(intent, 0)
-        if (infos == null || infos.size == 0) return pkgs
+        if (infos.size == 0) return pkgs
         val size = infos.size
         for (i in 0 until size) {
             var pkgName = ""
@@ -65,7 +66,7 @@ object AppraiseUtils {
      * @param context
      * @return
      */
-    fun getInstallAppMarkets(context: Context?): ArrayList<String> {
+    fun getInstallAppMarkets(context: Context): ArrayList<String> {
         //默认的应用市场列表，有些应用市场没有设置APP_MARKET通过隐式搜索不到
         val pkgList = ArrayList<String>()
         pkgList.add("com.tencent.android.qqdownloader") // 应用宝
@@ -87,32 +88,34 @@ object AppraiseUtils {
 //        pkgList.add("com.yingyonghui.market"); // 应用汇应用商店
 //        pkgList.add("com.mappn.gfan"); // 机锋应用商店
 //        pkgList.add("com.pp.assistant"); // PP助手应用商店
-        val pkgs = ArrayList<String>()
-        if (context == null) return pkgs
-        val intent = Intent()
-        intent.action = "android.intent.action.MAIN"
-        //        intent.addCategory("android.intent.category.APP_MARKET");
-        intent.addCategory("android.intent.category.LAUNCHER")
-        val pm = context.packageManager
-        val infos = pm.queryIntentActivities(intent, 0)
-        if (infos != null && infos.size > 0) {
-            for (i in infos.indices) {
-                var pkgName = ""
-                try {
-                    val activityInfo = infos[i].activityInfo
-                    pkgName = activityInfo.packageName
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-                if (!TextUtils.isEmpty(pkgName)) {
-                    pkgs.add(pkgName)
-                }
-            }
-        }
 
-        //取两个list交集,去除重复
-        pkgList.retainAll(pkgs)
-        return pkgList
+        // 这个过滤,不能正确过滤一加应用市场
+//        val pkgs = ArrayList<String>()
+//        if (context == null) return pkgs
+//        val intent = Intent()
+//        intent.action = "android.intent.action.MAIN"
+//        //        intent.addCategory("android.intent.category.APP_MARKET");
+//        intent.addCategory("android.intent.category.LAUNCHER")
+//        val pm = context.packageManager
+//        val infos = pm.queryIntentActivities(intent, 0)
+//        if (infos != null && infos.size > 0) {
+//            for (i in infos.indices) {
+//                var pkgName = ""
+//                try {
+//                    val activityInfo = infos[i].activityInfo
+//                    pkgName = activityInfo.packageName
+//                } catch (e: Exception) {
+//                    e.printStackTrace()
+//                }
+//                if (!TextUtils.isEmpty(pkgName)) {
+//                    pkgs.add(pkgName)
+//                }
+//            }
+//        }
+//        //取两个list交集,去除重复
+//        pkgList.retainAll(pkgs)
+
+        return selectedInstalledAPPs(context,pkgList)
     }
 
     /**
@@ -122,9 +125,8 @@ object AppraiseUtils {
      * @param pkgs    -->待过滤包名集合
      * @return 已安装的包名集合
      */
-    fun SelectedInstalledAPPs(context: Context?, pkgs: ArrayList<String>?): ArrayList<String> {
+    fun selectedInstalledAPPs(context: Context, pkgs: ArrayList<String>): ArrayList<String> {
         val empty = ArrayList<String>()
-        if (context == null || pkgs == null || pkgs.size == 0) return empty
         val pm = context.packageManager
         val installedPkgs = pm.getInstalledPackages(0)
         val li = installedPkgs.size
