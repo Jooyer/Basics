@@ -42,8 +42,8 @@ fun <T : View> T.withTrigger(delay: Long = 600): T {
  * @param block: (T) -> Unit 函数
  * @return Unit
  */
-fun <T : View> T.click(block: (T) -> Unit) = setOnClickListener {
-    block(it as T)
+fun <T : View> T.click(block: (View) -> Unit) = setOnClickListener {
+    block(it as View)
 }
 
 /***
@@ -52,11 +52,11 @@ fun <T : View> T.click(block: (T) -> Unit) = setOnClickListener {
  * @param block: (T) -> Unit 函数
  * @return Unit
  */
-fun <T : View> T.clickWithTrigger(time: Long = 600, block: (T) -> Unit) {
+fun <T : View> T.clickWithTrigger(time: Long = 600, block: (View) -> Unit) {
     triggerDelay = time
     setOnClickListener {
         if (clickEnable()) {
-            block(it as T)
+            block(it as View)
         }
     }
 }

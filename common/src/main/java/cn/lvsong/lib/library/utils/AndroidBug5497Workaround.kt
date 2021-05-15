@@ -1,10 +1,10 @@
 package cn.lvsong.lib.library.utils
 
-import android.R
 import android.app.Activity
 import android.graphics.Rect
 import android.view.View
 import android.widget.FrameLayout
+import cn.lvsong.lib.library.R
 
 /** 如果想实现登录时 Logo 随键盘弹起和关闭缩小和方法,可以参考魔掠小说的 登录界面
  * Desc:  https://juejin.im/entry/58da15720ce463005716a123

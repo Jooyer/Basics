@@ -26,7 +26,12 @@ class CustomActivity2 : BaseActivity() {
         }
 
         cv2.withTrigger().click {
-            Toast.makeText(this@CustomActivity2,"点击了带圈叉叉", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@CustomActivity2,"点击了带背景叉叉", Toast.LENGTH_SHORT).show()
+        }
+
+
+        cv3.withTrigger().click {
+            Toast.makeText(this@CustomActivity2,"点击了带背景和圈叉叉", Toast.LENGTH_SHORT).show()
         }
 
     }
