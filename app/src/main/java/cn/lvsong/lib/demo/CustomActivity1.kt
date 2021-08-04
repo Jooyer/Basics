@@ -13,7 +13,7 @@ import cn.lvsong.lib.library.adapter.MultiItemTypeAdapter
 import cn.lvsong.lib.library.adapter.ViewHolder
 import cn.lvsong.lib.library.dialog.JAlertDialog
 import cn.lvsong.lib.library.dialog.OnJAlertDialogCLickListener
-import cn.lvsong.lib.library.other.LinearDividerItemDecoration
+import cn.lvsong.lib.library.decorator.LinearDividerItemDecoration
 import cn.lvsong.lib.library.popupwindow.HorizontalPosition
 import cn.lvsong.lib.library.popupwindow.SmartPopupWindow
 import cn.lvsong.lib.library.popupwindow.VerticalPosition
@@ -131,11 +131,12 @@ class CustomActivity1 : BaseActivity() {
             }
         })
 
-        val itemDecoration = LinearDividerItemDecoration(
-            this@CustomActivity1,
-            DensityUtil.dp2pxRtInt(1F),
-            ContextCompat.getColor(this@CustomActivity1, R.color.color_EEEEEE)
-        )
+        val itemDecoration =
+            LinearDividerItemDecoration(
+                this@CustomActivity1,
+                DensityUtil.dp2pxRtInt(1F),
+                ContextCompat.getColor(this@CustomActivity1, R.color.color_EEEEEE)
+            )
         itemDecoration.setDividerPaddingLeft(DensityUtil.dp2pxRtInt(14F))
         itemDecoration.setDividerPaddingRight(DensityUtil.dp2pxRtInt(14F))
         mTopMenu = TopMenu(this@CustomActivity1, adapter)

@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Work/Basics/app/src/main/res/layout/activity_banner.xml" value="0.18478260869565216" />
+        <entry key="..\:/Work/Basics/app/src/main/res/layout/activity_custom_toolbar.xml" value="0.213768115942029" />
+        <entry key="..\:/Work/Basics/common/src/main/res/layout/common_ui_toolbar_custom.xml" value="0.264" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>

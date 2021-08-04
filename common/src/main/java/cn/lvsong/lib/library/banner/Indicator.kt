@@ -1,6 +1,7 @@
 package cn.lvsong.lib.library.banner
 
 import android.view.View
+import androidx.annotation.ColorInt
 import androidx.annotation.Px
 import androidx.constraintlayout.widget.ConstraintLayout
 
@@ -40,5 +41,21 @@ interface Indicator {
      * 注意: 此方法中无需调用 invalidate() / postInvalidate() 方法
      */
     fun onPageSelected(position: Int)
+
+    /**
+     * 设置小球间间隔
+     */
+    fun setSpacing(spacing: Int): Indicator
+
+    /**
+     * 指示器默认颜色
+     */
+    fun setNormalIndicatorColor(@ColorInt color: Int) : Indicator
+
+    /**
+     * 指示器选中颜色
+     */
+    fun setSelectIndicatorColor(@ColorInt color: Int) : Indicator
+
 
 }

@@ -18,6 +18,8 @@
         <attr name="bv_text_medium" format="boolean" />
         <!-- 背景色,默认红色 -->
         <attr name="bv_background_color" format="color" />
+        <!-- 显示风格, 1 显示数字(如果数字>0才会显示),2 显示红点, 默认显示数字 -->
+        <attr name="bv_show_style" format="integer" />
         <!-- 数值 -->
         <attr name="bv_number" format="integer" />
         <!-- 显示风格,>99显示...,  或者显示+ ,默认显示... -->

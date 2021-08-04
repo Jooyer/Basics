@@ -7,7 +7,14 @@
         <attr name="av_arc_offset" format="float|dimension" />
         <!-- 曲线控制点相对于控件高度偏移量,默认0 -->
         <attr name="av_arc_control_offset" format="float|dimension" />
-
+        <!--  阴影水平偏移,默认0  -->
+        <attr name="av_layout_offset_x" format="dimension|float" />
+        <!--  阴影垂直偏移,默认0  -->
+        <attr name="av_layout_offset_y" format="dimension|float" />
+        <!--  阴影圆角大小,控制阴影厚度,越大阴影越厚,默认0  -->
+        <attr name="av_layout_shadow_radius" format="dimension|float" />
+        <!--  阴影颜色,默认无  -->
+        <attr name="av_layout_shadow_color" format="color" />
     </declare-styleable>
 
 

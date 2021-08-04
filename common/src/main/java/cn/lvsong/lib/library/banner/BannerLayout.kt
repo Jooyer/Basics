@@ -156,6 +156,17 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
         return this
     }
 
+
+    /**
+     * 设置Banner底部距离容器底部距离,方便控制指示器在banner图片下方
+     */
+    fun setBannerBottomMargin(bottomMargin: Int): BannerLayout {
+        val lp = mBanner.layoutParams as ConstraintLayout.LayoutParams
+        lp.bottomMargin = bottomMargin
+        mBanner.layoutParams = lp
+        return this
+    }
+
     /**
      * Item 自动循环出现的间隔,单位是毫秒
      */

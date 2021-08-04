@@ -269,6 +269,24 @@ class LeftImgAndRightTextView(context: Context, attr: AttributeSet) : RelativeLa
     }
 
     /**
+     * 设置图片宽度
+     * @param width 图片宽度
+     */
+    fun setImageWidth(width:Int){
+        mImgWidth = width
+        setIconPosition(mPosition)
+    }
+
+    /**
+     * 设置图片高度
+     * @param height 图片高度
+     */
+    fun setImageHeight(height:Int){
+        mImgHeight = height
+        setIconPosition(mPosition)
+    }
+
+    /**
      * 设置控件背景色
      *
      * @param backColor

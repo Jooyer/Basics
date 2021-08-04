@@ -2,7 +2,6 @@ package cn.lvsong.lib.demo
 
 import android.graphics.Color
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -10,13 +9,12 @@ import cn.lvsong.lib.library.adapter.CommonAdapter
 import cn.lvsong.lib.library.adapter.MultiItemTypeAdapter
 import cn.lvsong.lib.library.adapter.ViewHolder
 import cn.lvsong.lib.library.listener.OnClickFastListener
-import cn.lvsong.lib.library.other.LinearDividerItemDecoration
+import cn.lvsong.lib.library.decorator.LinearDividerItemDecoration
 import cn.lvsong.lib.library.topmenu.MenuItem
 import cn.lvsong.lib.library.topmenu.TopMenu
 import cn.lvsong.lib.library.utils.DensityUtil
 import cn.lvsong.lib.library.utils.SelectorFactory
 import cn.lvsong.lib.library.utils.StatusBarUtil
-import cn.lvsong.lib.library.view.CustomToolbar
 import cn.lvsong.lib.library.view.MediumTextView
 import cn.lvsong.lib.ui.BaseActivity
 import kotlinx.android.synthetic.main.activity_status.*
@@ -145,11 +143,15 @@ class StatusActivity : BaseActivity() {
             }
         })
 
-        val itemDecoration = LinearDividerItemDecoration(
-            mStatusManager!!.getRootLayout().context,
-            DensityUtil.dp2pxRtInt(1F),
-            ContextCompat.getColor(mStatusManager!!.getRootLayout().context, R.color.color_EEEEEE)
-        )
+        val itemDecoration =
+            LinearDividerItemDecoration(
+                mStatusManager!!.getRootLayout().context,
+                DensityUtil.dp2pxRtInt(1F),
+                ContextCompat.getColor(
+                    mStatusManager!!.getRootLayout().context,
+                    R.color.color_EEEEEE
+                )
+            )
         itemDecoration.setDividerPaddingLeft(DensityUtil.dp2pxRtInt(14F))
         itemDecoration.setDividerPaddingRight(DensityUtil.dp2pxRtInt(14F))
         mTopMenu = TopMenu(mStatusManager!!.getRootLayout().context, adapter)

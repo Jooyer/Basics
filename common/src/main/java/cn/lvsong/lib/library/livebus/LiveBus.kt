@@ -26,7 +26,14 @@ import androidx.lifecycle.Observer
 
  */
 
-
+/**
+ * https://www.jianshu.com/p/42c9e1594784
+ * https://blog.csdn.net/Codyer/article/details/107283919
+ * https://blog.csdn.net/qq_27620587/article/details/107317327
+ * https://blog.csdn.net/sunlifeall/article/details/114151972
+ *
+ * PS: 切记不能放在 onLoading/onSuccess/onFailure/onNetError 中调用,具体原因后面再分析
+ */
 class LiveBus private constructor() {
 
     private val mBusMap by lazy {

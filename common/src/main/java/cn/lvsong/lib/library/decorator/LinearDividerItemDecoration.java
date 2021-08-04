@@ -1,4 +1,4 @@
-package cn.lvsong.lib.library.other;
+package cn.lvsong.lib.library.decorator;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -9,7 +9,8 @@ import android.view.View;
 import androidx.annotation.ColorInt;
 import androidx.recyclerview.widget.RecyclerView;
 
-/**
+/** https://www.jianshu.com/p/fb7e1a0749d6
+ *  https://www.jianshu.com/p/85172c70bb98 || https://www.jianshu.com/p/a8b00a02a46a
  * @ProjectName: android
  * @ClassName: LinearDividerItemDecoration
  * @Description: LinearLayoutManager分割线

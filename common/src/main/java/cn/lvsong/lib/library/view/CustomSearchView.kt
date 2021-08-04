@@ -122,6 +122,10 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
             R.styleable.CustomSearchView_csv_search_icon_color,
             ContextCompat.getColor(context, R.color.color_666666)
         )
+        val lineWidth = arr.getDimension(
+            R.styleable.CustomSearchView_csv_search_icon_line_width,
+            dp2px(1.5F)
+        )
 
         var inputContainerHeight = arr.getDimensionPixelOffset(
             R.styleable.CustomSearchView_csv_input_container_height,
@@ -255,7 +259,7 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
         }
 
         asv_search_view_icon.visibility = if (showSearchIcon) View.VISIBLE else View.GONE
-        asv_search_view_icon.setColor(searchIconColor)
+        asv_search_view_icon.setColorAndLineWidth(searchIconColor,lineWidth)
 
         if (!TextUtils.isEmpty(inputDefaultText)) {
             et_search_view_search.setText(inputDefaultText)
@@ -388,7 +392,7 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
         et_search_view_search.setOnEditorActionListener { v, actionId, event ->
             val text = et_search_view_search.text.toString()
             if (EditorInfo.IME_ACTION_SEARCH == actionId && !TextUtils.isEmpty(text)) {
-                mListener?.onSearch(v, text)
+                mListener?.onKeyboardSearch(v, text)
                 true
             }
             false
@@ -453,7 +457,7 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
         /**
          * 点击键盘搜索
          */
-        fun onSearch(view: View, text: String) {
+        fun onKeyboardSearch(view: View, text: String) {
 
         }
 

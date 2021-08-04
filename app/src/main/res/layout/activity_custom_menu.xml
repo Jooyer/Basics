@@ -55,7 +55,10 @@
             app:cm_right_arrow_width="@dimen/width_30"
             app:cm_right_near_image_drawable="@drawable/ic_baseline_assignment_returned_24"
             app:cm_right_near_image_right_margin="@dimen/padding_2"
-            app:cm_right_near_image_top_margin="@dimen/padding_14"
+            app:cm_right_near_image_top_margin="@dimen/padding_5"
+            app:cm_right_near_image_padding="@dimen/padding_10"
+            app:cm_right_near_image_width="@dimen/width_40"
+            app:cm_right_near_image_height="@dimen/height_40"
             app:cm_right_near_image_visible="true"
             app:cm_right_text_visible="false" />
 
@@ -136,6 +139,7 @@
             app:csv_input_container_margin_right="@dimen/padding_10"
             app:csv_input_cursor_drawable="@drawable/ic_gray_solid_rectangle"
             app:csv_input_cursor_visible="true"
+            app:csv_search_icon_line_width="@dimen/padding_3"
             app:csv_input_hint_text="请输入搜索内容"
             app:csv_search_btn_bg_color="@color/color_2878FF"
             app:csv_search_btn_text_bold="true"

@@ -52,14 +52,9 @@ class AndroidSearchView @JvmOverloads constructor(
      */
     private var mLineLength = 0f
 
-    /**
-     * 线宽
-     */
-    private var mLineWidth = 0f
-
     init {
         mPaint.style = Paint.Style.STROKE
-        mPaint.strokeWidth = mLineWidth
+
         initAttr(context, attrs, defStyleAttr)
     }
 
@@ -69,7 +64,7 @@ class AndroidSearchView @JvmOverloads constructor(
             context.obtainStyledAttributes(attrs, R.styleable.AndroidSearchView, defStyleAttr, 0)
         mPaint.color =
             array.getColor(R.styleable.AndroidSearchView_asv_color, Color.argb(255, 0, 0, 0))
-        mLineWidth = array.getDimension(
+        mPaint.strokeWidth = array.getDimension(
             R.styleable.AndroidSearchView_asv_line_width,
             dip2px(context, 1.5f).toFloat()
         )
@@ -123,8 +118,9 @@ class AndroidSearchView @JvmOverloads constructor(
     }
 
 
-    fun setColor(@ColorInt color: Int) {
+    fun setColorAndLineWidth(@ColorInt color: Int,lineWidth:Float) {
         mPaint.color = color
+        mPaint.strokeWidth = lineWidth
         postInvalidate()
     }
 
