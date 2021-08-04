@@ -8,15 +8,15 @@ import android.view.View
  * Date: 2018-08-19
  * Time: 22:30
  */
-abstract class OnClickFastListener(private val delay:Long = 900) : View.OnClickListener {
+abstract class OnClickFastListener(delay: Long = 900) : View.OnClickListener {
     // 防止快速点击默认等待时长为900ms
-    private var DELAY_TIME: Long = delay
+    private var delayTime = delay
     private var lastClickTime: Long = 0
 
     private fun isFastDoubleClick(): Boolean {
         val time = System.currentTimeMillis()
         val timeD = time - lastClickTime
-        if (timeD in 1 until DELAY_TIME) {
+        if (timeD in 1 until delayTime) {
             return true
         }
         lastClickTime = time
@@ -40,7 +40,7 @@ abstract class OnClickFastListener(private val delay:Long = 900) : View.OnClickL
      */
     fun setLastClickTime(delay_time: Long): OnClickFastListener {
 
-        this.DELAY_TIME = delay_time
+        this.delayTime = delay_time
 
         return this
     }

@@ -57,6 +57,7 @@ class BannerActivity : AppCompatActivity() {
         }
         headerBanner.setIndicatorView(IndicatorView(this).setSpacing(DensityUtil.dp2pxRtInt(2)))
             .setManager(HorizontalLayoutManager(this@BannerActivity,DensityUtil.dp2pxRtInt(10)))
+            .setBannerBottomMargin(DensityUtil.dp2pxRtInt(20))
             .setAdapter(headerBannerAdapter)
             .loop()
 

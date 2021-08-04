@@ -172,6 +172,9 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
                     }
                 }
             }
+            if (null != listener){ // 头部动画执行结束了
+                listener.onRefreshAnimatorEnd();
+            }
         }
     };
 

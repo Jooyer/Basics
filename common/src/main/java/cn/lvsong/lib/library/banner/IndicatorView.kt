@@ -72,13 +72,13 @@ class IndicatorView(context: Context) : View(context), Indicator {
      * 指示器默认颜色
      */
     @ColorInt
-    private var mNormalIndicatorColor = Color.GRAY
+    private var mNormalIndicatorColor = Color.parseColor("#D8D8D8")
 
     /**
      * 指示器选中颜色
      */
     @ColorInt
-    private var mSelectedIndicatorColor = Color.WHITE
+    private var mSelectedIndicatorColor = Color.parseColor("#FF734A")
 
     /**
      * 存放指示器每一个位置
@@ -247,9 +247,26 @@ class IndicatorView(context: Context) : View(context), Indicator {
     /**
      * 设置小球间间隔
      */
-    fun setSpacing(spacing: Int): IndicatorView {
+    override fun setSpacing(spacing: Int): IndicatorView {
         mSpacing = spacing
         return this
     }
+
+    /**
+     * 指示器默认颜色
+     */
+    override fun setNormalIndicatorColor(@ColorInt color: Int): IndicatorView {
+        mNormalIndicatorColor = color
+        return this
+    }
+
+    /**
+     * 指示器选中颜色
+     */
+    override fun setSelectIndicatorColor(@ColorInt color: Int): IndicatorView {
+        mSelectedIndicatorColor = color
+        return this
+    }
+
 
 }

@@ -146,6 +146,7 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         val leftImageLeftMargin =
             arr.getDimension(R.styleable.CustomMenu_cm_left_image_left_margin, dp2px(20F)).toInt()
 
+        val leftFakeBoldText = arr.getBoolean(R.styleable.CustomMenu_cm_left_text_bold,true)
         val leftTextInfo = arr.getText(R.styleable.CustomMenu_cm_left_text_info)
         val leftTextSize =
             arr.getDimensionPixelSize(R.styleable.CustomMenu_cm_left_text_size, dp2px(14F).toInt())
@@ -190,6 +191,8 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
                 .toInt()
         val rightNearImageTopMargin =
             arr.getDimension(R.styleable.CustomMenu_cm_right_near_image_top_margin, 0F).toInt()
+        val rightNearImagePadding =
+            arr.getDimension(R.styleable.CustomMenu_cm_right_near_image_padding, 0F).toInt()
 
 
         val rightArrowVisible =
@@ -240,6 +243,7 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         iv_left_icon_menu.layoutParams = leftImageLp
 
 
+        tv_left_name_menu.paint.isFakeBoldText = leftFakeBoldText
         if (!TextUtils.isEmpty(leftTextInfo)) {
             tv_left_name_menu.text = leftTextInfo
             tv_left_name_menu.setTextColor(leftTextColor)
@@ -281,14 +285,11 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
             iv_near_right_icon_menu.setImageDrawable(rightNearImageDrawable)
         }
 
+        iv_near_right_icon_menu.setPadding(rightNearImagePadding,rightNearImagePadding,rightNearImagePadding,rightNearImagePadding)
         val rightNearImageLp: ConstraintLayout.LayoutParams =
             iv_near_right_icon_menu.layoutParams as LayoutParams
         rightNearImageLp.width = rightNearImageWidth
         rightNearImageLp.height = rightNearImageHeight
-
-//        if (rightNearImageCenterVertical) {
-//        }
-
 
         if (rightArrowVisible) {
             rightNearImageLp.marginEnd = rightNearImageRightMargin

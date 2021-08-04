@@ -9,9 +9,11 @@ import android.view.LayoutInflater
 import android.widget.Checkable
 import android.widget.LinearLayout
 import androidx.annotation.ColorRes
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import cn.lvsong.lib.library.utils.DensityUtil
 import cn.lvsong.lib.library.R
+import kotlinx.android.synthetic.main.common_ui_left_image_right_text_view.view.*
 import kotlinx.android.synthetic.main.common_ui_top_img_bottom_text_view.view.*
 
 /**
@@ -54,8 +56,8 @@ class TopImgAndBottomTextView(context: Context, attr: AttributeSet) : LinearLayo
     private var mChecked = false
     private var mImgWidth = DensityUtil.sp2pxRtFloat(30F).toInt()
     private var mImgHeight = DensityUtil.sp2pxRtFloat(30F).toInt()
-    private var mTextColor:Int =0
-    private var mTextCheckedColor:Int =0
+    private var mTextColor: Int = 0
+    private var mTextCheckedColor: Int = 0
 
     init {
         orientation = VERTICAL
@@ -100,6 +102,8 @@ class TopImgAndBottomTextView(context: Context, attr: AttributeSet) : LinearLayo
             DensityUtil.sp2pxRtFloat(14F).toInt()
         ).toFloat()
 
+        val isFakeBoldText = arr.getBoolean(R.styleable.TopImgAndBottomTextView_tibt_text_fake_bold_text, true)
+
         val ivLp = aiv_icon_top_image.layoutParams as LinearLayout.LayoutParams
         ivLp.width = mImgWidth
         ivLp.height = mImgHeight
@@ -107,12 +111,12 @@ class TopImgAndBottomTextView(context: Context, attr: AttributeSet) : LinearLayo
 
         val tvLp = tv_text_bottom_text.layoutParams as LinearLayout.LayoutParams
         tvLp.topMargin = spacing
+        tv_text_bottom_text.paint.isFakeBoldText = isFakeBoldText
         tv_text_bottom_text.setTextColor(if (mChecked) mTextCheckedColor else mTextColor)
         tv_text_bottom_text.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize)
         tv_text_bottom_text.text = text
         arr.recycle()
     }
-
 
 
     /**
@@ -141,7 +145,7 @@ class TopImgAndBottomTextView(context: Context, attr: AttributeSet) : LinearLayo
     /**
      * 设置字体大小,默认14dp
      */
-    fun setTextSize(textSize:Float){
+    fun setTextSize(textSize: Float) {
         tv_text_bottom_text.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize)
     }
 
@@ -160,17 +164,19 @@ class TopImgAndBottomTextView(context: Context, attr: AttributeSet) : LinearLayo
         mCheckedDrawable = drawable
         aiv_icon_top_image.setImageDrawable(drawable)
     }
+
     /**
      * 是否选中
      */
     override fun isChecked(): Boolean {
-       return mChecked
+        return mChecked
     }
+
     /**
      * 切换当前check状态
      */
     override fun toggle() {
-        setChecked(!mChecked)
+        isChecked = !mChecked
     }
 
     /**
@@ -181,5 +187,7 @@ class TopImgAndBottomTextView(context: Context, attr: AttributeSet) : LinearLayo
         aiv_icon_top_image.setImageDrawable(if (mChecked) mCheckedDrawable else mNormalDrawable)
         tv_text_bottom_text.setTextColor(if (mChecked) mTextCheckedColor else mTextColor)
     }
+
+    fun getImageView(): AppCompatImageView = aiv_icon_top_image
 
 }

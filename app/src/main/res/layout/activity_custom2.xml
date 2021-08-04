@@ -26,8 +26,7 @@
         android:layout_height="@dimen/height_60"
         android:layout_marginTop="@dimen/padding_20"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
 
         <cn.lvsong.lib.library.view.BadgeView
             android:layout_width="wrap_content"
@@ -70,6 +69,13 @@
             app:bv_tb_padding="@dimen/padding_5"
             app:bv_text_medium="false"
             app:bv_text_size="@dimen/text_size_14" />
+
+        <cn.lvsong.lib.library.view.BadgeView
+            android:layout_width="@dimen/width_15"
+            android:layout_height="@dimen/height_15"
+            android:layout_marginStart="@dimen/padding_10"
+            app:bv_background_color="@android:color/holo_red_light"
+            app:bv_show_style="2" />
 
     </LinearLayout>
 

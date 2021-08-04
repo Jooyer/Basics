@@ -8,6 +8,8 @@
         <attr name="ct_left_arrow_width" format="dimension|integer" />
         <!-- 左侧箭头高度, 默认50dp -->
         <attr name="ct_left_arrow_height" format="dimension|integer" />
+        <!-- 左侧箭头线条宽度,默认2dp -->
+        <attr name="cm_left_arrow_stroke" format="dimension|float"/>
         <!-- 左侧箭头 Padding(上下左右), 默认3dp -->
         <attr name="ct_left_arrow_padding" format="dimension|integer" />
         <!-- 左侧箭头左侧 Margin, 默认0dp -->

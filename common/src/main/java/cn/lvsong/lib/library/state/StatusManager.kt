@@ -165,6 +165,12 @@ class StatusManager(builder: Builder) {
         mRootFrameLayout.showEmptyData()
     }
 
+    fun delayShowEmptyData(delay: Long = 500L) {
+        mRootFrameLayout.postDelayed({
+            mRootFrameLayout.showEmptyData()
+        }, delay)
+    }
+
     /**
      * 显示网络异常
      */
@@ -172,11 +178,23 @@ class StatusManager(builder: Builder) {
         mRootFrameLayout.showNetWorkError()
     }
 
+    fun delayShowNetWorkError(delay: Long = 500L) {
+        mRootFrameLayout.postDelayed({
+            mRootFrameLayout.showNetWorkError()
+        }, delay)
+    }
+
     /**
      * 显示异常
      */
     fun showError() {
         mRootFrameLayout.showError()
+    }
+
+    fun delayShowError(delay: Long = 500L) {
+        mRootFrameLayout.postDelayed({
+            mRootFrameLayout.showError()
+        }, delay)
     }
 
     /**

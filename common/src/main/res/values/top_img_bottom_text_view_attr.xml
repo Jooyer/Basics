@@ -22,6 +22,8 @@
         <attr name="tibt_text_color_checked" format="color" />
         <!-- 文字大小,默认14dp -->
         <attr name="tibt_text_size" format="float|dimension" />
+        <!-- 文本是否为中粗,默认true -->
+        <attr name="tibt_text_fake_bold_text" format="boolean" />
     </declare-styleable>
 
 </resources>

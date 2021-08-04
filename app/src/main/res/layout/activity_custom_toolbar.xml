@@ -246,7 +246,8 @@
 
         <cn.lvsong.lib.library.view.ShadowLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_10">
 
             <cn.lvsong.lib.library.view.CustomToolbar
                 android:id="@+id/ct_13"

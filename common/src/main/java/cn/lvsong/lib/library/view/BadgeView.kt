@@ -81,6 +81,11 @@ class BadgeView(context: Context, attr: AttributeSet?) : View(context, attr) {
     private var mLRPadding = DensityUtil.sp2pxRtFloat(5F).toInt() * 2
 
     /**
+     * 显示风格, 1 显示数字(如果数字>0才会显示),2 显示红点, 默认显示数字
+     * PS: ShowStyle = 2, 此时边框等属性均无效,只能设置背景色
+     */
+    private var mShowStyle = 1
+    /**
      * 数值
      */
     private var mNumber = 0
@@ -129,8 +134,13 @@ class BadgeView(context: Context, attr: AttributeSet?) : View(context, attr) {
             mTextPaint.textSize = mTextSize
             mTextPaint.color = arr.getColor(R.styleable.BadgeView_bv_text_color, Color.WHITE)
             mBgPaint.color = arr.getColor(R.styleable.BadgeView_bv_background_color, Color.RED)
+            mShowStyle = arr.getInt(R.styleable.BadgeView_bv_show_style, mShowStyle)
             mNumber = arr.getInt(R.styleable.BadgeView_bv_number, mNumber)
-            visibility = if (mNumber > 0) VISIBLE else GONE
+            visibility = if (1 == mShowStyle) {
+                if (mNumber > 0) VISIBLE else GONE
+            }else{
+                VISIBLE
+            }
             mMoreStyle = arr.getInt(R.styleable.BadgeView_bv_more_style, mMoreStyle)
             arr.recycle()
 
@@ -146,50 +156,53 @@ class BadgeView(context: Context, attr: AttributeSet?) : View(context, attr) {
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        val textWidth = mTextPaint.measureText(getShowText()).toInt() + mLRPadding
-        val textHeight = (mTBPadding + mTextSize).toInt()
-        if (textWidth > textHeight) {
-            setMeasuredDimension(textWidth, textHeight)
-        } else {
-            setMeasuredDimension(textHeight, textHeight)
-        }
-        mRectF.set(
-            mStrokeWidth,
-            mStrokeWidth,
-            textWidth - mStrokeWidth,
-            textHeight - mStrokeWidth
-        )
-        if (mStrokeWidth > 0F) {
-            mStrokeRectF.set(
-                mStrokeWidth / 2,
-                mStrokeWidth / 2,
-                textWidth - mStrokeWidth / 2,
-                textHeight - mStrokeWidth / 2
+        if (1 == mShowStyle) {
+            val textWidth = mTextPaint.measureText(getShowText()).toInt() + mLRPadding
+            val textHeight = (mTBPadding + mTextSize).toInt()
+            if (textWidth > textHeight) {
+                setMeasuredDimension(textWidth, textHeight)
+            } else {
+                setMeasuredDimension(textHeight, textHeight)
+            }
+            mRectF.set(
+                mStrokeWidth,
+                mStrokeWidth,
+                textWidth - mStrokeWidth,
+                textHeight - mStrokeWidth
             )
+            if (mStrokeWidth > 0F) {
+                mStrokeRectF.set(
+                    mStrokeWidth / 2,
+                    mStrokeWidth / 2,
+                    textWidth - mStrokeWidth / 2,
+                    textHeight - mStrokeWidth / 2
+                )
+            }
         }
     }
 
     override fun onDraw(canvas: Canvas) {
         val textWidth = mTextPaint.measureText(getShowText()).toInt()
         val fontMetrics = mTextPaint.fontMetrics
-//        Log.e(
-//            "BadgeView",
-//            "onDraw==========mRectF: ${mRectF.toString()}, mStrokeRectF: ${mStrokeRectF.toString()}"
-//        )
-        val y = (height - fontMetrics.descent - fontMetrics.ascent) / 2 + 1
-        if (mNumber < 10) {
-            canvas.drawCircle(width / 2F, height / 2F, height / 2F - 0.5F, mBgPaint)
-            canvas.drawCircle(width / 2F, height / 2F, (height - mStrokeWidth) / 2F, mStrokePaint)
-        } else {
-            canvas.drawRoundRect(mRectF, height / 2F, height / 2F, mBgPaint)
-            canvas.drawRoundRect(
-                mStrokeRectF,
-                (height - mStrokeWidth) / 2F,
-                (height - mStrokeWidth) / 2F,
-                mStrokePaint
-            )
+        if (1 == mShowStyle){
+            val y = (height - fontMetrics.descent - fontMetrics.ascent) / 2 + 1
+            if (mNumber < 10) {
+                canvas.drawCircle(width / 2F, height / 2F, height / 2F - 0.5F, mBgPaint)
+                canvas.drawCircle(width / 2F, height / 2F, (height - mStrokeWidth) / 2F, mStrokePaint)
+            } else {
+                canvas.drawRoundRect(mRectF, height / 2F, height / 2F, mBgPaint)
+                canvas.drawRoundRect(
+                    mStrokeRectF,
+                    (height - mStrokeWidth) / 2F,
+                    (height - mStrokeWidth) / 2F,
+                    mStrokePaint
+                )
+            }
+            canvas.drawText(getShowText(), (width - textWidth) / 2F, y, mTextPaint)
+        }else{
+            canvas.drawCircle(height / 2F, height / 2F, height / 2F,mBgPaint)
         }
-        canvas.drawText(getShowText(), (width - textWidth) / 2F, y, mTextPaint)
+
     }
 
     private fun getShowText(): String {
@@ -208,9 +221,11 @@ class BadgeView(context: Context, attr: AttributeSet?) : View(context, attr) {
      * 设置具体消息数量
      */
     fun setNumber(number: Int) {
-        mNumber = number
-        visibility = if (mNumber > 0) VISIBLE else GONE
-        invalidate()
+        if (1 == mShowStyle) {
+            mNumber = number
+            visibility = if (mNumber > 0) VISIBLE else GONE
+            invalidate()
+        }
     }
 
 }

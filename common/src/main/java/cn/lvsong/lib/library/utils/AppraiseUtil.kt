@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.text.TextUtils
+import android.util.Log
 import android.widget.Toast
 import cn.lvsong.lib.library.R
 import java.util.*
@@ -29,7 +30,11 @@ import java.util.*
  * Created by Jooyer on 2018/6/13
  * 跳转应用市场评价
  */
-object AppraiseUtils {
+object AppraiseUtil {
+
+    const val PACKAGE_YYB = "com.tencent.android.qqdownloader"
+
+    const val PACKAGE_WDJ = "com.wandoujia.phoenix2"
 
     /**
      * 获取已安装应用商店的包名列表 , 小米手机获取不到... 可以使用 getInstallAppMarkets()
@@ -69,53 +74,28 @@ object AppraiseUtils {
     fun getInstallAppMarkets(context: Context): ArrayList<String> {
         //默认的应用市场列表，有些应用市场没有设置APP_MARKET通过隐式搜索不到
         val pkgList = ArrayList<String>()
-        pkgList.add("com.tencent.android.qqdownloader") // 应用宝
-        pkgList.add("com.qihoo.appstore") // 360 手机助手
-        pkgList.add("com.baidu.appsearch") // 百度手机助手
         pkgList.add("com.xiaomi.market") // 小米应用商店
         pkgList.add("com.huawei.appmarket") // 华为应用商店
         pkgList.add("com.oppo.market") // oppo 应用商店
         pkgList.add("com.heytap.market") // oppo/一加 应用商店
         pkgList.add("com.vivo.market") // vivo 应用商店
+        pkgList.add("com.bbk.appstore") // 步步高应用商店
         pkgList.add("com.meizu.mstore") // 魅族 应用商店
-        pkgList.add("com.coolapk.market") // 酷安市场
+
+        pkgList.add("com.tencent.android.qqdownloader") // 应用宝
         pkgList.add("com.wandoujia.phoenix2") // 豌豆荚应用商店
 
+//        pkgList.add("com.qihoo.appstore") // 360 手机助手
+//        pkgList.add("com.baidu.appsearch") // 百度手机助手
+//        pkgList.add("com.coolapk.market") // 酷安市场
         //不常用
-//        pkgList.add("com.bbk.appstore"); // 步步高应用商店
 //        pkgList.add("com.dragon.android.pandaspace"); // 91应用商店
 //        pkgList.add("com.hiapk.marketpho"); // 安智应用商店
 //        pkgList.add("com.yingyonghui.market"); // 应用汇应用商店
 //        pkgList.add("com.mappn.gfan"); // 机锋应用商店
 //        pkgList.add("com.pp.assistant"); // PP助手应用商店
 
-        // 这个过滤,不能正确过滤一加应用市场
-//        val pkgs = ArrayList<String>()
-//        if (context == null) return pkgs
-//        val intent = Intent()
-//        intent.action = "android.intent.action.MAIN"
-//        //        intent.addCategory("android.intent.category.APP_MARKET");
-//        intent.addCategory("android.intent.category.LAUNCHER")
-//        val pm = context.packageManager
-//        val infos = pm.queryIntentActivities(intent, 0)
-//        if (infos != null && infos.size > 0) {
-//            for (i in infos.indices) {
-//                var pkgName = ""
-//                try {
-//                    val activityInfo = infos[i].activityInfo
-//                    pkgName = activityInfo.packageName
-//                } catch (e: Exception) {
-//                    e.printStackTrace()
-//                }
-//                if (!TextUtils.isEmpty(pkgName)) {
-//                    pkgs.add(pkgName)
-//                }
-//            }
-//        }
-//        //取两个list交集,去除重复
-//        pkgList.retainAll(pkgs)
-
-        return selectedInstalledAPPs(context,pkgList)
+        return selectedInstalledAPPs(context, pkgList)
     }
 
     /**
@@ -140,10 +120,11 @@ object AppraiseUtils {
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
-                if (TextUtils.isEmpty(installPkg)) continue
-                if (installPkg == checkPkg) {
+                if (TextUtils.isEmpty(installPkg)) {
+                    continue
+                }
+                if (TextUtils.equals(installPkg, checkPkg)) {
                     empty.add(installPkg)
-                    break
                 }
 
                 /*   // 需要的话,可以使用下面的

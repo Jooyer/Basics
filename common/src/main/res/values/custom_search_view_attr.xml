@@ -21,7 +21,8 @@
         <attr name="csv_search_icon_show" format="boolean" />
         <!--  搜索图标颜色 -->
         <attr name="csv_search_icon_color" format="color|reference" />
-
+        <!-- 搜索图标线宽 -->
+        <attr name="csv_search_icon_line_width" format="integer|float|dimension" />
 
         <!--是否显示清除图标,默认显示-->
         <attr name="csv_clear_icon_show" format="boolean" />

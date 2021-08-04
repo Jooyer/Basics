@@ -210,6 +210,8 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
             arr.getDimension(R.styleable.CustomToolbar_ct_left_arrow_padding, dp2px(3F))
         val leftArrowLeftMargin =
             arr.getDimension(R.styleable.CustomToolbar_ct_left_arrow_left_margin, 0F).toInt()
+        val leftArrowStroke =
+            arr.getDimension(R.styleable.CustomMenu_cm_right_arrow_stroke, dp2px(2F))
 
         val leftArrowColor = arr.getColor(
             R.styleable.CustomToolbar_ct_left_arrow_color,
@@ -321,6 +323,7 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         iv_left_icon_menu.setArrowColor(leftArrowColor)
         iv_left_icon_menu.setArrowStyle(leftArrowStyle)
         iv_left_icon_menu.setArrowPadding(leftArrowPadding)
+        iv_left_icon_menu.setArrowStrokeWidth(leftArrowStroke)
 
         if (leftArrowVisible) {
             iv_left_icon_menu.setOnClickListener {

@@ -13,6 +13,8 @@
         <!-- 最左侧图标LeftMargin -->
         <attr name="cm_left_image_left_margin" format="dimension|integer"/>
 
+        <!-- 左侧文本是否 isFakeBoldText , 默认true -->
+        <attr name="cm_left_text_bold" format="boolean" />
         <!-- 紧靠左侧的文本 -->
         <attr name="cm_left_text_info" format="reference|string"/>
         <!-- 紧靠左侧的文本大小 -->
@@ -53,8 +55,8 @@
         <attr name="cm_right_near_image_right_margin" format="dimension|integer"/>
         <!-- 紧靠右侧图标顶部Margin,距离最上面,默认0dp -->
         <attr name="cm_right_near_image_top_margin" format="dimension|integer"/>
-        <!-- 紧靠右侧是否垂直居中,模式是的 -->
-<!--        <attr name="cm_right_near_image_center_vertical" format="boolean"/>-->
+        <!-- 紧靠右侧图标 padding, 默认0dp -->
+        <attr name="cm_right_near_image_padding" format="dimension|integer"/>
 
 
         <!-- 最右侧箭头的是否可见 -->

@@ -40,7 +40,7 @@ class CustomMenuActivity : BaseActivity() {
 
             }
 
-            override fun onSearch(view:View,text: String) {
+            override fun onKeyboardSearch(view:View,text: String) {
 
             }
 

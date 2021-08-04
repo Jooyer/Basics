@@ -26,14 +26,18 @@ import cn.lvsong.lib.library.R
  用法
 
     <cn.lvsong.lib.library.view.ArcView
+        android:id="@+id/btn_5"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_220"
-        app:av_bezier_ratio="1.4"
-        app:av_color="@color/color_FCF2F2"
-        app:av_rectangle_height="@dimen/padding_140"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="@dimen/height_200"
+        android:layout_margin="@dimen/padding_5"
+        app:av_arc_control_offset="@dimen/padding_20"
+        app:av_arc_offset="@dimen/padding_20"
+        app:av_background_color="@color/color_2878FF"
+        app:av_layout_offset_x="0dp"
+        app:av_layout_offset_y="@dimen/padding_2"
+        app:av_layout_shadow_color="@color/color_26000000"
+        app:av_layout_shadow_radius="@dimen/padding_5"
+        />
 
  */
 
@@ -41,6 +45,8 @@ import cn.lvsong.lib.library.R
 class ArcView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     private var mPaint = Paint(Paint.ANTI_ALIAS_FLAG)
+
+    private val mShadowPaint = Paint(Paint.ANTI_ALIAS_FLAG)
 
     /**
      * 曲线与直线交点处 相对于图形高度的偏移量
@@ -56,6 +62,7 @@ class ArcView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     init {
         mPaint.style = Paint.Style.FILL
+        mShadowPaint.style= Paint.Style.FILL
         parse(context, attrs)
     }
 
@@ -64,9 +71,15 @@ class ArcView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         mArcOffset = arr.getDimension(R.styleable.ArcView_av_arc_offset, 0F)
         mArcControlOffset = arr.getDimension(R.styleable.ArcView_av_arc_control_offset, 0F)
         val color = arr.getColor(R.styleable.ArcView_av_background_color, Color.WHITE)
+        val radius = arr.getDimension(R.styleable.ArcView_av_layout_shadow_radius,0F)
+        val dx = arr.getDimension(R.styleable.ArcView_av_layout_offset_x,0F)
+        val dy = arr.getDimension(R.styleable.ArcView_av_layout_offset_y,0F)
+        val shadowColor = arr.getColor(R.styleable.ArcView_av_layout_shadow_color,0)
         arr.recycle()
         mPaint.color = color
-
+        // 绘制阴影需要的数据
+        mShadowPaint.setShadowLayer(radius, dx,dy,shadowColor)
+        mShadowPaint.color = shadowColor
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -84,6 +97,7 @@ class ArcView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     }
 
     override fun onDraw(canvas: Canvas) {
+        canvas.drawPath(mPath,mShadowPaint)
         canvas.drawPath(mPath, mPaint)
     }
 
