@@ -32,7 +32,7 @@
 
 ```groovy
 	dependencies {
-	        implementation 'com.github.Jooyer.Basics:common:1.1.1'
+	        implementation 'com.github.Jooyer.Basics:common:1.1.2'
 	}
 ```
 
@@ -162,6 +162,12 @@
 5. 对ClickUtil参数调整
 6. 增加权限请求类
 7. 更新state中loading,error等UI
+
+## v1.1.2变化:
+1. 增加RecyclerView分割线
+2. 增加设置Banner指示器位置上下偏移方法
+3. 修改了自定义搜索,自定义Toolbar等属性和方法
+4. 调整了一些其他类
 
 [toc]
 
