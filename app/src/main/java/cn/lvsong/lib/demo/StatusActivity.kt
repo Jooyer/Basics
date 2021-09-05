@@ -64,7 +64,10 @@ class StatusActivity : BaseActivity() {
         acb_tips3.background = SelectorFactory.newShapeSelector()
             .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
             .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
-            .setCornerRadius(DensityUtil.dp2pxRtInt(5))
+            .setDifferentCornerRadius(
+                DensityUtil.dp2pxRtInt(4), DensityUtil.dp2pxRtInt(8),
+                DensityUtil.dp2pxRtInt(12), DensityUtil.dp2pxRtInt(16)
+            )
             .create()
     }
 

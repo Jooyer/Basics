@@ -1,19 +1,16 @@
 package cn.lvsong.lib.library.view
 
 import android.content.Context
-import android.graphics.Color
 import android.os.Build
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextUtils
 import android.util.AttributeSet
-import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
-import androidx.annotation.NonNull
 import androidx.annotation.Nullable
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatTextView
@@ -189,7 +186,7 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
         val cleanIconMode = arr.getInt(R.styleable.CustomSearchView_csv_clear_icon_mode, 1)
         val cleanIconBackgroundColor = arr.getColor(
             R.styleable.CustomSearchView_csv_clear_icon_bg_color,
-            Color.TRANSPARENT
+            android.graphics.Color.TRANSPARENT
         )
 
         val showBtn = arr.getBoolean(R.styleable.CustomSearchView_csv_search_btn_visible, true)
@@ -259,7 +256,7 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
         }
 
         asv_search_view_icon.visibility = if (showSearchIcon) View.VISIBLE else View.GONE
-        asv_search_view_icon.setColorAndLineWidth(searchIconColor,lineWidth)
+        asv_search_view_icon.setColorAndLineWidth(searchIconColor, lineWidth)
 
         if (!TextUtils.isEmpty(inputDefaultText)) {
             et_search_view_search.setText(inputDefaultText)
@@ -422,6 +419,14 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
         } else {
             et_search_view_search.setSelection(text.length)
         }
+    }
+
+    fun setRightButtonBackground(drawable: android.graphics.drawable.Drawable) {
+        act_search_right_btn.background = drawable
+    }
+
+    fun setContainerBackground(drawable: android.graphics.drawable.Drawable){
+        cl_search_input_container.background = drawable
     }
 
     interface OnSearchListener {

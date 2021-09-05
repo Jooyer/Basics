@@ -202,6 +202,7 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
     private fun parseAttrs(context: Context, attr: AttributeSet) {
         val arr = context.obtainStyledAttributes(attr, R.styleable.CustomToolbar)
         val leftArrowVisible = arr.getBoolean(R.styleable.CustomToolbar_ct_left_arrow_visible, true)
+        val leftArrowDrawable = arr.getDrawable(R.styleable.CustomToolbar_ct_left_arrow_drawable)
         val leftArrowWidth =
             arr.getDimension(R.styleable.CustomToolbar_ct_left_arrow_width, dp2px(40F)).toInt()
         val leftArrowHeight =
@@ -211,7 +212,7 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         val leftArrowLeftMargin =
             arr.getDimension(R.styleable.CustomToolbar_ct_left_arrow_left_margin, 0F).toInt()
         val leftArrowStroke =
-            arr.getDimension(R.styleable.CustomMenu_cm_right_arrow_stroke, dp2px(2F))
+            arr.getDimension(R.styleable.CustomToolbar_ct_left_arrow_stroke, dp2px(2F))
 
         val leftArrowColor = arr.getColor(
             R.styleable.CustomToolbar_ct_left_arrow_color,
@@ -332,6 +333,11 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
                 }
             }
         }
+        if (null != leftArrowDrawable){
+            iv_left_icon_menu.background = leftArrowDrawable
+            iv_left_icon_menu.setExistBackground(true)
+        }
+
         val leftArrowLp: ConstraintLayout.LayoutParams =
             iv_left_icon_menu.layoutParams as LayoutParams
         leftArrowLp.width = leftArrowWidth

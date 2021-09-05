@@ -92,6 +92,11 @@ object SelectorFactory {
                 : Int
         private var mCornerRadius //corner radius
                 : Int
+
+        /**
+         * 默认四个圆角大小一样,如果不一样需要设置这个值
+         */
+        private var mDifferentCorners: FloatArray? = null
         private var hasSetDisabledBgColor = false
         private var hasSetPressedBgColor = false
         private var hasSetSelectedBgColor = false
@@ -100,6 +105,7 @@ object SelectorFactory {
         private var hasSetPressedStrokeColor = false
         private var hasSetSelectedStrokeColor = false
         private var hasSetFocusedStrokeColor = false
+
 
         init {
             //initialize default values
@@ -116,6 +122,7 @@ object SelectorFactory {
             mSelectedStrokeColor = Color.TRANSPARENT
             mFocusedStrokeColor = Color.TRANSPARENT
             mCornerRadius = 0
+            mDifferentCorners = null
         }
 
         fun setShape(@Shape shape: Int): ShapeSelector {
@@ -199,22 +206,43 @@ object SelectorFactory {
             return this
         }
 
+        /**
+         *  r1, r2, r3, r4, r5, r6, r7, r8
+         * 设置图片四个角圆形半径：1、2两个参数表示左上角，3、4表示右上角，5、6表示右下角，7、8表示左下角
+         */
+        fun setDifferentCornerRadius(
+            @Dimension leftTopRadius: Int, @Dimension rightTopRadius: Int,
+            @Dimension rightBottomRadius: Int, @Dimension leftBottomRadius: Int, ): ShapeSelector {
+            mDifferentCorners = floatArrayOf(
+                leftTopRadius.toFloat(), leftTopRadius.toFloat(), rightTopRadius.toFloat(),rightTopRadius.toFloat(),
+                rightBottomRadius.toFloat(),rightBottomRadius.toFloat(), leftBottomRadius.toFloat(),leftBottomRadius.toFloat())
+            return this
+        }
+
         fun create(): StateListDrawable {
             val selector = StateListDrawable()
 
             //enabled = false
             if (hasSetDisabledBgColor || hasSetDisabledStrokeColor) {
-                val disabledShape = getItemShape(
-                    mShape, mCornerRadius,
-                    mDisabledBgColor, mStrokeWidth, mDisabledStrokeColor
-                )
+                val disabledShape = mDifferentCorners?.let {
+                    getItemShape(mShape, it, mDisabledBgColor, mStrokeWidth, mDisabledStrokeColor)
+                }
+                    ?: getItemShape(
+                        mShape, mCornerRadius.toFloat(),
+                        mDisabledBgColor, mStrokeWidth, mDisabledStrokeColor
+                    )
                 selector.addState(intArrayOf(-R.attr.state_enabled), disabledShape)
             }
 
             //pressed = true
             if (hasSetPressedBgColor || hasSetPressedStrokeColor) {
-                val pressedShape = getItemShape(
-                    mShape, mCornerRadius,
+                val pressedShape = mDifferentCorners?.let {
+                    getItemShape(
+                        mShape, it,
+                        mPressedBgColor, mStrokeWidth, mPressedStrokeColor
+                    )
+                } ?: getItemShape(
+                    mShape, mCornerRadius.toFloat(),
                     mPressedBgColor, mStrokeWidth, mPressedStrokeColor
                 )
                 selector.addState(intArrayOf(R.attr.state_pressed), pressedShape)
@@ -222,8 +250,13 @@ object SelectorFactory {
 
             //selected = true
             if (hasSetSelectedBgColor || hasSetSelectedStrokeColor) {
-                val selectedShape = getItemShape(
-                    mShape, mCornerRadius,
+                val selectedShape = mDifferentCorners?.let {
+                    getItemShape(
+                        mShape, it,
+                        mSelectedBgColor, mStrokeWidth, mSelectedStrokeColor
+                    )
+                } ?: getItemShape(
+                    mShape, mCornerRadius.toFloat(),
                     mSelectedBgColor, mStrokeWidth, mSelectedStrokeColor
                 )
                 selector.addState(intArrayOf(R.attr.state_selected), selectedShape)
@@ -231,30 +264,55 @@ object SelectorFactory {
 
             //focused = true
             if (hasSetFocusedBgColor || hasSetFocusedStrokeColor) {
-                val focusedShape = getItemShape(
-                    mShape, mCornerRadius,
+                val focusedShape = mDifferentCorners?.let {
+                    getItemShape(
+                        mShape, it,
+                        mFocusedBgColor, mStrokeWidth, mFocusedStrokeColor
+                    )
+                } ?: getItemShape(
+                    mShape, mCornerRadius.toFloat(),
                     mFocusedBgColor, mStrokeWidth, mFocusedStrokeColor
                 )
                 selector.addState(intArrayOf(R.attr.state_focused), focusedShape)
             }
 
             //default
-            val defaultShape = getItemShape(
-                mShape, mCornerRadius,
+            val defaultShape = mDifferentCorners?.let {
+                getItemShape(mShape, it, mDefaultBgColor, mStrokeWidth, mDefaultStrokeColor)
+            } ?: getItemShape(
+                mShape, mCornerRadius.toFloat(),
                 mDefaultBgColor, mStrokeWidth, mDefaultStrokeColor
             )
             selector.addState(intArrayOf(), defaultShape)
             return selector
         }
 
+        /**
+         * @param cornerRadius --> 四周圆角一样大小
+         */
         private fun getItemShape(
-            shape: Int, cornerRadius: Int,
+            shape: Int, cornerRadius: Float,
             solidColor: Int, strokeWidth: Int, strokeColor: Int
         ): GradientDrawable {
             val drawable = GradientDrawable()
             drawable.shape = shape
             drawable.setStroke(strokeWidth, strokeColor)
-            drawable.cornerRadius = cornerRadius.toFloat()
+            drawable.cornerRadius = cornerRadius
+            drawable.setColor(solidColor)
+            return drawable
+        }
+
+        /**
+         * @param cornerRadius --> 设置图片四个角圆形半径：1、2两个参数表示左上角，3、4表示右上角，5、6表示右下角，7、8表示左下角
+         */
+        private fun getItemShape(
+            shape: Int, cornerRadius: FloatArray,
+            solidColor: Int, strokeWidth: Int, strokeColor: Int
+        ): GradientDrawable {
+            val drawable = GradientDrawable()
+            drawable.shape = shape
+            drawable.setStroke(strokeWidth, strokeColor)
+            drawable.cornerRadii = cornerRadius
             drawable.setColor(solidColor)
             return drawable
         }
