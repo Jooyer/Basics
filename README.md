@@ -32,7 +32,7 @@
 
 ```groovy
 	dependencies {
-	        implementation 'com.github.Jooyer.Basics:common:1.1.2'
+	        implementation 'com.github.Jooyer.Basics:common:1.1.3'
 	}
 ```
 
@@ -169,6 +169,9 @@
 3. 修改了自定义搜索,自定义Toolbar等属性和方法
 4. 调整了一些其他类
 
+## v1.1.3变化:
+1. 对CustomToolbar左侧箭头增加设置背景的属性
+2. 2. 对SelectFactory增加设置四个圆角半径的方法
 [toc]
 
 
