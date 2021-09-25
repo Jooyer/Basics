@@ -1,9 +1,13 @@
 package cn.lvsong.lib.library.banner
 
 import android.content.Context
+import android.graphics.Canvas
+import android.graphics.Outline
 import android.os.Looper
 import android.util.AttributeSet
 import android.view.MotionEvent
+import android.view.View
+import android.view.ViewOutlineProvider
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import cn.lvsong.lib.library.R
@@ -159,11 +163,29 @@ class BannerLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(co
 
     /**
      * 设置Banner底部距离容器底部距离,方便控制指示器在banner图片下方
+     *
+     * 设置此值,将图片展示高度缩小,指示器在图片下方
+     * 不设置则指示器在图片中间居下
      */
     fun setBannerBottomMargin(bottomMargin: Int): BannerLayout {
         val lp = mBanner.layoutParams as ConstraintLayout.LayoutParams
         lp.bottomMargin = bottomMargin
         mBanner.layoutParams = lp
+        return this
+    }
+
+    /**
+     * Item 自动循环出现的间隔,单位是毫秒
+     */
+    fun setRadius(radius: Float): BannerLayout {
+        if (radius > 0F) {
+            mBanner.clipToOutline = true
+            mBanner.outlineProvider = object : ViewOutlineProvider() {
+                override fun getOutline(view: View, outline: Outline) {
+                    outline.setRoundRect(0, 0, view.width, view.height, radius)
+                }
+            }
+        }
         return this
     }
 

@@ -207,4 +207,13 @@ class JAlertDialog(context: Context, themeResId: Int) : Dialog(context, themeRes
         view.postDelayed({ show() }, delay.toLong())
     }
 
+    /**
+     * 延迟关闭,必须 Dialog 来调用(慎用)
+     * @param view --> 用来发送延时 Runnable
+     * @param delay --> 单位毫秒
+     */
+    fun delayDismiss(view: View, delay: Int) {
+        view.postDelayed({ dismiss() }, delay.toLong())
+    }
+
 }

@@ -20,20 +20,19 @@ import kotlinx.android.synthetic.main.activity_banner.*
 class BannerActivity : AppCompatActivity() {
 
     private val heads = arrayListOf(
-//        "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3820948238,3810516733&fm=26&gp=0.jpg",
-//        "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1545980553,2413955112&fm=26&gp=0.jpg",
-        "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2412068931,3031791558&fm=26&gp=0.jpg",
-        "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=286946846,3770652173&fm=26&gp=0.jpg"
+        "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3820948238,3810516733&fm=26&gp=0.jpg",
+        "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1545980553,2413955112&fm=26&gp=0.jpg"
     )
 
     private val datas = arrayListOf(
-//        "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3820948238,3810516733&fm=26&gp=0.jpg",
-//        "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1545980553,2413955112&fm=26&gp=0.jpg",
         "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2412068931,3031791558&fm=26&gp=0.jpg",
         "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=286946846,3770652173&fm=26&gp=0.jpg"
     )
 
-    private val list = ArrayList<String>()
+    private val list = arrayListOf(
+        "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3820948238,3810516733&fm=26&gp=0.jpg",
+        "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2412068931,3031791558&fm=26&gp=0.jpg"
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +57,7 @@ class BannerActivity : AppCompatActivity() {
         headerBanner.setIndicatorView(IndicatorView(this).setSpacing(DensityUtil.dp2pxRtInt(2)))
             .setManager(HorizontalLayoutManager(this@BannerActivity,DensityUtil.dp2pxRtInt(10)))
             .setBannerBottomMargin(DensityUtil.dp2pxRtInt(20))
+            .setRadius(DensityUtil.dp2pxRtFloat(10))
             .setAdapter(headerBannerAdapter)
             .loop()
 
@@ -85,21 +85,21 @@ class BannerActivity : AppCompatActivity() {
                         holder.getView<BannerLayout>(R.id.banner)
                             .setIndicatorView(IndicatorView(this@BannerActivity))
                             .setManager(GalleryLayoutManager(this@BannerActivity))
-                            .setAdapter(CustomAdapter(datas, R.layout.item_banner_normal))
+                            .setAdapter(CustomAdapter(list, R.layout.item_banner_normal))
                             .loop()
                     }
                     2 -> {
                         holder.getView<BannerLayout>(R.id.banner)
                             .setIndicatorView(IndicatorView(this@BannerActivity))
                             .setManager(HorizontalLayoutManager(this@BannerActivity,DensityUtil.dp2pxRtInt(30)))
-                            .setAdapter(CustomAdapter(datas, R.layout.item_banner_normal))
+                            .setAdapter(CustomAdapter(list, R.layout.item_banner_normal))
                             .loop()
                     }
                     else -> {
                         holder.getView<BannerLayout>(R.id.banner)
                             .setIndicatorView(IndicatorView(this@BannerActivity))
                             .setManager(HorizontalLayoutManager(this@BannerActivity,DensityUtil.dp2pxRtInt(30)))
-                            .setAdapter(CustomAdapter(datas, R.layout.item_banner_normal))
+                            .setAdapter(CustomAdapter(list, R.layout.item_banner_normal))
                             .loop()
                     }
                 }
@@ -107,7 +107,7 @@ class BannerActivity : AppCompatActivity() {
         }
         val headerAndFooterWrapper = HeaderAndFooterWrapper(adapter)
         headerAndFooterWrapper.addHeaderView(headerView)
-//        headerAndFooterWrapper.addFootView(footerView)
+        headerAndFooterWrapper.addFootView(footerView)
 
         rv_banner_list.adapter = headerAndFooterWrapper
 

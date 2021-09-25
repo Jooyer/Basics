@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import cn.lvsong.lib.library.adapter.CommonAdapter
 import cn.lvsong.lib.library.adapter.MultiItemTypeAdapter
 import cn.lvsong.lib.library.adapter.ViewHolder
+import cn.lvsong.lib.library.decorator.LinearDividerDecoration
 import cn.lvsong.lib.library.dialog.JAlertDialog
 import cn.lvsong.lib.library.dialog.OnJAlertDialogCLickListener
-import cn.lvsong.lib.library.decorator.LinearDividerItemDecoration
 import cn.lvsong.lib.library.popupwindow.HorizontalPosition
 import cn.lvsong.lib.library.popupwindow.SmartPopupWindow
 import cn.lvsong.lib.library.popupwindow.VerticalPosition
@@ -87,13 +87,13 @@ class CustomActivity1 : BaseActivity() {
             override fun getRangeView(position: Int, parent: ViewGroup): View {
                 val view = LayoutInflater.from(this@CustomActivity1)
                     .inflate(R.layout.item_arrange_view_peoples, parent, false)
-                view.findViewById<AppCompatImageView>(R.id.iv_range_view).load(getItem(position)){
+                view.findViewById<AppCompatImageView>(R.id.iv_range_view).load(getItem(position)) {
                     transformations(CircleCropTransformation())  // https://www.jb51.net/article/208978.htm  / https://blog.csdn.net/vitaviva/article/details/113064062
                 }
 
                 return view
             }
-        } )
+        })
     }
 
 
@@ -131,14 +131,11 @@ class CustomActivity1 : BaseActivity() {
             }
         })
 
-        val itemDecoration =
-            LinearDividerItemDecoration(
-                this@CustomActivity1,
-                DensityUtil.dp2pxRtInt(1F),
-                ContextCompat.getColor(this@CustomActivity1, R.color.color_EEEEEE)
-            )
-        itemDecoration.setDividerPaddingLeft(DensityUtil.dp2pxRtInt(14F))
-        itemDecoration.setDividerPaddingRight(DensityUtil.dp2pxRtInt(14F))
+        val itemDecoration = LinearDividerDecoration.create(
+            ContextCompat.getColor(this@CustomActivity1, R.color.color_EEEEEE),
+            DensityUtil.dp2pxRtInt(1),DensityUtil.dp2pxRtInt(14),0,
+            DensityUtil.dp2pxRtInt(14),0,RecyclerView.VERTICAL
+        )
         mTopMenu = TopMenu(this@CustomActivity1, adapter)
             .setWidth(DensityUtil.dp2pxRtInt(125F))
             .setHeight(DensityUtil.dp2pxRtInt(124F))
@@ -239,7 +236,7 @@ class CustomActivity1 : BaseActivity() {
      * 中间dialog
      */
     fun onCenterDialog(view: View) {
-        mExitDialog.delayShow(view,500)
+        mExitDialog.delayShow(view, 500)
     }
 
     /**
@@ -256,8 +253,10 @@ class CustomActivity1 : BaseActivity() {
     }
 
     fun onShowAtLocation(view: View) {
-        mPopupWindow2.showAtLocation(view,Gravity.CENTER,
-            DensityUtil.dp2pxRtInt(10),DensityUtil.dp2pxRtInt(10))
+        mPopupWindow2.showAtLocation(
+            view, Gravity.CENTER,
+            DensityUtil.dp2pxRtInt(10), DensityUtil.dp2pxRtInt(10)
+        )
     }
 
 }

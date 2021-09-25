@@ -37,6 +37,15 @@ import androidx.core.content.ContextCompat
             .setCornerRadius(DensityUtil.dp2pxRtInt(5))
             .create()
 
+  //这个例子特殊在于选中时是实心非选中时时边框的,加上setSelectedStrokeColor()去掉因为默认边框颜色导致的选中时有一圈默认色
+  Button.background = SelectorFactory.newShapeSelector()
+                    .setCornerRadius(DensityUtil.dp2pxRtInt(20))
+                    .setDefaultStrokeColor(ContextCompat.getColor(mActivity, R.color.color_BBBBBB))
+                    .setStrokeWidth(DensityUtil.dp2pxRtInt(1))
+                    .setSelectedStrokeColor(ContextCompat.getColor(mActivity, R.color.color_FF734A))
+                    .setSelectedBgColor(ContextCompat.getColor(mActivity, R.color.color_FF734A))
+                    .create()
+
 PS: 使用时如果发现文本显示不完整,可以有2个解决方案:
     1. 使用 AppCompatTextView(或者 TextView) 代替 AppCompatButton(或者Button)
     2. AppCompatButton(或者Button)添加 android:background="@null"  --> 推荐使用此方法

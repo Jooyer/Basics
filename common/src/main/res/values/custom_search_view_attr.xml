@@ -19,6 +19,10 @@
 
         <!--  是否显示搜索图标,默认显示-->
         <attr name="csv_search_icon_show" format="boolean" />
+        <!-- 搜索图标宽度, 默认30-->
+        <attr name="csv_search_icon_width" format="dimension|reference" />
+        <!-- 搜索图标高度, 默认40-->
+        <attr name="csv_search_icon_height" format="dimension|reference" />
         <!--  搜索图标颜色 -->
         <attr name="csv_search_icon_color" format="color|reference" />
         <!-- 搜索图标线宽 -->
@@ -31,9 +35,9 @@
         <!-- 清除图标线宽(厚度),默认1.5dp -->
         <attr name="csv_clear_icon_line_width" format="integer|dimension" />
         <!--  padding 使得里面 × 变小同时点击面积没有变小,默认0dp  -->
-        <attr name="csv_clear_icon_line_padding" format="dimension|integer"/>
+        <attr name="csv_clear_icon_line_padding" format="dimension|integer" />
         <!-- 清除图标rightMargin,默认6dp  -->
-        <attr name="csv_clear_icon_margin_right" format="dimension|integer"/>
+        <attr name="csv_clear_icon_margin_right" format="dimension|integer" />
         <!-- 清除图标模式，普通模式normal(默认)、圆形模式circle -->
         <attr name="csv_clear_icon_mode" format="enum">
             <enum name="normal" value="1" />

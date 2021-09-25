@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import cn.lvsong.lib.library.adapter.CommonAdapter
 import cn.lvsong.lib.library.adapter.MultiItemTypeAdapter
 import cn.lvsong.lib.library.adapter.ViewHolder
+import cn.lvsong.lib.library.decorator.LinearDividerDecoration
 import cn.lvsong.lib.library.listener.OnClickFastListener
-import cn.lvsong.lib.library.decorator.LinearDividerItemDecoration
 import cn.lvsong.lib.library.topmenu.MenuItem
 import cn.lvsong.lib.library.topmenu.TopMenu
 import cn.lvsong.lib.library.utils.DensityUtil
@@ -146,17 +146,11 @@ class StatusActivity : BaseActivity() {
             }
         })
 
-        val itemDecoration =
-            LinearDividerItemDecoration(
-                mStatusManager!!.getRootLayout().context,
-                DensityUtil.dp2pxRtInt(1F),
-                ContextCompat.getColor(
-                    mStatusManager!!.getRootLayout().context,
-                    R.color.color_EEEEEE
-                )
-            )
-        itemDecoration.setDividerPaddingLeft(DensityUtil.dp2pxRtInt(14F))
-        itemDecoration.setDividerPaddingRight(DensityUtil.dp2pxRtInt(14F))
+        val itemDecoration = LinearDividerDecoration.create(
+            ContextCompat.getColor(this@StatusActivity, R.color.color_EEEEEE),
+            DensityUtil.dp2pxRtInt(1),DensityUtil.dp2pxRtInt(14),0,
+            DensityUtil.dp2pxRtInt(14),0,RecyclerView.VERTICAL
+        )
         mTopMenu = TopMenu(mStatusManager!!.getRootLayout().context, adapter)
             .setWidth(DensityUtil.dp2pxRtInt(150F))
             .setHeight(DensityUtil.dp2pxRtInt(200F))

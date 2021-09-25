@@ -115,6 +115,14 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
         )
 
         val showSearchIcon = arr.getBoolean(R.styleable.CustomSearchView_csv_search_icon_show, true)
+        val searchIconWidth = arr.getDimensionPixelOffset(
+            R.styleable.CustomSearchView_csv_search_icon_width,
+            dp2px(30F).toInt()
+        )
+        val searchIconHeight = arr.getDimensionPixelOffset(
+            R.styleable.CustomSearchView_csv_search_icon_height,
+            dp2px(40F).toInt()
+        )
         val searchIconColor = arr.getColor(
             R.styleable.CustomSearchView_csv_search_icon_color,
             ContextCompat.getColor(context, R.color.color_666666)
@@ -256,6 +264,10 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
         }
 
         asv_search_view_icon.visibility = if (showSearchIcon) View.VISIBLE else View.GONE
+        val searchIconLp = asv_search_view_icon.layoutParams as LayoutParams
+        searchIconLp.width = searchIconWidth
+        searchIconLp.height = searchIconHeight
+        asv_search_view_icon.layoutParams = searchIconLp
         asv_search_view_icon.setColorAndLineWidth(searchIconColor, lineWidth)
 
         if (!TextUtils.isEmpty(inputDefaultText)) {
