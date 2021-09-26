@@ -32,7 +32,7 @@
 
 ```groovy
 	dependencies {
-	        implementation 'com.github.Jooyer.Basics:common:1.1.3'
+	        implementation 'com.github.Jooyer.Basics:common:1.1.4'
 	}
 ```
 
@@ -172,6 +172,14 @@
 ## v1.1.3变化:
 1. 对CustomToolbar左侧箭头增加设置背景的属性
 2. 2. 对SelectFactory增加设置四个圆角半径的方法
+
+## v1.1.4变化:
+    1. 对Banner增加圆角
+    2. 新增RecyclerView 线性分割线
+    3. 对CustomSearchView增加左侧放大镜大小设置
+    4. 对JAlertDialog增加延迟关闭方法
+
+
 [toc]
 
 
