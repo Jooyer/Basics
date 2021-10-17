@@ -32,7 +32,7 @@
 
 ```groovy
 	dependencies {
-	        implementation 'com.github.Jooyer.Basics:common:1.1.4'
+	        implementation 'com.github.Jooyer.Basics:common:1.1.5'
 	}
 ```
 
@@ -179,6 +179,13 @@
     3. 对CustomSearchView增加左侧放大镜大小设置
     4. 对JAlertDialog增加延迟关闭方法
 
+## v1.1.5变化:
+    1. StatusManager增加了针对Loading结束时回调(如转圈圈当需要结束时在其转一整圈时回调,这样界面结束动画看起来比较顺滑不突兀)
+    2. 更新使用StatusManager时数据为空或者异常等界面默认UI效果
+    3. 对权限请求XpermissionsUtils适配了新的Activity Result 回调方法
+    4. 对搜索控件 CustomSearchView 增加了autoSearch 方法,更方便控制搜索
+    
+    
 
 [toc]
 
