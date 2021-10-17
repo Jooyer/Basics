@@ -9,9 +9,9 @@
 
     <string name="common_ui_search">搜索</string>
     <string name="common_ui_search_hint">请输入查询关键词</string>
-    <string name="common_ui_data_empty">暂时没有数据,点此重试</string>
-    <string name="common_ui_net_error_retry">网络错误,点击任意位置重试</string>
-    <string name="common_ui_other_error_tip">解析错误,点击任意位置重试</string>
+    <string name="common_ui_data_empty">数据为空,点击重试&#8230;</string>
+    <string name="common_ui_net_error_retry">网络异常,点击重试&#8230;</string>
+    <string name="common_ui_other_error_tip">请求异常,点击重试&#8230;</string>
 
     <string name="appraise_package_null">未找到合适的应用商店</string>
 

@@ -21,7 +21,7 @@
         android:layout_width="@dimen/width_160"
         android:layout_height="@dimen/height_160"
         android:layout_marginBottom="@dimen/padding_15"
-        android:src="@drawable/ic_common_ui_empty"
+        android:src="@drawable/ic_common_ui_error"
         app:layout_constraintBottom_toTopOf="@id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -36,12 +36,12 @@
         android:paddingTop="@dimen/padding_8"
         android:paddingRight="@dimen/padding_18"
         android:paddingBottom="@dimen/padding_8"
-        android:textColor="@color/color_999999"
+        android:text="@string/common_ui_data_empty"
+        android:textColor="@color/color_666666"
         android:textSize="@dimen/text_size_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guideline"
-        tools:text="@string/common_ui_data_empty" />
+        app:layout_constraintTop_toBottomOf="@id/guideline" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

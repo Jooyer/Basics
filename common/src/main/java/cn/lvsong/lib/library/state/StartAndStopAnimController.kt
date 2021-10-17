@@ -12,4 +12,13 @@ interface StartAndStopAnimController {
 
     fun onStopAnimator()
 
+    /**
+     * loading动画结束时回调,比如转一圈结束了则会回调
+     * useStatusManager() 返回为true,即启用 StatusManager才有效
+     * eg: 具体用法参考: ChrysanthemumView
+     */
+    fun setOnLoadingAnimatorEndListener(listener: OnLoadingAnimatorEndListener?){
+
+    }
+
 }

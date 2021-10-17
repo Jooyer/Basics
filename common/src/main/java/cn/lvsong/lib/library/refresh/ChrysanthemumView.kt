@@ -10,6 +10,7 @@ import android.util.TypedValue
 import android.view.View
 import androidx.core.content.ContextCompat
 import cn.lvsong.lib.library.R
+import cn.lvsong.lib.library.state.OnLoadingAnimatorEndListener
 import cn.lvsong.lib.library.state.StartAndStopAnimController
 
 /** https://www.jianshu.com/p/cb42e75711f1
@@ -48,6 +49,11 @@ class ChrysanthemumView(context: Context, attrs: AttributeSet) : View(context, a
     private var count = 0
 
     private var run = true //动画控制
+
+    /**
+     *  动画结束的回调
+     */
+    private var onLoadingAnimatorEndListener: OnLoadingAnimatorEndListener? = null
 
     init {
         initialize(attrs)
@@ -102,10 +108,14 @@ class ChrysanthemumView(context: Context, attrs: AttributeSet) : View(context, a
             canvas.drawRoundRect(rectF, flowerHeight / 2, flowerHeight / 2, paint)
             canvas.rotate(360F / flowerCount, flowerRadius.toFloat(), flowerRadius.toFloat())
         }
-        count++
-        if (run) {
-            postInvalidateDelayed(100)
+
+        // 当动画需要停止时,判断是否刚好转到一圈了,如果是的就结束,否则继续转直到完整的一圈
+        if (!run && 0F == count * 360F % flowerCount) {
+            onLoadingAnimatorEndListener?.onLoadingAnimatorEnd()
+            return
         }
+        count++
+        postInvalidateDelayed(100)
     }
 
     private fun dp2px(def: Float): Float {
@@ -140,5 +150,9 @@ class ChrysanthemumView(context: Context, attrs: AttributeSet) : View(context, a
      */
     override fun onStopAnimator() {
         run = false
+    }
+
+    override fun setOnLoadingAnimatorEndListener(listener: OnLoadingAnimatorEndListener?) {
+        onLoadingAnimatorEndListener = listener
     }
 }

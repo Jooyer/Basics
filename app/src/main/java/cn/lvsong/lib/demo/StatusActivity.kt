@@ -1,6 +1,7 @@
 package cn.lvsong.lib.demo
 
 import android.graphics.Color
+import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
+import cn.lvsong.lib.library.state.OnLoadingAnimatorEndListener
 import cn.lvsong.lib.library.utils.OnLazyClickListener
 import cn.lvsong.lib.library.state.OnRetryListener
 import cn.lvsong.lib.library.state.StatusManager
@@ -23,7 +24,7 @@ import cn.lvsong.lib.library.state.StatusManager
  * Time: 11:16
  */
 abstract class BaseFragment : Fragment(),
-    OnLazyClickListener, OnRetryListener {
+    OnLazyClickListener, OnRetryListener, OnLoadingAnimatorEndListener {
 
     open lateinit var mActivity: FragmentActivity
 
@@ -95,6 +96,7 @@ abstract class BaseFragment : Fragment(),
             .retryViewId(R.id.view_retry_load_data)
             .setLoadingViewBackgroundColor(if (-1 == getLoadingViewBackgroundColor()) StatusConfig.INSTANCE.getLoadingViewBackgroundColor() else getLoadingViewBackgroundColor())
             .onRetryListener(this)
+            .onLoadingAnimatorEndListener(this)
             .build()
         mStatusManager?.setTransY(if (-1 == getTransY()) StatusConfig.INSTANCE.getTranslateY() else getTransY())
         return mStatusManager?.getRootLayout()!!
@@ -265,6 +267,7 @@ abstract class BaseFragment : Fragment(),
 
     /**
      * 带延迟过滤的点击事件监听,防抖动
+     * eg:  view.setOnClickListener(this) , 重写下面方法,则点击后会回调下面这个方法
      */
     override fun onTriggerClick(view: View) {
 
@@ -321,6 +324,13 @@ abstract class BaseFragment : Fragment(),
      *  @param msg --> 提示信息
      */
     open fun onNetError(code: Int = 200, apiType: Int = 0, subType: Int, msg: String = "") {
+
+    }
+
+    /**
+     * loading动画结束时回调,比如转一圈结束了则会回调
+     */
+    override fun onLoadingAnimatorEnd() {
 
     }
 

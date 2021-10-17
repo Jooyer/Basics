@@ -441,6 +441,15 @@ class CustomSearchView(context: Context, attr: AttributeSet, defStyleAttr: Int) 
         cl_search_input_container.background = drawable
     }
 
+    /**
+     * 调用此方法类似于点击键盘搜索按钮
+     * 适用于完整输入后搜索而非输入框有变化就搜索的情况,输入完成后不用点击搜索相关按钮
+     */
+    fun autoSearch(view: View, text: String){
+        setSearchText(text)
+        mListener?.onKeyboardSearch(view,text)
+    }
+
     interface OnSearchListener {
 
         /**

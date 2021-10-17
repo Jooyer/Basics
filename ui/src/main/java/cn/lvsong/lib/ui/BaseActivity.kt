@@ -9,6 +9,7 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import cn.lvsong.lib.library.state.OnLoadingAnimatorEndListener
 import cn.lvsong.lib.library.utils.OnLazyClickListener
 import cn.lvsong.lib.library.utils.StatusBarUtil
 import cn.lvsong.lib.library.state.OnRetryListener
@@ -25,7 +26,7 @@ import cn.lvsong.lib.library.state.StatusManager
  * Date: 2018-07-24
  * Time: 12:49
  */
-abstract class BaseActivity : AppCompatActivity(), OnRetryListener, OnLazyClickListener {
+abstract class BaseActivity : AppCompatActivity(), OnRetryListener, OnLazyClickListener, OnLoadingAnimatorEndListener {
 
     /**
      * 页面显示加载中,加载失败等管理器
@@ -154,6 +155,7 @@ abstract class BaseActivity : AppCompatActivity(), OnRetryListener, OnLazyClickL
             .retryViewId(R.id.view_retry_load_data)
             .setLoadingViewBackgroundColor(if (-1 == getLoadingViewBackgroundColor()) StatusConfig.INSTANCE.getLoadingViewBackgroundColor() else getLoadingViewBackgroundColor())
             .onRetryListener(this)
+            .onLoadingAnimatorEndListener(this)
             .build()
         mStatusManager?.setTransY(if (-1 == getTransY()) StatusConfig.INSTANCE.getTranslateY() else getTransY())
         return mStatusManager?.getRootLayout()!!
@@ -361,8 +363,17 @@ abstract class BaseActivity : AppCompatActivity(), OnRetryListener, OnLazyClickL
 
     /**
      * 带延迟过滤的点击事件监听,防抖动
+     * eg:  view.setOnClickListener(this) , 重写下面方法,则点击后会回调下面这个方法
      */
     override fun onTriggerClick(view: View) {
+
+    }
+
+
+    /**
+     * loading动画结束时回调,比如转一圈结束了则会回调
+     */
+    override fun onLoadingAnimatorEnd() {
 
     }
 

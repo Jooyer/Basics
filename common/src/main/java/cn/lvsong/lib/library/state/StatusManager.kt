@@ -235,6 +235,8 @@ class StatusManager(builder: Builder) {
 
         var onRetryListener: OnRetryListener? = null
 
+        var onLoadingAnimatorEndListener: OnLoadingAnimatorEndListener? = null
+
         fun loadingView(@LayoutRes loadingLayout: Int): Builder {
             this.loadingLayoutResId = loadingLayout
             return this
@@ -309,6 +311,11 @@ class StatusManager(builder: Builder) {
             return this
         }
 
+        fun onLoadingAnimatorEndListener(listener: OnLoadingAnimatorEndListener): Builder {
+            this.onLoadingAnimatorEndListener = listener
+            return this
+        }
+
         fun build(): StatusManager {
             return StatusManager(this)
         }
@@ -336,6 +343,7 @@ class StatusManager(builder: Builder) {
         mDelayTime = builder.delayTime
         mLoadingViewBackgroundColor = builder.mLoadingViewBackgroundColor
         mRootFrameLayout.setOnRetryListener(builder.onRetryListener)
+        mRootFrameLayout.setOnLoadingAnimatorEndListener(builder.onLoadingAnimatorEndListener)
         mRootFrameLayout.setStatusManager(this)
     }
 

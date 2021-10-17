@@ -2,6 +2,7 @@ package cn.lvsong.lib.library.state
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.util.SparseArray
 import android.view.LayoutInflater
 import android.view.View
@@ -72,6 +73,11 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
      */
     private var onRetryListener: OnRetryListener? = null
 
+    /**
+     *  动画结束的回调
+     */
+    private var onLoadingAnimatorEndListener: OnLoadingAnimatorEndListener? = null
+
     fun setTransY(transY: Int) {
         mTransY = transY
     }
@@ -79,6 +85,10 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
     fun setStatusManager(manager: StatusManager) {
         mStatusLayoutManager = manager
         addAllLayoutViewsToRoot()
+    }
+
+    fun setOnLoadingAnimatorEndListener(listener: OnLoadingAnimatorEndListener?) {
+        onLoadingAnimatorEndListener = listener
     }
 
     private fun addAllLayoutViewsToRoot() {
@@ -173,6 +183,10 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
                     )
                 )
             view.visibility = View.GONE
+            if (view is ViewGroup) {
+                getView(view)
+            }
+
         }
         addView(view, param)
     }
@@ -220,6 +234,22 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
 
     fun setOnRetryListener(listener: OnRetryListener?) {
         onRetryListener = listener
+    }
+
+
+    private fun getView(viewGroup: ViewGroup) {
+        for (i in 0 until viewGroup.childCount) {
+            val child = viewGroup.getChildAt(i)
+            if (child is StartAndStopAnimController) {
+                child.setOnLoadingAnimatorEndListener(onLoadingAnimatorEndListener)
+                Log.e("RootStatusLayout", "getView==============stop")
+                break
+            } else {
+                if (child is ViewGroup) {
+                    getView(child)
+                }
+            }
+        }
     }
 
     /**
@@ -295,9 +325,9 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
         for (i in 0 until viewGroup.childCount) {
             val child = viewGroup.getChildAt(i)
             if (child is StartAndStopAnimController) {
-                if (start){
+                if (start) {
                     child.onStartAnimator()
-                }else{
+                } else {
                     child.onStopAnimator()
                 }
                 break
