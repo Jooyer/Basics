@@ -32,7 +32,12 @@
 
 ```groovy
 	dependencies {
-	        implementation 'com.github.Jooyer.Basics:common:1.1.5'
+	      // 自定义View和工具类均在词库,可以单独依赖
+          implementation 'com.github.Jooyer.Basics:common:1.1.5'
+          // 封装了 Retrofit + ViewModle + 协程,需要和ui库配合使用
+          implementation 'com.github.Jooyer.Basics:net:1.1.5'
+          // 封装了BaseActivity 和 BaseFragment(懒加载包含在内),还有网络请求开始/成功/网络失败/其他失败及重试等,需和net库配合使用
+          implementation 'com.github.Jooyer.Basics:ui:1.1.5'
 	}
 ```
 
