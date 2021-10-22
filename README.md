@@ -33,11 +33,11 @@
 ```groovy
 	dependencies {
 	      // 自定义View和工具类均在词库,可以单独依赖
-          implementation 'com.github.Jooyer.Basics:common:1.1.5'
+          implementation 'com.github.Jooyer.Basics:common:1.1.6'
           // 封装了 Retrofit + ViewModle + 协程,需要和ui库配合使用
-          implementation 'com.github.Jooyer.Basics:net:1.1.5'
+          implementation 'com.github.Jooyer.Basics:net:1.1.6'
           // 封装了BaseActivity 和 BaseFragment(懒加载包含在内),还有网络请求开始/成功/网络失败/其他失败及重试等,需和net库配合使用
-          implementation 'com.github.Jooyer.Basics:ui:1.1.5'
+          implementation 'com.github.Jooyer.Basics:ui:1.1.6'
 	}
 ```
 
@@ -189,6 +189,11 @@
     2. 更新使用StatusManager时数据为空或者异常等界面默认UI效果
     3. 对权限请求XpermissionsUtils适配了新的Activity Result 回调方法
     4. 对搜索控件 CustomSearchView 增加了autoSearch 方法,更方便控制搜索
+    
+## v1.1.6变化:
+    1. 更新手机号正则 
+    2. 对XPermissionUtils进行去掉过期方法,适配新API
+    3. 对StatusManager Loading动画结束后回调进行调整,对控件隐藏增加动画   
     
     
 
