@@ -311,7 +311,7 @@ class StatusManager(builder: Builder) {
             return this
         }
 
-        fun onLoadingAnimatorEndListener(listener: OnLoadingAnimatorEndListener): Builder {
+        fun onLoadingAnimatorEndListener(listener: OnLoadingAnimatorEndListener?): Builder {
             this.onLoadingAnimatorEndListener = listener
             return this
         }

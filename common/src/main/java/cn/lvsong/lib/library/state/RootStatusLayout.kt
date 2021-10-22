@@ -241,8 +241,18 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
         for (i in 0 until viewGroup.childCount) {
             val child = viewGroup.getChildAt(i)
             if (child is StartAndStopAnimController) {
-                child.setOnLoadingAnimatorEndListener(onLoadingAnimatorEndListener)
-                Log.e("RootStatusLayout", "getView==============stop")
+                child.setOnLoadingAnimatorEndListener(object :OnLoadingAnimatorEndListener{
+                    override fun onLoadingAnimatorEnd() {
+                        child.animate()
+                            .alpha(0F)
+                            .setDuration(300)
+                            .withEndAction {
+                                child.visibility = View.GONE
+                                child.alpha = 1F
+                                onLoadingAnimatorEndListener?.onLoadingAnimatorEnd()
+                            }
+                    }
+                })
                 break
             } else {
                 if (child is ViewGroup) {
@@ -269,7 +279,7 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
                         if (value is ViewGroup) {
                             changeAnimator(value, true)
                         }
-                    } else if (View.VISIBLE == value.visibility) {
+                    } else if (View.VISIBLE == value.visibility && null == onLoadingAnimatorEndListener) {
                         value.animate()
                             .alpha(0F)
                             .setDuration(300)
@@ -293,7 +303,13 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
                         param.topMargin = mTransY
                         value.layoutParams = param
                     } else {
-                        value.visibility = View.GONE
+                        value.animate()
+                            .alpha(0F)
+                            .setDuration(300)
+                            .withEndAction {
+                                value.visibility = View.GONE
+                                value.alpha = 1F
+                            }
                     }
                 }
                 LAYOUT_NETWORK_ERROR_ID -> { // 网络错误
@@ -303,7 +319,13 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
                         param.topMargin = mTransY
                         value.layoutParams = param
                     } else {
-                        value.visibility = View.GONE
+                        value.animate()
+                            .alpha(0F)
+                            .setDuration(300)
+                            .withEndAction {
+                                value.visibility = View.GONE
+                                value.alpha = 1F
+                            }
                     }
                 }
                 LAYOUT_EMPTY_ID -> { // 空视图
@@ -313,7 +335,13 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
                         param.topMargin = mTransY
                         value.layoutParams = param
                     } else {
-                        value.visibility = View.GONE
+                        value.animate()
+                            .alpha(0F)
+                            .setDuration(300)
+                            .withEndAction {
+                                value.visibility = View.GONE
+                                value.alpha = 1F
+                            }
                     }
                 }
             }

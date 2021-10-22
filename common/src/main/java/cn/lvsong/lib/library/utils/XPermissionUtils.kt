@@ -13,228 +13,127 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import java.text.MessageFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
- * https://www.jianshu.com/p/4a60b064a0ab
+ *  https://www.jianshu.com/p/4a60b064a0ab
+ *  https://blog.csdn.net/weixin_42046829/article/details/116446887
+ *  https://blog.csdn.net/jingzz1/article/details/107338872/
  * Desc: 权限请求
  * Author: Jooyer
  * Date: 2020-05-12
  * Time: 11:29
  */
 
-/* 用法:
+/* 用法
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        XPermissionUtils.onRequestPermissionsResult(this, requestCode, permissions, grantResults)
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    1. 请求未知来源应用安装权限方案
+    // ActivityResultLauncher必需在activity的onCreate()方法或fragment的onCreate()、onAttach()里先注册，然后在需要调用的地方调用launch方法
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mActLauncherInstallPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()){
+            XPermissionUtils.onSinglePermission(mActivity,Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES,it)
+        }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        XPermissionUtils.onActivityResult(requestCode, resultCode, data)
+    // 在需要请求权限地方调用
+    mActLauncherInstallPermission.launch(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES)
+
+    2. 请求单个权限
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mActLauncherPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()){
+            XPermissionUtils.onSinglePermission(mActivity,Manifest.permission.WRITE_EXTERNAL_STORAGE,it)
+        }
     }
 
+    // 在需要请求权限地方调用
+    mActLauncherPermission.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+
+    3. 请求多个权限
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mActLauncherPermissions = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){
+            XPermissionUtils.onMultiPermissions(mPermissions,mPermissions, it)
+        }
+
+    }
+
+    // 在需要请求权限地方调用
+    mActLauncherPermissions.launch(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE))
 
  */
 
 object XPermissionUtils {
-    private var mRequestCode = -1
-    private var mOnPermissionListener: OnPermissionListener? = null
-
-    @TargetApi(Build.VERSION_CODES.M)
-    fun requestPermissionsAgain(
-        context: Context, permissions: Array<String>,
-        requestCode: Int
-    ) {
-        if (context is Activity) {
-//            ((AppCompatActivity) context).requestPermissions(permissions, requestCode);
-            ActivityCompat.requestPermissions(context, permissions, requestCode)
-        } else {
-            throw IllegalArgumentException("Context must be an Activity")
-        }
-    }
-
-    /**
-     * 一般权限请求
-     */
-    @TargetApi(Build.VERSION_CODES.M)
-    fun requestPermissions(
-        context: Context, requestCode: Int,
-        permissions: Array<String>, listener: OnPermissionListener?
-    ) {
-        mRequestCode = requestCode
-        mOnPermissionListener = listener
-        val deniedPermissions = getDeniedPermissions(context, permissions)
-        if (deniedPermissions.isNotEmpty()) {
-            requestPermissionsAgain(context, permissions, requestCode)
-        } else {
-            if (mOnPermissionListener != null) mOnPermissionListener?.onPermissionGranted()
-        }
-    }
-
-    /**
-     * 安装APK权限申请,主要是 未知应用安装
-     */
-    @TargetApi(Build.VERSION_CODES.O)
-    fun requestInstallPermission(
-        context: Activity,
-        requestCode: Int,
-        listener: OnPermissionListener?
-    ) {
-        mRequestCode = requestCode
-        mOnPermissionListener = listener
-        if (context.packageManager.canRequestPackageInstalls()) {
-            mOnPermissionListener?.onPermissionGranted()
-        } else {
-            //注意这个是8.0新API
-            val packageURI = Uri.parse(MessageFormat.format("package:{0}", context.packageName))
-            val intent = Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, packageURI)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            context.startActivityForResult(intent, requestCode)
-        }
-    }
-
-    /**
-     * 请求权限结果，在重写 Activity的onRequestPermissionsResult()方法内调用。
-     *     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-     *           XPermissionUtils.onRequestPermissionsResult(this, requestCode, permissions, grantResults)
-     *           super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-     *         }
-     *
-     */
-    @Deprecated("androidX废弃")
-    fun onRequestPermissionsResult(
-        context: Activity, requestCode: Int,
-        permissions: Array<String>, grantResults: IntArray?
-    ) {
-        if (mRequestCode != -1 && requestCode == mRequestCode) {
-            if (mOnPermissionListener != null) {
-                val deniedPermissions = getDeniedPermissions(context, permissions)
-                if (deniedPermissions.isNotEmpty()) {
-                    val alwaysDenied = hasAlwaysDeniedPermission(context, *permissions)
-                    mOnPermissionListener?.onPermissionDenied(alwaysDenied, *deniedPermissions)
-                } else {
-                    mOnPermissionListener?.onPermissionGranted()
-                }
-            }
-        }
-    }
-
-    /**
-     * 安装未知应用时需要在重写了 onActivityResult() 方法内调用
-     *    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-     *      super.onActivityResult(requestCode, resultCode, data)
-     *      XPermissionUtils.onActivityResult(requestCode, resultCode, data)
-     *    }
-     */
-    @Deprecated("androidX废弃")
-    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (mRequestCode == requestCode && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            mOnPermissionListener?.onPermissionGranted()
-        }
-    }
 
     /**
      * 单个权限请求
      * @param permission --> 请求的权限
      * @param hasGranted --> 是否同意授权
      */
-
-    /*  在 Activity/Fragment onCreate 方法中调用
-
-            registerForActivityResult(ActivityResultContracts.RequestPermission()){
-            if(it){
-                //用户同意了该权限
-                XPermissionUtils.onActivityResult(UpdateManager.GET_UNKNOWN_APP_SOURCES, 0, null)
-            }else{
-                //用户拒绝了该权限
-            }
-
-        }.launch(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES)
-
-     */
-    fun onSinglePermission(activity: FragmentActivity, permission: String, hasGranted: Boolean) {
+    fun onSinglePermission(activity: FragmentActivity, permission: String, hasGranted: Boolean,permissionListener: OnPermissionListener) {
         if (hasGranted) {
-            mOnPermissionListener?.onPermissionGranted()
+            permissionListener.onPermissionGranted()
         } else {
-            mOnPermissionListener?.onPermissionDenied(ActivityCompat.shouldShowRequestPermissionRationale(activity, permission), permission)
+            permissionListener.onPermissionDenied(listOf(permission), getShouldShowRequestPermissionRationale(activity, permission))
         }
     }
 
     /**
      * 一次请求多个权限
      * @param permissions --> 请求的权限
-     * @param grantedList --> 通过的权限
-     * @param deniedList --> 未通过的权限
-     * @param alwaysDeniedList --> 拒绝并且点了“不再询问”权限 (不是很准确)  https://blog.csdn.net/wangpf2011/article/details/80589648
+     * @param map --> 所有权限请求的结果
      */
+    fun onMultiPermissions(activity: Activity, permissions: Array<String>, map: Map<String, Boolean>,permissionListener: OnPermissionListener) {
+        //通过的权限
+        val grantedList = map.filterValues { it }.mapNotNull { it.key }
 
-    /*  在 Activity/Fragment onCreate 方法中调用
+        //未通过的权限
+        val deniedList = (map - grantedList.toSet()).map { it.key }
 
-        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){it->
-            //通过的权限
-            val grantedList = it.filterValues { it }.mapNotNull { it.key }
+        //拒绝并且点了“不再询问”权限
+        val alwaysDeniedList = deniedList.filterNot {
+            ActivityCompat.shouldShowRequestPermissionRationale(activity, it)
+        }
 
-            //未通过的权限
-            val deniedList = (it - grantedList).map { it.key }
-
-            //拒绝并且点了“不再询问”权限
-            val alwaysDeniedList = deniedList.filterNot {
-                ActivityCompat.shouldShowRequestPermissionRationale(mActivity, it)
-            }
-
-        }.launch(
-            arrayOf(
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            )
-        )
-
-     */
-    fun onMultiPermissions(
-        permissions: Array<String>, grantedList: Array<String>?,
-        deniedList: Array<String>?, alwaysDeniedList: Array<String>?
-    ) {
-        if (null != grantedList && permissions.size == grantedList.size) {
-            mOnPermissionListener?.onPermissionGranted()
+        // 权限全部通过
+        if (permissions.size == grantedList.size) {
+            permissionListener.onPermissionGranted()
         } else {
-            mOnPermissionListener?.onPermissionDenied(
-                alwaysDeniedList.isNullOrEmpty().not(),
-                *if (deniedList.isNullOrEmpty()) arrayOf() else deniedList
-            )
+            permissionListener.onPermissionDenied(deniedList, alwaysDeniedList)
         }
     }
 
-
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////
-
     /**
      * 获取请求权限中需要授权的权限
+     * return list --> 如果为空则表示没有
      */
-    private fun getDeniedPermissions(context: Context, permissions: Array<String>): Array<String> {
-        val deniedPermissions: MutableList<String> = ArrayList()
+    fun getDeniedPermissions(context: Context, permissions: List<String>): List<String> {
+        val deniedPermissions = ArrayList<String>()
         for (permission in permissions) {
             if (ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_DENIED) {
                 deniedPermissions.add(permission)
             }
         }
-        return deniedPermissions.toTypedArray()
+        return deniedPermissions
     }
 
     /**
-     * 是否彻底拒绝了某项权限
+     *  判断是否是 勾选了对话框中”Don’t ask again”的选项
+     *  return list --> 如果为空则表示没有
      */
-    private fun hasAlwaysDeniedPermission(context: Context, vararg deniedPermissions: String): Boolean {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return false
-        var rationale: Boolean
-        for (permission in deniedPermissions) {
-            // https://blog.csdn.net/wangpf2011/article/details/80589648
-            rationale = ActivityCompat.shouldShowRequestPermissionRationale((context as Activity), permission)
-            if (!rationale) return true
+    fun getShouldShowRequestPermissionRationale(context: Context, vararg deniedPermissions: String): List<String> {
+        val list = ArrayList<String>()
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return list
         }
-        return false
+        // // https://blog.csdn.net/wangpf2011/article/details/80589648
+        for (permission in deniedPermissions) {
+            if (!ActivityCompat.shouldShowRequestPermissionRationale((context as Activity), permission)) {
+                list.add(permission)
+            }
+        }
+        return list
     }
 
     interface OnPermissionListener {
@@ -243,9 +142,10 @@ object XPermissionUtils {
 
         /**
          * 拒绝
-         * @param alwaysDenied --> 是否有权限被永久拒绝
          * @param deniedPermissions --> 被拒权限集合
+         * @param alwaysDenied --> 勾选了对话框中”Don’t ask again”的选项, ActivityCompat.shouldShowRequestPermissionRationale 返回false ,此集合包含false的权限
+         * 拒绝并且点了“不再询问”权限 (不是很准确)  https://blog.csdn.net/wangpf2011/article/details/80589648
          */
-        fun onPermissionDenied(alwaysDenied: Boolean, vararg deniedPermissions: String)
+        fun onPermissionDenied(deniedPermissions: List<String>, vararg alwaysDenied: List<String>)
     }
 }

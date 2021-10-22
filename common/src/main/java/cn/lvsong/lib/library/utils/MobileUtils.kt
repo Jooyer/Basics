@@ -10,7 +10,8 @@ import java.util.regex.Pattern
  */
 object MobileUtils {
 
-    val regEx = "^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\\d{8}$"
+     val regEx =
+        "^((13[0-9])|(14[0-9])|(15[0-9])|(16[0-9])|(17[0-9])|(18[0-9])|(19[0-9]))\\d{8}$"
     val pattern = Pattern.compile(regEx)
 
 

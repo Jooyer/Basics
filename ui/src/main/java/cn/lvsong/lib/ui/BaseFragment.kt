@@ -96,7 +96,7 @@ abstract class BaseFragment : Fragment(),
             .retryViewId(R.id.view_retry_load_data)
             .setLoadingViewBackgroundColor(if (-1 == getLoadingViewBackgroundColor()) StatusConfig.INSTANCE.getLoadingViewBackgroundColor() else getLoadingViewBackgroundColor())
             .onRetryListener(this)
-            .onLoadingAnimatorEndListener(this)
+            .onLoadingAnimatorEndListener(if (useLoadingAnimatorEndListener()) this else null)
             .build()
         mStatusManager?.setTransY(if (-1 == getTransY()) StatusConfig.INSTANCE.getTranslateY() else getTransY())
         return mStatusManager?.getRootLayout()!!
@@ -228,6 +228,15 @@ abstract class BaseFragment : Fragment(),
      */
     open fun getLoadingViewBackgroundColor(): Int {
         return -1
+    }
+
+    /**
+     * 是否需要Loading动画结束后回调,默认是不需要的, 如果需要重新并返回 true
+     * 如果需要则自定义的 LoadingView 需要参考 ChrysanthemumView 重写 setOnLoadingAnimatorEndListener
+     * 并且在适当的时机调用 onLoadingAnimatorEnd()
+     */
+    open fun useLoadingAnimatorEndListener(): Boolean {
+        return false
     }
 
     /**
