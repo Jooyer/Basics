@@ -84,7 +84,7 @@ object XPermissionUtils {
      * @param permissions --> 请求的权限
      * @param map --> 所有权限请求的结果
      */
-    fun onMultiPermissions(activity: Activity, permissions: Array<String>, map: Map<String, Boolean>,permissionListener: OnPermissionListener) {
+    fun onMultiPermissions(activity: Activity, permissions: List<String>, map: Map<String, Boolean>,permissionListener: OnPermissionListener) {
         //通过的权限
         val grantedList = map.filterValues { it }.mapNotNull { it.key }
 

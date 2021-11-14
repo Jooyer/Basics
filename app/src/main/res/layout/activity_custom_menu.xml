@@ -213,7 +213,7 @@
             app:lirt_text_info="文字在左,图片在右" />
 
         <cn.lvsong.lib.library.view.LeftImgAndRightTextView
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/width_80"
             android:layout_height="@dimen/height_50"
             android:layout_marginTop="@dimen/padding_10"
             app:lirt_icon_drawable="@drawable/ic_launcher_background"

@@ -2,6 +2,8 @@ package cn.lvsong.lib.net.utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -42,13 +44,17 @@ import javax.crypto.IllegalBlockSizeException;
  * Date: 2018-11-11
  * Time: 22:42
  */
+// 在移动端获取解密的Cipher类时要使用Cipher.getInstance(“RSA/ECB/PKCS1Padding”);
+//在后端使用Cipher.getInstance(“RSA”);来获取.
+//以上这篇完美解决Android客户端RSA解密部分乱码的问题
 public class RSAUtil {
 	/**
 	 * RSA密钥长度必须是64的倍数，在512~65536之间。默认是1024
 	 */
-	public static final int KEY_SIZE = 2048;
 	private static final String RSA = "RSA";// 非对称加密密钥算法
 	private static final String ECB_PKCS1_PADDING = "RSA/ECB/PKCS1Padding";//加密填充方式
+	private static final int MAX_ENCRYPT_BLOCK = 117;
+	private static final int MAX_DECRYPT_BLOCK = 256;
 	/*
 	 * AES/CBC/NoPadding (128)
 	 * AES/CBC/PKCS5Padding (128)
@@ -68,9 +74,10 @@ public class RSAUtil {
 	 */
 	// RSA密钥长度必须是64的倍数，在512~65536之间。默认是1024
 	public static final int DEFAULT_KEY_SIZE = 2048;//秘钥默认长度
-	private static final byte[] DEFAULT_SPLIT = "#PART#".getBytes();    // 当要加密的内容超过bufferSize，则采用partSplit进行分块加密
+	private static final byte[] DEFAULT_SPLIT = "#PART#".getBytes(StandardCharsets.UTF_8);    // 当要加密的内容超过bufferSize，则采用partSplit进行分块加密
 	private static final int DEFAULT_BUFFER_SIZE = (DEFAULT_KEY_SIZE / 8) - 11;// 当前秘钥支持加密的最大字节数
 
+	private static KeyPair mKeyPair;
 
 	/**
 	 * 一般密钥对服务器下发,或者在 Android 中本地保存公钥
@@ -79,10 +86,10 @@ public class RSAUtil {
 	 *
 	 * @return 公钥私钥密钥对
 	 */
-	public static KeyPair generateRSAKeyPair(String encodeRules) {
+	private static KeyPair generateRSAKeyPair(String encodeRules) {
 		try {
 			KeyPairGenerator kpg = KeyPairGenerator.getInstance(RSA);
-			kpg.initialize(2048, new SecureRandom(encodeRules.getBytes()));
+			kpg.initialize(DEFAULT_KEY_SIZE, new SecureRandom(encodeRules.getBytes(StandardCharsets.UTF_8)));
 			KeyPair keyPair = kpg.genKeyPair();
 			// 公钥
 //            RSAPublicKey rsaPublicKey = (RSAPublicKey) keyPair.getPublic();
@@ -94,6 +101,20 @@ public class RSAUtil {
 			return null;
 		}
 	}
+
+
+	public static KeyPair getKeyPair(){
+		if (null == mKeyPair){
+			synchronized (RSAUtil.class){
+				if (null == mKeyPair){
+					mKeyPair = generateRSAKeyPair("DianSi");
+				}
+			}
+		}
+		return mKeyPair;
+	}
+
+
 
 	/**
 	 * 获取公钥对象
@@ -144,16 +165,16 @@ public class RSAUtil {
 			PrivateKey privateKey = keyFactory.generatePrivate(pkcs8EncodedKeySpec);
 			Signature signature = Signature.getInstance("SHA256withRSA");
 			signature.initSign(privateKey); //用私钥初始化signature
-			signature.update(data.getBytes());   //更新 原始字符串
+			signature.update(data.getBytes(StandardCharsets.UTF_8));   //更新 原始字符串
 
 			//用公钥初始化signature
 //            signature.initVerify(keyFactory.generatePublic(pkcs8EncodedKeySpec));
 			//更新原始字符串
-//            signature.update(data.getBytes());
+//            signature.update(data.getBytes(StandardCharsets.UTF_8));
 			//校验签名是否正确
 //            boolean result = signature.verify(signature.sign());
 
-			return Base64Util.encode(signature.sign());
+			return Base64Util.getEncoder().encodeToString(signature.sign());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -243,7 +264,7 @@ public class RSAUtil {
 	public static String encryptByPublicKeyForSpilt(String content, byte[] publicKeyBase64) throws Exception {
 		try {
 			PublicKey publicKey = getPublicKey(publicKeyBase64);
-			return encipher(content, publicKey, KEY_SIZE / 8);
+			return encipher(content, publicKey, MAX_ENCRYPT_BLOCK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -260,7 +281,7 @@ public class RSAUtil {
 	public static String encryptByPrivateKeyForSpilt(String content, byte[] privateKeyBase64) throws Exception {
 		try {
 			PrivateKey privateKey = getPrivateKey(privateKeyBase64);
-			return encipher(content, privateKey, KEY_SIZE / 8);
+			return encipher(content, privateKey, MAX_ENCRYPT_BLOCK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -276,7 +297,7 @@ public class RSAUtil {
 	public static String decryptByPublicKeyForSpilt(String contentBase64, byte[] publicKeyBase64) throws Exception {
 		try {
 			PublicKey publicKey = getPublicKey(publicKeyBase64);
-			return decipher(contentBase64, publicKey, KEY_SIZE / 8);
+			return decipher(contentBase64, publicKey, MAX_DECRYPT_BLOCK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -289,7 +310,7 @@ public class RSAUtil {
 	public static String decryptByPrivateKeyForSpilt(String contentBase64, byte[] privateKeyBase64) throws Exception {
 		try {
 			PrivateKey privateKey = getPrivateKey(privateKeyBase64);
-			return decipher(contentBase64, privateKey, KEY_SIZE / 8);
+			return decipher(contentBase64, privateKey, MAX_DECRYPT_BLOCK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -306,10 +327,10 @@ public class RSAUtil {
 	 * @param segmentSize 分段大小，<=0 不分段
 	 * @return
 	 */
-	private static String encipher(String ciphertext, java.security.Key key, int segmentSize) {
+	private static String encipher(String ciphertext, Key key, int segmentSize) {
 		try {
 			// 用公钥加密
-			byte[] srcBytes = ciphertext.getBytes();
+			byte[] srcBytes = ciphertext.getBytes(StandardCharsets.UTF_8);
 
 			// Cipher负责完成加密或解密工作，基于RSA
 			Cipher cipher = Cipher.getInstance(ECB_PKCS1_PADDING);
@@ -321,7 +342,7 @@ public class RSAUtil {
 				resultBytes = cipherDoFinal(cipher, srcBytes, segmentSize); //分段加密
 			else
 				resultBytes = cipher.doFinal(srcBytes);
-			return Base64Util.encode(resultBytes);
+			return Base64Util.getEncoder().encodeToString(resultBytes);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -336,10 +357,9 @@ public class RSAUtil {
 	 * @param segmentSize   分段大小（小于等于0不分段）
 	 * @return
 	 */
-	private static String decipher(String contentBase64, java.security.Key key, int segmentSize) {
+	private static String decipher(String contentBase64, Key key, int segmentSize) {
 		try {
-			// 用私钥解密
-			byte[] srcBytes = Base64Util.decode(contentBase64);
+			byte[] srcBytes = Base64Util.getDecoder().decode(contentBase64);
 			// Cipher负责完成加密或解密工作，基于RSA
 			Cipher deCipher = Cipher.getInstance(ECB_PKCS1_PADDING);
 			// 根据公钥，对Cipher对象进行初始化

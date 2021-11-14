@@ -184,7 +184,7 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
                 )
             view.visibility = View.GONE
             if (view is ViewGroup) {
-                getView(view)
+                getView(view,view)
             }
 
         }
@@ -237,26 +237,28 @@ class RootStatusLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int
     }
 
 
-    private fun getView(viewGroup: ViewGroup) {
+    private fun getView(root:View,viewGroup: ViewGroup) {
         for (i in 0 until viewGroup.childCount) {
             val child = viewGroup.getChildAt(i)
             if (child is StartAndStopAnimController) {
                 child.setOnLoadingAnimatorEndListener(object :OnLoadingAnimatorEndListener{
                     override fun onLoadingAnimatorEnd() {
-                        child.animate()
-                            .alpha(0F)
-                            .setDuration(300)
-                            .withEndAction {
-                                child.visibility = View.GONE
-                                child.alpha = 1F
-                                onLoadingAnimatorEndListener?.onLoadingAnimatorEnd()
-                            }
+                        if (null != onLoadingAnimatorEndListener) {
+                            root.animate()
+                                .alpha(0F)
+                                .setDuration(300)
+                                .withEndAction {
+                                    root.visibility = View.GONE
+                                    root.alpha = 1F
+                                    onLoadingAnimatorEndListener?.onLoadingAnimatorEnd()
+                                }
+                        }
                     }
                 })
                 break
             } else {
                 if (child is ViewGroup) {
-                    getView(child)
+                    getView(root,child)
                 }
             }
         }

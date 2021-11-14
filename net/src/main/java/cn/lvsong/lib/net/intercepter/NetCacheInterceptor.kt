@@ -7,7 +7,6 @@ import java.io.IOException
 /**
  * 有网时缓存
  * Created by Jooyer on 2018/4/9
- * https://www.jianshu.com/p/dbda0bb8d541
  */
 
 class NetCacheInterceptor : Interceptor {

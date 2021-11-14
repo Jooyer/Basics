@@ -4,6 +4,8 @@
     <declare-styleable name="LeftImgAndRightTextView">
         <!-- 是否被选中,默认false -->
         <attr name="lirt_checked" format="boolean" />
+        <!-- 文本是否启用中粗,默认true ,接近于PingFang SC Medium的效果-->
+        <attr name="lirt_bold_text" format="boolean" />
         <!-- 控件默认背景色,不设置则没有 -->
         <attr name="lirt_back_color" format="color" />
         <!-- 控件选中后背景色,不设置则没有 -->

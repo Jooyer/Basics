@@ -196,9 +196,9 @@ abstract class BaseActivity : AppCompatActivity(), OnRetryListener, OnLazyClickL
 
 
     /**
-     * 是否需要Loading动画结束后回调,默认是不需要的, 如果需要重新并返回 true
+     * 是否需要Loading动画结束后回调,默认是不需要的, 如果需要重写此方法并返回 true
      * 如果需要则自定义的 LoadingView 需要参考 ChrysanthemumView 重写 setOnLoadingAnimatorEndListener
-     * 并且在适当的时机调用 onLoadingAnimatorEnd()
+     * 并且在适当的时机调用 OnLoadingAnimatorEndListener.onLoadingAnimatorEnd()
      */
     open fun useLoadingAnimatorEndListener(): Boolean {
         return false

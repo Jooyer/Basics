@@ -7,17 +7,20 @@
         android:id="@+id/iv_icon"
         android:layout_width="@dimen/width_40"
         android:layout_height="@dimen/height_40"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        tools:src="@mipmap/ic_launcher"
+        />
 
 
-    <cn.lvsong.lib.library.view.MediumTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/padding_10"
         android:textColor="@color/color_333333"
         android:textSize="@dimen/text_size_14"
-        tools:text="视频相亲" />
+        android:includeFontPadding="false"
+        tools:text="Basics" />
 
 
 </merge>

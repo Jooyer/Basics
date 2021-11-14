@@ -8,11 +8,11 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.Checkable
 import android.widget.RelativeLayout
 import androidx.annotation.ColorRes
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import cn.lvsong.lib.library.R
 
@@ -57,7 +57,7 @@ class LeftImgAndRightTextView(context: Context, attr: AttributeSet) : RelativeLa
     /**
      * 文本显示控件
      */
-    private var tvContent: MediumTextView
+    private var tvContent: AppCompatTextView
 
     /**
      * View的背景色
@@ -102,12 +102,12 @@ class LeftImgAndRightTextView(context: Context, attr: AttributeSet) : RelativeLa
     /**
      * 一般文本
      */
-    private var mTextInfo:String? =""
+    private var mTextInfo: String? = ""
 
     /**
      * 选中后文本
      */
-    private var mCheckedTextInfo:String? = ""
+    private var mCheckedTextInfo: String? = ""
 
     /**
      * 两个控件之间的间距，默认为8dp
@@ -130,8 +130,8 @@ class LeftImgAndRightTextView(context: Context, attr: AttributeSet) : RelativeLa
         LayoutInflater.from(context)
             .inflate(R.layout.common_ui_left_image_right_text_view, this, true)
         //初始化控件
-        ivIcon = findViewById<View>(R.id.iv_icon) as AppCompatImageView
-        tvContent = findViewById<View>(R.id.tv_content) as MediumTextView
+        ivIcon = findViewById(R.id.iv_icon)
+        tvContent = findViewById(R.id.tv_content)
         gravity = Gravity.CENTER
         parse(context, attr)
     }
@@ -191,7 +191,8 @@ class LeftImgAndRightTextView(context: Context, attr: AttributeSet) : RelativeLa
         )
         //设置两个控件的位置结构
         mPosition = arr.getInt(R.styleable.LeftImgAndRightTextView_lirt_icon_location, 0)
-
+        // 接近于PingFang SC Medium的效果
+        tvContent.paint.isFakeBoldText = arr.getBoolean(R.styleable.LeftImgAndRightTextView_lirt_bold_text, true)
 
         setChecked(isChecked)
         setIconPosition(mPosition)
@@ -272,7 +273,7 @@ class LeftImgAndRightTextView(context: Context, attr: AttributeSet) : RelativeLa
      * 设置图片宽度
      * @param width 图片宽度
      */
-    fun setImageWidth(width:Int){
+    fun setImageWidth(width: Int) {
         mImgWidth = width
         setIconPosition(mPosition)
     }
@@ -281,7 +282,7 @@ class LeftImgAndRightTextView(context: Context, attr: AttributeSet) : RelativeLa
      * 设置图片高度
      * @param height 图片高度
      */
-    fun setImageHeight(height:Int){
+    fun setImageHeight(height: Int) {
         mImgHeight = height
         setIconPosition(mPosition)
     }
@@ -359,7 +360,7 @@ class LeftImgAndRightTextView(context: Context, attr: AttributeSet) : RelativeLa
     /**
      * 设置选中的文本
      */
-    fun setCheckedTextInfo(text:String){
+    fun setCheckedTextInfo(text: String) {
         mCheckedTextInfo = text
         setChecked(isChecked)
     }
@@ -367,8 +368,17 @@ class LeftImgAndRightTextView(context: Context, attr: AttributeSet) : RelativeLa
     /**
      * 设置普通文本
      */
-    fun setTextInfo(text:String){
+    fun setTextInfo(text: String) {
         mTextInfo = text
+        setChecked(isChecked)
+    }
+
+    /**
+     * 设置 中划线/下划线
+     * eg: 中划线 --> Paint.STRIKE_THRU_TEXT_FLAG.or(Paint.ANTI_ALIAS_FLAG)
+     */
+    fun setTextPaintFlags(flags: Int) {
+        tvContent.paint.flags = flags
         setChecked(isChecked)
     }
 
