@@ -33,11 +33,11 @@
 ```groovy
 	dependencies {
 	      // 自定义View和工具类均在词库,可以单独依赖
-          implementation 'com.github.Jooyer.Basics:common:1.1.6'
+          implementation 'com.github.Jooyer.Basics:common:1.1.7'
           // 封装了 Retrofit + ViewModle + 协程,需要和ui库配合使用
-          implementation 'com.github.Jooyer.Basics:net:1.1.6'
+          implementation 'com.github.Jooyer.Basics:net:1.1.7'
           // 封装了BaseActivity 和 BaseFragment(懒加载包含在内),还有网络请求开始/成功/网络失败/其他失败及重试等,需和net库配合使用
-          implementation 'com.github.Jooyer.Basics:ui:1.1.6'
+          implementation 'com.github.Jooyer.Basics:ui:1.1.7'
 	}
 ```
 
@@ -194,8 +194,12 @@
     1. 更新手机号正则 
     2. 对XPermissionUtils进行去掉过期方法,适配新API
     3. 对StatusManager Loading动画结束后回调进行调整,对控件隐藏增加动画   
-    
-    
+        
+## v1.1.7变化:
+    1. 修复StatusManager多次Loading异常
+    2. 更新屏幕截图方法
+    3. 对RSAUtil和Base64Util进行了调整
+    4. 对其他控件和者工具类做了优化 
 
 [toc]
 
