@@ -388,6 +388,9 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
         iv_near_right_icon_menu.setImageResource(resource)
     }
 
+    fun setRightImageVisible(visibility:Int) {
+        iv_near_right_icon_menu.visibility = visibility
+    }
 
     fun setMoreViewListener(listener: View.OnClickListener) {
         iv_right_arrow_menu.setOnClickListener(listener)
