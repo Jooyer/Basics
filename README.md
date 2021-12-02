@@ -33,11 +33,11 @@
 ```groovy
 	dependencies {
 	      // 自定义View和工具类均在词库,可以单独依赖
-          implementation 'com.github.Jooyer.Basics:common:1.1.8'
+          implementation 'com.github.Jooyer.Basics:common:1.2.0'
           // 封装了 Retrofit + ViewModle + 协程,需要和ui库配合使用
-          implementation 'com.github.Jooyer.Basics:net:1.1.8'
+          implementation 'com.github.Jooyer.Basics:net:1.2.0'
           // 封装了BaseActivity 和 BaseFragment(懒加载包含在内),还有网络请求开始/成功/网络失败/其他失败及重试等,需和net库配合使用
-          implementation 'com.github.Jooyer.Basics:ui:1.1.8'
+          implementation 'com.github.Jooyer.Basics:ui:1.2.0'
 	}
 ```
 
@@ -201,9 +201,13 @@
     3. 对RSAUtil和Base64Util进行了调整
     4. 对其他控件和者工具类做了优化 
             
-## v1.1.8变化:
-    1. 修复1.1.7依赖无法下载
+## v1.1.9变化:
+    1. 修复1.1.8依赖无法下载
     2. 增加显示与隐藏右侧Image方法
+    3. 对AESUtil中base64进行调整
+            
+## v1.2.0变化:
+    1.  修复ClickUtil.withTrigger() 防抖动点击无效的问题
 
 
 
