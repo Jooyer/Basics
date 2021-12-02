@@ -43,7 +43,11 @@ fun <T : View> T.withTrigger(delay: Long = 600): T {
  * @return Unit
  */
 fun <T : View> T.click(block: (View) -> Unit) = setOnClickListener {
-    block(it as View)
+    setOnClickListener {
+        if (clickEnable()) {
+            block(it as View)
+        }
+    }
 }
 
 /***
