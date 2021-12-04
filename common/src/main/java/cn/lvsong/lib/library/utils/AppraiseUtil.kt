@@ -1,11 +1,9 @@
 package cn.lvsong.lib.library.utils
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.text.TextUtils
-import android.util.Log
 import android.widget.Toast
 import cn.lvsong.lib.library.R
 import java.util.*
@@ -30,6 +28,25 @@ import java.util.*
  * Created by Jooyer on 2018/6/13
  * 跳转应用市场评价
  */
+// 注意: Android11 , 需要在manifast.xml中配置下面信息
+// 注意: Android11 , 需要在manifast.xml中配置下面信息
+// 注意: Android11 , 需要在manifast.xml中配置下面信息
+
+//<manifest>
+//    <queries>
+//    <!-- 应用商店 -->
+//    <package android:name="com.xiaomi.market" />
+//    <package android:name="com.huawei.appmarket" />
+//    <package android:name="com.oppo.market" />
+//    <package android:name="com.heytap.market" />
+//    <package android:name="com.vivo.market" />
+//    <package android:name="com.bbk.appstore" />
+//    <package android:name="com.meizu.mstore" />
+//    <package android:name="com.tencent.android.qqdownloader" />
+//    <package android:name="com.wandoujia.phoenix2" />
+//    </queries>
+//</manifest>
+
 object AppraiseUtil {
 
     const val PACKAGE_YYB = "com.tencent.android.qqdownloader"
@@ -106,44 +123,13 @@ object AppraiseUtil {
      * @return 已安装的包名集合
      */
     fun selectedInstalledAPPs(context: Context, pkgs: ArrayList<String>): ArrayList<String> {
-        val empty = ArrayList<String>()
-        val pm = context.packageManager
-        val installedPkgs = pm.getInstalledPackages(0)
-        val li = installedPkgs.size
-        val lj = pkgs.size
-        for (j in 0 until lj) {
-            for (i in 0 until li) {
-                var installPkg = ""
-                val checkPkg = pkgs[j]
-                try {
-                    installPkg = installedPkgs[i].applicationInfo.packageName
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-                if (TextUtils.isEmpty(installPkg)) {
-                    continue
-                }
-                if (TextUtils.equals(installPkg, checkPkg)) {
-                    empty.add(installPkg)
-                }
-
-                /*   // 需要的话,可以使用下面的
-                // 如果非系统应用，则添加至appList,这个会过滤掉系统的应用商店，如果不需要过滤就不用这个判断
-                if ((packageInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0) {
-                    //将应用相关信息缓存起来，用于自定义弹出应用列表信息相关用
-                    AppInfo appInfo = new AppInfo();
-                    appInfo.setAppName(packageInfo.applicationInfo.loadLabel(getPackageManager()).toString());
-                    appInfo.setAppIcon(packageInfo.applicationInfo.loadIcon(getPackageManager()));
-                    appInfo.setPackageName(packageInfo.packageName);
-                    appInfo.setVersionCode(packageInfo.versionCode);
-                    appInfo.setVersionName(packageInfo.versionName);
-                    appInfos.add(appInfo);
-                    appList.add(installPkg);
-                }
-          * */
-            }
+        val installedList = ArrayList<String>()
+        val installedPackages = context.packageManager.getInstalledPackages(0)
+        installedPackages.forEach {
+            installedList.add(it.packageName)
         }
-        return empty
+        pkgs.retainAll(installedList)
+        return pkgs
     }
 
     /**

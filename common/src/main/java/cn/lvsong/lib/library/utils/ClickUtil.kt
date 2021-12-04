@@ -28,7 +28,7 @@ import android.view.View
 
 
 /***
- * 设置延迟时间的View扩展
+ * 设置延迟时间的View扩展 , 此方法不合适放在列表中使用, 推荐使用 clickWithTrigger
  * @param delay Long 延迟时间，默认600毫秒
  * @return T
  */
@@ -38,7 +38,7 @@ fun <T : View> T.withTrigger(delay: Long = 600): T {
 }
 
 /***
- * 点击事件的View扩展
+ * 点击事件的View扩展, 此方法不合适放在列表中使用, 推荐使用 clickWithTrigger
  * @param block: (T) -> Unit 函数
  * @return Unit
  */

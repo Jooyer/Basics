@@ -214,10 +214,10 @@ object FileUtil {
 
         if (file.isDirectory) {
             file.listFiles()?.forEach {
-                if (it.isDirectory) {
+                size += if (it.isDirectory) {
                     getFileSizes(it.absolutePath)
                 } else {
-                    size += it.length()
+                    it.length()
                 }
             }
         } else {
