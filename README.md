@@ -33,11 +33,11 @@
 ```groovy
 	dependencies {
 	      // 自定义View和工具类均在词库,可以单独依赖
-          implementation 'com.github.Jooyer.Basics:common:1.2.0'
+          implementation 'com.github.Jooyer.Basics:common:1.2.1'
           // 封装了 Retrofit + ViewModle + 协程,需要和ui库配合使用
-          implementation 'com.github.Jooyer.Basics:net:1.2.0'
+          implementation 'com.github.Jooyer.Basics:net:1.2.1'
           // 封装了BaseActivity 和 BaseFragment(懒加载包含在内),还有网络请求开始/成功/网络失败/其他失败及重试等,需和net库配合使用
-          implementation 'com.github.Jooyer.Basics:ui:1.2.0'
+          implementation 'com.github.Jooyer.Basics:ui:1.2.1'
 	}
 ```
 
@@ -209,7 +209,10 @@
 ## v1.2.0变化:
     1.  修复ClickUtil.withTrigger() 防抖动点击无效的问题
 
-
+## v1.2.1变化:
+1. ClickUtil中 withTrigger() 和 click() 结合使用时不要用在列表中,使用clickWithTrigger()代替
+2. AppraiseUtil需要注意在Android11的适配,具体看此类的头部注释
+3. FileUtil.getFileSize()计算不正确的处理
 
 [toc]
 
