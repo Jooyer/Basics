@@ -33,11 +33,11 @@
 ```groovy
 	dependencies {
 	      // 自定义View和工具类均在词库,可以单独依赖
-          implementation 'com.github.Jooyer.Basics:common:1.2.1'
+          implementation 'com.github.Jooyer.Basics:common:1.2.2'
           // 封装了 Retrofit + ViewModle + 协程,需要和ui库配合使用
-          implementation 'com.github.Jooyer.Basics:net:1.2.1'
+          implementation 'com.github.Jooyer.Basics:net:1.2.2'
           // 封装了BaseActivity 和 BaseFragment(懒加载包含在内),还有网络请求开始/成功/网络失败/其他失败及重试等,需和net库配合使用
-          implementation 'com.github.Jooyer.Basics:ui:1.2.1'
+          implementation 'com.github.Jooyer.Basics:ui:1.2.2'
 	}
 ```
 
@@ -213,6 +213,13 @@
 1. ClickUtil中 withTrigger() 和 click() 结合使用时不要用在列表中,使用clickWithTrigger()代替
 2. AppraiseUtil需要注意在Android11的适配,具体看此类的头部注释
 3. FileUtil.getFileSize()计算不正确的处理
+
+
+## v1.2.2变化:
+1. FileUtil计算文件大小异常修复
+2. 增加TimeUtil格式化时分秒方法
+3. 对CustomToolbar右侧图片控件增加是否可用方法
+
 
 [toc]
 
