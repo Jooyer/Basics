@@ -204,7 +204,7 @@ object FileUtil {
      *  获取某个 目录|文件 下文件大小
      *  @param filePath -> 目录|文件 路径
      */
-    fun getFileSizes(filePath: String): Long {
+    fun getFileSize(filePath: String): Long {
         var size = 0L
         val file = File(filePath)
 
@@ -215,7 +215,7 @@ object FileUtil {
         if (file.isDirectory) {
             file.listFiles()?.forEach {
                 size += if (it.isDirectory) {
-                    getFileSizes(it.absolutePath)
+                    getFileSize(it.absolutePath)
                 } else {
                     it.length()
                 }

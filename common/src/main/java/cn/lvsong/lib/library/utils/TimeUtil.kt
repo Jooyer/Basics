@@ -6,6 +6,7 @@ import java.util.regex.Pattern
 
 object TimeUtil {
     private val fullFormat = SimpleDateFormat("yyyy-MM-dd HH:mm")
+    private val fullFormat2 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
     private val yearMonthAndDayFormat = SimpleDateFormat("yyyy-MM-dd")
     private val yearAndMonthFormat = SimpleDateFormat("yyyy-MM")
 
@@ -86,6 +87,13 @@ object TimeUtil {
      */
     fun getFullTimeByFormat(date: Date = Date()): String {
         return fullFormat.format(date)
+    }
+
+    /**
+     * 把时间转为  yyyy-MM-dd HH:mm:ss,默认转换当前时间
+     */
+    fun getFullTimeByFormat2(date: Date = Date()): String {
+        return fullFormat2.format(date)
     }
 
     /**

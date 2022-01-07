@@ -333,7 +333,7 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
                 }
             }
         }
-        if (null != leftArrowDrawable){
+        if (null != leftArrowDrawable) {
             iv_left_icon_menu.background = leftArrowDrawable
             iv_left_icon_menu.setExistBackground(true)
         }
@@ -581,6 +581,13 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
     }
 
     /**
+     * 设置右侧图片控件是否可以点击
+     */
+    fun setRightImageEnable(enable: Boolean) {
+        iv_right_icon_menu.isEnabled = enable
+    }
+
+    /**
      * 设置右侧图片控件显示图片
      */
     fun setRightImageDrawable(@DrawableRes drawableId: Int) {
@@ -610,6 +617,13 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
      * 获取右侧图片控件是否选中
      */
     fun getRightImageChecked() = mRightImageChecked
+
+    /**
+     * 设置右起倒数第二图片控件是否可以点击
+     */
+    fun setRightImage2Enable(enable: Boolean) {
+        iv_right_icon_menu2.isEnabled = enable
+    }
 
     /**
      * 设置右起倒数第二图片控件显示图片
