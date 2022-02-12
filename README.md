@@ -31,13 +31,13 @@
 ### 第二步:
 
 ```groovy
-	dependencies { // 注意,从v1.2.4开始,将默认使用viewbinging
+	dependencies { // 注意,从v1.2.4开始,将默认使用viewbinging, 如果采用 kotlin-android-extensions ,最高版本只支持到 v1.2.3
 	      // 自定义View和工具类均在词库,可以单独依赖
-          implementation 'com.github.Jooyer.Basics:common:1.2.3'
+          implementation 'com.github.Jooyer.Basics:common:1.2.4'
           // 封装了 Retrofit + ViewModle + 协程,需要和ui库配合使用
-          implementation 'com.github.Jooyer.Basics:net:1.2.3'
+          implementation 'com.github.Jooyer.Basics:net:1.2.4'
           // 封装了BaseActivity 和 BaseFragment(懒加载包含在内),还有网络请求开始/成功/网络失败/其他失败及重试等,需和net库配合使用
-          implementation 'com.github.Jooyer.Basics:ui:1.2.3'
+          implementation 'com.github.Jooyer.Basics:ui:1.2.4'
 	}
 ```
 
