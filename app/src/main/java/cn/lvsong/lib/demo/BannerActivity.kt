@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.recyclerview.widget.RecyclerView
 import cn.lvsong.lib.demo.adapter.CustomAdapter
 import cn.lvsong.lib.library.adapter.CommonAdapter
 import cn.lvsong.lib.library.adapter.HeaderAndFooterWrapper
@@ -12,7 +13,6 @@ import cn.lvsong.lib.library.adapter.ViewHolder
 import cn.lvsong.lib.library.banner.*
 import cn.lvsong.lib.library.utils.DensityUtil
 import coil.load
-import kotlinx.android.synthetic.main.activity_banner.*
 
 /**
  * 使用 Banner
@@ -37,6 +37,7 @@ class BannerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_banner)
+        val rv_banner_list = findViewById<RecyclerView>(R.id.rv_banner_list)
 
         val headerView =
             LayoutInflater.from(this).inflate(R.layout.layout_banner_header, rv_banner_list, false)

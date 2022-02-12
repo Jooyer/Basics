@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
+import androidx.viewbinding.ViewBinding
 import cn.lvsong.lib.library.state.OnLoadingAnimatorEndListener
 import cn.lvsong.lib.library.utils.OnLazyClickListener
 import cn.lvsong.lib.library.state.OnRetryListener
@@ -23,7 +24,7 @@ import cn.lvsong.lib.library.state.StatusManager
  * Date: 2018-07-30
  * Time: 11:16
  */
-abstract class BaseFragment : Fragment(),
+abstract class BaseFragment<T : ViewBinding> : Fragment(),
     OnLazyClickListener, OnRetryListener, OnLoadingAnimatorEndListener {
 
     open lateinit var mActivity: FragmentActivity
@@ -43,6 +44,9 @@ abstract class BaseFragment : Fragment(),
      */
     var mStatusManager: StatusManager? = null
 
+    // ViewBinding 对象
+    var mBinding: T? = null
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is FragmentActivity) {
@@ -56,12 +60,10 @@ abstract class BaseFragment : Fragment(),
         savedInstanceState: Bundle?
     ): View? {
         // 解决Android jetpack导航组件Navigation返回Fragment重走onCreateView方法刷新视图的问题 步骤1
-        return if (null == mRoot) { // 缓存已经创建的视图
-            mRoot = initStatusManager(inflater, container, savedInstanceState)
-            mRoot
-        } else {
-            mRoot
+        if (null == mBinding || null == mBinding?.root) { // 缓存已经创建的视图
+          initStatusManager(inflater, container, savedInstanceState)
         }
+        return mBinding?.root
     }
 
     /**
@@ -76,6 +78,7 @@ abstract class BaseFragment : Fragment(),
         if (0 != getLayoutId()) {
             val contentView = inflater.inflate(getLayoutId(), container, false)
             initializedViews(savedInstanceState, contentView)
+            mBinding = getViewBinging(contentView)
             return if (useStatusManager()) {
                 initialized(contentView)
             } else {
@@ -191,7 +194,13 @@ abstract class BaseFragment : Fragment(),
     open fun onUserVisible() {
 
     }
-
+    /**
+     * 获取ViewBinging对象
+     */
+    abstract fun getViewBinging(view: View): T
+    /**
+     * 展示布局
+     */
     abstract fun getLayoutId(): Int
 
     // 在 Kotlin 中这个方法就没有必要重写了

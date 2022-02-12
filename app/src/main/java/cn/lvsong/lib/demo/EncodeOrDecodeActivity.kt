@@ -1,12 +1,14 @@
 package cn.lvsong.lib.demo
 
+import android.view.View
+import cn.lvsong.lib.demo.databinding.ActivityEncodeOrDecodeBinding
 import cn.lvsong.lib.net.utils.AESUtil
 import cn.lvsong.lib.ui.BaseActivity
 
 /**
  * 网络请求加密解密
  */
-class EncodeOrDecodeActivity : BaseActivity() {
+class EncodeOrDecodeActivity : BaseActivity<ActivityEncodeOrDecodeBinding>() {
 
     private val data = """{"name":"张三","age":20,"sex":"男"}"""
     // 服务器返回的
@@ -21,6 +23,10 @@ class EncodeOrDecodeActivity : BaseActivity() {
     override fun getStatusBarColor() = android.R.color.holo_green_light
 
     override fun getLayoutId() = R.layout.activity_encode_or_decode
+
+    override fun getViewBinging(view: View): ActivityEncodeOrDecodeBinding {
+        return ActivityEncodeOrDecodeBinding.bind(view)
+    }
 
     override fun setLogic() {
 

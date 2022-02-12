@@ -7,16 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
+import cn.lvsong.lib.demo.databinding.ActivityCustom3Binding
 import cn.lvsong.lib.library.view.NineImageLayout
 import cn.lvsong.lib.ui.BaseActivity
 import coil.Coil
 import coil.ImageLoader
 import coil.load
 import coil.request.ImageRequest
-import coil.transform.BlurTransformation
-import kotlinx.android.synthetic.main.activity_custom3.*
 
-class CustomActivity3 : BaseActivity() {
+class CustomActivity3 : BaseActivity<ActivityCustom3Binding>() {
     private val mImages = arrayListOf(
 //        "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3820948238,3810516733&fm=26&gp=0.jpg",
 //        "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1545980553,2413955112&fm=26&gp=0.jpg",
@@ -40,9 +39,13 @@ class CustomActivity3 : BaseActivity() {
 
     override fun getLayoutId() = R.layout.activity_custom3
 
+    override fun getViewBinging(view: View): ActivityCustom3Binding {
+        return ActivityCustom3Binding.bind(view)
+    }
+
     override fun setLogic() {
 
-        nl_images.setAdapter(object : NineImageLayout.NineImageAdapter() {
+        mBinding?.nlImages?.setAdapter(object : NineImageLayout.NineImageAdapter() {
             override fun getItemCount() = mImages.size
 
             override fun bindView(view: View, pos: Int) {
@@ -75,7 +78,7 @@ class CustomActivity3 : BaseActivity() {
                     ImageLoader(this@CustomActivity3).enqueue(
                         ImageRequest.Builder(this@CustomActivity3)
                             .data(mImages[pos]).target{
-                                nl_images.setSingleImage(
+                                mBinding?.nlImages?.setSingleImage(
                                     it.intrinsicWidth,
                                     it.intrinsicHeight,
                                     view.findViewById(R.id.iv_nine_item)
@@ -93,7 +96,7 @@ class CustomActivity3 : BaseActivity() {
                 layoutInflater.inflate(R.layout.item_nine_image, parent, false)
         })
 
-        nl_images2.setAdapter(object : NineImageLayout.NineImageAdapter() {
+        mBinding?.nlImages2?.setAdapter(object : NineImageLayout.NineImageAdapter() {
             override fun getItemCount() = mImages2.size
 
             override fun bindView(view: View, pos: Int) {
@@ -101,7 +104,7 @@ class CustomActivity3 : BaseActivity() {
                     ImageLoader(this@CustomActivity3).enqueue(
                         ImageRequest.Builder(this@CustomActivity3)
                             .data(mImages[pos]).target{
-                                nl_images.setSingleImage(
+                                mBinding?.nlImages?.setSingleImage(
                                     it.intrinsicWidth,
                                     it.intrinsicHeight,
                                     view.findViewById(R.id.iv_nine_item)
@@ -129,13 +132,13 @@ class CustomActivity3 : BaseActivity() {
     }
 
     override fun bindEvent() {
-        sv_star.setOnClickListener {
-            sv_star.toggle()
+        mBinding?.svStar?.setOnClickListener {
+            mBinding?.svStar?.toggle()
             Toast.makeText(this@CustomActivity3, "点击了星星图标", Toast.LENGTH_SHORT).show()
         }
 
-        psv_test.setOnClickListener {
-            psv_test.toggle()
+        mBinding?.psvTest?.setOnClickListener {
+            mBinding?.psvTest?.toggle()
             Toast.makeText(this@CustomActivity3, "点击了设置图标", Toast.LENGTH_SHORT).show()
         }
 

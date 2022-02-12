@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import cn.lvsong.lib.demo.databinding.ActivityCustom1Binding
 import cn.lvsong.lib.library.adapter.CommonAdapter
 import cn.lvsong.lib.library.adapter.MultiItemTypeAdapter
 import cn.lvsong.lib.library.adapter.ViewHolder
@@ -26,9 +27,8 @@ import cn.lvsong.lib.library.view.MediumTextView
 import cn.lvsong.lib.ui.BaseActivity
 import coil.load
 import coil.transform.CircleCropTransformation
-import kotlinx.android.synthetic.main.activity_custom1.*
 
-class CustomActivity1 : BaseActivity() {
+class CustomActivity1 : BaseActivity<ActivityCustom1Binding>() {
 
     override fun needUseImmersive() = 1
 
@@ -40,8 +40,11 @@ class CustomActivity1 : BaseActivity() {
     private lateinit var mPopupWindow: SmartPopupWindow
     private lateinit var mPopupWindow2: SmartPopupWindow
 
-
     override fun getLayoutId() = R.layout.activity_custom1
+
+    override fun getViewBinging(view: View): ActivityCustom1Binding {
+        return ActivityCustom1Binding.bind(view)
+    }
 
     override fun setLogic() {
         initTopMenu()
@@ -50,25 +53,25 @@ class CustomActivity1 : BaseActivity() {
 
         setArrayViewAdapter()
 
-        btn_1.background = SelectorFactory.newShapeSelector()
+        mBinding?.btn1?.background = SelectorFactory.newShapeSelector()
             .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
             .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
             .setCornerRadius(DensityUtil.dp2pxRtInt(5))
             .create()
 
-        btn_2.background = SelectorFactory.newShapeSelector()
+        mBinding?.btn2?.background = SelectorFactory.newShapeSelector()
             .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
             .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
             .setCornerRadius(DensityUtil.dp2pxRtInt(5))
             .create()
 
-        btn_3.background = SelectorFactory.newShapeSelector()
+        mBinding?.btn3?.background = SelectorFactory.newShapeSelector()
             .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
             .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
             .setCornerRadius(DensityUtil.dp2pxRtInt(5))
             .create()
 
-        btn_4.background = SelectorFactory.newShapeSelector()
+        mBinding?.btn4?.background = SelectorFactory.newShapeSelector()
             .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
             .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
             .setCornerRadius(DensityUtil.dp2pxRtInt(5))
@@ -83,7 +86,7 @@ class CustomActivity1 : BaseActivity() {
             "https://upload.jianshu.io/users/upload_avatars/7290998/f64f5ef0-def0-4b26-beb3-b9d88f060ba0.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/240/h/240",
             "https://upload.jianshu.io/users/upload_avatars/2558050/7761b285-2805-4534-9870-ba7dcc7538ec.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/240/h/240"
         )
-        av.setAdapter(object : ArrangeView.ArrangeAdapter(data) {
+        mBinding?.av?.setAdapter(object : ArrangeView.ArrangeAdapter(data) {
             override fun getRangeView(position: Int, parent: ViewGroup): View {
                 val view = LayoutInflater.from(this@CustomActivity1)
                     .inflate(R.layout.item_arrange_view_peoples, parent, false)
@@ -98,7 +101,7 @@ class CustomActivity1 : BaseActivity() {
 
 
     override fun bindEvent() {
-        toolbar.setMoreViewListener(View.OnClickListener {
+        mBinding?.toolbar?.setMoreViewListener(View.OnClickListener {
             mTopMenu.show(it, null, null)
         })
     }

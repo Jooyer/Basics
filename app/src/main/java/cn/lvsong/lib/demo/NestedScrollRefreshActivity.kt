@@ -5,7 +5,8 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
-import kotlinx.android.synthetic.main.activity_nested_scroll_refresh.*
+import androidx.viewpager.widget.ViewPager
+import com.google.android.material.tabs.TabLayout
 
 /**
  * NestedScroll嵌套滑动刷新加载
@@ -15,7 +16,8 @@ class NestedScrollRefreshActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_nested_scroll_refresh)
-
+        val sl_viewpager = findViewById<ViewPager>(R.id.sl_viewpager)
+        val sl_tab = findViewById<TabLayout>(R.id.sl_tab)
 
         val title = arrayListOf<String>("政治", "历史", "地理")
 

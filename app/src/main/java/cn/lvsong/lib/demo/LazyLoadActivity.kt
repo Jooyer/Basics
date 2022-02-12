@@ -4,13 +4,16 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentPagerAdapter
-import kotlinx.android.synthetic.main.activity_lazy.*
+import androidx.viewpager.widget.ViewPager
+import com.google.android.material.tabs.TabLayout
 
 class LazyLoadActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lazy)
+        val sl_viewpager = findViewById<ViewPager>(R.id.sl_viewpager)
+        val sl_tab = findViewById<TabLayout>(R.id.sl_tab)
 
         val title = arrayListOf<String>("语文", "数学", "英语")
         val fragments = ArrayList<LazyFragment>()

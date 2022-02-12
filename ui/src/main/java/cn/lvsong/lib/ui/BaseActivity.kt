@@ -9,6 +9,7 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.viewbinding.ViewBinding
 import cn.lvsong.lib.library.state.OnLoadingAnimatorEndListener
 import cn.lvsong.lib.library.utils.OnLazyClickListener
 import cn.lvsong.lib.library.utils.StatusBarUtil
@@ -26,12 +27,15 @@ import cn.lvsong.lib.library.state.StatusManager
  * Date: 2018-07-24
  * Time: 12:49
  */
-abstract class BaseActivity : AppCompatActivity(), OnRetryListener, OnLazyClickListener, OnLoadingAnimatorEndListener {
+abstract class BaseActivity<T : ViewBinding> : AppCompatActivity(), OnRetryListener, OnLazyClickListener, OnLoadingAnimatorEndListener {
 
     /**
      * 页面显示加载中,加载失败等管理器
      */
     var mStatusManager: StatusManager? = null
+
+    // ViewBinding 对象 , 另一种写法: https://juejin.cn/post/6920852879783755789
+    var mBinding: T? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         StatusBarUtil.transparentStatusBar(
@@ -135,6 +139,7 @@ abstract class BaseActivity : AppCompatActivity(), OnRetryListener, OnLazyClickL
             val contentView = LayoutInflater.from(this)
                 .inflate(getLayoutId(), null)
             initializedViews(savedInstanceState, contentView)
+            mBinding = getViewBinging(contentView)
             return if (useStatusManager()) {
                 initialized(contentView)
             } else {
@@ -224,6 +229,7 @@ abstract class BaseActivity : AppCompatActivity(), OnRetryListener, OnLazyClickL
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             finishAndRemoveTask()
         }
+        mBinding = null
     }
 
     /**
@@ -273,6 +279,11 @@ abstract class BaseActivity : AppCompatActivity(), OnRetryListener, OnLazyClickL
     open fun onNetError(code: Int = 200, apiType: Int = 0, subType: Int, msg: String = "") {
 
     }
+
+    /**
+     * 获取ViewBinging对象
+     */
+    abstract fun getViewBinging(view:View):T
 
     /**
      * 展示布局

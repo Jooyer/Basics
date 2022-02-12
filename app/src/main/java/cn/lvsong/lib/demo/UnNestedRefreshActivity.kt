@@ -6,10 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.ListView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import cn.lvsong.lib.library.refresh.*
-import kotlinx.android.synthetic.main.activity_normal_refresh.*
 
 /**
  * 普通刷新效果
@@ -21,6 +21,8 @@ class UnNestedRefreshActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_normal_refresh)
+        val nrl_container = findViewById<UnNestedRefreshLayout>(R.id.nrl_container)
+        val lv_list = findViewById<ListView>(R.id.lv_list)
 
 //        nrl_container.addHeader(DefaultHeaderView(this))
 //        nrl_container.addFooter(DefaultFooterView(this))
@@ -78,6 +80,6 @@ class UnNestedRefreshActivity : AppCompatActivity() {
             override fun getCount() = data.size
 
         }
-        rv_list.adapter = mBaseAdapter
+        lv_list.adapter = mBaseAdapter
     }
 }

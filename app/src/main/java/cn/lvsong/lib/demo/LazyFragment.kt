@@ -12,17 +12,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cn.lvsong.lib.demo.data.Data
+import cn.lvsong.lib.demo.databinding.FragmentBlankBinding
 import cn.lvsong.lib.demo.viewmodel.NetModel
 import cn.lvsong.lib.library.refresh.OnNestedRefreshAndLoadListener
 import cn.lvsong.lib.library.refresh.NestedRefreshLayout
-import cn.lvsong.lib.net.network.NetWorkMonitor
-import cn.lvsong.lib.net.network.NetWorkMonitorManager
-import cn.lvsong.lib.net.network.NetworkType
 import cn.lvsong.lib.ui.BaseFragment
 import cn.lvsong.lib.ui.BaseViewModel
-import kotlinx.android.synthetic.main.fragment_blank.*
 
-class LazyFragment : BaseFragment() {
+class LazyFragment : BaseFragment<FragmentBlankBinding>() {
 
     private val mData = ArrayList<Data>()
 
@@ -39,15 +36,19 @@ class LazyFragment : BaseFragment() {
 
     override fun getLayoutId() = R.layout.fragment_blank
 
+    override fun getViewBinging(view: View): FragmentBlankBinding {
+        return FragmentBlankBinding.bind(view)
+    }
+
     override fun getCurrentViewModel(): BaseViewModel {
         viewModel = ViewModelProvider(this).get(NetModel::class.java)
         return viewModel
     }
 
     override fun setLogic() {
-        rv_list.layoutManager = LinearLayoutManager(mActivity)
+        mBinding?.rvList?.layoutManager = LinearLayoutManager(mActivity)
 
-        rv_list.adapter = object : RecyclerView.Adapter<Holder>() {
+        mBinding?.rvList?.adapter = object : RecyclerView.Adapter<Holder>() {
             override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
                 return Holder(
                     LayoutInflater.from(parent.context).inflate(
@@ -70,7 +71,7 @@ class LazyFragment : BaseFragment() {
     }
 
     override fun bindEvent() {
-        nrl_refresh_layout.setOnRefreshAndLoadListener(object : OnNestedRefreshAndLoadListener() {
+        mBinding?.nrlRefreshLayout?.setOnRefreshAndLoadListener(object : OnNestedRefreshAndLoadListener() {
             override fun onRefresh(refreshLayout: NestedRefreshLayout) {
                 viewModel.getData(mPage)
             }
@@ -86,13 +87,13 @@ class LazyFragment : BaseFragment() {
                 mData.clear()
             }
             mData.addAll(it)
-            rv_list.adapter?.notifyDataSetChanged()
+            mBinding?.rvList?.adapter?.notifyDataSetChanged()
         })
     }
 
     override fun onFirstUserVisible() {
         Log.e("LazyFragment", "onFirstUserVisible==============")
-        nrl_refresh_layout.setAutoRefresh(300)
+        mBinding?.nrlRefreshLayout?.setAutoRefresh(300)
     }
 
     /**
@@ -106,10 +107,10 @@ class LazyFragment : BaseFragment() {
      */
     override fun onSuccess(code: Int, apiType: Int, subType: Int, msg: String) {
         if (1 == apiType) {
-            if (nrl_refresh_layout.isRefreshing) {
-                nrl_refresh_layout.setFinishRefresh(true)
-            } else if (nrl_refresh_layout.isLoading) {
-                nrl_refresh_layout.setFinishLoad(true)
+            if (mBinding!!.nrlRefreshLayout.isRefreshing) {
+                mBinding!!.nrlRefreshLayout.setFinishRefresh(true)
+            } else if (mBinding!!.nrlRefreshLayout.isLoading) {
+                mBinding!!.nrlRefreshLayout.setFinishLoad(true)
             }
         } else { // 其他操作返回的成功
             Log.e("LazyFragment", "onSuccess==============")
@@ -117,8 +118,8 @@ class LazyFragment : BaseFragment() {
     }
 
     override fun onFailure(code: Int, apiType: Int,subType: Int,  msg: String) {
-        nrl_refresh_layout.setFinishRefresh(false)
-        nrl_refresh_layout.setFinishLoad(false)
+        mBinding?.nrlRefreshLayout?.setFinishRefresh(false)
+        mBinding?.nrlRefreshLayout?.setFinishLoad(false)
         Log.e("LazyFragment", "onFailure==============$msg")
     }
 

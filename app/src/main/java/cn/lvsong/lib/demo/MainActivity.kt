@@ -3,12 +3,12 @@ package cn.lvsong.lib.demo
 import android.content.Intent
 import android.view.View
 import androidx.core.content.ContextCompat
+import cn.lvsong.lib.demo.databinding.ActivityMainBinding
 import cn.lvsong.lib.library.utils.DensityUtil
 import cn.lvsong.lib.library.utils.SelectorFactory
 import cn.lvsong.lib.ui.BaseActivity
-import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun getLayoutId() = R.layout.activity_main
 
@@ -19,84 +19,88 @@ class MainActivity : BaseActivity() {
 
     override fun getStatusBarColor() = R.color.main_theme_color
 
+    override fun getViewBinging(view: View): ActivityMainBinding {
+        return ActivityMainBinding.bind(view)
+    }
+
     override fun setLogic() {
 
     }
 
     override fun bindEvent() {
-        btn_1.background = SelectorFactory.newShapeSelector()
+        mBinding?.btn1?.background = SelectorFactory.newShapeSelector()
             .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
             .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
             .setCornerRadius(DensityUtil.dp2pxRtInt(5))
             .create()
 
-        btn_2.background = SelectorFactory.newShapeSelector()
+        mBinding?.btn2?.background = SelectorFactory.newShapeSelector()
             .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
             .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
             .setCornerRadius(DensityUtil.dp2pxRtInt(5))
             .create()
 
-        btn_3.background = SelectorFactory.newShapeSelector()
+        mBinding?.btn3?.background = SelectorFactory.newShapeSelector()
             .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
             .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
             .setCornerRadius(DensityUtil.dp2pxRtInt(5))
             .create()
 
-        btn_4.background = SelectorFactory.newShapeSelector()
+        mBinding?.btn4?.background = SelectorFactory.newShapeSelector()
             .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
             .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
             .setCornerRadius(DensityUtil.dp2pxRtInt(5))
             .create()
 
-        btn_5.background = SelectorFactory.newShapeSelector()
+        mBinding?.btn5?.background = SelectorFactory.newShapeSelector()
             .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
             .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
             .setCornerRadius(DensityUtil.dp2pxRtInt(5))
             .create()
 
-        btn_6.background = SelectorFactory.newShapeSelector()
+        mBinding?.btn6?.background = SelectorFactory.newShapeSelector()
             .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
             .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
             .setCornerRadius(DensityUtil.dp2pxRtInt(5))
             .create()
 
-        btn_7.background = SelectorFactory.newShapeSelector()
+        mBinding?.btn7?.background = SelectorFactory.newShapeSelector()
             .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
             .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
             .setCornerRadius(DensityUtil.dp2pxRtInt(5))
             .create()
 
-        btn_8.background = SelectorFactory.newShapeSelector()
+        mBinding?.btn8?.background = SelectorFactory.newShapeSelector()
             .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
             .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
             .setCornerRadius(DensityUtil.dp2pxRtInt(5))
             .create()
 
-        btn_9.background = SelectorFactory.newShapeSelector()
+        mBinding?.btn9?.background = SelectorFactory.newShapeSelector()
             .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
             .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
             .setCornerRadius(DensityUtil.dp2pxRtInt(5))
             .create()
 
-        btn_10.background = SelectorFactory.newShapeSelector()
+        mBinding?.btn10?.background = SelectorFactory.newShapeSelector()
             .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
             .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
             .setCornerRadius(DensityUtil.dp2pxRtInt(5))
             .create()
 
-        btn_11.background = SelectorFactory.newShapeSelector()
+        mBinding?.btn11?.background = SelectorFactory.newShapeSelector()
             .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
             .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
             .setCornerRadius(DensityUtil.dp2pxRtInt(5))
             .create()
 
-        btn_12.background = SelectorFactory.newShapeSelector()
+        mBinding?.btn12?.background = SelectorFactory.newShapeSelector()
             .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
             .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
             .setCornerRadius(DensityUtil.dp2pxRtInt(5))
             .create()
 
-        btn_13.background = SelectorFactory.newShapeSelector()
+        mBinding?.btn13?.background = SelectorFactory.newShapeSelector()
             .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
             .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
             .setCornerRadius(DensityUtil.dp2pxRtInt(5))

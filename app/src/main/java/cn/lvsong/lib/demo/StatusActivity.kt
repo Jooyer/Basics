@@ -1,11 +1,11 @@
 package cn.lvsong.lib.demo
 
 import android.graphics.Color
-import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import cn.lvsong.lib.demo.databinding.ActivityStatusBinding
 import cn.lvsong.lib.library.adapter.CommonAdapter
 import cn.lvsong.lib.library.adapter.MultiItemTypeAdapter
 import cn.lvsong.lib.library.adapter.ViewHolder
@@ -18,18 +18,20 @@ import cn.lvsong.lib.library.utils.SelectorFactory
 import cn.lvsong.lib.library.utils.StatusBarUtil
 import cn.lvsong.lib.library.view.MediumTextView
 import cn.lvsong.lib.ui.BaseActivity
-import kotlinx.android.synthetic.main.activity_status.*
 
 /**
  * https://segmentfault.com/q/1010000013729036
  * 当没有具体 Presenter 时,可以参考上面,写成: StatusActivity : BaseActivity<BasePresenter<*,*>>
  */
-class StatusActivity : BaseActivity() {
+class StatusActivity : BaseActivity<ActivityStatusBinding>() {
 
     private lateinit var mTopMenu: TopMenu
 
     override fun getLayoutId() = R.layout.activity_status
 
+    override fun getViewBinging(view: View): ActivityStatusBinding {
+        return ActivityStatusBinding.bind(view)
+    }
 
     override fun useStatusManager() = true
 
@@ -50,19 +52,19 @@ class StatusActivity : BaseActivity() {
 //        mStatusManager?.showContent() // 默认1200毫秒延时,其实一般网络请求成功差不多
         mStatusManager?.delayShowContent(2000)
 
-        acb_tips1.background = SelectorFactory.newShapeSelector()
+        mBinding?.acbTips1?.background = SelectorFactory.newShapeSelector()
             .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
             .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
             .setCornerRadius(DensityUtil.dp2pxRtInt(5))
             .create()
 
-        acb_tips2.background = SelectorFactory.newShapeSelector()
+        mBinding?.acbTips2?.background = SelectorFactory.newShapeSelector()
             .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
             .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
             .setCornerRadius(DensityUtil.dp2pxRtInt(5))
             .create()
 
-        acb_tips3.background = SelectorFactory.newShapeSelector()
+        mBinding?.acbTips3?.background = SelectorFactory.newShapeSelector()
             .setDefaultBgColor(ContextCompat.getColor(this, R.color.color_666666))
             .setPressedBgColor(ContextCompat.getColor(this, R.color.color_333333))
             .setDifferentCornerRadius(
@@ -84,7 +86,7 @@ class StatusActivity : BaseActivity() {
          * 此时在UI界面是无法正常使用上面定义的控件, 只需使用 mStatusManager.getCustomView()
          * 即可获取 CustomToolbar 或者 自定义的Toolbar (需自行强转)
          */
-        toolbar.setMoreViewListener(object :
+        mBinding?.toolbar?.setMoreViewListener(object :
             OnClickFastListener() {
             override fun onFastClick(v: View) {
                 mTopMenu.show(v, null, null)

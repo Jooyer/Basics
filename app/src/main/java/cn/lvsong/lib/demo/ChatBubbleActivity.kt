@@ -1,16 +1,21 @@
 package cn.lvsong.lib.demo
 
+import android.view.View
+import cn.lvsong.lib.demo.databinding.ActivityChatBubbleBinding
 import cn.lvsong.lib.demo.itemDelegate.LeftItemDelegate
 import cn.lvsong.lib.demo.itemDelegate.RightItemDelegate
 import cn.lvsong.lib.library.adapter.MultiItemTypeAdapter
 import cn.lvsong.lib.ui.BaseActivity
-import kotlinx.android.synthetic.main.activity_chat_bubble.*
 
-class ChatBubbleActivity : BaseActivity() {
+class ChatBubbleActivity : BaseActivity<ActivityChatBubbleBinding>() {
 
     override fun needUseImmersive() = 1
 
     override fun getLayoutId() = R.layout.activity_chat_bubble
+
+    override fun getViewBinging(view: View): ActivityChatBubbleBinding {
+        return ActivityChatBubbleBinding.bind(view)
+    }
 
     override fun setLogic() {
 
@@ -22,7 +27,7 @@ class ChatBubbleActivity : BaseActivity() {
         adapter.addItemViewDelegate(LeftItemDelegate())
         adapter.addItemViewDelegate(RightItemDelegate())
 
-        rv_list_chat.adapter = adapter
+        mBinding?.rvListChat?.adapter = adapter
     }
 
     override fun bindEvent() {

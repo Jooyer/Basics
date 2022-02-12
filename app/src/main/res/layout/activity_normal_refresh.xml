@@ -24,7 +24,7 @@
 <!--            />-->
 
         <ListView
-            android:id="@+id/rv_list"
+            android:id="@+id/lv_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             />
