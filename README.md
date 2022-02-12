@@ -228,6 +228,9 @@
 4. 移出5.0以下广播监听网络相关,即只支持5.0及以上的网络监听
 
 
+## v1.2.3变化:
+1. 去掉 kotlin-android-extensions , 采用 ViewBinding
+
 
 [toc]
 
