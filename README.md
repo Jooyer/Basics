@@ -31,13 +31,13 @@
 ### 第二步:
 
 ```groovy
-	dependencies {
+	dependencies { // 注意,从v1.2.4开始,将默认使用viewbinging
 	      // 自定义View和工具类均在词库,可以单独依赖
-          implementation 'com.github.Jooyer.Basics:common:1.2.2'
+          implementation 'com.github.Jooyer.Basics:common:1.2.3'
           // 封装了 Retrofit + ViewModle + 协程,需要和ui库配合使用
-          implementation 'com.github.Jooyer.Basics:net:1.2.2'
+          implementation 'com.github.Jooyer.Basics:net:1.2.3'
           // 封装了BaseActivity 和 BaseFragment(懒加载包含在内),还有网络请求开始/成功/网络失败/其他失败及重试等,需和net库配合使用
-          implementation 'com.github.Jooyer.Basics:ui:1.2.2'
+          implementation 'com.github.Jooyer.Basics:ui:1.2.3'
 	}
 ```
 
@@ -219,6 +219,14 @@
 1. FileUtil计算文件大小异常修复
 2. 增加TimeUtil格式化时分秒方法
 3. 对CustomToolbar右侧图片控件增加是否可用方法
+
+
+## v1.2.3变化:
+1. 更改和添加网络注解 
+2. 修改网络监听的逻辑 
+3. 移出引起空指针异常的NetworkTypeUtil类 
+4. 移出5.0以下广播监听网络相关,即只支持5.0及以上的网络监听
+
 
 
 [toc]
