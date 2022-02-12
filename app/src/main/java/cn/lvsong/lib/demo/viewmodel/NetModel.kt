@@ -1,6 +1,7 @@
 package cn.lvsong.lib.demo.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.annotation.NonNull
 import androidx.lifecycle.MutableLiveData
 import cn.lvsong.lib.demo.data.Data
@@ -58,8 +59,13 @@ class NetModel(@NonNull application: Application) : BaseViewModel(application) {
         })
     }
 
-    @NetWorkMonitor([NetworkType.NETWORK_4G, NetworkType.NETWORK_WIFI, NetworkType.NETWORK_NONE])
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////// 网络变化监听  //////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+
+    @NetWorkMonitor([ NetworkType.NETWORK_AVAILABLE,NetworkType.NETWORK_GPRS, NetworkType.NETWORK_WIFI, NetworkType.NETWORK_NONE])
     fun onNetWorkStateChange(state: NetworkType) {
+        Log.e("LazyFragment","onNetWorkStateChange============state: ${state.name}")
         if (NetworkType.NETWORK_NONE == state){
             mJob?.cancel(object :CancellationException(){
                 override fun fillInStackTrace(): Throwable {

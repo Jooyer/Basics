@@ -9,6 +9,7 @@ import android.net.*
 import android.net.ConnectivityManager.NetworkCallback
 import android.os.Build
 import android.telephony.TelephonyManager
+import android.util.Log
 import cn.lvsong.lib.net.utils.NetWorkUtil
 import java.lang.reflect.InvocationTargetException
 import java.util.*
@@ -37,27 +38,12 @@ import java.util.*
  */
 class NetWorkMonitorManager private constructor() {
 
-    private val ANDROID_NET_CHANGE_ACTION =
-        "android.net.conn.CONNECTIVITY_CHANGE"
-
     /**
      * 存储接受网络状态变化消息的方法的map
      */
-    private val mNetWorkStateChangedMethodMap: MutableMap<Any, NetWorkStateReceiverMethod> =
-        HashMap()
+    private val mNetWorkStateChangedMethodMap: MutableMap<Any, NetWorkStateReceiverMethod> = HashMap()
 
     private lateinit var mApplication: Application
-
-    /**
-     * 监听网络改变的广播
-     */
-    private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            if (intent.action.equals(ANDROID_NET_CHANGE_ACTION, ignoreCase = true)) {
-                postNetState(NetworkTypeUtil.getNetworkType(context))
-            }
-        }
-    }
 
     /**
      * >=21 网络监听的回调
@@ -68,7 +54,7 @@ class NetWorkMonitorManager private constructor() {
          */
         override fun onAvailable(network: Network) {
             NetWorkUtil.setNetWorkAvailable(true)
-            postNetState(NetworkTypeUtil.getNetworkType(mApplication))
+            postNetState(NetworkType.NETWORK_AVAILABLE)
         }
 
         /**
@@ -94,6 +80,20 @@ class NetWorkMonitorManager private constructor() {
             network: Network,
             networkCapabilities: NetworkCapabilities
         ) {
+            // 表明此网络连接成功验证
+            if (networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)) {
+                when {
+                    networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> {  // 使用WI-FI
+                        postNetState(NetworkType.NETWORK_WIFI)
+                    }
+                    networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {  // 使用数据网络
+                        postNetState(NetworkType.NETWORK_GPRS)
+                    }
+                    else -> {  // 未知网络，包括蓝牙、VPN等
+                        postNetState(NetworkType.NETWORK_UNKNOWN)
+                    }
+                }
+            }
         }
 
         /**
@@ -120,19 +120,6 @@ class NetWorkMonitorManager private constructor() {
 
 
     /**
-     * 初始化 传入application
-     *
-     * @param application
-     */
-    fun init(application: Application?) {
-        if (application == null) {
-            throw NullPointerException("application can not be null")
-        }
-        this.mApplication = application
-        initMonitor()
-    }
-
-    /**
      * 初始化网络监听 根据不同版本做不同的处理
      */
     private fun initMonitor() {
@@ -142,54 +129,17 @@ class NetWorkMonitorManager private constructor() {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> { //API 大于26时
                 connectivityManager.registerDefaultNetworkCallback(mNetworkCallback)
             }
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP -> { //API 大于21时
+            else -> { //API 大于21时
                 val builder = NetworkRequest.Builder()
                 val request = builder.build()
                 connectivityManager.registerNetworkCallback(request, mNetworkCallback)
             }
-            else -> { //低版本
-                val intentFilter = IntentFilter()
-                intentFilter.addAction(ANDROID_NET_CHANGE_ACTION)
-                mApplication.registerReceiver(mReceiver, intentFilter)
-            }
         }
     }
-
-    /**
-     * 注册监听
-     * @param obj
-     */
-    fun register(obj: Any?) {
-        if (obj != null) {
-            val netWorkStateReceiverMethod = findMethod(obj)
-            if (netWorkStateReceiverMethod != null) {
-                mNetWorkStateChangedMethodMap[obj] = netWorkStateReceiverMethod
-            }
-        }
-    }
-
-    /**
-     * 移除监听
-     *
-     * @param object
-     */
-    fun unregister(obj: Any?) {
-        if (obj != null) {
-            mNetWorkStateChangedMethodMap.remove(obj)
-        }
-    }
-
-    /**
-     * 反注册广播
-     */
-    fun onDestroy() {
-        mApplication.unregisterReceiver(mReceiver)
-    }
-
 
     /**
      * 网络状态发生变化，需要去通知更改
-     * @param netWorkState
+     * @param netWorkType
      */
     private fun postNetState(netWorkType: NetworkType) {
         val set: Set<Any> = mNetWorkStateChangedMethodMap.keys
@@ -206,7 +156,7 @@ class NetWorkMonitorManager private constructor() {
      * 具体执行方法
      *
      * @param netWorkStateReceiverMethod
-     * @param netWorkState
+     * @param netWorkType
      */
     private fun invokeMethod(
         netWorkStateReceiverMethod: NetWorkStateReceiverMethod?,
@@ -270,50 +220,118 @@ class NetWorkMonitorManager private constructor() {
         return targetMethod
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////
+
     /**
-     * 获取当前的网络状态 ：没有网络-0：WIFI网络1：4G网络-4：3G网络-3：2G网络-2
-     * 自定义
+     * 初始化 传入application
      *
-     * @param context
-     * @return
+     * @param application
      */
-    private fun getAPNType(context: Context): Int {
-        //结果返回值
-        var netType = 0
-        //获取手机所有连接管理对象
-        val manager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        //获取NetworkInfo对象
-        val networkInfo = manager.activeNetworkInfo ?: return netType
-        //NetworkInfo对象为空 则代表没有网络
-        //否则 NetworkInfo对象不为空 则获取该networkInfo的类型
-        val nType = networkInfo.type
-        if (nType == ConnectivityManager.TYPE_WIFI) {
-            //WIFI
-            netType = 1
-        } else if (nType == ConnectivityManager.TYPE_MOBILE) {
-            val nSubType = networkInfo.subtype
-            val telephonyManager =
-                context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-            //3G   联通的3G为UMTS或HSDPA 电信的3G为EVDO
-            netType = if (nSubType == TelephonyManager.NETWORK_TYPE_LTE
-                && !telephonyManager.isNetworkRoaming
-            ) {
-                4
-            } else if (nSubType == TelephonyManager.NETWORK_TYPE_UMTS || nSubType == TelephonyManager.NETWORK_TYPE_HSDPA || (nSubType == TelephonyManager.NETWORK_TYPE_EVDO_0
-                        && !telephonyManager.isNetworkRoaming)
-            ) {
-                3
-                //2G 移动和联通的2G为GPRS或EGDE，电信的2G为CDMA
-            } else if (nSubType == TelephonyManager.NETWORK_TYPE_GPRS || nSubType == TelephonyManager.NETWORK_TYPE_EDGE || (nSubType == TelephonyManager.NETWORK_TYPE_CDMA
-                        && !telephonyManager.isNetworkRoaming)
-            ) {
-                2
-            } else {
-                2
+    fun init(application: Application?) {
+        if (application == null) {
+            throw NullPointerException("application can not be null")
+        }
+        this.mApplication = application
+        initMonitor()
+    }
+
+    /**
+     * 注册监听
+     * @param obj
+     */
+    fun register(obj: Any?) {
+        if (obj != null) {
+            val netWorkStateReceiverMethod = findMethod(obj)
+            if (netWorkStateReceiverMethod != null) {
+                mNetWorkStateChangedMethodMap[obj] = netWorkStateReceiverMethod
             }
         }
-        return netType
+    }
+
+    /**
+     * 移除监听
+     *
+     * @param object
+     */
+    fun unregister(obj: Any?) {
+        if (obj != null) {
+            mNetWorkStateChangedMethodMap.remove(obj)
+        }
+    }
+
+
+    // https://www.jianshu.com/p/d261e5b7ea38
+    /**
+     * 判断网络是否连接
+     */
+    fun isNetworkConnected(context: Context?): Boolean {
+        if (context != null) {
+            val mConnectivityManager = context
+                .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                val mNetworkInfo = mConnectivityManager.activeNetworkInfo
+                if (mNetworkInfo != null) {
+                    return mNetworkInfo.isAvailable
+                }
+            } else {
+                val network = mConnectivityManager.activeNetwork ?: return false
+                val status = mConnectivityManager.getNetworkCapabilities(network) ?: return false
+                if (status.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)) {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
+    /**
+     * 判断是否是WiFi连接
+     */
+    fun isWifiConnected(context: Context?): Boolean {
+        if (context != null) {
+            val mConnectivityManager = context
+                .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                val mWiFiNetworkInfo = mConnectivityManager
+                    .getNetworkInfo(ConnectivityManager.TYPE_WIFI)
+                if (mWiFiNetworkInfo != null) {
+                    return mWiFiNetworkInfo.isAvailable
+                }
+            } else {
+                val network = mConnectivityManager.activeNetwork ?: return false
+                val status = mConnectivityManager.getNetworkCapabilities(network) ?: return false
+                if (status.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
+    /**
+     * 判断是否是数据网络连接
+     */
+    fun isMobileConnected(context: Context?): Boolean {
+        if (context != null) {
+            val mConnectivityManager = context
+                .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                val mMobileNetworkInfo = mConnectivityManager
+                    .getNetworkInfo(ConnectivityManager.TYPE_MOBILE)
+                if (mMobileNetworkInfo != null) {
+                    return mMobileNetworkInfo.isAvailable
+                }
+            } else {
+                val network = mConnectivityManager.activeNetwork ?: return false
+                val status = mConnectivityManager.getNetworkCapabilities(network) ?: return false
+                if (status.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                    return true
+                }
+            }
+        }
+        return false
     }
 
 

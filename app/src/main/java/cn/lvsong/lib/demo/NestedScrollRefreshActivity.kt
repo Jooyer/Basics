@@ -1,18 +1,11 @@
 package cn.lvsong.lib.demo
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
-import cn.lvsong.lib.net.network.NetWorkMonitor
-import cn.lvsong.lib.net.network.NetWorkMonitorManager
-import cn.lvsong.lib.net.network.NetworkType
-import kotlinx.android.synthetic.main.activity_lazy.*
 import kotlinx.android.synthetic.main.activity_nested_scroll_refresh.*
-import kotlinx.android.synthetic.main.activity_nested_scroll_refresh.sl_tab
-import kotlinx.android.synthetic.main.activity_nested_scroll_refresh.sl_viewpager
 
 /**
  * NestedScroll嵌套滑动刷新加载
@@ -51,21 +44,5 @@ class NestedScrollRefreshActivity : AppCompatActivity() {
         sl_tab.setupWithViewPager(sl_viewpager)
 
     }
-
-    override fun onStart() {
-        super.onStart()
-//        NetWorkMonitorManager.INSTANCE.register(this)
-    }
-
-
-    override fun onDestroy() {
-        super.onDestroy()
-//        NetWorkMonitorManager.INSTANCE.unregister(this)
-    }
-
-//    @NetWorkMonitor([NetworkType.NETWORK_4G, NetworkType.NETWORK_WIFI, NetworkType.NETWORK_NONE])
-//    fun onNetWorkStateChange(state: NetworkType) {
-//        Log.e("NestedRefresh","onNetWorkStateChange============state: ${state.name}")
-//    }
 
 }

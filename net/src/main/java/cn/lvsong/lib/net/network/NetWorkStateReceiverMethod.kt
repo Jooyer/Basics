@@ -23,8 +23,7 @@ class NetWorkStateReceiverMethod {
      * 监听的网络改变类型
      */
     private var netWorkState: Array<NetworkType> =
-        arrayOf(NetworkType.NETWORK_WIFI, NetworkType.NETWORK_4G, NetworkType.NETWORK_3G
-            , NetworkType.NETWORK_2G, NetworkType.NETWORK_UNKNOWN, NetworkType.NETWORK_NONE)
+        arrayOf(NetworkType.NETWORK_AVAILABLE,NetworkType.NETWORK_WIFI, NetworkType.NETWORK_GPRS, NetworkType.NETWORK_UNKNOWN, NetworkType.NETWORK_NONE)
 
     fun getNetWorkState(): Array<NetworkType> {
         return netWorkState

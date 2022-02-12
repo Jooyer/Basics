@@ -15,6 +15,9 @@ import cn.lvsong.lib.demo.data.Data
 import cn.lvsong.lib.demo.viewmodel.NetModel
 import cn.lvsong.lib.library.refresh.OnNestedRefreshAndLoadListener
 import cn.lvsong.lib.library.refresh.NestedRefreshLayout
+import cn.lvsong.lib.net.network.NetWorkMonitor
+import cn.lvsong.lib.net.network.NetWorkMonitorManager
+import cn.lvsong.lib.net.network.NetworkType
 import cn.lvsong.lib.ui.BaseFragment
 import cn.lvsong.lib.ui.BaseViewModel
 import kotlinx.android.synthetic.main.fragment_blank.*
@@ -123,6 +126,5 @@ class LazyFragment : BaseFragment() {
     inner class Holder(val view: View) : RecyclerView.ViewHolder(view) {
         var tv_name: TextView = view.findViewById(R.id.tv_name)
     }
-
 
 }
