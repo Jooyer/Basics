@@ -27,6 +27,10 @@ class LazyFragment : BaseFragment<FragmentBlankBinding>() {
 
     private var mPage: Int = 1
 
+    override fun useStatusManager(): Boolean {
+        return true
+    }
+
     companion object {
         fun newInstance() =
             LazyFragment().apply {

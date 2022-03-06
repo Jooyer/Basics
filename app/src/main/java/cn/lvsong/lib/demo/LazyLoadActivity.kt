@@ -15,7 +15,8 @@ class LazyLoadActivity : AppCompatActivity() {
         val sl_viewpager = findViewById<ViewPager>(R.id.sl_viewpager)
         val sl_tab = findViewById<TabLayout>(R.id.sl_tab)
 
-        val title = arrayListOf<String>("语文", "数学", "英语")
+        val title = arrayListOf("语文", "数学", "英语")
+        sl_viewpager.offscreenPageLimit = title.size
         val fragments = ArrayList<LazyFragment>()
         for (i in 0..2) {
             fragments.add(LazyFragment.newInstance())

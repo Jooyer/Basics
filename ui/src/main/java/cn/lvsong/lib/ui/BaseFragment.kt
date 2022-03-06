@@ -60,11 +60,14 @@ abstract class BaseFragment<T : ViewBinding> : Fragment(),
         savedInstanceState: Bundle?
     ): View? {
         // 解决Android jetpack导航组件Navigation返回Fragment重走onCreateView方法刷新视图的问题 步骤1
-        if (null == mBinding || null == mBinding?.root) { // 缓存已经创建的视图
-          initStatusManager(inflater, container, savedInstanceState)
+        return if (null == mBinding || null == mBinding?.root) {
+            mRoot = initStatusManager(inflater, container, savedInstanceState)
+            mRoot
+        } else {
+            mRoot
         }
-        return mBinding?.root
     }
+
 
     /**
      * 此函数开始数据加载的操作，且仅调用一次
@@ -104,6 +107,7 @@ abstract class BaseFragment<T : ViewBinding> : Fragment(),
         mStatusManager?.setTransY(if (-1 == getTransY()) StatusConfig.INSTANCE.getTranslateY() else getTransY())
         return mStatusManager?.getRootLayout()!!
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // 解决Android jetpack导航组件Navigation返回Fragment重走onCreateView方法刷新视图的问题 步骤2
@@ -165,7 +169,6 @@ abstract class BaseFragment<T : ViewBinding> : Fragment(),
         }
     }
 
-
     override fun onResume() {
         super.onResume()
         if (isFirstResume) {
@@ -194,10 +197,12 @@ abstract class BaseFragment<T : ViewBinding> : Fragment(),
     open fun onUserVisible() {
 
     }
+
     /**
      * 获取ViewBinging对象
      */
     abstract fun getViewBinging(view: View): T
+
     /**
      * 展示布局
      */
