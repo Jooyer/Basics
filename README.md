@@ -232,6 +232,9 @@
 1. 去掉 kotlin-android-extensions , 采用 ViewBinding
 
 
+## v1.2.5变化:
+1. 修复BaseFragment 开启 useStatusManager 是造成崩溃
+
 [toc]
 
 
