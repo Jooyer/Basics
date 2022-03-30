@@ -33,11 +33,11 @@
 ```groovy
 	dependencies { // 注意,从v1.2.4开始,将默认使用viewbinging, 如果采用 kotlin-android-extensions ,最高版本只支持到 v1.2.3
 	      // 自定义View和工具类均在词库,可以单独依赖
-          implementation 'com.github.Jooyer.Basics:common:1.2.4'
+          implementation 'com.github.Jooyer.Basics:common:1.2.6'
           // 封装了 Retrofit + ViewModle + 协程,需要和ui库配合使用
-          implementation 'com.github.Jooyer.Basics:net:1.2.4'
+          implementation 'com.github.Jooyer.Basics:net:1.2.6'
           // 封装了BaseActivity 和 BaseFragment(懒加载包含在内),还有网络请求开始/成功/网络失败/其他失败及重试等,需和net库配合使用
-          implementation 'com.github.Jooyer.Basics:ui:1.2.4'
+          implementation 'com.github.Jooyer.Basics:ui:1.2.6'
 	}
 ```
 
@@ -234,6 +234,12 @@
 
 ## v1.2.5变化:
 1. 修复BaseFragment 开启 useStatusManager 是造成崩溃
+
+
+## v1.2.6变化:
+1. 修复下拉刷新时状态未及时更新
+2. 调整CustomMenu右侧箭头与图片依赖关系
+3. CustomMenu可以通过index属性设置箭头在图片的上面
 
 [toc]
 
