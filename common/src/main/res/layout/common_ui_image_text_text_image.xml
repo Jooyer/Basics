@@ -65,11 +65,10 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:visibility="gone"
-        app:layout_constraintEnd_toStartOf="@id/iv_right_arrow_menu"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@mipmap/ic_launcher"
         tools:visibility="visible"
-
         />
 
     <View

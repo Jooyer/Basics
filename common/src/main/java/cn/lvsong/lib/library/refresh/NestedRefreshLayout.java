@@ -579,9 +579,9 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
             if (!mRefreshing && getScrollY() < 0) {
 //                Log.e("NestedRefreshLayout", "onStopNestedScroll=====1");
                 if (mHeaderViewHeight <= -getScrollY()) { // 达到刷新要求
-                    updateStatus(RefreshState.HEADER_REFRESHING);
                     // 松手后,向上滑动
                     mRefreshing = true;
+                    updateStatus(RefreshState.HEADER_REFRESHING);
                     mScroller.startScroll(0, getScrollY(), 0, -(getScrollY() + mHeaderViewHeight), calculateTopScrollTime(-(getScrollY() + mHeaderViewHeight)));
                 } else {
                     mScroller.startScroll(0, getScrollY(), 0, -getScrollY(), calculateTopScrollTime(-getScrollY()));
@@ -603,9 +603,9 @@ public class NestedRefreshLayout extends ViewGroup implements NestedScrollingPar
                         updateStatus(RefreshState.FOOTER_NO_MORE);
                         mScroller.startScroll(0, getScrollY(), 0, -getScrollY(), calculateBottomScrollTime(getScrollY()));
                     } else {
-                        updateStatus(RefreshState.FOOTER_LOADING);
                         // 松手后,向下滑动
                         mLoading = true;
+                        updateStatus(RefreshState.FOOTER_LOADING);
                         mScroller.startScroll(0, getScrollY(), 0, -(getScrollY() - mFooterViewHeight), calculateBottomScrollTime(getScrollY() - mFooterViewHeight));
                     }
                 } else {

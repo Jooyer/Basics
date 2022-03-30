@@ -197,6 +197,7 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
 
         val rightArrowVisible =
             arr.getBoolean(R.styleable.CustomMenu_cm_right_arrow_visible, true)
+        val rightArrowIndex = arr.getInt(R.styleable.CustomMenu_cm_right_arrow_index,0)
         val rightArrowColor = arr.getColor(
             R.styleable.CustomMenu_cm_right_arrow_color,
             ContextCompat.getColor(context, R.color.color_999999)
@@ -308,6 +309,10 @@ class CustomMenu(context: Context, attr: AttributeSet, defStyleAttr: Int) :
             iv_right_arrow_menu.rotation = 180F
         } else {
             iv_right_arrow_menu.rotation = 0F
+        }
+        // mParent.bringChildToFront(this)
+        if (rightArrowIndex > 0){
+            iv_right_arrow_menu.bringToFront()
         }
         iv_right_arrow_menu.setArrowStyle(rightArrowStyle)
         iv_right_arrow_menu.setArrowPadding(rightArrowPadding)
