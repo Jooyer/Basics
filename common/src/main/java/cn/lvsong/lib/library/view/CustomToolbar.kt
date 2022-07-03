@@ -371,10 +371,10 @@ class CustomToolbar(context: Context, attr: AttributeSet, defStyleAttr: Int) :
 
         if (!TextUtils.isEmpty(centerTextInfo)) {
             tv_center_title_menu.text = centerTextInfo
-            tv_center_title_menu.paint.textSize = centerTextSize
-            tv_center_title_menu.paint.isFakeBoldText = true //  medium 效果
-            tv_center_title_menu.setTextColor(centerTextColor)
         }
+        tv_center_title_menu.paint.textSize = centerTextSize
+        tv_center_title_menu.paint.isFakeBoldText = true //  medium 效果
+        tv_center_title_menu.setTextColor(centerTextColor)
 
 //        tv_center_title_menu.setShadowLayer(0.15F, 0.2F, 0.2F, ContextCompat.getColor(context, R.color.color_write))
 

@@ -37,6 +37,7 @@ class StatusConfig {
      */
     @ColorRes
     private var mStatusBarColor = R.color.main_theme_color
+
     /**
      * 设置LoadingView背景色
      */
@@ -90,11 +91,12 @@ class StatusConfig {
      * 1 --> 状态栏文本是黑色, 2 --> 状态栏文本是白色
      * 默认黑色
      */
-    fun setDarkModel(darkModel:Int){
+    fun setDarkModel(darkModel: Int): StatusConfig {
         mDarkModel = darkModel
+        return this
     }
 
-    fun  getDarkModel() = mDarkModel
+    fun getDarkModel() = mDarkModel
 
 
     /**

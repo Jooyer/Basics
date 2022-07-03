@@ -61,7 +61,7 @@
 
         <!-- 最右侧箭头的是否可见 -->
         <attr name="cm_right_arrow_visible" format="boolean"/>
-        <!-- 最右侧箭头 index ,此值越大越靠上,默认值0 -->
+        <!-- 最右侧箭头 index ,此值>0则显示在最上面,默认值0 -->
         <attr name="cm_right_arrow_index" format="integer"/>
         <!-- 最右侧箭头的 颜色 -->
         <attr name="cm_right_arrow_color" format="color|reference"/>
