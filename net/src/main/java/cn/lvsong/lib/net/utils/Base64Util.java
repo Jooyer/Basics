@@ -2,647 +2,795 @@ package cn.lvsong.lib.net.utils;
 
 import java.io.FilterOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.Objects;
+import java.nio.charset.Charset;
+import java.util.regex.Pattern;
 
-/**
- * Desc: 拷贝自 java8
- * Author: Jooyer
- * Date: 2021-11-13
- * Time: 13:47
- */
-public class Base64Util {
 
-		private Base64Util() {}
+public final class Base64Util {
 
-		public static Encoder getEncoder() {
-			return Encoder.RFC4648;
-		}
+    private Base64Util() {
+        super();
+    }
 
-		public static Encoder getUrlEncoder() {
-			return Encoder.RFC4648_URLSAFE;
-		}
+    /**
+     * 判断字符串是否BASE64编码：
+     * 1.字符串只可能包含A-Z，a-z，0-9，+，/，=字符
+     * 2.字符串长度是4的倍数
+     * 3.=只会出现在字符串最后，可能没有或者一个等号或者两个等号
+     */
+    public static boolean isBase64(String str) {
+        if (str == null || str.trim().length() == 0) {
+            return false;
+        }
+        String base64Pattern = "^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$";
+        return Pattern.matches(base64Pattern, str);
+    }
 
-		public static Encoder getMimeEncoder() {
-			return Encoder.RFC2045;
-		}
+    /**
+     * 将数据进行Base64编码，并转为可展示的ASCII字符串.
+     * 编码失败不会抛出异常，编码失败会返回NULL.
+     */
+    public static String encodeToString(byte[] data) {
+        try {
+            // 使用GBK及UTF-8字符集都是兼容ASCII字符集的
+            //noinspection CharsetObjectCanBeUsed
+            return new String(encode(data), Charset.forName("US-ASCII")).trim();
+        } catch (Throwable e) {
+           e.printStackTrace();
+            return null;
+        }
+    }
 
-		public static Encoder getMimeEncoder(int lineLength, byte[] lineSeparator) {
-			Objects.requireNonNull(lineSeparator);
-			int[] base64 = Decoder.fromBase64;
-			for (byte b : lineSeparator) {
-				if (base64[b & 0xff] != -1)
-					throw new IllegalArgumentException(
-							"Illegal base64 line separator character 0x" + Integer.toString(b, 16));
-			}
-			if (lineLength <= 0) {
-				return Encoder.RFC4648;
-			}
-			return new Encoder(false, lineSeparator, lineLength >> 2 << 2, true);
-		}
+    /**
+     * 将数据进行BASE64编码，编码失败会抛出异常
+     */
+    public static byte[] encode(byte[] data) throws IllegalArgumentException {
+        if (data == null || data.length == 0) {
+            throw new IllegalArgumentException("data is null");
+        }
+        int len = data.length;
 
-		public static Decoder getDecoder() {
-			return Decoder.RFC4648;
-		}
+        Encoder encoder = new Encoder(DEFAULT, null);
 
-		public static Decoder getUrlDecoder() {
-			return Decoder.RFC4648_URLSAFE;
-		}
+        // Compute the exact length of the array we will produce.
+        int output_len = len / 3 * 4;
 
-		public static Decoder getMimeDecoder() {
-			return Decoder.RFC2045;
-		}
+        // Account for the tail of the data and the padding bytes, if any.
+        if (encoder.do_padding) {
+            if (len % 3 > 0) {
+                output_len += 4;
+            }
+        } else {
+            switch (len % 3) {
+                case 0:
+                    break;
+                case 1:
+                    output_len += 2;
+                    break;
+                case 2:
+                    output_len += 3;
+                    break;
+            }
+        }
 
-		public static class Encoder {
+        // Account for the newlines, if any.
+        if (encoder.do_newline) {
+            output_len += (((len - 1) / (3 * Encoder.LINE_GROUPS)) + 1) *
+                    (encoder.do_cr ? 2 : 1);
+        }
 
-			private final byte[] newline;
-			private final int linemax;
-			private final boolean isURL;
-			private final boolean doPadding;
+        encoder.output = new byte[output_len];
+        encoder.process(data, 0, len, true);
 
-			private Encoder(boolean isURL, byte[] newline, int linemax, boolean doPadding) {
-				this.isURL = isURL;
-				this.newline = newline;
-				this.linemax = linemax;
-				this.doPadding = doPadding;
-			}
+        return encoder.output;
+    }
 
-			private static final char[] toBase64 = {
-					'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-					'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-					'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
-					'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-					'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/'
-			};
+    /**
+     * 将BASE64编码的字符串解码.
+     * 解码失败不会抛出异常，解码失败会返回NULL.
+     */
+    public static byte[] decodeFromString(String data) {
+        try {
+            return decode(data.trim().getBytes());
+        } catch (Throwable e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
-			private static final char[] toBase64URL = {
-					'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-					'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-					'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
-					'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-					'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-', '_'
-			};
+    /**
+     * 将BASE64编码的解码，解码失败会抛出异常
+     */
+    public static byte[] decode(byte[] data) throws IllegalArgumentException {
+        if (data == null || data.length == 0) {
+            throw new IllegalArgumentException("data is null");
+        }
+        int len = data.length;
 
-			private static final int MIMELINEMAX = 76;
-			private static final byte[] CRLF = new byte[] {'\r', '\n'};
+        // Allocate space for the most data the input could represent.
+        // (It could contain less if it contains whitespace, etc.)
+        Decoder decoder = new Decoder(DEFAULT, new byte[len * 3 / 4]);
 
-			static final Encoder RFC4648 = new Encoder(false, null, -1, true);
-			static final Encoder RFC4648_URLSAFE = new Encoder(true, null, -1, true);
-			static final Encoder RFC2045 = new Encoder(false, CRLF, MIMELINEMAX, true);
+        if (!decoder.process(data, 0, len, true)) {
+            throw new IllegalArgumentException("bad base-64");
+        }
 
-			private final int outLength(int srclen) {
-				int len = 0;
-				if (doPadding) {
-					len = 4 * ((srclen + 2) / 3);
-				} else {
-					int n = srclen % 3;
-					len = 4 * (srclen / 3) + (n == 0 ? 0 : n + 1);
-				}
-				if (linemax > 0)                                  // line separators
-					len += (len - 1) / linemax * newline.length;
-				return len;
-			}
+        // Maybe we got lucky and allocated exactly enough output space.
+        if (decoder.op == decoder.output.length) {
+            return decoder.output;
+        }
 
-			public byte[] encode(byte[] src) {
-				int len = outLength(src.length);          // dst array size
-				byte[] dst = new byte[len];
-				int ret = encode0(src, 0, src.length, dst);
-				if (ret != dst.length)
-					return Arrays.copyOf(dst, ret);
-				return dst;
-			}
+        // Need to shorten the array, so allocate a new one of the
+        // right size and copy.
+        byte[] temp = new byte[decoder.op];
+        System.arraycopy(decoder.output, 0, temp, 0, decoder.op);
+        return temp;
+    }
 
-			public int encode(byte[] src, byte[] dst) {
-				int len = outLength(src.length);         // dst array size
-				if (dst.length < len)
-					throw new IllegalArgumentException(
-							"Output byte array is too small for encoding all input bytes");
-				return encode0(src, 0, src.length, dst);
-			}
+    /**
+     * Default values for encoder/decoder flags.
+     */
+    public static final int DEFAULT = 0;
 
-			@SuppressWarnings("deprecation")
-			public String encodeToString(byte[] src) {
-				byte[] encoded = encode(src);
-				return new String(encoded, 0, 0, encoded.length);
-			}
+    /**
+     * Encoder flag bit to omit the padding '=' characters at the end
+     * of the output (if any).
+     */
+    public static final int NO_PADDING = 1;
 
-			public ByteBuffer encode(ByteBuffer buffer) {
-				int len = outLength(buffer.remaining());
-				byte[] dst = new byte[len];
-				int ret = 0;
-				if (buffer.hasArray()) {
-					ret = encode0(buffer.array(),
-							buffer.arrayOffset() + buffer.position(),
-							buffer.arrayOffset() + buffer.limit(),
-							dst);
-					buffer.position(buffer.limit());
-				} else {
-					byte[] src = new byte[buffer.remaining()];
-					buffer.get(src);
-					ret = encode0(src, 0, src.length, dst);
-				}
-				if (ret != dst.length)
-					dst = Arrays.copyOf(dst, ret);
-				return ByteBuffer.wrap(dst);
-			}
+    /**
+     * Encoder flag bit to omit all line terminators (i.e., the output
+     * will be on one long line).
+     */
+    public static final int NO_WRAP = 2;
 
-			public OutputStream wrap(OutputStream os) {
-				Objects.requireNonNull(os);
-				return new EncOutputStream(os, isURL ? toBase64URL : toBase64,
-						newline, linemax, doPadding);
-			}
+    /**
+     * Encoder flag bit to indicate lines should be terminated with a
+     * CRLF pair instead of just an LF.  Has no effect if {@code
+     * NO_WRAP} is specified as well.
+     */
+    public static final int CRLF = 4;
 
-			public Encoder withoutPadding() {
-				if (!doPadding)
-					return this;
-				return new Encoder(isURL, newline, linemax, false);
-			}
+    /**
+     * Encoder/decoder flag bit to indicate using the "URL and
+     * filename safe" variant of Base64 (see RFC 3548 section 4) where
+     * {@code -} and {@code _} are used in place of {@code +} and
+     * {@code /}.
+     */
+    public static final int URL_SAFE = 8;
 
-			private int encode0(byte[] src, int off, int end, byte[] dst) {
-				char[] base64 = isURL ? toBase64URL : toBase64;
-				int sp = off;
-				int slen = (end - off) / 3 * 3;
-				int sl = off + slen;
-				if (linemax > 0 && slen  > linemax / 4 * 3)
-					slen = linemax / 4 * 3;
-				int dp = 0;
-				while (sp < sl) {
-					int sl0 = Math.min(sp + slen, sl);
-					for (int sp0 = sp, dp0 = dp ; sp0 < sl0; ) {
-						int bits = (src[sp0++] & 0xff) << 16 |
-								(src[sp0++] & 0xff) <<  8 |
-								(src[sp0++] & 0xff);
-						dst[dp0++] = (byte)base64[(bits >>> 18) & 0x3f];
-						dst[dp0++] = (byte)base64[(bits >>> 12) & 0x3f];
-						dst[dp0++] = (byte)base64[(bits >>> 6)  & 0x3f];
-						dst[dp0++] = (byte)base64[bits & 0x3f];
-					}
-					int dlen = (sl0 - sp) / 3 * 4;
-					dp += dlen;
-					sp = sl0;
-					if (dlen == linemax && sp < end) {
-						for (byte b : newline){
-							dst[dp++] = b;
-						}
-					}
-				}
-				if (sp < end) {               // 1 or 2 leftover bytes
-					int b0 = src[sp++] & 0xff;
-					dst[dp++] = (byte)base64[b0 >> 2];
-					if (sp == end) {
-						dst[dp++] = (byte)base64[(b0 << 4) & 0x3f];
-						if (doPadding) {
-							dst[dp++] = '=';
-							dst[dp++] = '=';
-						}
-					} else {
-						int b1 = src[sp++] & 0xff;
-						dst[dp++] = (byte)base64[(b0 << 4) & 0x3f | (b1 >> 4)];
-						dst[dp++] = (byte)base64[(b1 << 2) & 0x3f];
-						if (doPadding) {
-							dst[dp++] = '=';
-						}
-					}
-				}
-				return dp;
-			}
-		}
+    /**
+     * Flag to pass to {@link Base64OutputStream} to indicate that it
+     * should not close the output stream it is wrapping when it
+     * itself is closed.
+     */
+    public static final int NO_CLOSE = 16;
 
-		public static class Decoder {
+    static abstract class Coder {
+        public byte[] output;
+        public int op;
 
-			private final boolean isURL;
-			private final boolean isMIME;
+        /**
+         * Encode/decode another block of input data.  this.output is
+         * provided by the caller, and must be big enough to hold all
+         * the coded data.  On exit, this.opwill be set to the length
+         * of the coded data.
+         *
+         * @param finish true if this is the final call to process for
+         *               this object.  Will finalize the coder state and
+         *               include any final bytes in the output.
+         * @return true if the input so far is good; false if some
+         * error has been detected in the input stream..
+         */
+        public abstract boolean process(byte[] input, int offset, int len, boolean finish);
 
-			private Decoder(boolean isURL, boolean isMIME) {
-				this.isURL = isURL;
-				this.isMIME = isMIME;
-			}
+        /**
+         * @return the maximum number of bytes a call to process()
+         * could produce for the given number of input bytes.  This may
+         * be an overestimate.
+         */
+        public abstract int maxOutputSize(int len);
+    }
 
-			private static final int[] fromBase64 = new int[256];
-			static {
-				Arrays.fill(fromBase64, -1);
-				for (int i = 0; i < Encoder.toBase64.length; i++)
-					fromBase64[Encoder.toBase64[i]] = i;
-				fromBase64['='] = -2;
-			}
+    static class Encoder extends Coder {
+        /**
+         * Emit a new line every this many output tuples.  Corresponds to
+         * a 76-character line length (the maximum allowable according to
+         * <a href="http://www.ietf.org/rfc/rfc2045.txt">RFC 2045</a>).
+         */
+        public static final int LINE_GROUPS = 19;
 
-			private static final int[] fromBase64URL = new int[256];
+        /**
+         * Lookup table for turning Base64 alphabet positions (6 bits)
+         * into output bytes.
+         */
+        private static final byte[] ENCODE = {
+                'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
+                'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f',
+                'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+                'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/',
+        };
 
-			static {
-				Arrays.fill(fromBase64URL, -1);
-				for (int i = 0; i < Encoder.toBase64URL.length; i++)
-					fromBase64URL[Encoder.toBase64URL[i]] = i;
-				fromBase64URL['='] = -2;
-			}
+        /**
+         * Lookup table for turning Base64 alphabet positions (6 bits)
+         * into output bytes.
+         */
+        private static final byte[] ENCODE_WEBSAFE = {
+                'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
+                'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f',
+                'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+                'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-', '_',
+        };
 
-			static final Decoder RFC4648         = new Decoder(false, false);
-			static final Decoder RFC4648_URLSAFE = new Decoder(true, false);
-			static final Decoder RFC2045         = new Decoder(false, true);
+        final private byte[] tail;
+        /* package */ int tailLen;
+        private int count;
 
-			public byte[] decode(byte[] src) {
-				byte[] dst = new byte[outLength(src, 0, src.length)];
-				int ret = decode0(src, 0, src.length, dst);
-				if (ret != dst.length) {
-					dst = Arrays.copyOf(dst, ret);
-				}
-				return dst;
-			}
+        final public boolean do_padding;
+        final public boolean do_newline;
+        final public boolean do_cr;
+        final private byte[] alphabet;
 
-			public byte[] decode(String src) {
-				return decode(src.getBytes(StandardCharsets.UTF_8));
-			}
+        public Encoder(int flags, byte[] output) {
+            this.output = output;
 
-			public int decode(byte[] src, byte[] dst) {
-				int len = outLength(src, 0, src.length);
-				if (dst.length < len)
-					throw new IllegalArgumentException(
-							"Output byte array is too small for decoding all input bytes");
-				return decode0(src, 0, src.length, dst);
-			}
+            do_padding = (flags & NO_PADDING) == 0;
+            do_newline = (flags & NO_WRAP) == 0;
+            do_cr = (flags & CRLF) != 0;
+            alphabet = ((flags & URL_SAFE) == 0) ? ENCODE : ENCODE_WEBSAFE;
 
-			public ByteBuffer decode(ByteBuffer buffer) {
-				int pos0 = buffer.position();
-				try {
-					byte[] src;
-					int sp, sl;
-					if (buffer.hasArray()) {
-						src = buffer.array();
-						sp = buffer.arrayOffset() + buffer.position();
-						sl = buffer.arrayOffset() + buffer.limit();
-						buffer.position(buffer.limit());
-					} else {
-						src = new byte[buffer.remaining()];
-						buffer.get(src);
-						sp = 0;
-						sl = src.length;
-					}
-					byte[] dst = new byte[outLength(src, sp, sl)];
-					return ByteBuffer.wrap(dst, 0, decode0(src, sp, sl, dst));
-				} catch (IllegalArgumentException iae) {
-					buffer.position(pos0);
-					throw iae;
-				}
-			}
+            tail = new byte[2];
+            tailLen = 0;
 
-			public InputStream wrap(InputStream is) {
-				Objects.requireNonNull(is);
-				return new DecInputStream(is, isURL ? fromBase64URL : fromBase64, isMIME);
-			}
+            count = do_newline ? LINE_GROUPS : -1;
+        }
 
-			private int outLength(byte[] src, int sp, int sl) {
-				int[] base64 = isURL ? fromBase64URL : fromBase64;
-				int paddings = 0;
-				int len = sl - sp;
-				if (len == 0)
-					return 0;
-				if (len < 2) {
-					if (isMIME && base64[0] == -1)
-						return 0;
-					throw new IllegalArgumentException(
-							"Input byte[] should at least have 2 bytes for base64 bytes");
-				}
-				if (isMIME) {
-					// scan all bytes to fill out all non-alphabet. a performance
-					// trade-off of pre-scan or Arrays.copyOf
-					int n = 0;
-					while (sp < sl) {
-						int b = src[sp++] & 0xff;
-						if (b == '=') {
-							len -= (sl - sp + 1);
-							break;
-						}
-						if ((b = base64[b]) == -1)
-							n++;
-					}
-					len -= n;
-				} else {
-					if (src[sl - 1] == '=') {
-						paddings++;
-						if (src[sl - 2] == '=')
-							paddings++;
-					}
-				}
-				if (paddings == 0 && (len & 0x3) !=  0)
-					paddings = 4 - (len & 0x3);
-				return 3 * ((len + 3) / 4) - paddings;
-			}
+        /**
+         * @return an overestimate for the number of bytes {@code
+         * len} bytes could encode to.
+         */
+        public int maxOutputSize(int len) {
+            return len * 8 / 5 + 10;
+        }
 
-			private int decode0(byte[] src, int sp, int sl, byte[] dst) {
-				int[] base64 = isURL ? fromBase64URL : fromBase64;
-				int dp = 0;
-				int bits = 0;
-				int shiftto = 18;       // pos of first byte of 4-byte atom
-				while (sp < sl) {
-					int b = src[sp++] & 0xff;
-					if ((b = base64[b]) < 0) {
-						if (b == -2) {         // padding byte '='
-							// =     shiftto==18 unnecessary padding
-							// x=    shiftto==12 a dangling single x
-							// x     to be handled together with non-padding case
-							// xx=   shiftto==6&&sp==sl missing last =
-							// xx=y  shiftto==6 last is not =
-							if (shiftto == 6 && (sp == sl || src[sp++] != '=') ||
-									shiftto == 18) {
-								throw new IllegalArgumentException(
-										"Input byte array has wrong 4-byte ending unit");
-							}
-							break;
-						}
-						if (isMIME)    // skip if for rfc2045
-							continue;
-						else
-							throw new IllegalArgumentException(
-									"Illegal base64 character " +
-											Integer.toString(src[sp - 1], 16));
-					}
-					bits |= (b << shiftto);
-					shiftto -= 6;
-					if (shiftto < 0) {
-						dst[dp++] = (byte)(bits >> 16);
-						dst[dp++] = (byte)(bits >>  8);
-						dst[dp++] = (byte)(bits);
-						shiftto = 18;
-						bits = 0;
-					}
-				}
-				// reached end of byte array or hit padding '=' characters.
-				if (shiftto == 6) {
-					dst[dp++] = (byte)(bits >> 16);
-				} else if (shiftto == 0) {
-					dst[dp++] = (byte)(bits >> 16);
-					dst[dp++] = (byte)(bits >>  8);
-				} else if (shiftto == 12) {
-					// dangling single "x", incorrectly encoded.
-					throw new IllegalArgumentException(
-							"Last unit does not have enough valid bits");
-				}
-				// anything left is invalid, if is not MIME.
-				// if MIME, ignore all non-base64 character
-				while (sp < sl) {
-					if (isMIME && base64[src[sp++]] < 0)
-						continue;
-					throw new IllegalArgumentException(
-							"Input byte array has incorrect ending byte at " + sp);
-				}
-				return dp;
-			}
-		}
+        public boolean process(byte[] input, int offset, int len, boolean finish) {
+            // Using local variables makes the encoder about 9% faster.
+            final byte[] alphabet = this.alphabet;
+            final byte[] output = this.output;
+            int op = 0;
+            int count = this.count;
 
-		/*
-		 * An output stream for encoding bytes into the Base64.
-		 */
-		private static class EncOutputStream extends FilterOutputStream {
+            int p = offset;
+            len += offset;
+            int v = -1;
 
-			private int leftover = 0;
-			private int b0, b1, b2;
-			private boolean closed = false;
+            // First we need to concatenate the tail of the previous call
+            // with any input bytes available now and see if we can empty
+            // the tail.
 
-			private final char[] base64;    // byte->base64 mapping
-			private final byte[] newline;   // line separator, if needed
-			private final int linemax;
-			private final boolean doPadding;// whether or not to pad
-			private int linepos = 0;
+            switch (tailLen) {
+                case 0:
+                    // There was no tail.
+                    break;
 
-			EncOutputStream(OutputStream os, char[] base64,
-							byte[] newline, int linemax, boolean doPadding) {
-				super(os);
-				this.base64 = base64;
-				this.newline = newline;
-				this.linemax = linemax;
-				this.doPadding = doPadding;
-			}
+                case 1:
+                    if (p + 2 <= len) {
+                        // A 1-byte tail with at least 2 bytes of
+                        // input available now.
+                        v = ((tail[0] & 0xff) << 16) |
+                                ((input[p++] & 0xff) << 8) |
+                                (input[p++] & 0xff);
+                        tailLen = 0;
+                    }
+                    break;
 
-			@Override
-			public void write(int b) throws IOException {
-				byte[] buf = new byte[1];
-				buf[0] = (byte)(b & 0xff);
-				write(buf, 0, 1);
-			}
+                case 2:
+                    if (p + 1 <= len) {
+                        // A 2-byte tail with at least 1 byte of input.
+                        v = ((tail[0] & 0xff) << 16) |
+                                ((tail[1] & 0xff) << 8) |
+                                (input[p++] & 0xff);
+                        tailLen = 0;
+                    }
+                    break;
+            }
 
-			private void checkNewline() throws IOException {
-				if (linepos == linemax) {
-					out.write(newline);
-					linepos = 0;
-				}
-			}
+            if (v != -1) {
+                output[op++] = alphabet[(v >> 18) & 0x3f];
+                output[op++] = alphabet[(v >> 12) & 0x3f];
+                output[op++] = alphabet[(v >> 6) & 0x3f];
+                output[op++] = alphabet[v & 0x3f];
+                if (--count == 0) {
+                    if (do_cr) output[op++] = '\r';
+                    output[op++] = '\n';
+                    count = LINE_GROUPS;
+                }
+            }
 
-			@Override
-			public void write(byte[] b, int off, int len) throws IOException {
-				if (closed)
-					throw new IOException("Stream is closed");
-				// Android-changed: Upstream fix to avoid overflow.
-				// This upstream fix is from beyond OpenJDK8u121-b13. http://b/62368386
-				// if (off < 0 || len < 0 || off + len > b.length)
-				if (off < 0 || len < 0 || len > b.length - off)
-					throw new ArrayIndexOutOfBoundsException();
-				if (len == 0)
-					return;
-				if (leftover != 0) {
-					if (leftover == 1) {
-						b1 = b[off++] & 0xff;
-						len--;
-						if (len == 0) {
-							leftover++;
-							return;
-						}
-					}
-					b2 = b[off++] & 0xff;
-					len--;
-					checkNewline();
-					out.write(base64[b0 >> 2]);
-					out.write(base64[(b0 << 4) & 0x3f | (b1 >> 4)]);
-					out.write(base64[(b1 << 2) & 0x3f | (b2 >> 6)]);
-					out.write(base64[b2 & 0x3f]);
-					linepos += 4;
-				}
-				int nBits24 = len / 3;
-				leftover = len - (nBits24 * 3);
-				while (nBits24-- > 0) {
-					checkNewline();
-					int bits = (b[off++] & 0xff) << 16 |
-							(b[off++] & 0xff) <<  8 |
-							(b[off++] & 0xff);
-					out.write(base64[(bits >>> 18) & 0x3f]);
-					out.write(base64[(bits >>> 12) & 0x3f]);
-					out.write(base64[(bits >>> 6)  & 0x3f]);
-					out.write(base64[bits & 0x3f]);
-					linepos += 4;
-				}
-				if (leftover == 1) {
-					b0 = b[off++] & 0xff;
-				} else if (leftover == 2) {
-					b0 = b[off++] & 0xff;
-					b1 = b[off++] & 0xff;
-				}
-			}
+            // At this point either there is no tail, or there are fewer
+            // than 3 bytes of input available.
 
-			@Override
-			public void close() throws IOException {
-				if (!closed) {
-					closed = true;
-					if (leftover == 1) {
-						checkNewline();
-						out.write(base64[b0 >> 2]);
-						out.write(base64[(b0 << 4) & 0x3f]);
-						if (doPadding) {
-							out.write('=');
-							out.write('=');
-						}
-					} else if (leftover == 2) {
-						checkNewline();
-						out.write(base64[b0 >> 2]);
-						out.write(base64[(b0 << 4) & 0x3f | (b1 >> 4)]);
-						out.write(base64[(b1 << 2) & 0x3f]);
-						if (doPadding) {
-							out.write('=');
-						}
-					}
-					leftover = 0;
-					out.close();
-				}
-			}
-		}
+            // The main loop, turning 3 input bytes into 4 output bytes on
+            // each iteration.
+            while (p + 3 <= len) {
+                v = ((input[p] & 0xff) << 16) |
+                        ((input[p + 1] & 0xff) << 8) |
+                        (input[p + 2] & 0xff);
+                output[op] = alphabet[(v >> 18) & 0x3f];
+                output[op + 1] = alphabet[(v >> 12) & 0x3f];
+                output[op + 2] = alphabet[(v >> 6) & 0x3f];
+                output[op + 3] = alphabet[v & 0x3f];
+                p += 3;
+                op += 4;
+                if (--count == 0) {
+                    if (do_cr) output[op++] = '\r';
+                    output[op++] = '\n';
+                    count = LINE_GROUPS;
+                }
+            }
 
-		/*
-		 * An input stream for decoding Base64 bytes
-		 */
-		private static class DecInputStream extends InputStream {
+            if (finish) {
+                // Finish up the tail of the input.  Note that we need to
+                // consume any bytes in tail before any bytes
+                // remaining in input; there should be at most two bytes
+                // total.
 
-			private final InputStream is;
-			private final boolean isMIME;
-			private final int[] base64;      // base64 -> byte mapping
-			private int bits = 0;            // 24-bit buffer for decoding
-			private int nextin = 18;         // next available "off" in "bits" for input;
-			// -> 18, 12, 6, 0
-			private int nextout = -8;        // next available "off" in "bits" for output;
-			// -> 8, 0, -8 (no byte for output)
-			private boolean eof = false;
-			private boolean closed = false;
+                if (p - tailLen == len - 1) {
+                    int t = 0;
+                    //noinspection UnusedAssignment
+                    v = ((tailLen > 0 ? tail[t++] : input[p++]) & 0xff) << 4;
+                    tailLen -= t;
+                    output[op++] = alphabet[(v >> 6) & 0x3f];
+                    output[op++] = alphabet[v & 0x3f];
+                    if (do_padding) {
+                        output[op++] = '=';
+                        output[op++] = '=';
+                    }
+                    if (do_newline) {
+                        if (do_cr) output[op++] = '\r';
+                        output[op++] = '\n';
+                    }
+                } else if (p - tailLen == len - 2) {
+                    int t = 0;
+                    //noinspection UnusedAssignment
+                    v = (((tailLen > 1 ? tail[t++] : input[p++]) & 0xff) << 10) |
+                            (((tailLen > 0 ? tail[t++] : input[p++]) & 0xff) << 2);
+                    tailLen -= t;
+                    output[op++] = alphabet[(v >> 12) & 0x3f];
+                    output[op++] = alphabet[(v >> 6) & 0x3f];
+                    output[op++] = alphabet[v & 0x3f];
+                    if (do_padding) {
+                        output[op++] = '=';
+                    }
+                    if (do_newline) {
+                        if (do_cr) output[op++] = '\r';
+                        output[op++] = '\n';
+                    }
+                } else if (do_newline && op > 0 && count != LINE_GROUPS) {
+                    if (do_cr) output[op++] = '\r';
+                    output[op++] = '\n';
+                }
 
-			DecInputStream(InputStream is, int[] base64, boolean isMIME) {
-				this.is = is;
-				this.base64 = base64;
-				this.isMIME = isMIME;
-			}
+            } else {
+                // Save the leftovers in tail to be consumed on the next
+                // call to encodeInternal.
 
-			private byte[] sbBuf = new byte[1];
+                if (p == len - 1) {
+                    tail[tailLen++] = input[p];
+                } else if (p == len - 2) {
+                    tail[tailLen++] = input[p];
+                    tail[tailLen++] = input[p + 1];
+                }
+            }
 
-			@Override
-			public int read() throws IOException {
-				return read(sbBuf, 0, 1) == -1 ? -1 : sbBuf[0] & 0xff;
-			}
+            this.op = op;
+            this.count = count;
 
-			@Override
-			public int read(byte[] b, int off, int len) throws IOException {
-				if (closed)
-					throw new IOException("Stream is closed");
-				if (eof && nextout < 0)    // eof and no leftover
-					return -1;
-				if (off < 0 || len < 0 || len > b.length - off)
-					throw new IndexOutOfBoundsException();
-				int oldOff = off;
-				if (nextout >= 0) {       // leftover output byte(s) in bits buf
-					do {
-						if (len == 0)
-							return off - oldOff;
-						b[off++] = (byte)(bits >> nextout);
-						len--;
-						nextout -= 8;
-					} while (nextout >= 0);
-					bits = 0;
-				}
-				while (len > 0) {
-					int v = is.read();
-					if (v == -1) {
-						eof = true;
-						if (nextin != 18) {
-							if (nextin == 12)
-								throw new IOException("Base64 stream has one un-decoded dangling byte.");
-							// treat ending xx/xxx without padding character legal.
-							// same logic as v == '=' below
-							b[off++] = (byte)(bits >> (16));
-							len--;
-							if (nextin == 0) {           // only one padding byte
-								if (len == 0) {          // no enough output space
-									bits >>= 8;          // shift to lowest byte
-									nextout = 0;
-								} else {
-									b[off++] = (byte) (bits >>  8);
-								}
-							}
-						}
-						if (off == oldOff)
-							return -1;
-						else
-							return off - oldOff;
-					}
-					if (v == '=') {                  // padding byte(s)
-						// =     shiftto==18 unnecessary padding
-						// x=    shiftto==12 dangling x, invalid unit
-						// xx=   shiftto==6 && missing last '='
-						// xx=y  or last is not '='
-						if (nextin == 18 || nextin == 12 ||
-								nextin == 6 && is.read() != '=') {
-							throw new IOException("Illegal base64 ending sequence:" + nextin);
-						}
-						b[off++] = (byte)(bits >> (16));
-						len--;
-						if (nextin == 0) {           // only one padding byte
-							if (len == 0) {          // no enough output space
-								bits >>= 8;          // shift to lowest byte
-								nextout = 0;
-							} else {
-								b[off++] = (byte) (bits >>  8);
-							}
-						}
-						eof = true;
-						break;
-					}
-					if ((v = base64[v]) == -1) {
-						if (isMIME)                 // skip if for rfc2045
-							continue;
-						else
-							throw new IOException("Illegal base64 character " +
-									Integer.toString(v, 16));
-					}
-					bits |= (v << nextin);
-					if (nextin == 0) {
-						nextin = 18;    // clear for next
-						nextout = 16;
-						while (nextout >= 0) {
-							b[off++] = (byte)(bits >> nextout);
-							len--;
-							nextout -= 8;
-							if (len == 0 && nextout >= 0) {  // don't clean "bits"
-								return off - oldOff;
-							}
-						}
-						bits = 0;
-					} else {
-						nextin -= 6;
-					}
-				}
-				return off - oldOff;
-			}
+            return true;
+        }
+    }
 
-			@Override
-			public int available() throws IOException {
-				if (closed)
-					throw new IOException("Stream is closed");
-				return is.available();   // TBD:
-			}
+    static class Decoder extends Coder {
+        /**
+         * Lookup table for turning bytes into their position in the
+         * Base64 alphabet.
+         */
+        private static final int[] DECODE = {
+                -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 62, -1, -1, -1, 63,
+                52, 53, 54, 55, 56, 57, 58, 59, 60, 61, -1, -1, -1, -2, -1, -1,
+                -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
+                15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, -1, -1, -1, -1, -1,
+                -1, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+                41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, -1, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        };
 
-			@Override
-			public void close() throws IOException {
-				if (!closed) {
-					closed = true;
-					is.close();
-				}
-			}
-		}
+        /**
+         * Decode lookup table for the "web safe" variant (RFC 3548
+         * sec. 4) where - and _ replace + and /.
+         */
+        private static final int[] DECODE_WEBSAFE = {
+                -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 62, -1, -1,
+                52, 53, 54, 55, 56, 57, 58, 59, 60, 61, -1, -1, -1, -2, -1, -1,
+                -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
+                15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, -1, -1, -1, -1, 63,
+                -1, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+                41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, -1, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        };
+
+        /**
+         * Non-data values in the DECODE arrays.
+         */
+        private static final int SKIP = -1;
+        private static final int EQUALS = -2;
+
+        /**
+         * States 0-3 are reading through the next input tuple.
+         * State 4 is having read one '=' and expecting exactly
+         * one more.
+         * State 5 is expecting no more data or padding characters
+         * in the input.
+         * State 6 is the error state; an error has been detected
+         * in the input and no future input can "fix" it.
+         */
+        private int state;   // state number (0 to 6)
+        private int value;
+
+        final private int[] alphabet;
+
+        public Decoder(int flags, byte[] output) {
+            this.output = output;
+
+            alphabet = ((flags & URL_SAFE) == 0) ? DECODE : DECODE_WEBSAFE;
+            state = 0;
+            value = 0;
+        }
+
+        /**
+         * @return an overestimate for the number of bytes {@code
+         * len} bytes could decode to.
+         */
+        public int maxOutputSize(int len) {
+            return len * 3 / 4 + 10;
+        }
+
+        /**
+         * Decode another block of input data.
+         *
+         * @return true if the state machine is still healthy.  false if
+         * bad base-64 data has been detected in the input stream.
+         */
+        public boolean process(byte[] input, int offset, int len, boolean finish) {
+            if (this.state == 6) return false;
+
+            int p = offset;
+            len += offset;
+
+            // Using local variables makes the decoder about 12%
+            // faster than if we manipulate the member variables in
+            // the loop.  (Even alphabet makes a measurable
+            // difference, which is somewhat surprising to me since
+            // the member variable is final.)
+            int state = this.state;
+            int value = this.value;
+            int op = 0;
+            final byte[] output = this.output;
+            final int[] alphabet = this.alphabet;
+
+            while (p < len) {
+                // Try the fast path:  we're starting a new tuple and the
+                // next four bytes of the input stream are all data
+                // bytes.  This corresponds to going through states
+                // 0-1-2-3-0.  We expect to use this method for most of
+                // the data.
+                //
+                // If any of the next four bytes of input are non-data
+                // (whitespace, etc.), value will end up negative.  (All
+                // the non-data values in decode are small negative
+                // numbers, so shifting any of them up and or'ing them
+                // together will result in a value with its top bit set.)
+                //
+                // You can remove this whole block and the output should
+                // be the same, just slower.
+                if (state == 0) {
+                    while (p + 4 <= len &&
+                            (value = ((alphabet[input[p] & 0xff] << 18) |
+                                    (alphabet[input[p + 1] & 0xff] << 12) |
+                                    (alphabet[input[p + 2] & 0xff] << 6) |
+                                    (alphabet[input[p + 3] & 0xff]))) >= 0) {
+                        output[op + 2] = (byte) value;
+                        output[op + 1] = (byte) (value >> 8);
+                        output[op] = (byte) (value >> 16);
+                        op += 3;
+                        p += 4;
+                    }
+                    if (p >= len) break;
+                }
+
+                // The fast path isn't available -- either we've read a
+                // partial tuple, or the next four input bytes aren't all
+                // data, or whatever.  Fall back to the slower state
+                // machine implementation.
+
+                int d = alphabet[input[p++] & 0xff];
+
+                switch (state) {
+                    case 0:
+                        if (d >= 0) {
+                            value = d;
+                            ++state;
+                        } else if (d != SKIP) {
+                            this.state = 6;
+                            return false;
+                        }
+                        break;
+
+                    case 1:
+                        if (d >= 0) {
+                            value = (value << 6) | d;
+                            ++state;
+                        } else if (d != SKIP) {
+                            this.state = 6;
+                            return false;
+                        }
+                        break;
+
+                    case 2:
+                        if (d >= 0) {
+                            value = (value << 6) | d;
+                            ++state;
+                        } else if (d == EQUALS) {
+                            // Emit the last (partial) output tuple;
+                            // expect exactly one more padding character.
+                            output[op++] = (byte) (value >> 4);
+                            state = 4;
+                        } else if (d != SKIP) {
+                            this.state = 6;
+                            return false;
+                        }
+                        break;
+
+                    case 3:
+                        if (d >= 0) {
+                            // Emit the output triple and return to state 0.
+                            value = (value << 6) | d;
+                            output[op + 2] = (byte) value;
+                            output[op + 1] = (byte) (value >> 8);
+                            output[op] = (byte) (value >> 16);
+                            op += 3;
+                            state = 0;
+                        } else if (d == EQUALS) {
+                            // Emit the last (partial) output tuple;
+                            // expect no further data or padding characters.
+                            output[op + 1] = (byte) (value >> 2);
+                            output[op] = (byte) (value >> 10);
+                            op += 2;
+                            state = 5;
+                        } else if (d != SKIP) {
+                            this.state = 6;
+                            return false;
+                        }
+                        break;
+
+                    case 4:
+                        if (d == EQUALS) {
+                            ++state;
+                        } else if (d != SKIP) {
+                            this.state = 6;
+                            return false;
+                        }
+                        break;
+
+                    case 5:
+                        if (d != SKIP) {
+                            this.state = 6;
+                            return false;
+                        }
+                        break;
+                }
+            }
+
+            if (!finish) {
+                // We're out of input, but a future call could provide
+                // more.
+                this.state = state;
+                this.value = value;
+                this.op = op;
+                return true;
+            }
+
+            // Done reading input.  Now figure out where we are left in
+            // the state machine and finish up.
+
+            switch (state) {
+                case 0:
+                    // Output length is a multiple of three.  Fine.
+                    break;
+                case 1:
+                case 4:
+                    // Read one padding '=' when we expected 2.  Illegal.
+                    // Read one extra input byte, which isn't enough to
+                    // make another output byte.  Illegal.
+                    this.state = 6;
+                    return false;
+                case 2:
+                    // Read two extra input bytes, enough to emit 1 more
+                    // output byte.  Fine.
+                    output[op++] = (byte) (value >> 4);
+                    break;
+                case 3:
+                    // Read three extra input bytes, enough to emit 2 more
+                    // output bytes.  Fine.
+                    output[op++] = (byte) (value >> 10);
+                    output[op++] = (byte) (value >> 2);
+                    break;
+                case 5:
+                    // Read all the padding '='s we expected and no more.
+                    // Fine.
+                    break;
+            }
+
+            this.state = state;
+            this.op = op;
+            return true;
+        }
+    }
+
+    static class Base64OutputStream extends FilterOutputStream {
+        private final Coder coder;
+        private final int flags;
+
+        private byte[] buffer = null;
+        private int bpos = 0;
+
+        private static byte[] EMPTY = new byte[0];
+
+        /**
+         * Performs Base64 encoding on the data written to the stream,
+         * writing the encoded data to another OutputStream.
+         *
+         * @param out   the OutputStream to write the encoded data to
+         * @param flags bit flags for controlling the encoder
+         */
+        public Base64OutputStream(OutputStream out, int flags) {
+            this(out, flags, true);
+        }
+
+        /**
+         * Performs Base64 encoding or decoding on the data written to the
+         * stream, writing the encoded/decoded data to another
+         * OutputStream.
+         *
+         * @param out    the OutputStream to write the encoded data to
+         * @param flags  bit flags for controlling the encoder
+         * @param encode true to encode, false to decode
+         */
+        public Base64OutputStream(OutputStream out, int flags, boolean encode) {
+            super(out);
+            this.flags = flags;
+            if (encode) {
+                coder = new Encoder(flags, null);
+            } else {
+                coder = new Decoder(flags, null);
+            }
+        }
+
+        public void write(int b) throws IOException {
+            // To avoid invoking the encoder/decoder routines for single
+            // bytes, we buffer up calls to write(int) in an internal
+            // byte array to transform them into writes of decently-sized
+            // arrays.
+
+            if (buffer == null) {
+                buffer = new byte[1024];
+            }
+            if (bpos >= buffer.length) {
+                // internal buffer full; write it out.
+                internalWrite(buffer, 0, bpos, false);
+                bpos = 0;
+            }
+            buffer[bpos++] = (byte) b;
+        }
+
+        /**
+         * Flush any buffered data from calls to write(int).  Needed
+         * before doing a write(byte[], int, int) or a close().
+         */
+        private void flushBuffer() throws IOException {
+            if (bpos > 0) {
+                internalWrite(buffer, 0, bpos, false);
+                bpos = 0;
+            }
+        }
+
+        @SuppressWarnings("NullableProblems")
+        public void write(byte[] b, int off, int len) throws IOException {
+            if (len <= 0) return;
+            flushBuffer();
+            internalWrite(b, off, len, false);
+        }
+
+        public void close() throws IOException {
+            IOException thrown = null;
+            try {
+                flushBuffer();
+                internalWrite(EMPTY, 0, 0, true);
+            } catch (IOException e) {
+                thrown = e;
+            }
+
+            try {
+                if ((flags & NO_CLOSE) == 0) {
+                    out.close();
+                } else {
+                    out.flush();
+                }
+            } catch (IOException e) {
+                if (thrown == null) {
+                    thrown = e;
+                } else {
+                    thrown.addSuppressed(e);
+                }
+            }
+
+            if (thrown != null) {
+                throw thrown;
+            }
+        }
+
+        /**
+         * Write the given bytes to the encoder/decoder.
+         *
+         * @param finish true if this is the last batch of input, to cause
+         *               encoder/decoder state to be finalized.
+         */
+        private void internalWrite(byte[] b, int off, int len, boolean finish) throws IOException {
+            coder.output = embiggen(coder.output, coder.maxOutputSize(len));
+            if (!coder.process(b, off, len, finish)) {
+                throw new Base64DataException("bad base-64");
+            }
+            out.write(coder.output, 0, coder.op);
+        }
+
+        /**
+         * If b.length is at least len, return b.  Otherwise return a new
+         * byte array of length len.
+         */
+        private byte[] embiggen(byte[] b, int len) {
+            if (b == null || b.length < len) {
+                return new byte[len];
+            } else {
+                return b;
+            }
+        }
+    }
+
+    static class Base64DataException extends IOException {
+
+        public Base64DataException(String detailMessage) {
+            super(detailMessage);
+        }
+
+    }
 
 }

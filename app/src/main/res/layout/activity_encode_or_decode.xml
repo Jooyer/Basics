@@ -1,23 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".EncodeOrDecodeActivity">
 
-    <Button
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_40"
-        android:layout_margin="@dimen/padding_5"
-        android:background="@color/main_theme_color"
-        android:onClick="onEncode"
-        android:text="请求加密返回解密"
-        android:textAllCaps="false"
-        android:textColor="@color/color_FFFFFF"
-        android:textSize="@dimen/text_size_16" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_aes_encrypt"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="#6CD104"
+            android:gravity="center"
+            android:text="AES加密数据"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
 
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_java_encrypt"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="#4F9A00"
+            android:gravity="center"
+            android:text="Java方法加密AES密钥"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
 
-</LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_native_encrypt"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="#2C5700"
+            android:gravity="center"
+            android:visibility="gone"
+            android:text="JNI方法加密AES密钥"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_native_decrypt"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="#00D9FF"
+            android:gravity="center"
+            android:visibility="gone"
+            android:text="JNI方法解密AES密钥"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_java_decrypt"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="#0091AA"
+            android:gravity="center"
+            android:text="Java方法解密AES密钥"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_aes_decrypt"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="#004D5A"
+            android:gravity="center"
+            android:text="AES解密数据"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_show_result"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="#C0CA33"
+            android:padding="10dp"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
+
+
+    </LinearLayout>
+
+
+</androidx.core.widget.NestedScrollView>

@@ -1,6 +1,5 @@
 package cn.lvsong.lib.net.utils;
 
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -48,7 +47,7 @@ public class AESUtil {
             //4.获得原始对称密钥的字节数组
             byte[] raw = original_key.getEncoded();
             // 生成的秘钥转换成Base64编码,加、解密时需要用Base64还原秘钥
-            return Base64Util.getEncoder().encodeToString(raw);
+            return Base64Util.encodeToString(raw);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
@@ -66,7 +65,7 @@ public class AESUtil {
     public static String encrypt(String plaintext, String key) {
         try {
             // 1.Base64还原秘钥
-            byte[] keyBytes = Base64Util.getDecoder().decode(key);
+            byte[] keyBytes = Base64Util.decodeFromString(key);
             // 2.获取加密内容的字节数组(这里要设置为utf-8)不然内容中如果有中文和英文混合中文就会解密为乱码
             byte[] byte_encode = plaintext.getBytes(StandardCharsets.UTF_8);
             // 3.还原密钥对象
@@ -79,7 +78,7 @@ public class AESUtil {
             // 5.加密
             byte[] result = cipher.doFinal(byte_encode);
             // 生成的密文转换成Base64编码出文本,解密时需要用Base64还原出密文
-            return Base64Util.getEncoder().encodeToString(result);
+            return Base64Util.encodeToString(result);
         } catch (InvalidAlgorithmParameterException
                 | IllegalBlockSizeException
                 | InvalidKeyException
@@ -102,7 +101,7 @@ public class AESUtil {
     public static String decrypt(String cipherText, String key) {
         try {
             // 1.Base64还原秘钥
-            byte[] keyBytes = Base64Util.getDecoder().decode(key);
+            byte[] keyBytes = Base64Util.decodeFromString(key);
             // 2.还原密钥对象
             SecretKey secretKey = new SecretKeySpec(keyBytes, AES);
             // 3.根据指定算法AES自成密码器
@@ -110,12 +109,11 @@ public class AESUtil {
             // 第一个参数为加密(Encrypt_mode)或者解密解密(Decrypt_mode)操作,CBC模式需要添加一个参数IvParameterSpec，ECB模式则不需要
             cipher.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(VECTOR.getBytes(StandardCharsets.UTF_8)));
             // 4.Base64还原密文
-            byte[] cipherBytes = Base64Util.getDecoder().decode(cipherText);
+            byte[] cipherBytes = Base64Util.decodeFromString(cipherText);
             // 5.解密
             byte[] result = cipher.doFinal(cipherBytes);
-            return new String(result, "UTF-8");
-        } catch (UnsupportedEncodingException
-                | InvalidAlgorithmParameterException
+            return new String(result, StandardCharsets.UTF_8);
+        } catch (InvalidAlgorithmParameterException
                 | IllegalBlockSizeException
                 | InvalidKeyException
                 | BadPaddingException
@@ -139,7 +137,7 @@ public class AESUtil {
         IvParameterSpec iv = new IvParameterSpec(vectorKey.getBytes());
         cipher.init(Cipher.ENCRYPT_MODE, secretKey, iv);
         byte[] encrypted = cipher.doFinal(content.getBytes());
-        return  Base64Util.getEncoder().encodeToString(encrypted);
+        return  Base64Util.encodeToString(encrypted);
     }
 
     /**
@@ -152,7 +150,7 @@ public class AESUtil {
         SecretKey secretKey = new SecretKeySpec(slatKey.getBytes(), "AES");
         IvParameterSpec iv = new IvParameterSpec(vectorKey.getBytes());
         cipher.init(Cipher.DECRYPT_MODE, secretKey, iv);
-        byte[] content = Base64Util.getDecoder().decode(base64Content);
+        byte[] content = Base64Util.decodeFromString(base64Content);
         byte[] encrypted = cipher.doFinal(content);
         return new String(encrypted);
     }
