@@ -33,11 +33,11 @@
 ```groovy
 	dependencies { // 注意,从v1.2.4开始,将默认使用viewbinging, 如果采用 kotlin-android-extensions ,最高版本只支持到 v1.2.3
 	      // 自定义View和工具类均在词库,可以单独依赖
-          implementation 'com.github.Jooyer.Basics:common:1.2.7'
+          implementation 'com.github.Jooyer.Basics:common:1.2.8'
           // 封装了 Retrofit + ViewModle + 协程,需要和ui库配合使用
-          implementation 'com.github.Jooyer.Basics:net:1.2.7'
+          implementation 'com.github.Jooyer.Basics:net:1.2.8'
           // 封装了BaseActivity 和 BaseFragment(懒加载包含在内),还有网络请求开始/成功/网络失败/其他失败及重试等,需和net库配合使用
-          implementation 'com.github.Jooyer.Basics:ui:1.2.7'
+          implementation 'com.github.Jooyer.Basics:ui:1.2.8'
 	}
 ```
 
@@ -246,6 +246,14 @@
 1. 修复CutomToolbar设置中间文本时颜色无效问题
 2. 调整StatusConfig方法(使用无变化)
 3. 增加一点注释
+
+
+## v1.2.8变化:
+1. 更新banner图片
+2. 完善AES/RSA加密解密界面
+3. 调整 KeyboardUtil 方法参数
+4. 移出不需要的文件
+
 
 [toc]
 
