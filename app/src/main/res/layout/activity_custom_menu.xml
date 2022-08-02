@@ -55,7 +55,7 @@
             app:cm_right_arrow_width="@dimen/width_40"
             app:cm_right_arrow_index="1"
             app:cm_right_near_image_drawable="@drawable/ic_baseline_assignment_returned_24"
-            app:cm_right_near_image_right_margin="@dimen/padding_2"
+            app:cm_right_near_image_right_margin="@dimen/padding_30"
             app:cm_right_near_image_top_margin="@dimen/padding_5"
             app:cm_right_near_image_padding="@dimen/padding_10"
             app:cm_right_near_image_width="@dimen/width_40"
@@ -214,8 +214,8 @@
             app:lirt_text_info="文字在左,图片在右" />
 
         <cn.lvsong.lib.library.view.LeftImgAndRightTextView
-            android:layout_width="@dimen/width_80"
-            android:layout_height="@dimen/height_50"
+            android:layout_width="@dimen/width_150"
+            android:layout_height="@dimen/height_60"
             android:layout_marginTop="@dimen/padding_10"
             app:lirt_icon_drawable="@drawable/ic_launcher_background"
             app:lirt_icon_height="@dimen/height_20"
@@ -225,8 +225,8 @@
             app:lirt_text_info="图片在上,文字在下" />
 
         <cn.lvsong.lib.library.view.LeftImgAndRightTextView
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/height_50"
+            android:layout_width="@dimen/width_150"
+            android:layout_height="@dimen/height_60"
             android:layout_marginTop="@dimen/padding_10"
             app:lirt_icon_drawable="@drawable/ic_baseline_alarm_add_24"
             app:lirt_icon_location="iconBottom"

@@ -227,18 +227,19 @@
             android:layout_marginTop="@dimen/padding_10"
             android:text="下面演示了仿朋友圈图片展示效果" />
 
-        <!-- 2张图/4张图效果 -->
         <cn.lvsong.lib.library.view.NineImageLayout
             android:id="@+id/nl_images"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_10"
+            android:layout_marginEnd="@dimen/padding_10"
             app:nl_item_gap="@dimen/padding_10"
             app:nl_keep_place="false"
             app:nl_left_padding="@dimen/padding_10"
             app:nl_right_padding="@dimen/padding_10"
             app:nl_single_image_width_ratio="0.8" />
 
+        <!-- 2张图/4张图效果 -->
         <cn.lvsong.lib.library.view.NineImageLayout
             android:id="@+id/nl_images2"
             android:layout_width="match_parent"

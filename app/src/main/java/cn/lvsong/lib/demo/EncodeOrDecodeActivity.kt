@@ -7,13 +7,22 @@ import cn.lvsong.lib.net.utils.AESUtil
 import cn.lvsong.lib.net.utils.Base64Util
 import cn.lvsong.lib.net.utils.RSAUtil
 import cn.lvsong.lib.ui.BaseActivity
+import cn.lvsong.lib.ui.BaseViewModel
 
 /**
  * 网络请求加密解密
  */
-class EncodeOrDecodeActivity : BaseActivity<ActivityEncodeOrDecodeBinding>() {
+class EncodeOrDecodeActivity : BaseActivity<ActivityEncodeOrDecodeBinding, BaseViewModel>() {
 
-    private val data = """{"name":"张三","age":20,"sex":"男"}"""
+    private val data = """
+        [
+            {"name":"张三","age":20,"sex":"男","add":"xx省x山市x北区xx小区"},
+            {"name":"李四","age":22,"sex":"男","add":"xx省x山市x北区xx小区"},
+            {"name":"王五","age":22,"sex":"男","add":"xx省x山市x北区xx小区"},
+            {"name":"赵六","age":21,"sex":"男","add":"xx省x山市x北区xx小区"},
+            {"name":"麻七","age":20,"sex":"男","add":"xx省x山市x北区xx小区"}
+        ]
+    """.trimIndent()
 
     // 公钥
     private val sPublicKey = """

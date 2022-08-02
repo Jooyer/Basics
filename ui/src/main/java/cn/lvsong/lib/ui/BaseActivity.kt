@@ -27,7 +27,7 @@ import cn.lvsong.lib.library.state.StatusManager
  * Date: 2018-07-24
  * Time: 12:49
  */
-abstract class BaseActivity<T : ViewBinding> : AppCompatActivity(), OnRetryListener, OnLazyClickListener, OnLoadingAnimatorEndListener {
+abstract class BaseActivity<T : ViewBinding, M : BaseViewModel> : AppCompatActivity(), OnRetryListener, OnLazyClickListener, OnLoadingAnimatorEndListener {
 
     /**
      * 页面显示加载中,加载失败等管理器
@@ -129,7 +129,7 @@ abstract class BaseActivity<T : ViewBinding> : AppCompatActivity(), OnRetryListe
      * 返回当前 Activity/Fragment 的 ViewModel
      * 需要根据请求不同状态显示UI效果时,则可以重写此方法
      */
-    open fun getCurrentViewModel(): BaseViewModel? = null
+    open fun getCurrentViewModel(): M? = null
 
     /**
      * 初始化状态管理器

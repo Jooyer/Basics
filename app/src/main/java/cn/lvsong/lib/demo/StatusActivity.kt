@@ -18,12 +18,13 @@ import cn.lvsong.lib.library.utils.SelectorFactory
 import cn.lvsong.lib.library.utils.StatusBarUtil
 import cn.lvsong.lib.library.view.MediumTextView
 import cn.lvsong.lib.ui.BaseActivity
+import cn.lvsong.lib.ui.BaseViewModel
 
 /**
  * https://segmentfault.com/q/1010000013729036
  * 当没有具体 Presenter 时,可以参考上面,写成: StatusActivity : BaseActivity<BasePresenter<*,*>>
  */
-class StatusActivity : BaseActivity<ActivityStatusBinding>() {
+class StatusActivity : BaseActivity<ActivityStatusBinding, BaseViewModel>() {
 
     private lateinit var mTopMenu: TopMenu
 

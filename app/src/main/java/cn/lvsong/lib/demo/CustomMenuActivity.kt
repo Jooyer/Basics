@@ -7,11 +7,12 @@ import cn.lvsong.lib.library.utils.click
 import cn.lvsong.lib.library.utils.withTrigger
 import cn.lvsong.lib.library.view.CustomSearchView
 import cn.lvsong.lib.ui.BaseActivity
+import cn.lvsong.lib.ui.BaseViewModel
 
 /**
  * 自定义各种菜单
  */
-class CustomMenuActivity : BaseActivity<ActivityCustomMenuBinding>() {
+class CustomMenuActivity : BaseActivity<ActivityCustomMenuBinding, BaseViewModel>() {
 
     override fun needUseImmersive() = 1
 

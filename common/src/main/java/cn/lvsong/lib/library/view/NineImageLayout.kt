@@ -1,10 +1,13 @@
 package cn.lvsong.lib.library.view
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import cn.lvsong.lib.library.R
 import cn.lvsong.lib.library.listener.OnClickFastListener
 
@@ -121,7 +124,7 @@ class NineImageLayout @JvmOverloads constructor(
         val count = childCount
         if (count == 1) {  //一张图片的宽高
             //TODO 单独处理
-            setMeasuredDimension(singleViewWidth, singleViewHeight)
+            setMeasuredDimension(singleViewWidth + leftPadding + rightPadding, singleViewHeight)
             return
         } else if (2 == count || 4 == count) {
             viewHeight = if (needKeepPlace) { // 2张图(4张图) 和 3张图宽度一样
@@ -203,21 +206,25 @@ class NineImageLayout @JvmOverloads constructor(
      * @param view --> 展示图片的ImageView
      */
     fun setSingleImage(width: Int, height: Int, view: View) {
-        if (childCount != 1) {
-            removeAllViews()
-            addView(view)
-        }
+        removeAllViews()
+        addView(view)
+
         if (width >= height) {
             singleViewWidth =
-                (singleImageWidthRatio * view.context.resources.displayMetrics.widthPixels).toInt()
-            singleViewHeight = (singleImageWidthRatio * view.context.resources
-                .displayMetrics.widthPixels * height / width).toInt()
+                (singleImageWidthRatio * (screenWidth - leftPadding - rightPadding)).toInt()
+            singleViewHeight = singleViewWidth * height / width
         } else {
             singleViewHeight =
-                (singleImageWidthRatio * view.context.resources.displayMetrics.widthPixels).toInt()
-            singleViewWidth = (singleImageWidthRatio * view.context.resources
-                .displayMetrics.widthPixels * width / height).toInt()
+                (singleImageWidthRatio * screenWidth).toInt()
+            singleViewWidth = singleViewHeight * width / height
+
+            if (singleViewWidth > getWidth() - leftPadding - rightPadding) { // 说明宽度不够,则还得按宽度重新计算
+                singleViewWidth =
+                    (singleImageWidthRatio * (screenWidth - leftPadding - rightPadding)).toInt()
+                singleViewHeight = singleViewWidth * height / width
+            }
         }
+
         getChildAt(0).layout(0, 0, singleViewWidth, singleViewHeight)
         setMeasuredDimension(singleViewWidth, singleViewHeight)
     }
@@ -281,7 +288,7 @@ class NineImageLayout @JvmOverloads constructor(
      * 图片适配器
      */
     abstract class NineImageAdapter {
-        abstract fun getItemCount():Int
+        abstract fun getItemCount(): Int
         abstract fun createView(inflater: LayoutInflater, parent: ViewGroup, position: Int): View
         abstract fun bindView(view: View, position: Int)
 

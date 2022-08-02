@@ -4,8 +4,9 @@ import android.view.View
 import cn.lvsong.lib.demo.databinding.ActivityCustom4Binding
 import cn.lvsong.lib.library.utils.DensityUtil
 import cn.lvsong.lib.ui.BaseActivity
+import cn.lvsong.lib.ui.BaseViewModel
 
-class CustomActivity4 : BaseActivity<ActivityCustom4Binding>() {
+class CustomActivity4 : BaseActivity<ActivityCustom4Binding, BaseViewModel>() {
 
     override fun getLayoutId() = R.layout.activity_custom4
 

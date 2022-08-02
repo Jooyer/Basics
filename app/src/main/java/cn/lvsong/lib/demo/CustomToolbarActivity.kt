@@ -4,11 +4,12 @@ import android.view.View
 import android.widget.Toast
 import cn.lvsong.lib.demo.databinding.ActivityCustomToolbarBinding
 import cn.lvsong.lib.ui.BaseActivity
+import cn.lvsong.lib.ui.BaseViewModel
 
 /**
  * 展示自定义Toolbar
  */
-class CustomToolbarActivity : BaseActivity<ActivityCustomToolbarBinding>() {
+class CustomToolbarActivity : BaseActivity<ActivityCustomToolbarBinding, BaseViewModel>() {
 
     override fun needUseImmersive() = 1
 

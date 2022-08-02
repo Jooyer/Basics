@@ -7,8 +7,9 @@ import cn.lvsong.lib.demo.databinding.ActivityCustom2Binding
 import cn.lvsong.lib.library.utils.click
 import cn.lvsong.lib.library.utils.withTrigger
 import cn.lvsong.lib.ui.BaseActivity
+import cn.lvsong.lib.ui.BaseViewModel
 
-class CustomActivity2 : BaseActivity<ActivityCustom2Binding>() {
+class CustomActivity2 : BaseActivity<ActivityCustom2Binding, BaseViewModel>() {
 
     private var mCurChoicePlace = ""
 

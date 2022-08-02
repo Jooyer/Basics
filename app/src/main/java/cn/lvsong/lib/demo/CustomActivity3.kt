@@ -8,31 +8,32 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
 import cn.lvsong.lib.demo.databinding.ActivityCustom3Binding
+import cn.lvsong.lib.library.utils.DensityUtil
 import cn.lvsong.lib.library.view.NineImageLayout
 import cn.lvsong.lib.ui.BaseActivity
+import cn.lvsong.lib.ui.BaseViewModel
 import coil.Coil
 import coil.ImageLoader
 import coil.load
 import coil.request.ImageRequest
+import coil.size.Scale
+import coil.transform.RoundedCornersTransformation
 
-class CustomActivity3 : BaseActivity<ActivityCustom3Binding>() {
+class CustomActivity3 : BaseActivity<ActivityCustom3Binding, BaseViewModel>() {
     private val mImages = arrayListOf(
-//        "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3820948238,3810516733&fm=26&gp=0.jpg",
-//        "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1545980553,2413955112&fm=26&gp=0.jpg",
-//        "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2412068931,3031791558&fm=26&gp=0.jpg",
-        "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=286946846,3770652173&fm=26&gp=0.jpg"
+        "https://www.lvsong.cn/images/ic_phonetic_banner002.webp"
     )
 
     private val mImages2 = arrayListOf(
-        "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3820948238,3810516733&fm=26&gp=0.jpg",
-        "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1545980553,2413955112&fm=26&gp=0.jpg",
-        "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2412068931,3031791558&fm=26&gp=0.jpg",
-        "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=286946846,3770652173&fm=26&gp=0.jpg",
-        "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3820948238,3810516733&fm=26&gp=0.jpg",
-        "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1545980553,2413955112&fm=26&gp=0.jpg",
-        "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2412068931,3031791558&fm=26&gp=0.jpg",
-        "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=286946846,3770652173&fm=26&gp=0.jpg",
-        "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3820948238,3810516733&fm=26&gp=0.jpg"
+        "https://www.lvsong.cn/images/ic_phonetic_banner001.webp",
+        "https://www.lvsong.cn/images/ic_phonetic_banner002.webp",
+        "https://www.lvsong.cn/images/ic_phonetic_banner001.webp",
+        "https://www.lvsong.cn/images/ic_phonetic_banner002.webp",
+        "https://www.lvsong.cn/images/ic_phonetic_banner001.webp",
+        "https://www.lvsong.cn/images/ic_phonetic_banner002.webp",
+        "https://www.lvsong.cn/images/ic_phonetic_banner001.webp",
+        "https://www.lvsong.cn/images/ic_phonetic_banner002.webp",
+        "https://www.lvsong.cn/images/ic_phonetic_banner001.webp"
     )
 
     override fun needUseImmersive() = 1
@@ -77,13 +78,16 @@ class CustomActivity3 : BaseActivity<ActivityCustom3Binding>() {
 
                     ImageLoader(this@CustomActivity3).enqueue(
                         ImageRequest.Builder(this@CustomActivity3)
-                            .data(mImages[pos]).target{
+                            .data(mImages[pos])
+                            .target {
+                                val iv = view.findViewById<AppCompatImageView>(R.id.iv_nine_item)
                                 mBinding?.nlImages?.setSingleImage(
                                     it.intrinsicWidth,
                                     it.intrinsicHeight,
-                                    view.findViewById(R.id.iv_nine_item)
+                                    iv
                                 )
-                                view.findViewById<AppCompatImageView>(R.id.iv_nine_item).load(it)
+//                                it.setBounds(0,0,iv.width,iv.height)
+                                iv.load(it)
                             }.build()
                     )
 
@@ -100,26 +104,11 @@ class CustomActivity3 : BaseActivity<ActivityCustom3Binding>() {
             override fun getItemCount() = mImages2.size
 
             override fun bindView(view: View, pos: Int) {
-                if (1 == mImages2.size) { //处理单张图片
-                    ImageLoader(this@CustomActivity3).enqueue(
-                        ImageRequest.Builder(this@CustomActivity3)
-                            .data(mImages[pos]).target{
-                                mBinding?.nlImages?.setSingleImage(
-                                    it.intrinsicWidth,
-                                    it.intrinsicHeight,
-                                    view.findViewById(R.id.iv_nine_item)
-                                )
-                                view.findViewById<AppCompatImageView>(R.id.iv_nine_item).load(it)
-                            }.build()
-                    )
-
-                } else {
-                    view.findViewById<AppCompatImageView>(R.id.iv_nine_item).load(mImages2[pos])
-                    // 下面是高斯模糊效果
+                view.findViewById<AppCompatImageView>(R.id.iv_nine_item).load(mImages2[pos])
+                // 下面是高斯模糊效果
 //                    {
 //                        transformations(BlurTransformation(context = applicationContext, radius = 5F, sampling = 5F))
 //                    }
-                }
             }
 
             override fun onItemClick(position: Int, view: View) {

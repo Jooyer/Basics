@@ -14,16 +14,17 @@ import androidx.recyclerview.widget.RecyclerView
 import cn.lvsong.lib.demo.data.Data
 import cn.lvsong.lib.demo.databinding.FragmentBlankBinding
 import cn.lvsong.lib.demo.viewmodel.NetModel
+import cn.lvsong.lib.demo.viewmodel.NetModel2
 import cn.lvsong.lib.library.refresh.OnNestedRefreshAndLoadListener
 import cn.lvsong.lib.library.refresh.NestedRefreshLayout
 import cn.lvsong.lib.ui.BaseFragment
 import cn.lvsong.lib.ui.BaseViewModel
 
-class LazyFragment : BaseFragment<FragmentBlankBinding, NetModel>() {
+class LazyFragment2 : BaseFragment<FragmentBlankBinding, NetModel2>() {
 
     private val mData = ArrayList<Data>()
 
-    private lateinit var viewModel: NetModel
+    private lateinit var viewModel: NetModel2
 
     private var mPage: Int = 1
 
@@ -33,7 +34,7 @@ class LazyFragment : BaseFragment<FragmentBlankBinding, NetModel>() {
 
     companion object {
         fun newInstance() =
-            LazyFragment().apply {
+            LazyFragment2().apply {
                 arguments = Bundle().apply {
 
                 }
@@ -47,8 +48,8 @@ class LazyFragment : BaseFragment<FragmentBlankBinding, NetModel>() {
     }
 
 
-    override fun getCurrentViewModel(): NetModel {
-        viewModel = ViewModelProvider(this).get(NetModel::class.java)
+    override fun getCurrentViewModel(): NetModel2 {
+        viewModel = ViewModelProvider(this).get(NetModel2::class.java)
         return viewModel
     }
 
@@ -99,12 +100,8 @@ class LazyFragment : BaseFragment<FragmentBlankBinding, NetModel>() {
     }
 
     override fun onFirstUserVisible() {
-        Log.e("LazyFragment", "onFirstUserVisible==============")
+        Log.e("LazyFragment2", "onFirstUserVisible==============")
         mBinding?.nrlRefreshLayout?.setAutoRefresh(300)
-    }
-
-    override fun onUserVisible() {
-        Log.e("LazyFragment", "onUserVisible==============")
     }
 
     /**
@@ -126,13 +123,13 @@ class LazyFragment : BaseFragment<FragmentBlankBinding, NetModel>() {
         } else { // 其他操作返回的成功
 
         }
-        Log.e("LazyFragment", "onSuccess============== ${viewModel::class.java}")
+        Log.e("LazyFragment2", "onSuccess============== ${viewModel::class.java}")
     }
 
     override fun onFailure(code: Int, apiType: Int, subType: Int, msg: String) {
         mBinding?.nrlRefreshLayout?.setFinishRefresh(false)
         mBinding?.nrlRefreshLayout?.setFinishLoad(false)
-        Log.e("LazyFragment", "onFailure==============$msg")
+        Log.e("LazyFragment2", "onFailure==============$msg")
     }
 
 

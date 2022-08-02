@@ -2,6 +2,7 @@ package cn.lvsong.lib.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,21 +19,56 @@ import cn.lvsong.lib.library.state.StatusManager
 /** 参考: https://blog.csdn.net/qq_36486247/article/details/102531304
  *
  *  https://juejin.im/post/5d63cdf7f265da03ed195f68   --> 提供一种新的懒加载方法,其实就是提前加载View,可以和本例结合
- *
+ *  https://www.jianshu.com/p/75efeede8a95  --> 可见性适配
  * Desc: Fragment,带懒加载功能
  * Author: Jooyer
  * Date: 2018-07-30
  * Time: 11:16
  */
-abstract class BaseFragment<T : ViewBinding> : Fragment(),
-    OnLazyClickListener, OnRetryListener, OnLoadingAnimatorEndListener {
+abstract class BaseFragment<T : ViewBinding, M : BaseViewModel> : Fragment(),
+    OnLazyClickListener, OnRetryListener, OnLoadingAnimatorEndListener, View.OnAttachStateChangeListener {
+
+    /**
+     * ParentActivity是否可见
+     */
+    private var parentActivityVisible = false
+
+    /**
+     * 是否可见（Activity处于前台、Tab被选中、Fragment被添加、Fragment没有隐藏、Fragment.View已经Attach）
+     */
+    private var visible = false
+
+    private var localParentFragment: BaseFragment<*, *>? = null
+
+    private val listeners = ArrayList<OnFragmentVisibilityChangedListener>()
+
+    private fun addOnVisibilityChangedListener(listener: OnFragmentVisibilityChangedListener?) {
+        listener?.apply {
+            listeners.add(this)
+        }
+    }
+
+    private fun removeOnVisibilityChangedListener(listener: OnFragmentVisibilityChangedListener?) {
+        listener?.apply {
+            listeners.remove(this)
+        }
+
+    }
+
+//    override fun onDetach() {
+//        Log.e("BaseFragment", "onDetach , ${this::class.java}")
+//        localParentFragment?.removeOnVisibilityChangedListener(this)
+//        super.onDetach()
+//        checkVisibility(false)
+//        localParentFragment = null
+//    }
 
     open lateinit var mActivity: FragmentActivity
 
     /**
-     * 判断是不是第一次resume
+     * 判断是不是第一次可见
      */
-    private var isFirstResume = true
+    private var isFirstVisible = true
 
     /**
      * 根布局
@@ -52,6 +88,15 @@ abstract class BaseFragment<T : ViewBinding> : Fragment(),
         if (context is FragmentActivity) {
             mActivity = context
         }
+
+//        Log.e("BaseFragment", "onAttach , ${this::class.java}")
+
+//        val parentFragment = parentFragment
+//        if (parentFragment != null && parentFragment is BaseFragment<*, *>) {
+//            this.localParentFragment = parentFragment
+//            localParentFragment?.addOnVisibilityChangedListener(this)
+//        }
+        checkVisibility(true)
     }
 
     override fun onCreateView(
@@ -110,49 +155,13 @@ abstract class BaseFragment<T : ViewBinding> : Fragment(),
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // 解决Android jetpack导航组件Navigation返回Fragment重走onCreateView方法刷新视图的问题 步骤2
-        if (isFirstResume) { // 如果有做相关处理则不再进行
-            /**
-             * 当请求状态发生变化时,进行分发
-             */
-            getCurrentViewModel()?.let {
-                // 处理网络请求状态
-                it.mLoadState.observe(viewLifecycleOwner, Observer { loadState ->
-                    when (loadState) {
-                        is LoadState.Loading -> {
-                            onLoading(loadState.apiType, loadState.subType, loadState.msg)
-                        }
-                        is LoadState.Failure -> {
-                            onFailure(
-                                loadState.code,
-                                loadState.apiType,
-                                loadState.subType,
-                                loadState.msg
-                            )
-                        }
-                        is LoadState.NetError -> {
-                            onNetError(
-                                loadState.code,
-                                loadState.apiType,
-                                loadState.subType,
-                                loadState.msg
-                            )
-                        }
-                        else -> {
-                            onSuccess(
-                                loadState.code,
-                                loadState.apiType,
-                                loadState.subType,
-                                loadState.msg
-                            )
-                        }
-                    }
-                })
-            }
+        // 处理直接 replace 的 case
+        view.addOnAttachStateChangeListener(this)
+//        Log.e("BaseFragment", "onViewCreated ,isFirstVisible: $isFirstVisible,  ${this::class.java}")
 
-            setLogic()
-            bindEvent()
-        }
+//        // 解决Android jetpack导航组件Navigation返回Fragment重走onCreateView方法刷新视图的问题 步骤2
+//        if (isFirstVisible) { // 如果有做相关处理则不再进行
+//        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -171,18 +180,155 @@ abstract class BaseFragment<T : ViewBinding> : Fragment(),
 
     override fun onResume() {
         super.onResume()
-        if (isFirstResume) {
-            isFirstResume = false
-            getCurrentViewModel()?.let {
-                // 增加网络监听能力
-                lifecycle.addObserver(it)
+        onActivityVisibilityChanged(true)
+    }
+
+    override fun onPause() {
+//        Log.e("BaseFragment", "onPause , ${this::class.java}")
+        super.onPause()
+        onActivityVisibilityChanged(false)
+    }
+
+//    /**
+//     * ParentFragment可见性改变
+//     */
+//    override fun onFragmentVisibilityChanged(visible: Boolean) {
+//        Log.e("BaseFragment", "onFragmentVisibilityChanged ,visible: $visible,  ${this::class.java}")
+//        if (visible) {
+//
+//        }
+////        checkVisibility(visible)
+//    }
+
+    /**
+     * 调用 fragment add hide 的时候回调用这个方法
+     */
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        checkVisibility(hidden)
+    }
+
+    /**
+     * Tab切换时会回调此方法。对于没有Tab的页面，[Fragment.getUserVisibleHint]默认为true。
+     */
+//    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+//        Log.e("BaseFragment","setUserVisibleHint = $isVisibleToUser , ${this::class.java}")
+//        super.setUserVisibleHint(isVisibleToUser)
+//        checkVisibility(isVisibleToUser)
+//    }
+
+    override fun onViewAttachedToWindow(v: View?) {
+//        Log.e("BaseFragment", "onViewAttachedToWindow , ${this::class.java}")
+        checkVisibility(true)
+    }
+
+    override fun onViewDetachedFromWindow(v: View) {
+//        Log.e("BaseFragment", "onViewDetachedFromWindow , ${this::class.java}")
+        v.removeOnAttachStateChangeListener(this)
+        checkVisibility(false)
+    }
+
+    /**
+     * ParentActivity可见性改变
+     */
+    private fun onActivityVisibilityChanged(visible: Boolean) {
+        parentActivityVisible = visible
+        checkVisibility(visible)
+    }
+
+
+    /**
+     * 检查可见性是否变化
+     *
+     * @param expected 可见性期望的值。只有当前值和expected不同，才需要做判断
+     */
+    private fun checkVisibility(expected: Boolean) {
+        if (expected == visible) return
+        val parentVisible =
+            if (localParentFragment == null) parentActivityVisible
+            else localParentFragment?.isFragmentVisible() ?: false
+        val superVisible = super.isVisible()
+        val visible = parentVisible && superVisible
+//        Log.e(
+//            "BaseFragment",
+//            String.format( "==> checkVisibility = %s  ( parent = %s, super = %s, %s)",
+//                visible, parentVisible, superVisible, this::class.java
+//            )
+//        )
+        this.visible = visible
+        onVisibilityChanged(this.visible)
+    }
+
+    /**
+     * 可见性改变
+     */
+    private fun onVisibilityChanged(visible: Boolean) {
+//        Log.e("BaseFragment", "==> onVisibilityChanged = $visible , ${this::class.java}")
+//        listeners.forEach {
+//            it.onFragmentVisibilityChanged(visible)
+//        }
+
+        if (visible) {
+            if (isFirstVisible) {
+                isFirstVisible = false
+                getCurrentViewModel()?.let {
+                    // 增加网络监听能力
+                    lifecycle.addObserver(it)
+
+                    /** 处理网络请求状态
+                     * 当请求状态发生变化时,进行分发
+                     */
+                    it.mLoadState.observe(viewLifecycleOwner, Observer { loadState ->
+                        when (loadState) {
+                            is LoadState.Loading -> {
+                                onLoading(loadState.apiType, loadState.subType, loadState.msg)
+                            }
+                            is LoadState.Failure -> {
+                                onFailure(
+                                    loadState.code,
+                                    loadState.apiType,
+                                    loadState.subType,
+                                    loadState.msg
+                                )
+                            }
+                            is LoadState.NetError -> {
+                                onNetError(
+                                    loadState.code,
+                                    loadState.apiType,
+                                    loadState.subType,
+                                    loadState.msg
+                                )
+                            }
+                            else -> {
+                                onSuccess(
+                                    loadState.code,
+                                    loadState.apiType,
+                                    loadState.subType,
+                                    loadState.msg
+                                )
+                            }
+                        }
+                    })
+                }
+
+                setLogic()
+                bindEvent()
+
+                // 懒加载,处理数据
+                onFirstUserVisible()
+            } else {
+                onUserVisible()
             }
-            // 懒加载,处理数据
-            onFirstUserVisible()
-        } else {
-            onUserVisible()
         }
     }
+
+    /**
+     * 是否可见（Activity处于前台、Tab被选中、Fragment被添加、Fragment没有隐藏、Fragment.View已经Attach）
+     */
+    private fun isFragmentVisible(): Boolean {
+        return visible
+    }
+
 
     /**
      * 第一次对用户可见的时候调用，在这里懒加载数据
@@ -300,7 +446,7 @@ abstract class BaseFragment<T : ViewBinding> : Fragment(),
      * 返回当前 Activity/Fragment 的 ViewModel
      * 需要根据请求不同状态显示UI效果时,则可以重写此方法
      */
-    open fun getCurrentViewModel(): BaseViewModel? = null
+    open fun getCurrentViewModel(): M? = null
 
     /**
      * 加载中,按需重写

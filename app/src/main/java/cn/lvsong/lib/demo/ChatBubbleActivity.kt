@@ -6,8 +6,9 @@ import cn.lvsong.lib.demo.itemDelegate.LeftItemDelegate
 import cn.lvsong.lib.demo.itemDelegate.RightItemDelegate
 import cn.lvsong.lib.library.adapter.MultiItemTypeAdapter
 import cn.lvsong.lib.ui.BaseActivity
+import cn.lvsong.lib.ui.BaseViewModel
 
-class ChatBubbleActivity : BaseActivity<ActivityChatBubbleBinding>() {
+class ChatBubbleActivity : BaseActivity<ActivityChatBubbleBinding, BaseViewModel>() {
 
     override fun needUseImmersive() = 1
 

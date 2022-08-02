@@ -6,7 +6,14 @@ import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.regex.Pattern;
 
-
+/**
+ * 注意事项:
+ *  此 Base64 将 \n 替换为 @, 主要是RSA加密解密不同平台对 \n 转义造成加密解密异常
+ *  此 Base64 将 \n 替换为 @, 主要是RSA加密解密不同平台对 \n 转义造成加密解密异常
+ *  此 Base64 将 \n 替换为 @, 主要是RSA加密解密不同平台对 \n 转义造成加密解密异常
+ *
+ *  PS: 如果想使用此类, 将 '@' 全部替换为 '\n' 即可, 一共5处
+ */
 public final class Base64Util {
 
     private Base64Util() {
@@ -303,7 +310,7 @@ public final class Base64Util {
                 output[op++] = alphabet[v & 0x3f];
                 if (--count == 0) {
                     if (do_cr) output[op++] = '\r';
-                    output[op++] = '\n';
+                    output[op++] = '@';
                     count = LINE_GROUPS;
                 }
             }
@@ -325,7 +332,7 @@ public final class Base64Util {
                 op += 4;
                 if (--count == 0) {
                     if (do_cr) output[op++] = '\r';
-                    output[op++] = '\n';
+                    output[op++] = '@';
                     count = LINE_GROUPS;
                 }
             }
@@ -349,7 +356,7 @@ public final class Base64Util {
                     }
                     if (do_newline) {
                         if (do_cr) output[op++] = '\r';
-                        output[op++] = '\n';
+                        output[op++] = '@';
                     }
                 } else if (p - tailLen == len - 2) {
                     int t = 0;
@@ -365,11 +372,11 @@ public final class Base64Util {
                     }
                     if (do_newline) {
                         if (do_cr) output[op++] = '\r';
-                        output[op++] = '\n';
+                        output[op++] = '@';
                     }
                 } else if (do_newline && op > 0 && count != LINE_GROUPS) {
                     if (do_cr) output[op++] = '\r';
-                    output[op++] = '\n';
+                    output[op++] = '@';
                 }
 
             } else {

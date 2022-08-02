@@ -7,8 +7,9 @@ import cn.lvsong.lib.demo.databinding.ActivityMainBinding
 import cn.lvsong.lib.library.utils.DensityUtil
 import cn.lvsong.lib.library.utils.SelectorFactory
 import cn.lvsong.lib.ui.BaseActivity
+import cn.lvsong.lib.ui.BaseViewModel
 
-class MainActivity : BaseActivity<ActivityMainBinding>() {
+class MainActivity : BaseActivity<ActivityMainBinding, BaseViewModel>() {
 
     override fun getLayoutId() = R.layout.activity_main
 

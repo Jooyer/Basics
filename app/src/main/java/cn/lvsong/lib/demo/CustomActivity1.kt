@@ -25,10 +25,11 @@ import cn.lvsong.lib.library.utils.SelectorFactory
 import cn.lvsong.lib.library.view.ArrangeView
 import cn.lvsong.lib.library.view.MediumTextView
 import cn.lvsong.lib.ui.BaseActivity
+import cn.lvsong.lib.ui.BaseViewModel
 import coil.load
 import coil.transform.CircleCropTransformation
 
-class CustomActivity1 : BaseActivity<ActivityCustom1Binding>() {
+class CustomActivity1 : BaseActivity<ActivityCustom1Binding, BaseViewModel>() {
 
     override fun needUseImmersive() = 1
 

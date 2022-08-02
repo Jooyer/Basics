@@ -3,8 +3,10 @@ package cn.lvsong.lib.demo
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
+import cn.lvsong.lib.ui.BaseFragment
 import com.google.android.material.tabs.TabLayout
 
 class LazyLoadActivity : AppCompatActivity() {
@@ -17,10 +19,10 @@ class LazyLoadActivity : AppCompatActivity() {
 
         val title = arrayListOf("语文", "数学", "英语")
         sl_viewpager.offscreenPageLimit = title.size
-        val fragments = ArrayList<LazyFragment>()
-        for (i in 0..2) {
+        val fragments = ArrayList<Fragment>()
             fragments.add(LazyFragment.newInstance())
-        }
+            fragments.add(LazyFragment2.newInstance())
+            fragments.add(LazyFragment3.newInstance())
 
 //        sl_viewpager.offscreenPageLimit = 3
         // FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT  --> 核心
