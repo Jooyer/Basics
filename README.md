@@ -33,11 +33,11 @@
 ```groovy
 	dependencies { // 注意,从v1.2.4开始,将默认使用viewbinging, 如果采用 kotlin-android-extensions ,最高版本只支持到 v1.2.3
 	      // 自定义View和工具类均在词库,可以单独依赖
-          implementation 'com.github.Jooyer.Basics:common:1.2.8'
+          implementation 'com.github.Jooyer.Basics:common:1.2.9'
           // 封装了 Retrofit + ViewModle + 协程,需要和ui库配合使用
-          implementation 'com.github.Jooyer.Basics:net:1.2.8'
+          implementation 'com.github.Jooyer.Basics:net:1.2.9'
           // 封装了BaseActivity 和 BaseFragment(懒加载包含在内),还有网络请求开始/成功/网络失败/其他失败及重试等,需和net库配合使用
-          implementation 'com.github.Jooyer.Basics:ui:1.2.8'
+          implementation 'com.github.Jooyer.Basics:ui:1.2.9'
 	}
 ```
 
@@ -253,6 +253,14 @@
 2. 完善AES/RSA加密解密界面
 3. 调整 KeyboardUtil 方法参数
 4. 移出不需要的文件
+
+
+## v1.2.9变化:
+1. 修复仿微信单张图片时显示异常
+2. 针对BaseViewModel增加了泛型处理
+3. 修改了Fragment可见性
+4. 调整了部分自定义View展示异常问题
+5. 完善加密解密界面UI和逻辑
 
 
 [toc]
